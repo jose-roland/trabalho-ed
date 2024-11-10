@@ -1,0 +1,2067 @@
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+95
+
+3v
+1 
+
+ [
+qu
+
+an
+t-
+
+ph
+] 
+
+ 7
+ N
+
+ov
+ 2
+
+02
+4
+
+Quantum Threshold is Powerful
+
+Daniel Grier∗ Jackson Morris†
+
+Abstract
+
+In 2005, Høyer and Špalek showed that constant-depth quantum circuits augmented with
+multi-qubit Fanout gates are quite powerful, able to compute a wide variety of Boolean functions
+as well as the quantum Fourier transform. They also asked what other multi-qubit gates could
+rival Fanout in terms of computational power, and suggested that the quantum Threshold gate
+might be one such candidate. Threshold is the gate that indicates if the Hamming weight of a
+classical basis state input is greater than some target value.
+
+We prove that Threshold is indeed powerful—there are polynomial-size constant-depth quan-
+tum circuits with Threshold gates that compute Fanout to high fidelity. Our proof is a gener-
+alization of a proof by Rosenthal that exponential-size constant-depth circuits with generalized
+Toffoli gates can compute Fanout. Our construction reveals that other quantum gates able to
+“weakly approximate” Parity can also be used as substitutes for Fanout.
+
+1 Introduction
+
+To what extent are large multi-qubit gates useful for quantum computation? On the one hand, it is
+well-known that every multi-qubit gate can be decomposed into a circuit of simpler 1- and 2-qubit
+gates. On the other hand, this decomposition may introduce large overheads both in terms of
+gate count and circuit depth. Given that some multi-qubit gates might be experimentally feasible
+[22, 14, 16], it’s natural to ask what kinds of computational powers they unlock.
+
+Specifically, we focus on the power of these large multi-qubit gates in constant depth. Such
+shallow circuits are experimentally appealing due to the possibility for less decoherence. Moreover,
+even shallow quantum circuits with 1- and 2-qubit gates are known to be surprisingly powerful,
+exhibiting quantum advantage in a variety of settings [4, 9, 25, 11]. Given the inherent complexity
+of simulating such circuits, there is the exciting possibility that augmenting these circuit models
+with large multi-qubit gates might lead to constant-depth implementations of practical quantum
+algorithms.
+
+Much of the excitement about such circuit models is driven by a single gate—the multi-qubit
+Fanout gate—which is the quantum operation that copies classical information:
+
+Fn |b, x1, . . . , xn〉 := |b, x1 ⊕ b, . . . , xn ⊕ b〉
+
+for all b, x1, . . . , xn ∈ {0, 1}.
+∗UCSD. Email: dgrier@ucsd.edu
+†UCSD. Email: jrm035@ucsd.edu
+
+1
+
+http://arxiv.org/abs/2411.04953v1
+
+
+This seemingly innocuous gate (which is included for free in almost every classical circuit model)
+turns out to be quite powerful. For starters, it is locally equivalent via conjugation by Hadamard
+gates to the quantum Parity gate [17],
+
+Pn |b, x1, . . . , xn〉 := |b⊕ (x1 ⊕ · · · ⊕ xn), x1, . . . , xn〉 ,
+
+which is a duality that has no classical counterpart [1]. Moreover, there are constant-depth quan-
+tum circuits with Fanout (and arbitrary single-qubit gates) for a wide variety of other symmetric
+Boolean operations such as And/Or and Majority [13, 24]. Perhaps most impressively, constant-
+depth quantum circuits with Fanout gates can factor integers with polynomial-time classical post-
+processing [13].
+
+Given the centrality of Fanout to the story of low-depth circuits with multi-qubit gates, there has
+been significant work in trying to understand if other multi-qubit gates are similarly powerful. Most
+notably, it is widely believed that the multi-qubit generalization of the Toffoli gate is fundamentally
+less powerful than the Fanout gate in constant depth, and there is long line of work giving evidence
+that these generalized Toffoli gates cannot compute Fanout [3, 6, 21, 19, 18, 2]. In some sense, all
+of these results are grappling with a fundamental tension in the study of these low-depth circuit
+models—the high entanglement in the states produced by these circuits is an obstacle to proving
+lower bounds, but it is simultaneously unclear how one could leverage this complexity to implement
+a useful quantum algorithm.
+
+There is a surprising dearth of low-depth circuit models with multi-qubit gates that are as
+powerful as Fanout. One natural1 candidate for a gate that could be as powerful as Fanout is the
+quantum Threshold gate, a multi-qubit gate parameterized by some value k ∈ N:
+
+Thnk |b, x1, . . . , xn〉 :=
+∣
+
+∣b⊕ I|x|≥k, x1, . . . , xn
+〉
+
+where I|x|≥k indicates if the Hamming weight of the input bit string x = x1 · · · xn ∈ {0, 1}n is at
+
+least the target value k. In fact, Høyer and Špalek asked almost 20 years ago about the power of
+Threshold in constant depth [13]: “Can we simulate unbounded fan-out in constant depth using
+unbounded fan-in gates, e.g. threshold[t] or exact[t]?” This question was reiterated more pointedly
+by Takahashi and Tani in 2011 [24]: “Does there exist a fundamental gate that is as powerful as
+an unbounded fan-out gate?”
+
+We directly answer both of these questions in the affirmative by giving explicit constructions
+for Fanout using quantum Threshold gates:
+
+Theorem 1. There are poly-size constant-depth quantum circuits consisting of Threshold gates and
+arbitrary single-qubit gates that compute Fanout with high fidelity. Formally, BQTC0 = BQNC0
+
+wf .
+
+The construction from this theorem actually reveals a number of other gates that are as fun-
+damentally powerful as the Fanout gate. As it turns out, the salient feature of Threshold for our
+purposes is that it can be used to construct a sort of “weak” Parity gate—a gate that only acts
+non-trivially on inputs of the same parity.
+
+Based on this idea, we introduce a class of multi-qubit phase gates that exhibit a generalization
+of this behavior. Formally, these gates are defined with respect to a set S ⊂ {0, 1}n in the following
+way:
+
+US |x1, . . . , xn〉 := (−1)Ix∈S |x1, . . . , xn〉 .
+1This candidate looks considerably more natural after considering the analogous landscape of classical circuits,
+
+which we discuss in Section 1.1.
+
+2
+
+
+
+Crucially, we restrict our attention to “parity-restricted” sets S, that is, sets where all elements
+have the same parity (i.e., x, y ∈ S =⇒ |x| ≡ |y| (mod 2)). We show that these weak parity gates
+can be bootstrapped in constant depth into true Parity gates (which, recall, are locally-equivalent
+to Fanout) albeit with the help of a few generalized Toffoli gates:
+
+Theorem 2. Let {Sn}n be a family of parity-restricted sets with size |Sn| = Θ(2n/poly(n)). There
+are poly-size constant-depth quantum circuits consisting of USn gates, generalized Toffoli gates, and
+arbitrary single-qubit gates that compute Fanout with high fidelity.
+
+Since it is widely believed that multi-qubit Toffoli gates are not themselves sufficient to imple-
+ment Fanout, the power of this construction likely derives from the weak parity gates. In fact, the
+reason these Toffoli gates were not required for Theorem 1 is due to the fact that Threshold can
+directly simulate Toffoli. In that vein, we also give conditions under which the USn gates alone suf-
+fice to simulate Parity; namely, when |Sn| ≥ 2n−O(1) or |Sn| ≤ 2(1−ǫ)n. Though, the later condition
+will result in circuits of super-polynomial size.
+
+While it has long been thought that Fanout/Parity gates were morally equivalent to other
+quantum modular arithmetic gates, those constructions seem to also require these generalized
+Toffoli gates [8]. By a careful inspection of the original construction presented in [8] we find that
+generalized Toffoli gates are in fact not necessary. Formally, the quantum Mod-p gates is defined
+as
+
+MODnp |b, x1, . . . , xn〉 :=
+∣
+
+∣b⊕Modnp (x), x1, . . . , xn
+〉
+
+,
+
+where Modnp (x) is 1 when p divides the Hamming weight of x = x1, · · · , xn ∈ {0, 1}n. For example,
+the Mod-2 gate is essentially the Parity gate (up to a single-qubit X gate). It is implicit in [8]
+that Fanout can be computed by a circuit consisting of Mod-p gates and one- and two-qubit gates,
+yielding QNC0
+
+wf = QNC0[2] ⊆ QNC0[q] for all q ≥ 2, but not necessarily that QNC0[p] = QNC0[q] for
+distinct p and q. The result they make explicit is that when Toffoli gates are allowed, any Mod-q gate
+can be obtained using any other Mod-p gate (by first implementing Fanout with Mod-q gates and
+then computing Mod-p with Fanout and generalized Toffoli gates). Concretely; QAC0[p] = QAC0[q]
+for p, q ≥ 2. Only later was it shown that generalized Toffoli gates can be implemented using
+Fanout and single- and two-qubit gates i.e. that QNC0
+
+wf = QAC0
+wf [13, 24]. In light of these results
+
+we observe the following:
+
+Theorem 3. For all p, q ≥ 2, there are poly-size constant-depth quantum circuits consisting of Mod-
+p gates and single-qubit gates that compute the Mod-q operation. Formally, QNC0[p] = QNC0[q].
+
+1.1 Comparison to the classical setting
+
+Our focus on shallow circuits draws considerable inspiration from the analogous study of classical
+constant-depth circuit classes with large fan-in gates, which has been hugely influential in classical
+complexity theory. For instance, initial work in Boolean circuits saw the development of techniques
+for proving unconditional lower bounds such as random restrictions [1, 7, 27, 12], Fourier analytic
+methods [15], and polynomial methods [20, 23].
+
+So how do we compare the quantum and classical settings? And what does this comparison
+tell us about the power of quantum circuits in constant depth? To start, classical circuits classes
+(e.g., NC0, AC0, TC0, . . . ) typically assume that the output of any gate can be used as input for
+any number of other other gates (i.e., a gate’s output can be “fanned out” to other gates). Of
+
+3
+
+
+
+course, this is exactly the kind of fanout that immediately becomes so powerful when given to a
+constant-depth quantum circuit.
+
+In fact, because of this fanout, the classical Threshold gate reigns supreme amongst similar
+classical circuit complexity classes. This is due to the fact that constant-depth classical circuits
+with Fanout and Threshold can compute any Boolean function where the output depends only on
+the Hamming weight of the input.2 Formally, the complexity class TC0, which contains all languages
+computed by constant-depth classical circuits with Threshold, contains all other similarly defined
+classical circuit classes with other large fan-in gates: NC0[p], AC0, AC0[p], and ACC.3 In many
+cases, Threshold is provably more powerful, e.g., AC0 ( TC0 [1, 7] and AC0[p] ( TC0 [20, 23].
+
+This is why the Threshold gate was a tantalizing target for quantum exploration. Prior to
+our work, it was not known whether the quantum version of TC0—i.e., BQTC0—was as powerful
+as the quantum versions of the other classical complexity classes. In fact, given the surprising
+power of Fanout in the quantum world, the exact opposite was known: BQNC0
+
+wf ⊇ BQTC0 [13].
+That is, constant-depth quantum circuits with Fanout could simulate constant-depth circuits with
+Threshold. Our work restores order to the usually classical hierarchy, placing Threshold alongside
+Fanout as one of the most powerful quantum gates in constant depth: BQTC0 = BQNC0
+
+wf .
+
+1.2 Proof techniques and overview
+
+The constructions in Theorem 1 and Theorem 2 follow a general outline pioneered by Rosenthal [21].
+There, it is shown that constant-depth quantum circuits can compute Fanout using generalized
+Toffoli gates provided exponential-sized circuits are allowed. While not phrased in this language,
+Rosenthal’s construction shows a proof-of-principle technique for taking a very “weak” Parity gate
+(indeed, Toffoli non-trivially computes Parity for exactly one input!) and boosting it to a full
+Parity gate. We show that when we start with a gate (like Threshold) which is closer to Parity,
+this construction can be altered to yield circuits of polynomial size.
+
+The proof goes in two steps. First, define a certain cat-like state called a “nekomata” [21]:
+
+|0n〉 ⊗ |ψ0〉+ |1n〉 ⊗ |ψ1〉√
+2
+
+where |ψ0〉 and |ψ1〉 are arbitrary states. Following a similar idea to that of Green et al. [8], such
+states can be used to compute Parity in constant depth using the the relative phase between the
+|0n〉 and |1n〉 part of the state.
+
+Second, show there is an explicit constant-depth construction for a nekomata state. Here, we
+show the key ingredient is the ability to create a “noisy” version of a usual cat state, where the all-
+zeroes and all-ones outcomes have noticeably larger amplitudes than those on the other outcomes.
+Threshold gates are significantly better at this task than the Toffoli gates in Rosenthal’s original
+construction. Finally, these states can be combined together (using Toffoli or Threshold gates) to
+form a high-fidelity nekomata state, completing the construction.
+
+2To see this, first notice that for any k, there is a constant-depth circuit with two Threshold gates that computes
+whether or not the input has Hamming weight exactly k. Since any symmetric Boolean function can be expressed
+as a disjunction over these “exact-k” clauses, the claim immediately follows due to the fact that a threshold of 1 is
+equivalent to the Or function.
+
+3See Section 2.2 for precise definitions.
+
+4
+
+
+
+1.3 Related work
+
+Our work shares some similarity to that of [10], where the authors explore quantum advantage with
+constant-depth quantum circuits. They also make a similar claim suggesting that QTC0 = QNC0
+
+wf ,
+but crucially, their results hold in a circuit model with intermediate measurements and classical
+fanout. The classical fanout in their circuit model allows them to bootstrap the poor man’s cat
+state construction of Bene Watts et al. [26] to construct an actual cat state, an idea that was also
+explored in [5]. To be clear, our circuit model and definition of BQTC0 follows in a traditional
+line of work (e.g, [17, 8, 13, 24, 19, 21, 18]), where no such intermediate measurements or classical
+fanout is allowed. Therefore, we must use entirely different techniques.
+
+1.4 Future directions
+
+One immediate open question left open by our work is whether the approximation error inherent
+in the construction used to prove Theorem 1 can be eliminated without incurring a size or depth
+blow-up. More generally, we ask which other conditions on a family of multi-qubit gates lead to
+powerful shallow circuits. One explicit approach would be to ask what properties of the sets S
+parameterizing our phase gates US are sufficient to compute Fanout. Is there something beyond
+being parity restricted?
+
+Another interesting question concerns the circuit complexity of restricted families of threshold
+functions. Specifically, consider the Exact-k gate, which indicates if the Hamming weight of the
+input is exactly k. Notice that Exact-k can be constructed from two Threshold gates. Moreover,
+for k ≈ n/2, Exact-k can be used to compute Threshold. This latter statement is not obvious and
+follows from the fact that our proof of Theorem 1 actually uses Exact gates rather than Threshold
+gates. However, for other values of k ≪ n/2, it is not simple to see how Exact-k could be used to
+simulate Exact-(k + 1).
+
+2 Preliminaries
+
+We will now introduce the different types of entangling gates considered in this work, the types of
+circuits constructed from them, and the complexity classes to which they roughly correspond.
+
+2.1 Multiqubit Gates
+
+A simple multiqubit gate is the CNOT gate which acts on two qubits, flipping the target conditioned
+on the control, i.e.,
+
+CNOT |x1, x2〉 = |x1, x1 ⊕ x2〉
+
+Any two-qubit gate can be constructed from constantly many single-qubit gates and CNOT gates.
+A circuit consisting entirely of arbitrary single- and two-qubit gates is said to be a QNC circuit.
+
+Another multi-qubit gate of interest is the Toffoli gate, which acts on three qubits by flipping
+the last qubit controlled on the first two, i.e.,
+
+Tof |x, y, z〉 = |x, y, (x ∧ y)⊕ z〉
+
+This gate can be seen as a CNOT gate with an additional control qubit. In fact, we call the
+analogous unitary on n > 1 qubits a generalized Toffoli gate:
+
+5
+
+
+
+Definition 4. The generalized Toffoli gate ∧n acts on n + 1 qubits by computing the AND of the
+first n bits in superposition. For all x1, x2, . . . xn, b ∈ {0, 1} the ∧n-gate acts as
+
+∧n |x1, x2, . . . xn, b〉 = |x1, x2, . . . xn, (x1 ∧ · · · ∧ xn)⊕ b〉
+
+Circuits composed of arbitrary single-qubit gates and generalized Toffoli gates are referred to
+as QAC circuits.
+
+Definition 5. For k ∈ {0, 1 . . . n} and x1, x2, . . . xn, b ∈ {0, 1} the unitary Thn,k acts as
+
+Thn,k |b〉 |x〉 =
+∣
+
+∣b⊕ I|x|≥k
+〉
+
+|x〉
+
+Circuits composed of arbitrary single-qubit gates and threshold gates4 are said to be QTC
+
+circuits. Note that by taking k = n we recover the generalized Toffoli gate, and in this sense the
+generalized Toffoli gate is a Threshold gate, so including this gate in the allowed gate-set for QTC
+circuits would be redundant.
+
+Let Uf be the unitary which computes some boolean function f : {0, 1}n → {0, 1} in superpo-
+sition i.e. for all x ∈ {0, 1}n and b ∈ {0, 1} Uf |x, b〉 = |x, b⊕ f(x)〉. Note that all multiqubit gates
+discussed thus far fall into this category. Now, observe that when the target qubit is replaced with
+|−〉 = |0〉−|1〉√
+
+2
+, we can “compute f in the phase”:
+
+Uf |−〉 |x〉 = (−1)f(x) |−〉 |x〉
+
+So, given Uf we can with a single single ancilla implement Vf which acts as Vf |x〉 = (−1)f(x) |x〉.
+While going from Uf to Vf is not a difficult task the converse could in general be quite non-trivial.5
+
+As mentioned, the quantum Fanout gate gives us some way of “copying” a given qubit and
+XOR-ing it onto an unbounded number of qubits.
+
+Definition 6. For all x1, x2, . . . xn, b ∈ {0, 1} the Fanout unitary, Fn, acts as
+
+Fn |b〉 |x1, x2, . . . xn〉 = |b⊕ x1, b⊕ x2, . . . b⊕ xn〉
+
+We will refer to circuits constructed from one- and two-qubit and Fanout gates as QNCwf
+circuits.
+
+Another important class of gates are so-called MOD gates:
+
+Definition 7. For a given m ∈ N and all x1, x2, . . . xn, b ∈ {0, 1} the MODn,m gate acts as
+
+MODn,m |x1, x2, . . . xn〉 |b〉 = |x1, x2, . . . xn〉 |Modn,m(x)⊕ b〉
+
+Where Modn,m(x) = 1 iff |x| is divisible bym. Further, for ℓ ∈ {0, 1, . . . m−1} we use Modn,m,ℓ(x) to
+denote the function which is 1 iff |x| ≡ ℓ (mod m) and the corresponding quantum gate accordingly:
+
+MODn,m,ℓ |b〉 |x1, x2, . . . xn〉 = |Modn,m,ℓ(x)⊕ b〉 |x1, x2, . . . xn〉 .
+4Recall that a function f : {0, 1}n → {0, 1} is said to be a threshold function if it can be written as
+
+f(x) =
+
+{
+
+1
+∑n
+
+i=1 wixi ≥ b
+
+0 otherwise
+
+for some w1, . . . wn, b ∈ R. For our purposes it suffices to only consider threshold functions in which wi = 1 for all
+i ∈ [n].
+
+5For instance, take Z⊗n; this gate computes parity in the phase as Z⊗n |x〉 = (−1)|x| |x〉, but it is unclear if there
+is a simple way to recover the usual parity gate: Pn.
+
+6
+
+
+
+Note that when m = 2 the MODn,2,1 gate is equivalent to the parity gate Pn. When a circuit
+consists of one- and two-qubit gates and MODn,m gates for a fixed m it is called a QNC[m] circuit
+and when the circuit also contains generalized Toffoli gates it is referred to as a QAC[m] circuit.
+
+The final class of gates we will define are what we call “parity-restricted” gates which have not
+previously appeared in the literature. A set of bit strings S ⊆ {0, 1}n is said to be parity restricted
+if |s1| ≡ |s2| (mod 2) for all s1, s2 ∈ S.
+
+Definition 8. A unitary US acting on n-qubits is said to be a parity-restricted gate if for all
+x ∈ {0, 1}n
+
+US |x〉 = (−1)IS(x) |x〉
+
+for some parity-restricted set S ⊆ {0, 1}n.
+
+A circuit composed of arbitrary one- and two-qubit gates and US gates for some parity restricted
+set S is said to be a QNCS circuit. Similarly, if the circuit also consists of generalized Toffoli gates
+the circuit is said to be a QACS circuit.
+
+Finally, we will define the primary complexity measures for quantum circuits.
+
+Definition 9. A quantum circuit C is said to have depth d if C can be decomposed as a sequence
+MdSd · · ·M2S2M1S1 where each Si consists entirely of single-qubit gates and Mi consists of non-
+overlapping multi-qubit gates (i.e., every pair of gates in Mi operate on disjoint sets of qubits).
+
+Definition 10. A quantum circuit C has size s if C has exactly s multi-qubit gates.
+
+2.2 Quantum Circuit Complexity Classes
+
+In this section we will define the relevant quantum circuit classes, but before doing that we must
+introduce the notion of a circuit family and what it means for a circuit family to compute a Boolean
+function.
+
+Definition 11. A family of quantum circuits is a collection C = {Cn}n≥1 where Cn acts on n+a(n)
+qubits where a(n) is some computable function.
+
+This definition of a circuit family is analogous to the classical notion of a non-uniform circuit
+family since there need not be any relation between circuits for different sizes (e.g., it is not nec-
+essary for there to exist a Turing machine which outputs a description of Cn on input 1n. Such a
+requirement is only for uniform circuit families). It should be noted that all constructions presented
+in this work correspond to uniform circuit families nonetheless.
+
+Definition 12. For a given language L ⊆ {0, 1}∗ we say that a family of quantum circuits {Cn}n≥1
+
+each acting on n + a(n) qubits exactly computes L if for all n ≥ 1 and x ∈ {0, 1}n measuring the
+last qubit of Cn |x〉
+
+∣
+
+∣0a(n)
+〉
+
+in the computational basis yields
+
+• |1〉 with certainty if x ∈ L
+
+• |0〉 with certainty if x 6∈ L
+
+Now, for the complexity classes of interest:
+
+7
+
+
+
+• QNCi is the class of problems decidable by QNC circuits which act on polynomially-many
+qubits (i.e. n + a(n) is bounded by some polynomial in n), have polynomial size and depth
+O(logi(n)).
+
+• QACi is the class of problems decidable by QAC circuits which act on polynomially-many
+qubits, have polynomial size and depth O(logi(n)).
+
+• QTCi is the class of problems decidable by QTC circuits which act on polynomially-many
+qubits, have polynomial size and depth O(logi(n)).
+
+• QNCiwf is the class of problems decidable by QNCwf circuits which act on polynomially-many
+
+qubits, have polynomial size and depth O(logi(n)).
+
+The primary focus of this work will be constant depth circuits, which correspond to i = 0 in
+the above definitions i.e. the classes QNC0, QAC0, QTC0, and QNC0
+
+wf . In a slight abuse of notation
+we may call a family of circuits a C-circuit family if the family satisfies the necessary conditions for
+circuits which compute languages in C for some circuit class C, though the unitaries which these
+circuits compute may not actually correspond to a Boolean function. For instance if {Cn}n≥1 is a
+family of constant-depth, polynomial-size QAC circuits which act on polynomially many qubits we
+may refer to them simply as a family of QAC0 circuits.
+
+Proposition 13 (Proposition 3.1 of [8]). The following tasks are equivalent for constant-depth
+circuits consisting of ∧n-gates and single-qubit gates:
+
+1. Preparing the state |0n〉+|1n〉√
+2
+
+from |0n〉 and performing the inverse transformation.
+
+2. Applying Fanout Fn.
+
+3. Applying Parity Pn.
+
+In other words, these tasks are equivalent under QAC0 reductions.
+
+Critical to our construction is the fact that (1) in the above proposition can be relaxed to a
+more general state preparation task. To see how, we must define a class of a “cat-like” states, first
+introduced by Rosenthal [21] which he calls nekomata:
+
+Definition 14. A state |φ〉 on n + m qubits is said to be an n-nekomata if there exists some
+ordering of the qubits such that
+
+|φ〉 = |0n〉 ⊗ |ψ0〉+ |1n〉 ⊗ |ψ1〉√
+2
+
+where |ψ0〉 and |ψ1〉 are arbitrary m-qubit states. The first n qubits of this state are referred to as
+the target qubits.
+
+As mentioned, Proposition 13 is still true when the cat state in task 1 is replaced with any
+n-nekomata (see Appendix A for more details). This fact is quite powerful since we only need to
+design a circuit which produces a state on which some subsystem is “cat-like” in order to compute
+parity. This makes the prospect of designing a circuit to compute parity far less daunting.
+
+8
+
+
+
+2.3 Approximate Quantum Circuits
+
+Proposition 13 shows that exactly preparing a cat state is in fact computationally equivalent to
+exactly computing parity, up to some QAC0 computations and this can further be generalized by
+relaxing the task of preparing a nekomata state. Further, it is established in [21] that preparing an
+approximate nekomata state is sufficient to approximately compute parity or fanout. This notion
+is made precise below.
+
+Definition 15. For ǫ ∈ [0, 1] a state |φ〉 on n+m qubits is said to be an ǫ-approximate nekomata
+if there exists some nekomata |ν〉 such that |〈ν|φ〉|2 ≥ 1− ǫ.
+
+When we refer to a quantum circuit as approximately computing some function or approxi-
+mating a given unitary we mean that the circuit, C, and the ideal unitary U have small distance.
+Explicitly, for ǫ ∈ (0, 1) we say that C is an ǫ-approximate implementation of U or that C computes
+U with approximation error ǫ if ‖U − C‖op ≤ ǫ where ‖ · ‖op denotes the operator norm.
+
+A statement analogous to Proposition 13 holds for the approximate version of each task:
+
+Lemma 16 (Theorem 3.1 of [21]). For any ǫ ∈ (0, 1) the following tasks are equivalent under QAC0
+
+reductions:
+
+• Preparation of O(ǫ)-approximate nekomata from the all zeros state and the inverse transfor-
+mation
+
+• Approximately computing Parity with error O(ǫ)
+
+• Approximately computing Fanout with error O(ǫ)
+
+This lemma is again quite useful for us as circuit designers; now any circuit producing a state
+which has some subsystem that is approximately cat-like suffices to approximately implement fanout
+or parity.
+
+Finally, we define the bounded-error analogues of the quantum circuit complexity classes intro-
+duced thus far:
+
+Definition 17 (BQNCi). A decision problem L ⊆ {0, 1}∗ is in BQNCi if there exists a family of
+QNCi circuits {Cn}n∈N acting on n + a(n) = poly(n) qubits and a constant c > 0 such that for all
+n ∈ N and x ∈ {0, 1}n measuring the last qubit of Cn |x〉
+
+∣
+
+∣0a(n)
+〉
+
+in the computational basis yields
+
+• |1〉 with probability at least 2/3 if x ∈ L
+
+• |1〉 with probability at most 1/3 if x 6∈ L
+
+BQACi, BQTCi, and BQNC0
+wf are defined similarly for their respective circuit classes.
+
+3 Bootstrapping weak parity gates
+
+In this section we will show that for any non-empty parity restricted set S ⊆ {0, 1}n the unitary
+US |x〉 = (−1)Ix∈S |x〉 can be bootstrapped in constant depth to approximately compute Parity.
+This construction generalizes the constant-depth exponential-size QAC circuit family given in [21].
+As a corollary, we find that for any polynomial p, there exist poly-size QTC0 circuits which have
+fidelity 1− 1/p(n) with Parity.
+
+9
+
+
+
+3.1 Grid Construction
+
+Rather than directly computing Parity, the circuits described in this section will prepare approxi-
+mate nekomata, which via Lemma 16 can be used to compute Parity and Fanout with high essen-
+tially the same approximation error, up to constant factors.
+
+We will make use of the following lemma:
+
+Lemma 18 (Lemma 4.3 of [21]). Let |ϕ〉 be a state with n “target” qubits that measure to all-zeros
+with probability at least 1/2 − ǫ and all-ones with probability at least 1/2− ǫ. Then there exists an
+n-nekomata |ν〉 such that | 〈ν|ϕ〉 |2 ≥ 1− 2ǫ.
+
+Proof. Suppose that the first n qubits of |ϕ〉 are the targets. Then, the state
+
+|ν〉 = 1√
+2
+
+∑
+
+b∈{0,1}
+
+|bn〉〈bn| ⊗ I |ϕ〉
+‖ |bn〉〈bn| ⊗ I |ϕ〉 ‖
+
+is an n-nekomata and
+
+| 〈ϕ|ν〉 |2 =
+(
+
+1√
+2
+
+∑
+
+b∈{0,1}
+‖ |bn〉〈bn| ⊗ I |ϕ〉 ‖
+
+)2
+
+≥ 1
+
+2
+
+(
+
+√
+
+1/2− ǫ+
+√
+
+1/2 − ǫ
+
+)2
+
+= 1− 2ǫ
+
+As mentioned, a parity restricted gate can be though of a “weak” parity gate in the sense
+that it correctly computes parity on some fraction 1+ǫ
+
+2 -fraction of the inputs. The idea behind our
+construction is to use these “weak” parity gates to prepare many bad, but not horrible approximate
+cat states in parallel. These bad, but not horrible cat states are of the form
+
+|φ〉 = √
+p0 |0n〉+
+
+√
+p1 |1n〉+
+
+√
+ǫ |ω〉
+
+where |ω〉 is orthogonal to |bn〉 for b ∈ {0, 1}. These initial states are bad approximate cat states in
+the sense that they have little overlap with the cat state, but aren’t horrible because the distribu-
+tions corresponding to their measurement outcomes are peaked only at |0n〉 and |1n〉. In the final
+stage of our construction we accrue the distributions on each of these bad cat states into some n
+target qubits using Toffoli gates. We then show that for the right choice of parameters this accruing
+step effectively amplifies the original bad, but not horrible, distribution given by each of the weak
+parity gates in parallel. The final result is a good approximate nekomata.
+
+Theorem 19. For any parity-restricted S ⊆ {0, 1}n with |S| ≤ 2n−4 there exists a depth-4, O(n+
+22n
+
+|S|2 )-size QACS circuit that constructs an O(|S|22−2n)-approximate nekomata.
+
+Proof. The QACS circuit will act on n(m+1) qubits arranged in a grid of width m+1 and height n.
+The first column will be designated as the “target” qubits, initialized to |0n〉 and all other columns
+initialized to |1n〉 (say, with a layer of X gates). To each column apply an RψS
+
+= I − 2 |ψS〉〈ψS |
+gate, where |ψS〉 = H⊗nUSH⊗n |0n〉. Note that this can be implemented in depth-3 as
+
+I− 2 |ψS〉〈ψS | = H⊗nUSH
+⊗n(I− 2 |0n〉〈0n|)H⊗nUSH
+
+⊗n
+
+which looks like the following quantum circuit:
+
+10
+
+
+
+|0〉
+
+|0〉
+
+|0〉
+
+|0〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+|1〉
+
+n
+
+m
+
+Stage 1:
+Initialization
+
+Stage 2:
+RψS
+
+gates
+Stage 3:
+
+Toffoli gates
+
+Figure 1: Constructing a nekomata from US and Toffoli gates. Target qubits are shown in blue.
+
+RψS
+=
+
+H
+
+US
+
+H X X H
+
+US
+
+H
+
+H H X X H H
+
+H H X X H H
+
+Finally, apply a Toffoli gate along each row with the output qubit being the corresponding target
+qubit (i.e. the qubit in the first column). We will now show that the probability that the target
+column is measured (in the computational basis) as |bn〉 is at least 1
+
+2 − ǫ for b ∈ {0, 1}.
+To start, let
+
+γ0 := 〈0n|ψk〉2 = 〈0n|H⊗nUSH
+⊗n |0n〉2 =
+
+(
+
+1− |S|
+2n−1
+
+)2
+
+γ1 := 〈1n|ψk〉2 = 〈1n|H⊗nUSH
+⊗n |0n〉2 = |S|2
+
+22n−2
+
+For b ∈ {0, 1}, let pb be the probability that a given non-target column yields |bn〉 after measuring
+in the computational basis. We have
+
+p0 = 〈0n| (I− 2 |ψk〉〈ψk|) |1n〉2 = 4γ0γ1
+
+p1 = 〈1n| (I− 2 |ψk〉〈ψk|) |1n〉2 = (1− 2γ1)
+2
+
+Note that computational basis measurements commute with Toffoli gates of any size, so in order
+for the targets to be measured as |1n〉 all other columns must also be measured as |1n〉. Let
+
+m = ⌊ − ln(2)
+2 ln(1−2γ1)
+
+⌉, then
+
+P[Targets measure |1n〉] = (1− 2γ1)
+2m
+
+> (1− 2γ1)
+− ln(2)
+
+ln(1−2γ1)
++1
+
+>
+1
+
+2
+(1− 2γ1)
+
+=
+1
+
+2
+− |S|2
+
+22n−2
+
+11
+
+
+
+Now, call a non-target column “bad” if it is measured as anything other than |0n〉 or |1n〉. Via a
+union bound,
+
+P[Some column is bad] ≤ m(1− p0 − p1) = m(1− 4γ0γ1 − (1− 2γ1)
+2) = 4mγ1(1− γ0 − γ1)
+
+Observe that
+
+1
+
+2
+(1− 2γ1) = (1− 2γ1)
+
+− ln(2)
+ln(1−2γ1)
+
++1 ≤ (1− 2γ1)
+2m ≤ exp(−4mγ1),
+
+so 4mγ1 ≤ − ln(12 − γ1) < 1 as γ1 ≤ 1
+16 . So,
+
+4mγ1(1− γ0 − γ1) < 1− γ0 − γ1
+
+≤ |S|
+2n−2
+
+Thus, every column is good with probability at least 1− |S|
+2n−2 and the targets are measured as |0n〉
+
+with probability at least 1− |S|
+2n−2 − (12 −
+
+|S|2
+22n−2 ) ≥ 1
+
+2 −
+|S|
+
+2n−2 . By Lemma 18, the state produced is an
+|S|
+
+2n−3 -approximate nekomata. Also, note that m = Θ(1/γ1), hence the circuit has size O(n +m) =
+
+O(n+ 22n
+
+|S|2 ).
+
+Next, we argue that Threshold gates can be used to hit the “sweet spot” of Theorem 19. Namely,
+they correspond to parity-restricted sets of the right size to make the size and accuracy of the above
+construction polynomial.
+
+Corollary 20. BQTC0 = BQNC0
+wf
+
+Proof. Without a loss of generality assume n is even, otherwise this can be rectified with a single
+ancilla qubit. Let S = {x ∈ {0, 1}n : |x| = n
+
+2 } i.e. S is the Hamming slice of weight n
+2 . Note
+
+that |x| = n
+2 if and only if Maj(x1, . . . , xn) = 1 and Maj(x1, . . . xn, 0) = 0, thus the US gate can
+
+be implemented in depth 2 by applying majority once to |ψ〉, tacking on an ancilla qubit set to |0〉
+then applying another majority gate to |ψ〉 |0〉. In this case the circuit from Theorem 19 has size
+
+s = O(n+ 22n
+
+|S|2 ) and produces an ǫ = |S|
+2n−3 -approximate nekomata. Since
+
+(
+
+n
+
+n/2
+
+)
+
+∈
+[
+
+2n√
+2n
+,
+
+2n
+√
+
+nπ/2
+
+]
+
+via Stirling’s formula, it follows that s = O(n) and ǫ = O( 1√
+n
+).
+
+Note that we can make the error an arbitrarily small polynomial by making the circuit poly-
+nomially larger. That is, suppose we want to construct an O(n−c/2)-approximate n-nekomata
+for some c > 1. Simply use the construction above for an nc-nekomata, but only use n of the
+targets (i.e., any nc-nekomata is an n-nekomata) The circuit will have size O(nc) and error at
+most O(n−c/2). Therefore, by Lemma 16, there are poly-size QTC0 circuits to compute Fanout to
+arbitrary polynomial precision, so BQTC0 = BQNC0
+
+wf .
+
+12
+
+
+
+3.2 Removing the Toffoli gates
+
+The construction presented in Theorem 19 for generic S requires large Toffoli gates, however we
+will show that for some regimes of |S|, these gates are unnecessary, i.e., QNC0
+
+S circuits can exactly
+compute Toffoli on polynomially many qubits. We will show that this is indeed the case when
+|S| ≥ 2n−O(1) and |S| ≤ 2(1−ǫ)n for a fixed constant ǫ < 1.
+
+Lemma 21. Let c be constant, and let S be a parity restricted set with size |S| ≥ 2n−c and strings
+of parity b ∈ {0, 1}. Then, there exist some c−1 bit-strings t1, t2, . . . tc−1 ∈ {0, 1}n such that |x| ≡ b
+(mod 2) iff
+
+∨
+
+y∈Span(t1,...tc)
+{x⊕ y ∈ S}
+
+is satisfied.
+
+Proof. Suppose that b = 0. Let E ⊂ Fn2 be the subspace of dimension n− 1 consisting of vectors of
+even Hamming weight. Observe that S ⊆ E , and moreover that S contains at least n − c linearly
+independent elements of E . Therefore, there exist some t1, · · · tc−1 ∈ E such that S ∪ {t1, . . . tc−1}
+span E . Hence, every element of E can be written as s⊕y for some s ∈ S and y ∈ span{t1, . . . tc−1}.
+Thus, |x| ≡ 0 iff the disjunction is satisfied.
+
+If b = 1 then the set S′ obtained by flipping the first bit of every element of S contains vectors
+of even Hamming weight - further, S′ contains at least n− c linearly independent vectors. So, take
+{t1, . . . tc−1} as before such that S′ ∪ {t1, . . . tc−1} spans E . Any vector of even Hamming weight,
+y ∈ Fn2 , can be expressed as y = s′ + t′ for some s′ ∈ S′ and t′ ∈ Span(t1, . . . tc). Now, observe that
+if x = (x1, . . . xn) ∈ Fn2 has odd Hamming weight then (x1⊕ 1, . . . xn) can be expressed as s′+ t′ for
+some s′ ∈ S′ and t′ ∈ Span(t1, . . . tc). Since s
+
+′ = (s1 ⊕ 1, s2, . . . sn) for some s = (s1, s2, . . . sn) ∈ S,
+it follows that x has odd Hamming weight iff the disjunction is satisfied.
+
+As shown above, if |S| ≥ 2n−c for some constant c then we can extend S linearly to “cover” all
+strings of a fixed Hamming weight. To implement a parity gate in this way, one can encode every
+linear combination t′ ∈ Span(t1, . . . tc) in the ancilla and then apply a US gate to |x⊕ t′〉 for every
+t′ - this can be done in constant depth using only US and CNOT gates since |Span(t1, . . . tc)| =
+2c = O(1). If any of these US gates evaluate to 1 then x must have Hamming weight consistent
+with that of the strings in S, in effect computing the parity of x. We will now see how generalized
+Toffoli can be computed with just US and CNOT gates when |S| is sufficiently small.
+
+Lemma 22. For any S ⊆ {0, 1}n there exists some s ∈ S and some subset of indices {i1, i2, . . . ik}
+such that s is the unique x ∈ S which satisfies xij = sij for all j ∈ [k]. Further, k ≤ log |S|.
+
+Proof. Note that unless |S| = 1 there exists some index on which elements of S take different
+values. If |S| = 1 we are done and can take this single element to be s. Otherwise, let i1 be the
+first index on which elements of S take different values. We will now partition S into two sets S1
+
+0
+
+and S1
+1 where S1
+
+b = {s ∈ S | si1 = b}. Take T1 to be the set with fewer elements and repeat this
+
+procedure, defining Tj similarly for j > 1. Since |Tj+1| ≤ |Tj+1|
+2 for j > 1, it follows that for some
+
+k > 1, |Tk| = 1 and it follows that k ≤ log |S|.
+
+Now, when |S| is sufficiently small, there is always some way to fix a small number (log |S|) of bits
+so that the unfixed bits have a unique assignment consistent with S. In particular, if |S| ≤ 2(1−ǫ)n
+
+13
+
+
+
+for some constant ǫ ∈ (0, 1) then there exists some partial assignment of at most (1 − ǫ)n bits
+such that for the remaining ǫn bits there is a unique assignment such that the resulting string
+is a member of S. For simplicity, suppose that the partial assignment is on the first (1 − ǫ)n as
+y ∈ {0, 1}(1−ǫ)n and that the unique assignment for the remaining bits which is consistent with S
+is z ∈ {0, 1}ǫn. Now, for x ∈ {0, 1}ǫn we can see that
+
+US |y〉 |x〉 |0〉 = |y〉 |x〉 |Iz(x)〉
+
+In this way, after fixing the first (1− ǫ)n bits to y forces US to act like a U{z} gate on the remaining
+qubits. This gate is locally equivalent to a Toffoli gate; we can just apply X gates to the wires on
+which zi = 0. Since ǫ is a constant, we can repeat this procedure 1/ǫ times to implement the Toffoli
+gate on n qubits in constant depth. In this way, we can directly implement generalized Toffoli gates
+in the grid construction of Theorem 19 using the USn gates when |S| is sufficiently small.
+
+Corollary 23. For any parity restricted set S which satisfies |S| ≥ Ω(2n) or |S| ≤ 2(1−ǫ)n for
+
+some fixed ǫ ∈ (0, 1) there exist constant-depth QNCS circuits of size O(n + 22n
+
+|S|2 ) which prepare
+
+O( |S|
+2
+
+22n
+)-approximate nekomata.
+
+4 Quantum MOD gates are powerful even on their own
+
+In this section we show a strengthening of a result of [8]. In particular they show that for any fixed
+q > 1 MODq gates, ∧n gates, single- and two-qubit gates can be leveraged to implement Fanout in
+constant depth and polynomial size:
+
+Theorem 24 (Theorem 4.6 of [8]). For p ≥ 2, QAC0[p] = QAC0
+wf .
+
+However, the family of QAC0[p] circuits they construct does not actually require ∧n gates i.e.
+the family of circuits they construct to compute Fn is actually a QNC0[p] family. This immediately
+yields the collapse of all QNC0[p]:
+
+Theorem 25. QNC0[p] = QNC0
+wf for all primes p.
+
+Combined with the results of [13] and [24] we have an even larger collapse of constant-depth
+circuit classes:
+
+QNC0[p] = QNC0
+wf = QAC0
+
+wf = QAC0[q] = QTC0
+wf
+
+for all p, q ≥ 2. Before showing and analyzing the construction we will introduce some preliminaries.
+
+4.1 Simulating qudit arithmetic in QNC
+0[p]
+
+By a proposition of Moore, in order to inplement Fn it actually suffices to construct a circuit which
+behaves like Fn when all but one qubit are set to |0〉:
+
+Proposition 26 (Proposition 1 of [17]). In any class of quantum circuits which includes Hadamard
+and CNOT-gates, the follow are equivalent in constant depth:
+
+1. It is possible to map (α |0〉+β |1〉)
+∣
+
+∣0n−1
+〉
+
+to α |0n〉+β |1n〉 and from α |0n〉+β |1n〉 to (α |0〉+
+β |1〉)
+
+∣
+
+∣0n−1
+〉
+
+for all |α|2 + |β|2 = 1
+
+14
+
+
+
+2. Fn can be implemented with at most n− 1 ancilla qubits
+
+3. Pn can be implemented with at most n− 1 ancilla qubits
+
+Hence, constructing a unitary U which satisfies U(α |0〉 + β |1〉) ⊗
+∣
+
+∣0n−1+a(n)
+〉
+
+= (α |0n〉 +
+β |1n〉)
+
+∣
+
+∣0a(n)
+〉
+
+for any single-qubit state α |0〉 + β |1〉 will result in the ability to compute Fanout;
+this is exactly what the construction does.
+
+First, for a fixed prime p consider the qudit generalizations of the Parity and Fanout gates for
+local dimension p:
+
+Mn,p |b〉 |x1x2 · · · xn〉 = |b− |x| mod p〉 |x1x2 · · · xn〉
+Fn,p |b〉 |x1x2 · · · xn〉 = |b〉 |(x1 + b mod p), (x2 + b mod p), . . . , (xn + b mod p)〉
+
+where x1, . . . , xn, b ∈ {0, . . . p− 1}.
+Additionally, consider the following single-qudit gate:
+
+Qp |b〉 =
+1√
+p
+
+∑
+
+j=0
+
+ωjb |j〉
+
+where ω = e2iπ/p. For example, when p = 2, Qp = H, and Fn,p and Mn,p are the usual Fanout and
+Parity (up to an X gate on the output qubit) gates for qubits, respectively.
+
+Lemma 27 (Proposition 4.2 of [8]). Mn,p = (Q†
+p)⊗(n+1)Fn,pQ
+
+⊗(n+1)
+p
+
+Recall our goal: we want to use Mod-p gate to simulate Fanout over qubits. While this seems
+somewhat challenging for qubits, it is trivial over qudits of local dimension p by Lemma 27. There-
+fore, our plan will be to pretend that we are in that setting by encoding a qudit using several qubits.
+Once we have set an encoding, we need encoded versions of the Mn,p and Qp gates in Lemma 27.
+Encoding the Qp gate is easy—it’s a gate of constant-size and each one of our encoded qudits will
+be of constant size, so any brute force encoding of Qp will do. The challenging step is to show that
+an encoded Mn,p gate is possible using (qubit) MODn,p gates. One of the key observations is that
+after we’ve applied the encoded Fanout, we will have accomplished Task 1 of Proposition 26, and
+therefore, we can construct general Fanout over qubits.
+
+Proof of Theorem 25. To start, define a linear encoding map E : Cp → (C2)⊗p which maps from
+qudits of local dimension p to a tensor product of p qubits:
+
+E |j〉 =
+p−1
+⊗
+
+k=0
+
+|δk,j〉
+
+for all j ∈ {0, . . . , p−1} and where δk,j denotes the Kronecker delta function. Note that E is a linear
+
+map of full rank from the p-dimensional space spanned by {|j〉}p−1
+j=0 to the p-dimensional subspace
+
+of (C2)⊗n spanned by
+
+{
+
+⊗p−1
+k=0 |δk,j〉
+
+}p−1
+
+j=0
+
+. Throughout this construction we will only be working
+
+over qubits and not actually implementing E. Instead, we will be exploiting the equivalence of
+Lemma 27 by simulating qudit arithmetic with qubits. We introduce E for the sake of describing
+this simulation method succinctly.
+
+15
+
+
+
+Now, applying Qp to an encoded state on qubits amounts to implementing any Q̃p which
+satisfies:
+
+Q̃p |δ0,j〉 |δ1,j〉 · · · |δp−1,j〉 =
+1√
+p
+
+p−1
+∑
+
+k=0
+
+ωjk |δ0,k〉 |δ1,k〉 · · · |δp−1,k〉
+
+i.e., any unitary Q̃p on (C2)⊗p which respects the homomorphism induced by E. Since p is fixed,
+any such Q̃p operates on constantly many qubits and can be implemented in constant depth and
+size.
+
+Now, we must implement Mn,p on the encoded subspace using just MODn,p (and one- and
+two-qubit gates). Note that for any j1, . . . jn ∈ Fp their sum modulo p can be decomposed
+
+j1 + · · · + jn ≡ 0(δ0,j1 + · · ·+ δ0,jn) + 1(δ1,j1 + · · · + δ1,jn) + · · · + (p− 1)(δp−1,j1 + · · ·+ δp−1,jn)
+
+≡
+p−1
+∑
+
+k=0
+
+k
+
+( n
+∑
+
+i=1
+
+δk,ji
+
+)
+
+(mod p)
+
+Let sk :=
+∑n
+
+i=1 δk,ji (mod p) be the number of ji terms equal to k modulo p. Let’s also define a
+family of generalized Mod-p gates over qubits. For ℓ ∈ {0, . . . p− 1}, recall MODn,p,ℓ acts as
+
+MODn,p,ℓ |b〉 |x1, . . . xn〉 = |b⊕Modn,p,ℓ(x)〉 |x1, . . . xn〉
+
+Notice that MODn,p,ℓ can be implemented over qubits with an MODn,p,0 gate (the standard MODn,p
+gate on qubits) and p − 1 additional ancilla qubits, p − ℓ of which are set to 1. We can use these
+gates to compute sk for a given k ∈ {0, 1 . . . p− 1}:
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+|δk,j1〉 |δk,j1〉
+|δk,j2〉 |δk,j2〉
+
+...
+...
+
+|δk,jn〉 |δk,jn〉
+
+|0〉⊗p
+
+MODn,p,0
+
+E |sk〉
+MODn,p,1
+
+MODn,p,p−1
+
+For k ∈ {0, . . . p− 1} the above circuit, can be applied in parallel to the appropriate qubits in the
+encoding; namely those of the form |δk,j〉 for fixed k. This leaves us with the state E |s0〉 ⊗ · · · ⊗
+E |sp−1〉. Recall that the sum over Fp we wish to compute is
+
+∑n
+i=1 ji =
+
+∑p−1
+k=0 ksk; so, if we can
+
+compute each of ksk and sum over all k, we will be left with the desired sum. However, the product
+ksk is over elements of Fp and p is fixed, so it is clear that this can be computed in QNC0 (NC0
+
+even). Further,
+∑p−1
+
+k=0 ksk is a sum of constantly many integers each described by p = O(1) bits,
+which is of course computable by a QNC0 (NC0 even) circuit.
+
+16
+
+
+
+For the sake of completeness, we will describe a circuit composed of permutations on p qubits
+which compute
+
+∑p−1
+k=0 ksk in our encoded subspace. First let Uσ be the permutation unitary which
+
+satisfies UσE |j〉 = E |j − 1 mod p〉. For any k ∈ {0, 1, . . . p − 1}, Ukσ can be implemented in
+constant depth via a sequence of at most p2 swap gates. Since UaσE |j〉 = E |j − a〉 for all a, j ∈ Fp,
+we can in series apply Ukskσ to E |b〉 to finally achieve
+
+( p−1
+∏
+
+k=0
+
+Ukskσ
+
+)
+
+E |b〉 = U
+∑p−1
+
+k=0 ksk
+σ E |b〉
+
+= U
+∑n
+
+i=1 ji
+σ |b〉
+
+= E
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+b−
+n
+∑
+
+i=1
+
+ji mod p
+
+〉
+
+Hence, this gives a circuit of depth p3 = O(1) and linear size for simulating Mp,n on the encoded
+qudits. After conjugating by Q̃p gates on the appropriate groups of qubits the equivalence of
+Lemma 27 shows that the entire circuit exactly implements fanout on the encoded qudits.
+
+Let’s now put all the pieces together to show that we can achieve Task 1 of Proposition 26.
+Starting with the state (α |0〉 + β |1〉)
+
+∣
+
+∣0(p(n+1)−1)
+〉
+
+, we want to get to an encoding of α |0〉 + β |1〉
+and the ancillary qubits. First, apply a CNOT gate from the first to second qubit, followed by an
+X gate on the first to obtain the state
+
+(α
+∣
+
+∣10p−1
+〉
+
++ β
+∣
+
+∣010p−2
+〉
+
+)⊗ |0pn〉 .
+
+Now apply an X gate to the (pj + 1)st qubit for j ∈ {0, 1, . . . n − 1} yielding the encoded state:
+E(α |0〉+β |1〉)⊗E |0n〉. Note that this is a state on n+1 qudits encoded by p(n+1) qubits. After
+applying the previously described circuit which simulates Fn,p on the encoded states the result is
+(up to a permutation of the qubits)
+
+(α |0〉⊗2(n+1) + β |1〉⊗2(n+1))⊗
+∣
+
+∣
+
+∣
+0(p−2)(n+1)
+
+〉
+
+Now, via Proposition 26 any such circuit is sufficient to compute Fanout (on qubits), thus QNC0
+wf ⊆
+
+QNC0[p]. It is shown in [13] and [24] that the reverse inclusion holds and it can be concluded that
+QNC0
+
+wf = QNC0[p].
+
+Corollary 28. QNC0[a] = QNC0
+wf for all a > 1.
+
+Proof. This follows from the previous construction by taking p to be any prime factor of a and
+setting ancilla qubits appropriately or repeating the input a/p times so that any MODa gate instead
+computes MODp.
+
+5 Acknowledgements
+
+JM thanks Farzan Byramji for helpful discussions about threshold circuits. Part of this research was
+performed while the author was visiting the Institute for Mathematical and Statistical Innovation
+(IMSI), which is supported by the National Science Foundation (Grant No. DMS-1929348).
+
+17
+
+
+
+References
+
+[1] Miklós Ajtai. Σ1-formulae on finite structures. Annals of pure and applied logic, 24(1):1–48,
+1983.
+
+[2] Anurag Anshu, Yangjing Dong, Fengning Ou, and Penghui Yao. On the computational power
+of QAC0 with barely superlinear ancillae. arXiv preprint arXiv:2410.06499, 2024.
+
+[3] Debajyoti Bera. A lower bound method for quantum circuits. Information processing letters,
+111(15):723–726, 2011.
+
+[4] Sergey Bravyi, David Gosset, and Robert König. Quantum advantage with shallow circuits.
+Science, 362(6412):308–311, 2018.
+
+[5] Harry Buhrman, Marten Folkertsma, Bruno Loff, and Niels MP Neumann. State preparation
+by shallow circuits using feed forward. arXiv preprint arXiv:2307.14840, 2023.
+
+[6] Maosen Fang, Stephen Fenner, Frederic Green, Steven Homer, and Yong Zhang. Quantum
+lower bounds for fanout. Quantum Information and Computation, 6(1):046–057, 2006.
+
+[7] Merrick Furst, James B Saxe, and Michael Sipser. Parity, circuits, and the polynomial-time
+hierarchy. Mathematical systems theory, 17(1):13–27, 1984.
+
+[8] Frederic Green, Steven Homer, Cristopher Moore, and Christopher Pollett. Counting, fanout,
+and the complexity of quantum ACC. arXiv preprint quant-ph/0106017, 2001.
+
+[9] Daniel Grier and Luke Schaeffer. Interactive shallow clifford circuits: quantum advantage
+against nc1 and beyond. In Proceedings of the 52nd Annual ACM SIGACT Symposium on
+Theory of Computing, pages 875–888, 2020.
+
+[10] Alex Bredariol Grilo, Elham Kashefi, Damian Markham, and Michael de Oliveira. The power
+of shallow-depth Toffoli and qudit quantum circuits. arXiv preprint arXiv:2404.18104, 2024.
+
+[11] Jonas Haferkamp, Dominik Hangleiter, Adam Bouland, Bill Fefferman, Jens Eisert, and Juani
+Bermejo-Vega. Closing gaps of a quantum advantage with short-time hamiltonian dynamics.
+Physical Review Letters, 125(25):250501, 2020.
+
+[12] Johan H̊astad. Computational limitations for small depth circuits. PhD thesis, Massachusetts
+Institute of Technology, 1986.
+
+[13] Peter Høyer and Robert Špalek. Quantum fan-out is powerful. Theory of computing, 1(1):81–
+103, 2005.
+
+[14] Harry Levine, Alexander Keesling, Giulia Semeghini, Ahmed Omran, Tout T Wang, Sepehr
+Ebadi, Hannes Bernien, Markus Greiner, Vladan Vuletić, Hannes Pichler, et al. Parallel
+implementation of high-fidelity multiqubit gates with neutral atoms. Physical review letters,
+123(17):170503, 2019.
+
+[15] Nathan Linial, Yishay Mansour, and Noam Nisan. Constant depth circuits, fourier transform,
+and learnability. Journal of the ACM (JACM), 40(3):607–620, 1993.
+
+18
+
+
+
+[16] Klaus Mølmer and Anders Sørensen. Multiparticle entanglement of hot trapped ions. Physical
+Review Letters, 82(9):1835, 1999.
+
+[17] Cristopher Moore. Quantum circuits: Fanout, parity, and counting. arXiv preprint quant-
+ph/9903046, 1999.
+
+[18] Shivam Nadimpalli, Natalie Parham, Francisca Vasconcelos, and Henry Yuen. On the pauli
+spectrum of QAC0. In Proceedings of the 56th Annual ACM Symposium on Theory of Com-
+puting, pages 1498–1506, 2024.
+
+[19] Daniel Padé, Stephen Fenner, Daniel Grier, and Thomas Thierauf. Depth-2 QAC circuits
+cannot simulate quantum parity. arXiv preprint arXiv:2005.12169, 2020.
+
+[20] Alexander A Razborov. Lower bounds on the size of bounded depth circuits over a complete
+basis with logical addition. Mat. Zametki, 41(4):598–607, 1987.
+
+[21] Gregory Rosenthal. Bounds on the QAC0 complexity of approximating parity. In 12th Inno-
+vations in Theoretical Computer Science Conference (ITCS 2021). Schloss-Dagstuhl-Leibniz
+Zentrum für Informatik, 2021.
+
+[22] Mark Saffman and Klaus Mølmer. Efficient multiparticle entanglement via asymmetric Ryd-
+berg blockade. Physical review letters, 102(24):240502, 2009.
+
+[23] Roman Smolensky. Algebraic methods in the theory of lower bounds for Boolean circuit
+complexity. In Proceedings of the nineteenth annual ACM symposium on Theory of computing,
+pages 77–82, 1987.
+
+[24] Yasuhiro Takahashi and Seiichiro Tani. Collapse of the hierarchy of constant-depth exact
+quantum circuits. computational complexity, 25:849–881, 2016.
+
+[25] Barbara M Terhal and David P DiVincenzo. Adaptive quantum computation, constant depth
+quantum circuits and arthur-merlin games. arXiv preprint quant-ph/0205133, 2002.
+
+[26] Adam Bene Watts, Robin Kothari, Luke Schaeffer, and Avishay Tal. Exponential separation
+between shallow quantum circuits and unbounded fan-in shallow classical circuits. In Proceed-
+ings of the 51st Annual ACM SIGACT Symposium on Theory of Computing, pages 515–526,
+2019.
+
+[27] Andrew Chi-Chih Yao. Separating the polynomial-time hierarchy by oracles. In 26th Annual
+Symposium on Foundations of Computer Science (sfcs 1985), pages 1–10. IEEE, 1985.
+
+A Deferred Proofs
+
+Proof of Proposition 26. To see that (2) ⇐⇒ (3) it suffices to conjugate either gate by Hadamards
+i.e. H⊗(n+1)FnH
+
+⊗(n+1) = Pn. (2) =⇒ (1) because Fn satisfies the condition described in (1)
+exactly:
+
+Fn(α |0〉+ β |1〉) |0n〉 = α |0n〉+ β |1n〉
+
+Let C be any unitary which satisfies (1). To see that (1) =⇒ (3) we construct a circuit using C
+and C† in essentially the same way that we did in the proof of Proposition 13:
+
+19
+
+
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+. . .
+
+|x1〉 |x1〉
+|x2〉 |x2〉
+...
+
+...
+|xn〉 |xn〉
+
+|b〉 H
+
+C C†
+
+H |b⊕n
+i=1 xi〉
+
+|0〉n−1
+∣
+
+∣0n−1
+〉
+
+To see that this circuit exactly computes parity note that after the first Hadamard gate is applied
+
+the ancilla bits are in the state |0〉+(−1)b|1〉√
+2
+
+∣
+
+∣0n−1
+〉
+
+and after applying C we have |0n〉+(−1)b|1n〉√
+2
+
+. After
+
+the CZ gates are applied we are left with the state |0n〉+(−1)b+
+∑n
+
+i=1 xi |1n〉√
+2
+
+. Since C(α |0〉+β |1〉)After
+
+applying C† we are left with |0〉+(−1)b+
+∑n
+
+i=1 xi |1〉√
+2
+
+∣
+
+∣0n−1
+〉
+
+, so the final Hadamard gate leaves the output
+
+qubit and the ancilla qubits in the state |b⊕n
+i=1 xi〉
+
+∣
+
+∣0n−1
+〉
+
+.
+
+It should be noted that when our circuit C has property (1) it is in some sense stronger than
+
+the guarantee C |0n〉 = |0n〉+|1n〉
+2 . In the case of the latter it seems that an AND gate is required
+
+to compute parity with C and C†, which Proposition 26 shows is not necessary when C(α |0〉 +
+β |1〉)
+
+∣
+
+∣0n−1
+〉
+
+= α |0n〉+ β |1n〉 for all one-qubit states α |0〉+ β |1〉.
+To see that (2) =⇒ (1) note that
+
+Fn |+〉 |0n〉 =
+∣
+
+∣0n+1
+〉
+
++
+∣
+
+∣1n+1
+〉
+
+√
+2
+
+Observe that if given access to some circuit C (and C†) which satisfies the weaker condition of
+preparing an exact n-nekomata i.e
+
+C |0m〉 = |0n〉 |ψ0〉+ |1n〉 |ψ1〉√
+2
+
+one can construct a constant-depth QAC circuit which exactly computes Parity:
+Note that in the above circuit after the first layer of CZ gates are applied the state on the
+
+ancialla qubits is |0n〉|ψ0〉+(−1)|x||1n〉|ψ1〉√
+2
+
+. When |x| is even, nothing has happened, so C† will return
+
+the state on these registers to |0m〉 and the ∨-gate will not change the final register. When |x| is odd
+|0n〉|ψ0〉+(−1)|x||1n〉|ψ1〉√
+
+2
+is orthogonal to C |0m〉, so after applying C† the resulting state is orthogonal
+
+to |0m〉 which will always trigger the ∨-gate. The second half of the circuit uncomputes returning
+the ancillary registers to |0m〉. Thus, the final register is always left in the state |b⊕n
+
+i=1 xi〉 - thus,
+(up to an X gate) this circuit exactly computes parity.
+
+Finally, we prove Lemma 16 and in particular that the above circuit approximates Pn when C
+is replaced with any U which produces an ǫ-approximate n-nekomata when applied to the all zeros
+state.
+
+20
+
+
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+. . . . . .
+
+|x1〉 |x1〉
+|x2〉 |x2〉
+...
+
+...
+|xn〉 |xn〉
+
+|0〉m C C† C C |0m〉
+
+|b〉 ∨ |b⊕n
+i=1 xi〉
+
+Figure 2: Computing Pn with a circuit C which prepares an exact n-nekomata and its inverse C†
+
+Proof of Lemma 16. Let U be a unitary on m qubits such that U |0m〉 = |ψ〉 is an ǫ-approximate n-
+
+nekomata and let |ν〉 = |0n〉|ψ0〉+|1n〉|ψ1〉√
+2
+
+be the n-nekomata on m qubits which maximizes | 〈ν|ψ〉 |2.
+We can write |ψ〉 =
+
+√
+1− ǫ |ν〉 +√
+
+ǫ
+∣
+
+∣ν⊥
+〉
+
+for some
+∣
+
+∣ν⊥
+〉
+
+which is orthogonal to |ν〉. In the circuit
+shown in Figure 2 observe that after the first layer of CZ gates are applied the state on the ancilla
+registers is
+
+|ψ−〉
+√
+1− ǫ
+
+|0n〉 |ψ0〉+ (−1)|x| |1n〉 |ψ1〉√
+2
+
++
+√
+ǫ
+∣
+
+∣
+
+∣
+ν⊥−
+
+〉
+
+For some
+∣
+
+∣ν⊥−
+〉
+
+. Observe that when |x| is even then | 〈ψ−|ψ〉 |2 ≥ 1 − 2ǫ and when |x| is odd then
+| 〈ψ−|ψ〉 |2 ≤ ǫ. In the former case C† |ψ−〉 will have fidelity at least 1 − 2ǫ with |0m〉, so after
+uncomputation we are left with |x, 0m〉 |ωb〉 where | 〈b|ωb〉 |2 ≥ 1 − 2ǫ. Similarly, when |x| is odd
+C† |ψ−〉 has fidelity at most ǫ with |0m〉 and after uncomputation we are left with |x, 0m〉 |ωb〉 where
+| 〈b|ωb〉 |2 ≤ ǫ. Thus, on any input |x, b〉 the state produced by this circuit has fidelity at least 1−2ǫ
+with Fn |x, b〉 - equivalently, the ℓ2-distance is at most 2ǫ meaning that the unitary implemented
+by this circuit, V , satisfies ‖V − Pn‖op ≤ 2ǫ. Thus, (1) =⇒ (3).
+
+To see that (3) =⇒ (2) suppose that the unitary U satisfies ‖U − Pn‖op ≤ ǫ. Then,
+
+‖H⊗(n+1)UH⊗(n+1) − Fn‖op = ‖H⊗(n+1)(U − Pn)H
+⊗(n+1)‖op ≤ ‖U − Pn‖op ≤ ǫ
+
+For (2) =⇒ (1) let |ψ〉 = Fn |+〉 |0n〉 = |0n〉+|1n〉√
+2
+
+and |φ〉 = U |+〉 |0n〉. Note that if ‖U − Fn‖op ≤ ǫ
+
+then
+
+‖ |φ〉 − |ψ〉 ‖2 ≤ ‖ |+〉 |0n〉 ‖2‖U − Fn‖op ≤ ǫ
+
+So,
+
+‖ |φ〉 − |ψ〉 ‖2 =
+√
+
+2− 〈ψ|φ〉 − 〈φ|ψ〉 ≤ ǫ =⇒ | 〈ψ|φ〉 |2 ≥ 1− ǫ2 − ǫ4/4
+
+Thus, |φ〉 is an O(ǫ)-approximate nekomata.
+
+21
+
+
+
+Proof. Proof of Lemma 27 This can be seen via a direct computation:
+
+Fn,pQ
+⊗n+1 |b〉 |x〉 = Fn,p
+
+(
+
+1√
+p
+
+p−1
+∑
+
+j=0
+
+ωbj |j〉
+)
+
+⊗
+(
+
+1√
+pn
+
+∑
+
+y∈Fn
+p
+
+ω〈x,y〉 |y〉
+)
+
+Here 〈x, y〉 denotes the inner product over vectors in Fnp : 〈x, y〉 = ∑p
+j=1 xjyj mod p. For y ∈ Fnp
+
+and j ∈ Fp we will use y(j) to denote the string obtained by adding j to every entry of y i.e.
+Fp |j〉 |y〉 = |j〉
+
+∣
+
+∣y(j)
+〉
+
+. Now we can see that
+
+(
+
+1√
+p
+
+p−1
+∑
+
+j=0
+
+ωbj |j〉
+)
+
+⊗
+(
+
+1√
+pn
+
+∑
+
+y∈Fn
+p
+
+ω〈x,y〉 |y〉
+)
+
+=
+1
+
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y〉 |j〉 |y〉
+
+So,
+
+Fn,p
+1
+
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y〉 |j〉 |y〉 = 1
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y〉 |j〉
+∣
+
+∣
+
+∣
+y(j)
+
+〉
+
+After rearranging we have
+
+1
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y〉 |j〉
+∣
+
+∣
+
+∣
+y(j)
+
+〉
+
+=
+1
+
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y(−j)〉 |j〉 |y〉
+
+=
+1
+
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ωbj+〈x,y〉−j|x| |j〉 |y〉
+
+=
+1
+
+√
+
+pn+1
+
+∑
+
+y∈Fn
+p
+
+p−1
+∑
+
+j=0
+
+ω〈x,y〉ωj(b−|x|) |j〉 |y〉
+
+= Q⊗(n+1)Mn,p |b〉 |x〉
+
+Thus, Mn,p = (Q†
+p)⊗n+1Fn,pQ
+
+⊗n+1
+p as claimed.
+
+22
+
+
+	Introduction
+	Comparison to the classical setting
+	Proof techniques and overview
+	Related work
+	Future directions
+
+	Preliminaries
+	Multiqubit Gates
+	Quantum Circuit Complexity Classes
+	Approximate Quantum Circuits
+
+	Bootstrapping weak parity gates
+	Grid Construction
+	Removing the Toffoli gates
+
+	Quantum MOD gates are powerful even on their own
+	Simulating qudit arithmetic in QNC[̂p]
+
+	Acknowledgements
+	Deferred Proofs
+

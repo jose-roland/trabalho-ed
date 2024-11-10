@@ -1,0 +1,3801 @@
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+97
+
+0v
+1 
+
+ [
+he
+
+p-
+ph
+
+] 
+ 7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+CERN-TH-2024-174
+
+DESY-24-162
+
+HIP-2024-21/TH
+
+How fast does the WallGo?
+A package for computing wall velocities in first-order phase transitions
+
+Andreas Ekstedta,∗, Oliver Gouldb,†, Joonas Hirvonenb,c,‡, Benoit Laurentd,§,
+
+Lauri Niemic,¶, Philipp Schichoe,‖, Jorinde van de Visf,††
+
+Abstract
+
+WallGo is an open-source software designed to compute the bubble wall velocity in first-order cosmo-
+
+logical phase transitions. Additionally, it evaluates the energy budget available for generating grav-
+
+itational waves. The main part of WallGo, built in Python, determines the wall velocity by solving
+
+the scalar-field(s) equation of motion, the Boltzmann equations and energy-momentum conservation
+
+for the fluid velocity and temperature. WallGo also includes two auxiliary modules: WallGoMatrix,
+
+which computes matrix elements for out-of-equilibrium particles, and WallGoCollision, which per-
+
+forms higher-dimensional integrals for Boltzmann collision terms. Users can implement custom models
+
+by defining an effective potential and specifying a list of out-of-equilibrium particles and their inter-
+
+actions.
+
+As the first public software to compute the wall velocity including out-of-equilibrium contributions,
+
+WallGo improves the precision of the computation compared to common assumptions in earlier com-
+
+putations. It utilises a spectral method for the deviation from equilibrium and collision terms that
+
+provides exponential convergence in basis polynomials, and supports multiple out-of-equilibrium par-
+
+ticles, allowing for Boltzmann mixing terms. WallGo is tailored for non-runaway wall scenarios where
+
+leading-order coupling effects dominate friction.
+
+While this work introduces the software and the underlying theory, a more detailed documentation
+
+can be found in https://wallgo.readthedocs.io.
+
+http://arxiv.org/abs/2411.04970v1
+https://wallgo.readthedocs.io
+
+
+aDepartment of Physics and Astronomy, Uppsala University,
+
+P.O. Box 256, SE-751 05 Uppsala, Sweden
+
+bSchool of Physics and Astronomy, University of Nottingham,
+
+Nottingham NG7 2RD, United Kingdom
+
+cDepartment of Physics and Helsinki Institute of Physics, University of Helsinki, FI-00014, Finland
+
+dMcGill University, Department of Physics, 3600 University St., Montréal, QC H3A2T8 Canada
+
+eDépartement de Physique Théorique, Université de Genève,
+
+24 quai Ernest Ansermet, CH-1211 Genève 4, Switzerland
+
+fTheoretical Physics Department, CERN,
+
+1 Esplanade des Particules, CH-1211 Geneva 23, Switzerland
+
+∗andreas.ekstedt@physics.uu.se
+†oliver.gould@nottingham.ac.uk
+‡joonas.hirvonen@nottingham.ac.uk
+§benoit.laurent@mail.mcgill.ca
+¶lauri.b.niemi@helsinki.fi
+‖philipp.schicho@unige.ch
+
+††jorinde.van.de.vis@cern.ch
+
+2
+
+
+
+Contents
+
+1 Introduction 4
+
+2 Installation and running 6
+
+2.1 Defining a simple model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+
+3 Theoretical background for the terminal wall velocity of an expanding bubble 13
+
+3.1 Effective potential and thermodynamics . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+3.2 The scalar equation of motion and the thermal plasma . . . . . . . . . . . . . . . . . . 15
+
+3.3 Boltzmann equations for the plasma particles . . . . . . . . . . . . . . . . . . . . . . . 17
+
+3.4 Collision terms . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+
+3.4.1 The leading-logarithmic approximation . . . . . . . . . . . . . . . . . . . . . . 22
+
+4 What happens in the code 23
+
+4.1 WallGoMatrix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+
+4.2 WallGoCollision . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+
+4.3 WallGo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+
+5 Convergence tests 34
+
+5.1 Testing convergence in the number of basis polynomials . . . . . . . . . . . . . . . . . 34
+
+5.2 Dependence on meanFreePathScale . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+
+5.3 Dependence on other Grid parameters . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+
+5.4 Dependence on fieldValueVariationScale and temperatureVariationScale . . . . 39
+
+6 Examples beyond the most simple one 41
+
+6.1 Standard model with singlet scalar . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+
+6.2 Standard Model with light Higgs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+
+6.3 Inert doublet model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 45
+
+7 Conclusions 47
+
+A Using the WallGoMatrix matrix-element generator 49
+
+A.1 Loading the required packages . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+
+A.2 Defining the model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 50
+
+A.3 Implementing spontaneous symmetry-breaking . . . . . . . . . . . . . . . . . . . . . . 52
+
+A.4 Specifying out-of-equilibrium particles . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
+
+A.5 Generating the matrix elements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 55
+
+1
+
+
+
+B General matrix elements 56
+
+B.1 Matrix elements for F1F2 → F3F4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 57
+
+B.2 Matrix elements for S1S2 → F1F2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+
+B.3 Matrix elements for F1F2 → SV . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+
+C Reduction of the collision integral 60
+
+Notation
+
+Indices
+
+- a, b, c: particle species
+
+- i, j, k: polynomial basis elements
+
+- i: background scalar field components
+
+- I, J, L,M : spinor indices
+
+- α, β, γ: lattice points
+
+- µ, ν: Lorentz indices
+
+- λ1, λ2, λ3: helicities
+
+2
+
+
+
+Program summary
+
+License: GNU General Public License 3 (GPLv3)
+
+Operating system: Any operating system; tested macOS 11–15, Ubuntu 18–24 and Windows 10–11.
+
+Program title: WallGo [v1.0.0]
+
+Program obtainable from: https://pypi.org/project/WallGo
+
+Documentation link: https://wallgo.readthedocs.io
+
+Developer’s repository link: https://github.com/Wall-Go/WallGo
+
+Programming languages: Python
+
+Nature of problem: Computing terminal velocities of expanding bubble walls for first-order phase
+
+transitions, as coupled sets of scalar field, hydrodynamic and Boltzmann equations.
+
+Solution method: The scalar-field equations are solved as a variational problem with an ansatz, and
+
+the Boltzmann equations are solved using a spectral decomposition.
+
+Restrictions: Python version 3.10 or above.
+
+Program title: WallGoCollision [v1.0.0]
+
+Program obtainable from: https://pypi.org/project/WallGoCollision
+
+Documentation link: https://wallgocollision.readthedocs.io
+
+Developer’s repository link: https://github.com/Wall-Go/WallGoCollision
+
+Programming languages: C++ and Python
+
+Nature of problem: Computing collision integrals for Boltzmann equations in a spectral expansion.
+
+Solution method: Adaptive Monte-Carlo integration.
+
+Restrictions: Python version 3.10 or above. Source builds require a C++17 compliant compiler and
+
+CMake 3.18 or newer.
+
+Program title: WallGoMatrix [v1.0.0]
+
+Program obtainable from:
+
+https://resources.wolframcloud.com/PacletRepository/resources/WallGo/WallGoMatrix
+
+Developer’s repository link: https://github.com/Wall-Go/WallGoMatrix
+
+Programming languages: Mathematica
+
+External routines/libraries: DRalgo [1] and GroupMath [2].
+
+Nature of problem: Computing 2-to-2 scattering matrix elements for arbitrary quantum field theories.
+
+Solution method: Matrix elements are constructed by building coupling tensors for a given model, and
+
+contracting these with kinematic factors appropriately.
+
+Restrictions: Tested on Mathematica versions 12, 13 and 14.
+
+3
+
+https://pypi.org/project/WallGo
+https://wallgo.readthedocs.io
+https://github.com/Wall-Go/WallGo
+https://pypi.org/project/WallGoCollision
+https://wallgocollision.readthedocs.io
+https://github.com/Wall-Go/WallGoCollision
+https://resources.wolframcloud.com/PacletRepository/resources/WallGo/WallGoMatrix
+https://github.com/Wall-Go/WallGoMatrix
+
+
+1. Introduction
+
+Cosmological first-order phase transitions (FOPTs) are exciting possible processes in the early universe.
+
+They might have played a role in generating the asymmetry between matter and antimatter (e.g. in
+
+electroweak baryogenesis [3–7], or alternatives [8–10]), and they could also have sourced gravitational
+
+wave (GW) signals that can be observed with the next generation of GW detectors [11–14]. It is
+
+well-known that the two candidate processes of the Standard Model (SM) of particle physics, the
+
+electroweak phase transition [15–20] and the QCD phase transitions [21, 22], are in fact cross-overs.
+
+There are, however, many possibilities for extending the SM to render these phase transitions first
+
+order (see e.g. [13] and references therein for a number of examples). Moreover, a significant part of
+
+the energy budget of the universe is in dark matter and energy, and phase transitions could have also
+
+occurred in dark sectors, with possibly observable GW signatures [23–25].
+
+The expansion velocity of bubbles generated during a FOPT, denoted vw, is a crucial parameter
+
+for predicting GW signals. Variations in vw can lead to changes of up to two orders of magnitude
+
+in predicted GW amplitudes [13, 26, 27], and the spectral shape of the GW spectrum is also highly
+
+sensitive to vw [28–32]. Studies [33, 34] suggest that if LISA detects a GW signal from a FOPT,
+
+vw may be the most accurately reconstructible parameter. Accurate predictions of GW spectra are
+
+essential to distinguish signals from FOPTs amid astrophysical sources in data from observatories like
+
+LISA [35]. Furthermore, the wall velocity can significantly impact predictions for the value of the
+
+matter-antimatter asymmetry [36–38], which can determine whether a model can successfully explain
+
+the observed asymmetry. In alternative mechanisms for baryogenesis, e.g. [9,10,39], and dark matter
+
+generation [40,41] during phase transitions, the baryon and dark matter abundances are also expected
+
+to depend on vw.
+
+The wall velocity is determined as the speed at which the outward pressure, resulting from the
+
+pressure difference between the phases, is balanced by the friction and backreaction from the plasma.
+
+In practice, finding vw (and the wall width) requires solving the scalar-field(s) equation of motion,
+
+the Boltzmann equations for the particles in the plasma, and the energy-momentum conservation
+
+equations for the fluid velocity and temperature profile. Early work on computing the wall velocity
+
+employed a so-called ballistic approximation [42, 43], which assumes that the mean free path of the
+
+particles is much larger than the wall width. The authors of [44,45], were the first to self-consistently
+
+solve the scalar field and Boltzmann equations, including leading-log collision terms. For additional
+
+calculations of vw using similar methods, see e.g., [46–49].
+
+The approach of [44, 45] describes deviations from equilibrium in the distribution functions via
+
+the chemical potential µ, deviation of the temperature δT , and fluid velocity δv. By taking three
+
+moments of the Boltzmann equations, a set of equations for µ, δT and δv is obtained. However, as
+
+noted in [50, 51], the so-obtained equations contain a singularity around the sound speed. In [51], it
+
+was demonstrated that this singularity stems from the linearisation of the background solution. To
+
+improve the description of the out-of-equilibrium contribution, the authors introduce a generalised
+
+4
+
+
+
+fluid ansatz, and solve the Boltzmann equations for a larger set of moments. In contrast, [52] adopts
+
+an alternative approach using a spectral method to describe deviations from equilibrium, thereby
+
+eliminating the need for a linearisation of the background distribution. We adopt this latter approach
+
+in our work.
+
+Due to the difficulty of computing the wall velocity, it is often guessed or treated as a free parameter.
+
+Estimates can be made by assuming local thermal equilibrium (LTE) [53–55], or by considering a
+
+large jump in degrees of freedom [56]. The LTE assumption has been shown to provide a reasonable
+
+approximation for the Standard Model coupled to a singlet [52], and should offer an upper bound on
+
+vw. Further improvement in determining vw requires accounting for out-of-equilibrium effects.
+
+WallGo provides an automated computation of the wall velocity for user-defined models.
+
+The software package consists of a main part and two auxiliary modules:
+
+• WallGo finds vw by solving the equations of motion of the scalar fields, and the Boltzmann
+
+equations of the out-of-equilibrium particles.
+
+• WallGoMatrix computes the 2 → 2 matrix elements for user-specified particles and interactions.
+
+• WallGoCollision computes the collision integrals in the spectral basis.
+
+WallGo allows readers to largely reduce the uncertainty related to the wall velocity in predictions of
+
+the GW signal and the baryon or dark matter abundance. Additionally, it will help to identify the
+
+largest sources of uncertainty in vw, offering guidance for future studies aimed at further minimizing
+
+these uncertainties. A detailed examination of these uncertainty sources will be addressed in future
+
+work.
+
+In addition to being the first publicly available numerical code for solving the wall velocity with
+
+out-of-equilibrium effects for user-defined models, WallGo also provides several options that improve
+
+the computation beyond commonly used approximations in the literature:
+
+• Matrix elements and collision terms: WallGo computes matrix elements and collision terms
+
+for arbitrary particles and interactions, enabling analysis beyond the typical focus on only the
+
+out-of-equilibrium top quark and strong interactions.
+
+• User-defined potential: The effective potential is fully customizable, allowing calculations beyond
+
+leading order. Higher-order corrections to the potential, shown to significantly affect aspects of
+
+phase transitions [57–62], will be explored in future work.
+
+• Mixing in collision terms and Boltzmann equations: When multiple particles are out of equi-
+
+librium, WallGo incorporates mixing in the collision terms and Boltzmann equations (cf. sec-
+
+tion 3.4). This is in contrast to the conventional moment expansion where interaction rates
+
+replace collision terms [45].
+
+5
+
+
+
+• Spectral method for convergence: WallGo uses the spectral method introduced in [52], which
+
+parameterises the deviation from equilibrium on a basis of polynomials. For a sufficiently large
+
+basis of polynomials, the solution converges exponentially, which we expect to be a relevant
+
+improvement over the common three-moment Boltzmann equation method.
+
+• Computation of the gravitational wave energy budget: WallGo can directly compute the efficiency
+
+factor used in the prediction of the GW power spectrum [13,27,32,63], by solving the hydrody-
+
+namics equations with the fully model-dependent equation of state. This removes the need to
+
+map onto a simplified equation of state [26,64,65].
+
+This version of WallGo has been developed to deal with weak to moderately strong phase transitions,
+
+where the leading-order pressure from out-of-equilibrium particles and the hydrodynamic backreaction
+
+are sufficient to compensate the driving force. For stronger phase transitions, this source of friction
+
+might not be sufficient to stop the wall from accelerating. The question whether the wall “runs away”
+
+in this scenario, or whether it is slowed down by next-to-leading-order contributions to the friction,
+
+has been a matter of active discussion in recent literature [66–72]. We leave the inclusion of these
+
+next-to-leading order contributions to the friction for a future version of WallGo.
+
+This paper is organised as follows. Section 2 describes how to install WallGo and how to run a first
+
+simple model. In section 3, we detail the physics underlying the computation of the wall velocity.
+
+Section 4 overviews the different parts of the software package and their interactions with each other.
+
+In section 5, we describe convergence tests. We demonstrate some examples and compare to the
+
+literature in section 6, and conclude in section 7.
+
+2. Installation and running
+
+The main WallGo Python package can be installed directly with pip, by running the following listing
+
+L.1
+
+pip install WallGo
+
+from the command line, and then imported as any other Python package. A first example of how to
+
+use WallGo follows in section 2.1. A collection of other example models is found at https://wallgo.
+
+readthedocs.io.
+
+The WallGo package requires collision integrals as input, loaded from files. Some pre-computed
+
+collision files can be found on the repository, in the folder Models. Beyond this, installing the
+
+WallGoCollision package enables the computation of new collision integrals, and is also available
+
+using pip,
+
+L.2
+
+pip install WallGoCollision
+
+6
+
+https://wallgo.readthedocs.io
+https://wallgo.readthedocs.io
+
+
+Example usage is also found within the collected example models at https://wallgo.readthedocs.
+
+io.
+
+Finally, the WallGoCollision package requires 2-to-2 scattering matrix elements as input. The
+
+WallGoMatrix Mathematica package allows for computing these for generic models. To install this
+
+package, one must also install GroupMath [2] on which it depends. This can be done automatically by
+
+setting
+
+L.3
+
+WallGo`WallGoMatrix`$InstallGroupMath=True
+
+in Mathematica before loading WallGoMatrix. The latter can be installed by running the following
+
+L.4
+
+PacletInstall["WallGo/WallGoMatrix"]
+
+after which the package can be loaded with
+
+L.5
+
+<<WallGo`WallGoMatrix`
+
+A number of matrix element calculations for example models can be found in the examples folder of
+
+the WallGoMatrix GitHub repository.
+
+2.1. Defining a simple model
+
+Defining a model in WallGo requires a few different ingredients: a scalar potential, a list of the particles
+
+in the model together with their properties, and the matrix elements for interactions between these
+
+particles. The matrix elements are used to compute the collision integrals in WallGoCollision. The
+
+collision integrals are then loaded into WallGo for the wall velocity computation.
+
+We will now describe a simple example which demonstrates how to compute the wall velocity
+
+with WallGo. The relevant file can be found in Models/Yukawa/yukawa.py. Collision integrals are
+
+contained in Models/Yukawa/CollisionOutput_N11. These have been obtained by running the file
+
+Models/Yukawa/yukawaWithCollisionGeneration.py. Generating matrix elements and collisions
+
+will be further discussed in section 4.
+
+Concretely, let us consider a simple model of a real scalar field φ coupled to a Dirac fermion ψ via
+
+a Yukawa coupling. Its interaction Lagrangian is given by
+
+L = −1
+
+2
+∂µφ∂
+
+µφ− σφ− m2
+
+2
+φ2 − g
+
+3!
+φ3 − λ
+
+4!
+φ4 − iψ̄ /∂ψ −mf ψ̄ψ − yφψ̄ψ . (2.1)
+
+In this case, the scalar field may undergo a phase transition, with the fermion field contributing to
+
+the friction for the bubble wall growth.
+
+7
+
+https://wallgo.readthedocs.io
+https://wallgo.readthedocs.io
+https://github.com/Wall-Go/WallGoMatrix/tree/main/examples
+
+
+The first step to implement this model into WallGo is to define a specific model class, inheriting
+
+from the base class WallGo.GenericModel.
+
+L.6
+
+import pathlib
+
+import numpy as np
+
+import WallGo
+
+from WallGo import Fields, GenericModel, Particle
+
+class YukawaModel(GenericModel):
+
+"""
+
+The Yukawa model, inheriting from WallGo.GenericModel.
+
+"""
+
+def __init__(self) -> None:
+
+"""
+
+Initialize the Yukawa model.
+
+"""
+
+self.modelParameters: dict[str, float] = {}
+
+# Initialize internal effective potential
+
+self.effectivePotential = EffectivePotentialYukawa(self)
+
+# Create a list of particles relevant for the Boltzmann equations
+
+self.defineParticles()
+
+# ~ GenericModel interface
+
+@property
+
+def fieldCount(self) -> int:
+
+"""How many classical background fields"""
+
+return 1
+
+def getEffectivePotential(self) -> "EffectivePotentialYukawa":
+
+return self.effectivePotential
+
+# ~
+
+def defineParticles(self) -> None:
+
+"""
+
+Define the out-of-equilibrium particles for the model.
+
+"""
+
+self.clearParticles()
+
+# === left fermion ===
+
+# Vacuum mass squared
+
+def psiMsqVacuum(fields: Fields) -> Fields:
+
+return (
+
+8
+
+
+
+self.modelParameters["mf"]
+
++ self.modelParameters["y"] * fields.getField(0)
+
+) ** 2
+
+# Field-derivative of the vacuum mass squared
+
+def psiMsqDerivative(fields: Fields) -> Fields:
+
+return (
+
+2
+
+* self.modelParameters["y"]
+
+* (
+
+self.modelParameters["mf"]
+
++ self.modelParameters["y"] * fields.getField(0)
+
+)
+
+)
+
+psiL = Particle(
+
+"psiL",
+
+index=1,
+
+msqVacuum=psiMsqVacuum,
+
+msqDerivative=psiMsqDerivative,
+
+statistics="Fermion",
+
+totalDOFs=2,
+
+)
+
+psiR = Particle(
+
+"psiR",
+
+index=2,
+
+msqVacuum=psiMsqVacuum,
+
+msqDerivative=psiMsqDerivative,
+
+statistics="Fermion",
+
+totalDOFs=2,
+
+)
+
+self.addParticle(psiL)
+
+self.addParticle(psiR)
+
+The scalar potential is used both for determining the free energy of homogeneous phases and for the
+
+shape and width of the bubble wall. In principle, the potentials determining these two phenomena are
+
+different, as the former is coarse grained all the way to infinite length scales, while the latter can only
+
+consistently be coarse grained on length scales shorter than the bubble wall width [73]. Nevertheless,
+
+at high temperatures and to leading order in powers of the coupling, these two potentials agree.
+
+At high temperatures, the leading-order effective potential of our simple model is
+
+V eff(φ, T ) = −π
+2
+
+20
+T 4 + σeffφ+
+
+1
+
+2
+m2
+
+effφ
+2 +
+
+1
+
+3!
+gφ3 +
+
+1
+
+4!
+λφ4 , (2.2)
+
+where we have defined the effective tadpole coefficient and effective mass as
+
+σeff = σ +
+1
+
+24
+(g + 4ymf )T
+
+2 , m2
+eff = m2 +
+
+1
+
+24
+(λ+ 4y2)T 2 . (2.3)
+
+9
+
+
+
+The implementation in WallGo is as follows: one defines a class, here EffectivePotentialYukawa
+
+which inherits from the base class WallGo.EffectivePotential. This definition must contain a
+
+member function called evaluate which evaluates the potential as a function of the scalar fields and
+
+temperature.
+
+L.7
+
+class EffectivePotentialYukawa(WallGo.EffectivePotential):
+
+"""
+
+Effective potential for the Yukawa model.
+
+"""
+
+def __init__(self, owningModel: YukawaModel) -> None:
+
+"""
+
+Initialize the EffectivePotentialYukawa.
+
+"""
+
+super().__init__()
+
+assert owningModel is not None, "Invalid model passed to Veff"
+
+self.owner = owningModel
+
+self.modelParameters = self.owner.modelParameters
+
+# ~ EffectivePotential interface
+
+fieldCount = 1
+
+"""How many classical background fields"""
+
+effectivePotentialError = 1e-15
+
+"""
+
+Relative accuracy at which the potential can be computed. Here the potential is
+
+polynomial so we can set it to the machine precision.
+
+"""
+
+# ~
+
+def evaluate(self, fields: Fields, temperature: float) -> float | np.ndarray:
+
+"""
+
+Evaluate the effective potential.
+
+"""
+
+# getting the field from the list of fields (here just of length 1)
+
+fields = WallGo.Fields(fields)
+
+phi = fields.getField(0)
+
+# the constant term
+
+f0 = -np.pi**2 / 90 * (1 + 4 * 7 / 8) * temperature**4
+
+# coefficients of the temperature and field dependent terms
+
+10
+
+
+
+y = self.modelParameters["y"]
+
+mf = self.modelParameters["mf"]
+
+sigmaEff = (
+
+self.modelParameters["sigma"]
+
++ 1 / 24 * (self.modelParameters["gamma"] + 4 * y * mf) * temperature**2
+
+)
+
+msqEff = (
+
+self.modelParameters["msq"]
+
++ 1 / 24 * (self.modelParameters["lam"] + 4 * y**2) * temperature**2
+
+)
+
+potentialTotal = (
+
+f0
+
++ sigmaEff * phi
+
++ 1 / 2 * msqEff * phi**2
+
++ 1 / 6 * self.modelParameters["gamma"] * phi**3
+
++ 1 / 24 * self.modelParameters["lam"] * phi**4
+
+)
+
+return np.array(potentialTotal)
+
+The EffectivePotential stores the model parameters for use in evaluating the potential. It is
+
+possible to override other member functions when defining EffectivePotentialYukawa, such as the
+
+initialisation function, or to add additional member functions and variables, though we have not done
+
+so in this simple example.
+
+Once these two classes have been defined, we can now set up the WallGoManager and run WallGo
+
+to compute the bubble wall speed. What follows now, would be the content of the main function of
+
+the model file. First, we perform some initialisations.
+
+L.8
+
+manager = WallGo.WallGoManager()
+
+# Change the amount of grid points in the spatial coordinates
+
+# for faster computations
+
+manager.config.configGrid.spatialGridSize = 20
+
+# Increase the number of iterations in the wall solving to
+
+# ensure convergence
+
+manager.config.configEOM.maxIterations = 25
+
+# Decrease error tolerance for phase tracing to ensure stability
+
+manager.config.configThermodynamics.phaseTracerTol = 1e-8
+
+pathtoCollisions = pathlib.Path(__file__).resolve().parent / pathlib.Path(
+
+f"CollisionOutput_N11"
+
+)
+
+manager.setPathToCollisionData(pathtoCollisions)
+
+11
+
+
+
+model = YukawaModel()
+
+manager.registerModel(model)
+
+We modify the default value of the spatial grid, the maximum number of iterations in the solution
+
+of the equation of motion and the error tolerance of the phase tracer. We specify the location of
+
+the pre-computed collision files. Now that we have registered the model, we need to provide input
+
+parameters, and a number of settings for the computation of the wall velocity.
+
+L.9
+
+inputParameters = {
+
+"sigma": 0.0,
+
+"msq": 1.0,
+
+"gamma": -1.2,
+
+"lam": 0.10,
+
+"y": 0.55,
+
+"mf": 0.30,
+
+}
+
+model.modelParameters.update(inputParameters)
+
+manager.setupThermodynamicsHydrodynamics(
+
+WallGo.PhaseInfo(
+
+temperature=8.0, # nucleation temperature
+
+phaseLocation1=WallGo.Fields([0.4]),
+
+phaseLocation2=WallGo.Fields([27.0]),
+
+),
+
+WallGo.VeffDerivativeSettings(
+
+temperatureVariationScale=1.0,
+
+fieldValueVariationScale=[100.0],
+
+),
+
+)
+
+In this model, inputParameters directly contain the parameters appearing in the potential and the
+
+interactions. In a more realistic scenario, the inputParameters would correspond e.g. to physical
+
+particle masses and interaction strengths. In the WallGo.PhaseInfo object, we provide the nucleation
+
+temperature and the positions of the high-temperature and low-temperature phase. The positions of
+
+the phases do not need to be exact. temperatureVariationScale and fieldValueVariationScale
+
+are parameters that are used in the construction of an interpolated free energy and when computing the
+
+derivatives of the potential. A reasonable choice is the difference between the critical and nucleation
+
+temperature and the value of the vacuum expectation value (VEV), respectively.
+
+Now we can compute the wall velocity. First, we return an estimate of the wall velocity in LTE,
+
+computed from hydrodynamics only. Then, the wall velocity is obtained by solving the scalar equation
+
+12
+
+
+
+of motion. The first computation ignores the contribution from the out-of-equilibrium fermions, and
+
+is therefore very close to vwLTE. Lastly, the wall velocity with out-of-equilibrium contributions is
+
+computed.
+
+L.10
+
+# ---- Solve wall speed in Local Thermal Equilibrium (LTE) approximation
+
+vwLTE = manager.wallSpeedLTE()
+
+print(f"LTE wall speed: {vwLTE:.6f}")
+
+solverSettings = WallGo.WallSolverSettings(
+
+bIncludeOffEquilibrium=False,
+
+# meanFreePathScale is determined here by the annihilation channels,
+
+# and scales inversely with y^4 or lam^2. This is why
+
+# meanFreePathScale has to be so large.
+
+meanFreePathScale=5000.0, # In units of 1/Tnucl
+
+wallThicknessGuess=10.0, # In units of 1/Tnucl
+
+)
+
+results = manager.solveWall(
+
+solverSettings
+
+)
+
+print(f"Wall velocity without out-of-equilibrium contributions {results.wallVelocity:.6f}")
+
+solverSettings.bIncludeOffEquilibrium = True
+
+results = manager.solveWall(
+
+solverSettings
+
+)
+
+print(f"Wall velocity with out-of-equilibrium contributions {results.wallVelocity:.6f}")
+
+3. Theoretical background for the terminal wall velocity of an expanding bubble
+
+This section provides an overview of the theoretical background relevant to FOPTs1 and the bubble
+
+wall velocity.
+
+3.1. Effective potential and thermodynamics
+
+Cosmological phase transitions can occur when the free energy, or effective potential, transitions from
+
+a higher to a lower energy state at some temperature. In the Standard Model for example, the Higgs
+
+1While, in principle, many such phase transitions could occur in the history of our universe, we will always focus on
+
+a single transition in this work.
+
+13
+
+
+
+field does not break the Electroweak symmetry at high temperatures, but it will transition to a state
+
+where the symmetry is broken as the Universe cools.
+
+The temperature at which two minima of the free energy are degenerate is called the critical tem-
+
+perature, Tc. If the degenerate minima are separated by a barrier at the critical temperature, the
+
+phase transition will be of first order, and usually proceeds via the nucleation of bubbles. Around
+
+Tc, the nucleation rate is immensely exponentially suppressed, and barely any nucleation takes place.
+
+However, the exponential suppression shrinks quickly as the temperature decreases, allowing for the
+
+phase transition to take place. For the computation of the wall velocity, one is usually interested in
+
+the temperature at which non-trivial phase-transition dynamics take place, such as most of the bubble
+
+growth and the collisions of hydrodynamic shock fronts. A good estimate for this temperature is the
+
+percolation temperature, Tp, at which ∼ 1/e fraction of the Universe is in the metastable phase [74,75].
+
+Below, we will refer to the temperature of interest as the nucleation temperature, Tn.
+2 The compu-
+
+tation of the temperature of interest is beyond the scope of this work and it is an input parameter
+
+for WallGo. We refer the reader to [77–82] for numerical tools and to [83–87] for the theoretical and
+
+computational framework for the high-temperature nucleation rate.
+
+Let us now discuss the effective potential in more detail. We define the scalar fields as φ =
+
+(φ1, φ2, · · · )T . We will denote the temperature-dependent effective potential as V eff(φ, T ), and it
+
+is given by
+
+V eff(φ, T ) = V0(φ) + Vhigher order(φ, T ) , (3.1)
+
+where V0 denotes the zero-temperature, tree-level potential, and Vhigher order contains higher order
+
+corrections, e.g. the temperature-dependent loop corrections. We will denote the field values that
+
+minimise the potential at Tn as vHT(Tn) and vLT(Tn) for the high-temperature and low-temperature
+
+phases respectively.
+
+In earlier computations of the wall velocity [45,52,88], Vhigher order was approximated by a one-loop
+
+effective potential augmented with (in some cases) thermally resumed masses. In recent years, it has
+
+become clear that the one-loop effective potential often does not give accurate predictions for phase
+
+transition parameters such as the nucleation temperature and the phase transition strength [57, 58],
+
+and higher-loop corrections have to be included. The effective potential determines the critical and
+
+nucleation temperature, but also enters in the equation of motion of the scalar field, as we will see in
+
+section 3.2, and therefore directly affects the value of the wall velocity. As WallGo does not restrict
+
+the shape of the potential, we can now study the effect of these higher loop corrections on the wall
+
+velocity for the first time. This will be discussed in a separate publication.
+
+We can describe the hot plasma in the early Universe in terms of the pressure, which is obtained
+
+2Strictly speaking, Tn and Tp are not identical, as Tn corresponds to the temperature where the average number of
+
+bubbles per Hubble volume is exactly 1. The two quantities are usually very close [13], except in models with a large
+
+amount of supercooling [75,76], for which WallGo is anyway not applicable.
+
+14
+
+
+
+by evaluating the effective potential at its minima,
+
+pHT(T ) = −V eff(vHT(T ), T ) , pLT(T ) = −V eff(vLT(T ), T ) . (3.2)
+
+Other thermodynamic quantities such as the enthalpy density w, the entropy density s, the energy
+
+density e and the speed of sound cs follow from the relations
+
+w(T ) = T
+dp
+
+dT
+, s(T ) =
+
+w(T )
+
+T
+, e(T ) = T
+
+dp
+
+dT
+− p , c2s =
+
+dp/dT
+
+de/dT
+. (3.3)
+
+3.2. The scalar equation of motion and the thermal plasma
+
+The (classical)3 equation of motion (EOM) for scalar fields φi, coupled to the thermal plasma is:
+
+∂2φi +
+∂V eff(φ, T )
+
+∂φi
++
+∑
+
+a
+
+∂m2
+a
+
+∂φi
+
+∫
+
+p
+
+1
+
+2E
+δfa(pµ, ξ) = 0 , (3.4)
+
+where
+∫
+
+p
+=
+∫ ddp
+
+(2π)d
+, d = 3, and the sum runs over all particle species in the plasma and δfa denotes
+
+the deviation from the equilibrium distribution function. The equilibrium contributions of all plasma
+
+particles have been absorbed in V eff , which equals the potential of eq. (3.1).
+
+It is useful to choose a coordinate system that follows the expanding bubble. As such our δfa only
+
+depends on the momentum pµ and the distance from the wall
+
+ξ = −ūµwxµ , (3.5)
+
+where the 4-velocity ūµw is perpendicular to the 4-velocity uµw of the wall, viz.
+
+ūµw = γw(vw, 0, 0, 1) , uµw = γw(1, 0, 0, vw) . (3.6)
+
+The last term in eq. (3.4) is the friction caused by out-of-equilibrium particles. Since the friction
+
+term is proportional to the field-derivative of the mass, in a SM-like plasma, the dominant contribution
+
+comes from the top quark, the electroweak gauge bosons and possibly the scalar fields.
+
+The temperature and fluid-velocity profiles must be solved simultaneously with the scalar-field
+
+equations of motion, as the equation of motion depends explicitly on the temperature profile. To this
+
+aim, we obtain two additional equations from energy-momentum, T µν , conservation in the wall frame
+
+(here, the wall is assumed to be planar and moving in the z-direction)
+
+T 30 = wγ2plvpl + T 30
+out = c1 ,
+
+T 33 =
+1
+
+2
+(∂zφi)
+
+2 − V eff(φ, T ) + wγ2plv
+2
+pl + T 33
+
+out = c2 , (3.7)
+
+3Fundamentally all fields participating in the phase transition and the particles are quantum. Nevertheless, over
+
+sufficiently large distances and times t, L ≫ T−1, scalar fields behave classically [89–91]. This follows since low-energy
+
+E ≪ T modes are Bose-enhanced, and thus behave classically in accordance with the correspondence principle.
+
+15
+
+
+
+where vpl denotes the local plasma velocity, and γpl the corresponding Lorentz factor. The out-
+
+of-equilibrium components of the energy-momentum tensor, T 30
+out and T 33
+
+out, are obtained from the
+
+following moments of the out-of-equilibrium particle distributions (see [52] for details)
+
+∆a
+mn(ξ) =
+
+∫
+
+p
+
+1
+
+E
+Em
+
+pl p
+n
+z,plδf
+
+a(pµ, ξ) , (3.8)
+
+where Epl is the energy and pz,pl the momentum in the z direction measured in the plasma frame.
+
+The boundary conditions, c1 and c2 are obtained by solving the hydrodynamic equations for the given
+
+Tn and vw (cf. e.g. [26,92–94]). These macroscopic hydrodynamic boundary conditions correspond to
+
+ξ → ±∞ for the microscopic description of the bubble wall. In contrast, when finding the boundary
+
+conditions in the macroscopic context of hydrodynamics, they correspond to the temperature and fluid
+
+profile immediately behind and in front of the infinitely thin wall.
+
+The previous discussion demonstrated how the δfa need to be known to solve the equation of
+
+motion of the φi as well as the temperature and velocity profile. Let us assume that we have obtained
+
+a solution for δfa and the corresponding T 30
+out, T
+
+33
+out. It is most convenient to solve the equations for
+
+φi, T and vpl in the rest frame of the bubble wall, where the profiles are simply a function of ξ = z.
+
+A common approach is to describe the profiles of the fields that undergo the phase transition by a
+
+Tanh-ansatz:
+
+φi(z) = vHT,i +
+vLT,i − vHT,i
+
+2
+
+[
+
+1− tanh
+
+(
+z
+
+Li
++ δi
+
+)]
+
+, (3.9)
+
+where Li denotes the wall width, δi the offset (the center of the profiles does not need to coincide).
+
+The Tanh-ansatz does not solve the scalar EOM eq. (3.4) exactly, but in most known cases the impact
+
+of this approximation on the value of the wall velocity is small; see e.g. [45, 95]. WallGo uses the
+
+Tanh-ansatz, with the intention to make it optional in a future version.
+
+There exist several procedures to determine the parameters Li and δi that give the best solution to
+
+the EOM. We chose here to minimise the action that gives rise to the EOM (3.4)
+
+S =
+
+∫
+
+dz
+
+[
+
+1
+
+2
+
+∑
+
+i
+
+(∂zφi)
+2 + V eff
+
+(
+φ, T̄
+
+)
+− V eff
+
+(
+φ̄, T̄
+
+)
++
+∑
+
+a
+
+m2
+a∆̄
+
+a
+00
+
+]
+
+. (3.10)
+
+The functions T and ∆ will, in general, depend on the scalar fields. However, to recover the appropriate
+
+EOMs during the minimisation procedure, these need to be independent of φi. Therefore, we replace
+
+them by T̄ and ∆̄a
+00, which are the same functions computed using a fixed scalar field profile φ̄i. To
+
+find a solution with the correct T and ∆a
+00, the minimisation procedure can be repeated iteratively,
+
+each time with updated T̄ and ∆̄a
+00 computed with the previous estimation of φi until convergence is
+
+attained. Note, that the −V eff
+(
+φ̄, T̄
+
+)
+term does not have an effect on the minimisation as it is just a
+
+constant. It is there to make the integral over z ∈ (−∞,∞) convergent.
+
+One can show that minimising S with respect to δi and Li is equivalent to solving the moment
+
+16
+
+
+
+equations
+
+Pi =
+
+∫
+
+dz
+∂φi
+∂δi
+
+(EOM) = 0 , (3.11)
+
+Gi =
+
+∫
+
+dz
+∂φi
+∂Li
+
+(EOM) = 0 . (3.12)
+
+The first one can be interpreted as the pressure on the φi wall, as it controls the position of the φi
+
+wall with respect to the other walls. The second is the gradient of pressure in the wall, and controls
+
+the wall thickness.
+
+From this representation in terms of moment equations, it becomes clear that the minimisation
+
+procedure is not sufficient to ensure that the total pressure on the wall Ptot =
+∑
+
+i Pi vanishes, since
+
+we need to enforce δ1 = 0 to fix the center of the wall. There is therefore no corresponding P1 = 0
+
+equation. However, once the action is minimised with respect to Li and δi>1, Ptot becomes purely a
+
+function of vw and one can finally solve
+
+Ptot(vw) = 0 , (3.13)
+
+where it is understood that the Li and δi>1 are chosen as to minimise S.
+
+Finally, even for vanishing δfa, the wall still feels a backreaction force from the plasma that gets
+
+heated [53, 54, 96, 97]. For deflagration and hybrid solutions (wall velocity smaller than the so-called
+
+Jouguet velocity vJ), this backreaction force is an increasing function of vw, but for detonation so-
+
+lutions, it decreases with vw, see e.g. [52, 54]. In many cases, this hydrodynamic backreaction effect
+
+is already sufficient to obtain a static deflagration or hybrid solution.4 For the xSM, it was even
+
+shown that the local thermal equilibrium (LTE) approximation gives a reasonable estimate of the wall
+
+velocity [52]. However, as seen for the Standard Model with a light Higgs mass in section 6.2 and the
+
+Inert Doublet Model in section 6.3, the wall velocity is significantly overestimated in LTE.
+
+3.3. Boltzmann equations for the plasma particles
+
+As argued before, we need to know the distribution functions of the plasma particles to solve the
+
+scalar-field equation of motion. As the out-of-equilibrium friction is proportional to the derivative of
+
+the particle mass, the particles with the greatest shift in their masses are expected to give the dominant
+
+contribution to the friction. Nevertheless, light quarks and gluons will still affect the friction indirectly.
+
+For example, out-of-equilibrium gluons help top quarks to equilibrate, as the gluon has a much larger
+
+cross-section and can act as a catalyst for the quarks.
+
+4Simulations of [98] suggest that this static solution does not always get reached in a dynamical simulation, and the
+
+wall would in fact run away without additional friction effects.
+
+17
+
+
+
+We will write the distribution function as5
+
+fa(p, ξ) = faeq(p, ξ) + δfa(p, ξ) , faeq =
+1
+
+exp [pµu
+µ
+pl(ξ)/T (ξ)] ± 1
+
+∣
+∣
+∣
+∣
+Ea=p2+m2
+
+a
+
+, (3.14)
+
+with the plus sign for fermions, and the minus sign for bosons. For now, we will assume that the
+
+temperature T and fluid profile uµpl, as well as the scalar field profile are all known (in practice the
+
+Boltzmann equation and the scalar field, temperature and fluid equations are solved iteratively).
+
+We will assume that deviations from equilibrium are small |δfa| ≪ faeq, which will greatly simplify
+
+the computation (the validity of this assumption can be checked in WallGo). While such nonlinear
+
+contributions were also considered in [99], their effect on the wall velocity was small for the benchmarks
+
+considered there.
+
+The evolution of the distribution function in the wall frame is given by the Boltzmann equation
+
+(
+
+pµ∂µ +
+1
+
+2
+∇m2
+
+a · ∇p
+
+)
+
+fa(p, xµ) = −Ca[f ] , (3.15)
+
+where the second term denotes the classical force term that the particles experience due to the mass
+
+change caused by the passing wall. The collision term Ca of particle a describes the interactions
+
+between the particles in the plasma and ensures that the distributions relax to equilibrium far away
+
+from the wall.6 Here, f without a superscript refers to the full set of distribution functions. The
+
+dependence of the collision term on the particle distribution functions makes this system very difficult
+
+to solve in practice. In turn, the assumption that the δfa are small allows for linearising the Boltzmann
+
+equations which greatly simplifies the problem. After the linearisation, the Boltzmann equation in
+
+terms of ξ becomes
+(
+
+−pµūµw∂ξ −
+1
+
+2
+∂ξ(m
+
+2
+a)ū
+
+µ
+w∂pµ
+
+)
+
+δfa = −Clin
+ab [δf
+
+b] + Sa , (3.16)
+
+where the source term Sa contains the contributions from the equilibrium distribution
+
+Sa =
+(
+
+pµū
+µ
+w +
+
+1
+
+2
+∂ξ(m
+
+2
+a)ū
+
+µ
+w∂pµ
+
+)
+
+faeq , (3.17)
+
+and the definition of the collision term Clin
+ab [δf
+
+b] can be found in eq. (C.2). The linearised Boltzmann
+
+equation contains mixing in the collision term. Hence, particle b in eq. (3.16) is not necessarily equal
+
+to particle a, and we imply a sum over index b. This mixing effect is usually not considered in
+
+computations of vw.
+
+To render the Boltzmann equations in a numerically solvable form, we follow the procedure devel-
+
+oped in [52]. This procedure differs from the seminal work of [45] in the description of the distribution
+
+5Particles such as the Higgs, quarks, and transverse gluons develop gauge-invariant poles at large momenta p
+2 ∼ T 2;
+
+these can be interpreted as thermal masses. In defining fa,eq, we have implicitly included all such thermal masses to
+
+one-loop. See [91] for a discussion on avoiding double-counting.
+6Far away from the wall, the masses are constant in time, and the equilibrium distribution solves the Boltzmann
+
+equation exactly.
+
+18
+
+
+
+functions which uses the so-called fluid ansatz and takes three moments of the Boltzmann equations to
+
+obtain kinetic equations for the quantities that parameterise the deviation of equilibrium: the chemi-
+
+cal potential, the temperature, and the fluid velocity.7 In [52] however, the distribution functions are
+
+expanded on the orthogonal basis of Chebyshev polynomials, Ti, and read
+
+δfa(χ, ρz, ρ‖) =
+M∑
+
+i=2
+
+N∑
+
+j=2
+
+N−1∑
+
+k=1
+
+δfaijkT̄i(χ)T̄j(ρz)T̃k(ρ‖) , (3.18)
+
+where the compact coordinate χ corresponds to the distance from the wall ξ, ρz to the momentum
+
+perpendicular to the wall pz, and ρ‖ to the momentum parallel to the wall p‖, mapped to the interval
+
+[−1, 1]. See the end of this subsection and eq. (3.29) below for details). The number of basis poly-
+
+nomials in the spatial direction is M and in the momentum direction is N . Utilizing the so-called
+
+restricted Chebyshev polynomials
+
+T̄i(x) =
+
+
+
+
+
+
+
+Ti(x)− T0(x), i even ,
+
+Ti(x)− T1(x), i odd ,
+(3.19)
+
+T̃i(x) = Ti(x)− T0(x) , (3.20)
+
+ensures that the δfa vanish for ξ, pz → ±∞ and p‖ → ∞. The convergence of the approximation by
+
+expanding in polynomials is exponential in the number of basis polynomials (this is demonstrated in
+
+section 5.1). Thus, one can approximate the δfa with any desired accuracy.
+
+The virtue of this parameterisation is that the Boltzmann equation reduces to an algebraic equation
+
+of the coefficients δfaijk, viz.
+
+∑
+
+i,j,k
+
+{
+
+∂ξχ
+[
+
+Pw∂χ − γw
+2
+∂χ(m
+
+2)(∂pzρz)∂ρz
+
+]
+
+T̄i(χ)T̄j(ρz)T̃k(ρ‖)δf
+a
+ijk
+
++ T̄i(χ)Clin
+ab
+
+[
+
+T̄j(ρz)T̃k(ρ‖)
+]
+
+δf bijk
+
+}
+
+= Sa(χ, ρz , ρ‖) . (3.21)
+
+The algebraic equation has (M−1)(N−1)2 coefficients, δfaijk, from the parametrisation in eq. (3.18).
+
+They can be uniquely fixed by demanding that the algebraic equation holds on a discrete grid of points,
+
+(χ(α), ρ
+(β)
+z , ρ
+
+(γ)
+‖ ):
+
+χ(α) = − cos
+(πα
+
+M
+
+)
+
+, α = 1, · · · ,M − 1 , (3.22)
+
+ρ(β)z = − cos
+(πβ
+
+N
+
+)
+
+, β = 1, · · · , N − 1 , (3.23)
+
+ρ
+(γ)
+‖ = − cos
+
+( πγ
+
+N − 1
+
+)
+
+, γ = 0, · · · , N − 2 . (3.24)
+
+7This approach was generalised to a larger number of moments in [51].
+
+19
+
+
+
+This precise choice for the grid points ensures the exponential convergence of the spectral method [52,
+
+100]. See fig. 3 below for a numerical example.
+
+With the choice of the grid, (χ(α), ρ
+(β)
+z , ρ
+
+(γ)
+‖ ), the algebraic equation simply becomes a (dense) matrix
+
+equation,8
+(
+
+L[α, β, γ; i, j, k]δab + T̄i(χ
+(α))Cab[β, γ; j, k]
+
+)
+
+δf bijk = Sa[α, β, γ] , (3.25)
+
+in the indices {α, β, γ} and {i, j, k}, and where repeated indices are summed. Here, we have defined
+
+the Liouville operator, the collision operator and the source as
+
+L[α, β, γ; i, j, k] ≡ ∂ξχ
+(α)
+[
+
+P(α,β,γ)
+w ∂χ − γw
+
+2
+∂χ(m
+
+2)(α)(∂pzρ
+(β)
+z )∂ρz
+
+]
+
+T̄i(χ
+(α))T̄j(ρ
+
+(β)
+z )T̃k(ρ
+
+(γ)
+‖ ) , (3.26)
+
+Cab[α, β; j, k] ≡ Clin
+ab
+
+[
+
+T̄j(ρ
+(α)
+z )T̃k(ρ
+
+(β)
+‖ )
+]
+
+, (3.27)
+
+Sa[α, β, γ] ≡ Sa
+
+(
+χ(α), ρ(β)z , ρ
+
+(γ)
+‖
+)
+. (3.28)
+
+The derivatives of the basis polynomials arising can be re-expressed in terms of linear combinations
+
+of basis polynomials.
+
+Now that we have the Boltzmann equation in a numerically solvable form, let us discuss the mapping
+
+between compact and physical coordinates in WallGo. For the momentum directions, these are the
+
+same as in [52],
+
+ρz(pz) = tanh
+( pz
+2T
+
+)
+
+,
+
+ρ‖(p‖) = 1− 2 exp
+(
+
+−
+p‖
+T
+
+)
+
+. (3.29)
+
+This ensures that the solution vanishes exponentially as |p| → ∞, with a decay length of T .
+
+In the spatial direction, WallGo uses a more sophisticated mapping than [52] to better model the
+
+different scales involved in the solution. The solution of the Boltzmann equation should decay expo-
+
+nentially with decay lengths l± when ξ → ±∞, with l− 6= l+ in general (we refer to these regions as
+
+the tails). Furthermore, the source term is only nonzero within the bubble wall, |ξ|<∼Lwall, where
+
+Lwall is the width of the whole wall. The mapping is therefore constructed in such a way that these
+
+three scales are properly resolved.
+
+In practice, the scales l± are estimated from the wall velocity and the parameter meanFreePathScale,
+
+which must be provided by the user; see section 5.2 for details on how to choose this parameter prop-
+
+erly. Then, WallGo estimates the parameter LGrid ∼ Lwall from the field profiles φi(ξ). The mapping
+
+also depends on the parameters smoothing and ratioPointsWall, which control how smooth the
+
+transition between the different regions is and the approximate ratio of points used to resolve the wall
+
+in the interval ξ ∈ [−LGrid, LGrid]; see section 5.3 for more details.
+
+8The ordering of the indices here is the same as in WallGo. Note, that the index ordering in WallGoCollision is
+
+transposed, i.e. Cab[α, β; j, k] → Cab[j, k;α, β].
+
+20
+
+
+
+3.4. Collision terms
+
+In the Boltzmann equation for a given particle species labelled by a, the collision term describes the
+
+rate at which particles a with given momentum P1 are lost and created due to elastic and inelastic
+
+scattering processes. In principle, there exist collision processes which take an initial a particle and
+
+Nin − 1 other particles into a final state of Nout particles, i.e. a process Nin → Nout. However, at
+
+leading logarithmic order, only 2 → 2 scatterings contribute [101–103]; see section 3.4.1.
+
+The linearised collision terms are linear functionals acting on a set of distribution functions. In
+
+principle, these distribution functions carry all the quantum numbers of the corresponding particles,
+
+but in cases where certain quantum numbers are irrelevant to the scattering, they can safely be
+
+averaged over, e.g. for helicity in QCD. We label the distribution functions by an index a, b, c, .., each
+
+denoting a group of degrees of freedom, potentially averaged some quantum numbers. Then, the
+
+linearised collision term appearing in eq. (3.21) is given by
+
+Clin
+ab [T̄j(ρz)T̃k(ρ‖)] =
+
+1
+
+4
+
+∑
+
+cde
+
+∫
+
+p2,p3,p4
+
+1
+
+2E22E32E4
+(2π)4δ4(P1 + P2 − P3 − P4) (3.30)
+
+× |Mac→de(P1, P2;P3, P4)|2faf cfdf e
+(
+δabF
+
+c
+a + δcbF
+
+a
+c − δdbF
+
+e
+d − δebF
+
+d
+e
+
+)
+T̄j(ρz)T̃k(ρ‖) ,
+
+where ρz and ρ‖ are the momenta of the b-particle. We have also introduced the notation
+
+F a
+b =
+
+eEa/T
+
+(f b)2
+. (3.31)
+
+By denoting Pa = (Ea,pa), the particles {a, c, d, e} carry four-momenta {P1, P2, P3, P4} in that order.
+
+|Mac→de(P1, P2;P3, P4)|2 are (squared) matrix-elements averaged over the degrees of freedom specified
+
+by index a and summed over all other degrees of freedom specified by c, d, e,
+
+|Mac→de(P1, P2;P3, P4)|2 ≡
+1
+
+Na
+
+∑
+
+ai∈a
+
+∑
+
+ci∈c
+
+∑
+
+di∈d
+
+∑
+
+ei∈e
+|Taici→diei(P1, P2;P3, P4)|2 , (3.32)
+
+where T is a normal scattering amplitude. The factor of 1
+Na
+
+arises from the definition of fa as the
+
+occupancy of a-particles, averaged over the set of unimportant quantum numbers labelled by ai. The
+
+choice of quantum numbers to average over depends on the physical model and situation considered.
+
+Considering gluons, for example, here ai could run over its possible helicities and colours, in which
+
+case Na = 16. Instead considering a left-handed top-quark, averaging over colour and particle and
+
+antiparticle gives Na = 6.
+
+The factor of 1
+4 on the right hand side of eq. (3.30) is the product of two factors of 1
+
+2 : one from
+
+the usual relativistic invariant momentum integration factor 1
+2Ea
+
+, and the other which is a symmetry
+
+factor if d and e are identical, or a factor which compensates the double-counting in the sum over
+
+species if d and e are different [101,103].
+
+The challenge is now to evaluate the 9-dimensional momentum integral for all n2p(N−1)4 components
+
+of the collision tensor on the grid; see eq. (3.27). The number of out-of-equilibrium particles is denoted
+
+21
+
+
+
+as np. Fortunately, the task becomes easier because half of the components of Clin
+ab [T̄j(ρz)T̃k(ρ‖)] are
+
+redundant,
+
+Clin
+ab [T̄j(−ρz)T̃k(ρ‖)] = (−1)jClin
+
+ab [T̄j(ρz)T̃k(ρ‖)] , (3.33)
+
+which follows from the properties of the Chebyshev polynomials. Moreover Clin
+ab [T̄j(0)T̃k(ρ‖)] = 0 for
+
+odd j, or when ρz = ρ‖ = 0. In the absence of vacuum masses, the momenta can be rescaled as
+
+Pi → Pi/T , such that the temperature only appears as a pre-factor in front of the collision term:
+
+Clin
+ab [δf
+
+b] = T 2Ĉlin
+ab [δf
+
+b] . (3.34)
+
+We will use this rescaling in WallGo and leave the inclusion of vacuum masses to future work.
+
+Out of the nine integration dimensions, four are trivial due to the momentum-conserving δ-function.
+
+In appendix C, the final form of the collision integral is derived. The remaining integrals are performed
+
+using a Monte Carlo method, see appendix C.
+
+3.4.1. The leading-logarithmic approximation
+
+In the integration of collision terms, kinematic enhancements can increase the parametric size of
+
+certain terms over the naive expectation based on counting powers of couplings. In particular, the
+
+dominant processes involve 2 → 2 scatterings of small angle θ, for which the cross-section behaves as
+
+dσ ∼ dθ
+θ . Thermal screening softens the divergence at small θ, and leads to a multiplicative O(| log g|)
+
+logarithmic enhancement dependent on the screening length [101–103].
+
+State-of-the-art wall velocity computations use the leading-log approximation when calculating the
+
+collision rates [52]. Such an approximation correctly accounts for all terms which are logarithmically
+
+enhanced due to the small angle scatterings, and may truncate or otherwise distort terms which
+
+are not so enhanced. We adopt one particular, common implementation of the leading-logarithmic
+
+approximation, wherein masses of the external particles are neglected, and internal lines are regulated
+
+by asymptotic thermal masses.9 This approximation was found to lead to an overestimate of the quark
+
+diffusion constant by 50% [102], consistent with the expected O(| log g|−1) relative errors.
+
+Asymptotic thermal masses result from soft resummation on the lightcone. Such resummation
+
+becomes necessary when not all momentum components are taken as soft (Pµ ∼ gT ) but rather
+
+P 2 ∼ (gT )2 [103,104] and therefore close to the lightcone. This also happens in a hard regime where
+
+P ∼ T which is the case for the hard momenta assumed in the matrix elements. The corresponding
+
+resummation near the lightcone gives rise to a modified dispersion relation ω2 = k2 + m2
+∞, where
+
+we denote m∞ as the corresponding asymptotic mass. For scalars, asymptotic and (static) thermal
+
+masses coincide but are genuinely different for vector fields and fermions and at LO are
+
+m2
+V ,∞ =
+
+1
+
+2
+m2
+
+D , m2
+q,∞ = 2m2
+
+q , (3.35)
+
+9In some of our model files, we deviate from this prescription to reproduce results obtained in the literature.
+
+22
+
+
+
+where mD is the corresponding Debye mass and mq the standard fermionic thermal mass. See [105]
+
+for the asymptotic masses of vector fields at LO and NLO for generic models. If not stated otherwise,
+
+we employ asymptotic masses throughout our analyses.
+
+Going beyond leading logarithmic accuracy introduces a number of new phenomena and compu-
+
+tational difficulties [102, 103]. Collision integrals for naively forbidden 1 → 2 scatterings must be
+
+included, momentum dependence and scalar field background dependence must be resummed in the
+
+particle self-energies, and gauge and fermion fields experience non-local Landau damping. Including
+
+these effects is beyond the scope of the current work, but we foresee an investigation of effects beyond
+
+leading logarithmic approximation in an upcoming publication.
+
+4. What happens in the code
+
+WallGo consists of three parts:
+
+• WallGoMatrix, a Mathematica code that determines the matrix elements,
+
+• WallGoCollision, a C++ code (with Python wrapper) that computes the collision integrals,
+
+• WallGo, the Python code that that solves the Boltzmann equations and equations of motion of
+
+the scalar field(s).
+
+Detailed documentation of the code can be found in the online documentation, https://wallgo.
+
+readthedocs.io. In this section, we will merely give a compact overview of the different parts of the
+
+code and how they depend on each other.
+
+4.1. WallGoMatrix
+
+WallGoMatrix is a Wolfram Mathematica tool that generates matrix elements needed for out-of-
+
+equilibrium computations in the WallGo framework. In WallGo, users can supply their own matrix
+
+elements or generate them using WallGoMatrix. The model generation in WallGoMatrix is based on
+
+DRalgo [1]. The procedure to generate matrix elements is:
+
+(i) Loading packages: WallGoMatrix requires the files WallGoMatrix.m, matrixElements.m, and
+
+modelCreation.m along with its dependency on GroupMath. Load the package by setting the
+
+directory and using the command <<WallGoMatrix’.
+
+(ii) Defining the model: Define gauge groups (e.g., SU3 and SU2) and particle representations.
+
+Fermion and scalar representations are specified using their Dynkin coefficients.
+
+(iii) Spontaneous symmetry breaking: The tool supports spontaneous symmetry breaking by
+
+defining the VEV of scalars. Use the command SymmetryBreaking[vev] to display an indexed
+
+23
+
+https://wallgo.readthedocs.io
+https://wallgo.readthedocs.io
+
+
+Figure 1: Diagram showing the main parts and functions required to compute the bubble wall velocity
+
+for a given particle physics model. The main WallGo package solves for the wall velocity with input
+
+from the WallGoCollision package, which in turn has input from the WallGoMatrix package.
+
+list of particles according to their symmetry-breaking-induced masses. This command is needed
+
+if couplings are VEV-dependent or if one wants to use the CreateParticle command.
+
+(iv) Specifying particles: Particles that can be taken in- or out-of-equilibrium are specified by cre-
+
+ating their representations and grouping them into distributions using e.g. the CreateParticle
+
+command. For example, left- and right-handed quarks, gluons, and scalar Higgs particles can
+
+be defined this way. See listing L.39 or the example 2scalars.m for scenarios that bypass the
+
+CreateParticle command.
+
+(v) Generating matrix elements: Matrix elements for specific particles are generated with the
+
+command ExportMatrixElements. Options for normalisation, truncation at leading logarithmic
+
+24
+
+https://github.com/Wall-Go/WallGoMatrix/blob/main/examples/2scalars.m
+
+
+order, and output formats (e.g., .json, .txt) are available through the OptionPattern.
+
+The corresponding main functions of WallGoMatrix are documented in appendix A. Appendix B
+
+details the internal computation of the matrix elements. Here, we exemplify a typical matrix element
+
+file which can be used to compute the collisions—for QCD given in the example qcd.m. In this
+
+scenario, only the top quark is out-of-equilibrium, and only strong interactions are included in the
+
+matrix elements.
+
+The WallGoMatrix default format is .json and consists of two main keys pointing to arrays
+
+L.11
+
+{
+
+"particles": array,
+
+"matrixElements": array
+
+}
+
+The particles array contains a list of particle objects, where each particle is defined by its index and
+
+name
+
+L.12
+
+"particles":[
+
+{
+
+"index": number,
+
+"name": string
+
+}
+
+]
+
+While the naming does not need to match the naming in the WallGo model file, the indexing should.
+
+For QCD this corresponds to
+
+L.13
+
+"particles":[
+
+{
+
+"index":0,
+
+"name":"Top"
+
+},
+
+{
+
+"index":1,
+
+"name":"Gluon"
+
+},
+
+{
+
+"index":2,
+
+"name":"LightParticle"
+
+}
+
+]
+
+25
+
+
+
+where the LightParticle contains all light quarks.
+
+The matrixElements array contains objects that define the interactions between external particles,
+
+the matrix elements. Each object has the following properties:
+
+L.14
+
+"matrixElements":[
+
+{
+
+"externalParticles": array[number],
+
+"parameters": array[string]
+
+"expression": string
+
+}
+
+]
+
+The order in the externalParticles array corresponds to the particles a, c, d, e in eq. (3.30). Strictly
+
+speaking, only the out-of-equilibrium particles need to appear on the first index. Matrix elements with
+
+in-equilibrium particles on the first index will simply be ignored. For the example of QCD, [0,1,0,1],
+
+denotes scattering of a top quark with a gluon. Concretely, the output corresponds to
+
+L.15
+
+"matrixElements":[
+
+{
+
+"externalParticles":[0, 0, 0, 0],
+
+"parameters":["gs","mg2"],
+
+"expression":"(16*gs^4*(_s^2 + _t^2))\/(3*(mg2 - _u)^2) + (16*gs^4*(_s^2 + _u^2))\/(3*(mg2 -
+
+_t)^2)"
+
+},
+
+{
+
+"externalParticles":[0, 1, 0, 1],
+
+"parameters":["gs","mg2","mq2"],
+
+"expression":"(-64*gs^4*_s*_u)\/(9*(mq2 - _u)^2) + (16*gs^4*(_s^2 + _u^2))\/(mg2 - _t)^2"
+
+},
+
+{
+
+...
+
+},
+
+{
+
+"externalParticles":[1, 1, 1, 1],
+
+"parameters":["gs","mg2"],
+
+"expression":"(18*gs^4*(_s - _t)^2)\/(mg2 - _u)^2 + (18*gs^4*(_s - _u)^2)\/(mg2 - _t)^2"
+
+}
+
+]
+
+The strong coupling constant, gs, is the only relevant coupling and must match the corresponding
+
+name in WallGo. If other couplings or parameters are involved, they must be specified for each matrix
+
+element. The Mandelstam variables are represented by _s, _t, _u, while mq2, mg2 denote the masses of
+
+quarks and gluons in the propagators. In the leading-log approximation, these masses can be treated
+
+26
+
+
+
+as thermal masses.
+
+4.2. WallGoCollision
+
+Collision integrations are typically by far the most computationally intensive part of the WallGo wall
+
+velocity pipeline. WallGoCollision performs the integrations and related operations in native C++
+
+for maximal performance and versatility. WallGoCollision compiles to a Python extension module
+
+for seamless interoperation with the main WallGo package, but can also be used as a pure C++ library.
+
+The purpose of WallGoCollision is to compute elements of the collision tensor (3.27). Integrals
+
+on different grid points are fully independent and parallelise trivially. WallGoCollision supports
+
+OpenMP for parallel evaluation with shared memory, and has been tested on up to 96 cores.
+
+To compute collision integrals with WallGoCollision, the user has to
+
+(i) Create a PhysicsModel object containing your particle and model parameter definitions. This
+
+should include all particles and parameters that appear in your collision matrix elements, in-
+
+cluding any light species that can be approximated as remaining in equilibrium but still appear
+
+as external particles in collision processes involving out-of-equilibrium particles.
+
+(ii) Load in matrix elements to the model in a symbolic form. The Mandelstam variables have to
+
+be denoted as _s, _t, _u. The assumed physics conventions are as in (3.32). The output files of
+
+WallGoMatrix can be used directly as long as the model definition is compatible.
+
+(iii) Use the model to create a CollisionTensor object and pass it the size N of your momentum
+
+grid. CollisionTensor holds the integrals in an unevaluated but otherwise ready form.
+
+(iv) Call computeIntegralsAll() from your CollisionTensor object to perform the integrations.
+
+Once finished, the results can be stored in binary .hdf5 format and loaded into the WallGo
+
+Boltzmann solver.
+
+Unless otherwise specified, all classes described in this section can be found in the WallGoCollision
+
+Python module, and in the wallgo namespace in native C++ application programming interface (API).
+
+Model definition in step (i) is done by filling in a ModelDefinition helper object and passing it
+
+to the PhysicsModel constructor. Parameters must be defined as (name, value) pairs; for example,
+
+to define symbol “g” with initial value 0.42: modelDefinition.defineParameter("g", 0.42). Any
+
+appearance of the symbol g in matrix elements will then be replaced with value 0.42 during collision
+
+integration. Dimensionful parameters must always be given in units of the temperature. In particular,
+
+particle masses appearing in propagators of matrix elements are also treated as “model parameters”
+
+and must be given as dimensionless, floating point numbers.
+
+A particle species is defined by passing a ParticleDescription object to your ModelDefinition
+
+instance. A ParticleDescription consists of a unique string name, unique integer identifier, match-
+
+ing the index of the matrix element file, type specifier (boson or fermion) and a flag for keeping the
+
+27
+
+
+
+particle species in thermal equilibrium. The last property can be used to reduce the number of collision
+
+integrations for models containing particle species for which deviations from equilibrium are negligible.
+
+The default behavior is to treat all particles as ultrarelativistic (Ei = |pi| during integration). This
+
+allows for heavy performance optimisations in collision integration. To go beyond the ultrarelativistic
+
+approximation, you can specify a mass function that computes the mass-square of this particle species
+
+from given model parameters, again in units of the temperature.
+
+WallGoCollision performs the integrations using the Vegas algorithm [106] which is an adap-
+
+tive Monte Carlo integrator.10 Configuration settings for the integrator are available in the class
+
+IntegrationOptions, including the upper limit to use for momentum integration and error toler-
+
+ances for the Monte Carlo method. They can be passed to a CollisionTensor object by calling its
+
+setIntegrationOptions() function.
+
+Examples of collision generation can be found in the WallGo Models folder. In all these exam-
+
+ples, the collision generation and the computation of vw are combined, though they can also be run
+
+independently.
+
+Limitations The release version of WallGoCollision comes with the following limitations regarding
+
+the physics content:
+
+• Only 2 → 2 collision processes are supported.
+
+• All momentum dependence in the matrix elements must be expressed in terms of the Mandelstam
+
+variables s, t and u.
+
+• All physics parameters that appear in the matrix elements must be constant, floating point
+
+valued numbers. Dimensionful parameters must be given in units of the temperature. Concretely,
+
+WallGoCollision works in units of T = 1. The limitation is thus that parameters that vary
+
+along the momentum or position grid are not supported.
+
+The first two limitations are important for going beyond the leading logarithm approximation. The
+
+relevance of the third limitation is model dependent.
+
+4.3. WallGo
+
+Now that the collision terms have been computed, WallGo can be used to compute the wall velocity.
+
+In this subsection, we will discuss certain details of this computation. The computation is performed
+
+by a number of classes, such as Thermodynamics, EOM, BoltzmannSolver, etc. The user does not need
+
+to keep track of all these classes, as this is done by the WallGoManager class, which initialises them in
+
+the appropriate order. In what follows, we will refer to the instance of the WallGoManager as manager.
+
+We will now give some more details about the computation, mainly focussing on the steps the
+
+user needs to perform for computing the wall velocity. A more detailed documentation can be found
+
+10Internally we use the GSL [107] implementation of Vegas.
+
+28
+
+
+
+in https://wallgo.readthedocs.io, which will also be up to date with the most recent release of
+
+the code. For illustration, we also refer the users to the examples in the Models folder. Note, that
+
+most of the examples rely on the file Models/wallGoExampleBase.py, which gives a template for the
+
+computation with a specific model.
+
+Configuration To compute vw, WallGo needs a number of model-independent configuration set-
+
+tings, such as the size of the grid on which the momentum and position are discretised, and er-
+
+ror tolerances. These are stored in a Config object in the WallGoManager class, which is ini-
+
+tialised with reasonable default values with WallGo.Config(). This class contains an instance of
+
+the smaller dataclasses ConfigGrid, ConfigEOM, ConfigHydrodynamics, ConfigThermodynamics and
+
+ConfigBoltzmannSolver, which contain settings for the corresponding class. Each individual set-
+
+ting can be accessed with, for example, config.configGrid.momentumGridSize. Users can also read
+
+in a custom configuration file by running config.loadConfigFromFile(<Path to configuration
+
+file>). See the Models/ManySinglets/manySingletsConfig.ini file for a concrete example of a
+
+configuration file that can be loaded by Config. It also contains a list of all the parameters stored in
+
+the Config class. The user’s custom configuration file should have the same format as this example
+
+(note that if some settings are absent from the file their value will not be updated compared to their
+
+default value), which can be found in the source code and the online documentation. WallGo throws
+
+an error and crashes if the path is not correct. Let us also stress that the number of Chebyshev
+
+polynomials momentumGridSize must always be odd.
+
+Setting up the WallGoManager To prepare the manager to compute the wall velocity, the user
+
+must call manager.setupThermodynamicsHydrodynamics(),11 which creates and initialises the ob-
+
+jects Thermodynamics and Hydrodynamics required for the calculation. This function takes as pa-
+
+rameter a PhaseInfo object (to be described in the next paragraph) and a VeffDerivativeScales
+
+object. This data class contains the two model-dependent quantities
+
+• temperatureVariationScale: the temperature scale over which the potential changes by O(1)
+
+(often Tc − Tn is a good estimate). This number is used to estimate the step size in the phase
+
+tracer and when taking the temperature derivatives of the potential. If it is chosen too large,
+
+WallGo could crash as the phase tracer tries to probe a region where the phase no longer exists.
+
+It might also falsely return a run-away wall. If it is chosen too small, the phase tracing will take
+
+longer than necessary. In both cases, the temperature derivatives will become less accurate.
+
+• fieldValueVariationScale: the field scale over which the potential changes by O(1). This
+
+can be given as an array with the length of the number of fields, or as a single float. Usually,
+
+the value of the VEV is a good estimate. Choosing a too large or too small value will result in
+
+11The object manager.config must contain the desired settings before calling this function. The settings can be
+
+changed individually or by loading a configuration file (see discussion in the previous paragraph).
+
+29
+
+https://wallgo.readthedocs.io
+
+
+inaccuracies in the derivatives, though the effect should be minimal dependence if the order of
+
+mangitude is correct.
+
+These parameters are used by WallGo to ensure that it uses an optimal step size when computing the
+
+derivatives of the effective potential by finite differences.
+
+Phase information WallGo needs to know between which two phases the phase transition takes
+
+place, and at what temperature. This input is provided via a WallGo.PhaseInput object, which is a
+
+data class, holding the nucleation temperature, and the (approximate) values of the VEVs of all fields
+
+in the two phases. The high-temperature (outside) phase is listed before the low-temperature (inside)
+
+phase. Once manager.setupThermodynamicsHydrodynamics() has been called, the precise position
+
+of the phases is then determined. It is verified that the phases are not identical, and that the potential
+
+energy of the low-temperature phase is smaller than the potential energy of the high-temperature
+
+phase. If any of these conditions fails, an error will be thrown and the computation cannot continue.
+
+Note, that it is the responsibility of the user to choose an appropriate nucleation temperature, as
+
+WallGo does not perform additional checks.
+
+WallGo now traces the positions of the fields in the minima for the two phases as a function of the
+
+temperature. This serves two purposes. First, it determines for both phases the temperature range
+
+for which they exist, obtaining a maximum and minimum temperature for both. Second, it constructs
+
+an interpolated function of the value of the effective potential along the way, which speeds up the
+
+computation. To limit the time spent on this step, the phases are not traced over their entire range
+
+of existence. The minimum and maximum temperature are determined by the configuration file. If a
+
+too small maximum temperature is chosen, the wall velocity might not be found (WallGo will print a
+
+warning if the choice of maximum temperature restricts the range of vw).
+
+Registration of the model and the effective potential The user needs to define a model, and
+
+register it with the WallGoManager by running manager.registerModel(model). The model inherits
+
+from the abstract base class GenericModel. It needs to have the following properties:
+
+• outOfEquilibriumParticles: a list of all the out-of-equilibrium particles that enter the friction
+
+and Boltzmann equations. See section 2.1 for a concrete example of an object of the Particle
+
+class. The particles are labeled by a string identifier, e.g. "top". The index should correspond
+
+to the index in the corresponding matrix elements file. msqVacuum denotes the mass squared
+
+without thermal corrections and msqDerivative its field-derivative. statistics should be equal
+
+to "Boson" or "Fermion". totalDOFs is the total number of degrees of freedom. E.g. tor a top
+
+quark with only SU(3) interactions this would be 12, but if we distinguish left-handed and right-
+
+handed top quarks they would both have 6 DOFs. The particles are added to the model with
+
+the GenericModel member function addParticle.
+
+30
+
+
+
+• fieldCount: property function that returns the number of (scalar) fields participating in the
+
+phase transition.
+
+• getEffectivePotential: a member function which returns the effective potential for the field(s)
+
+undergoing the phase transition (see below).
+
+Typically, users will add additional functions and properties to the model, such as modelParameters
+
+and a function converting input parameters to model parameters.
+
+The effectivePotential is also constructed by the user. It should have the same fieldCount as
+
+the model and it should have a member function evaluate, which gives the value of the potential as
+
+a function of the field(s) and temperature. Usually, the potential uses the same modelParameters as
+
+the model, but this is implemented by the user. The effectivePotential should also contain an
+
+estimate of the relative error of the potential in effectivePotentialError. Note, that it is important
+
+to include field-independent contributions to the effective potential (e.g. the T 4 contribution). These
+
+terms are essential for a correct description of the hydrodynamics of the plasma. Initialisation of the
+
+potential class is done inside of the model.
+
+Some functions that are commonly used in the construction of the effective potential are collected in
+
+src/PotentialTools/EffectivePotentialResum, such as the Coleman-Weinberg potential and the
+
+one-loop thermal functions Jb,f . See e.g. the Inert Doublet and xSM model files for examples. The
+
+xSM model file also demonstrates how one can load a custom table for the Jb,f (we do not advise this
+
+in principle, since WallGo has its own interpolation tables, but we can imagine that this is useful for
+
+comparing to other implementations).
+
+Computation of the wall velocity The wall velocity and wall parameters can now be computed.
+
+For deflagration or hybrid solutions, one calls manager.solveWall(WallSolverSettings), where
+
+WallSolverSettings is a data class containing the parameters
+
+• bIncludeOffEquilibrium: boolean which determines whether the out-of-equilibrium contribu-
+
+tions should be included (True) or not (False),
+
+• meanFreePathScale: an estimate of the longest mean free path of out-of-equilibrium plasma
+
+particles, given in units of 1/Tn. This number is used to estimate the extent of the solution for
+
+δf (see section 5.2 for more details). The default value is 50, which is roughly equal to 1/α2
+s ,
+
+with αs the strong coupling constant. In models having weaker interactions, this value likely has
+
+to be adjusted.
+
+• wallThicknessGuess: an initial guess of the wall thickness, given in units of 1/Tn. This number
+
+is model-dependent, but should be larger than 1 in order for a gradient expansion for the bubble
+
+wall to be appropriate. The default value is 5.
+
+31
+
+
+
+The function solveWall relies on the fact that the pressure is an increasing function of vw when
+
+vw < vJ . This ensures that any deflagration or hybrid solution, if it exists, will be unique and can
+
+be bracketed between 0 and vJ .
+12 This property allows for the use of fast and robust root-finding
+
+algorithms such as Brent’s method. It is first verified that the pressure at the minimum velocity is
+
+negative, and positive at the maximum velocity. If the minimum pressure is positive, this indicates a
+
+problem in the effective potential, as the low-temperature phase should have lower potential energy
+
+than the high-temperature phase. WallGo will return a WallGoResults object with solutionType =
+
+ESolutionType.ERROR. If the maximum pressure is negative, the friction is not large enough to stop
+
+the wall from accelerating and WallGo will return solutionType = ESolutionType.RUNAWAY as this
+
+typically means that the wall would continue accelerating until reaching runaway speeds. If the
+
+pressures do have the correct sign, the wall parameters are determined by finding the solution which
+
+yields zero pressure on the wall. For every attempted vw, the pressure is computed by solving the
+
+Boltzmann equation and minimising the action (3.10) with a relative error tolerance for the pressure
+
+defined in WallGo.config. The maximum number of iterations for finding the pressure for a particular
+
+value of vw is also specified in WallGo.config.
+
+The solveWall function returns a WallGoResults object, containing parameters such as the wall ve-
+
+locity and width(s), but also the solution to the Boltzmann equation and the hydrodynamic boundary
+
+conditions. The results for wall velocity, widths and offsets can be assessed via results.wallVelocity,
+
+results.wallWidths and results.wallOffsets, respectively. results.wallVelocityError gives
+
+an estimate of the error of vw, resulting from the finite grid size in the Boltzmann solver. WallGo will
+
+throw a warning if the truncation error is estimated to be large. Whenever this happens, the user
+
+could increase the momentum or position grid size or adjust meanFreePathScale.
+
+To find the wall velocity for a detonation, vw > vJ , one calls manager.solveWallDetonation().
+
+For detonations, the pressure is generally not a monotonous function of vw, and one can therefore find
+
+several solutions with zero pressure. In practice, only the roots with increasing pressure with respect
+
+to vw are stable, so the function will only return these roots in a list of WallGoResults objects. Even
+
+if it is technically possible to have several stable solutions for the same model, most cases will either
+
+have zero or one solution. To avoid loosing time looking for a second root that usually does not
+
+exist, the user can pass the parameter onlySmallest=True, which will force the solver to stop the
+
+calculation after finding the first root with the smallest vw.
+
+Three situations can prevent manager.solveWallDetonation() from finding a solution—each re-
+
+turning a list containing a single WallGoResults object with attribute
+
+• solutionType = ESolutionType.RUNAWAY. If the pressure is consistently negative, the friction
+
+from the plasma is insufficient to stop the wall, leading to a runaway solution. Note, a deflagra-
+
+tion or hybrid solution may exist but will not be returned here.
+
+12The allowed velocity range is determined by Hydrodynamics. In principle it is given by vw ∈ [0, vJ ], but for strong
+
+phase transitions a minimum velocity might exist, and for a limited range of existence of the thermodynamic phases, the
+
+maximum velocity might be smaller than vJ .
+
+32
+
+
+
+• solutionType = SolutionType.DEFLAGRATION. If the pressure is consistently positive, friction
+
+is too strong to allow for a detonation or runaway solution. Here, the returned object indicates
+
+that only deflagration or hybrid solutions are possible.
+
+• solutionType = ESolutionType.DEFLAGRATION_OR_RUNAWAY. If the pressure is positive at vw =
+
+vJ and negative at vw = 1, and if there is no stable solution (there is however an unstable one),
+
+the outcome is uncertain and would require a time-dependent analysis.13
+
+A third option for the computation of vw is WallGoManager.wallSpeedLTE, which returns an
+
+approximation of the wall velocity, given by local thermal equilibrium, using hydrodynamics only.
+
+This function should give approximately the same result as manager.solveWall(bIncludeOffEq =
+
+False), but is much faster. Note, that this function will never return a detonation solution.
+
+The kinetic energy fraction One of the goals of WallGo is to improve the prediction of GW signals
+
+generated in FOPTs. An essential parameter in this prediction is the energy budget K [13, 27,32,63]
+
+for GWs from sound waves. This quantity describes the ratio of kinetic energy in the fluid to the
+
+energy density of the symmetric phase. It can easily be obtained from the Hydrodynamics module
+
+of WallGo, which returns the related efficiency factor κ via Hydrodynamics.efficiencyFactor(vw).
+
+The energy budget is then obtained from
+
+K =
+3αnwn
+
+4en
+κ , (4.1)
+
+where the subscript n denotes that the quantity is evaluated at the nucleation temperature. αn denotes
+
+the strength of the phase transition, and we use the definition of [64,65].
+
+Units WallGo works with natural units, but otherwise does not enforce units. The user can thus
+
+choose units that are appropriate for their physics application, by defining the effective potential and
+
+giving input such as the nucleation temperature, mass parameters and field expectation values in the
+
+units of choice (e.g. GeV, TeV). The only constraint is that one has to use the same units throughout
+
+the whole calculation.
+
+Some functions will ask for quantities given in particular units. If that is the case, it will be clearly
+
+stated in the documentation. For example, the WallSolverSettings data class, which is used as
+
+input by manager.setupWallSolver(), requires the meanFreePathScale and wallThicknessGuess
+
+to be given in units of 1/Tn.
+
+13The positive pressure at vw = vJ should in principle stop the wall from accelerating and force it to be a deflagration
+
+or hybrid solution. But if for some reason the wall is able to overcome this pressure barrier (which can happen in a
+
+time-dependent analysis) and reach the region with negative pressure, the wall will become a runaway solution.
+
+33
+
+
+
+Multithreading To increase performance, WallGo can be run in parallel to analyse multiple models
+
+at once. This can be especially helpful when doing a scan of the parameter space where many
+
+parameter points must be sampled. However, many numpy and scipy functions used by WallGo
+
+use multiple threads by default, which saturates the CPU and makes running WallGo in parallel very
+
+slow. Furthermore, these multithreaded functions must create and destroy threads frequently, which
+
+creates a lot of overhead and renders it quite inefficient. Therefore, we strongly suggest the user to
+
+turn off numpy’s multithreading. This can be done by running the following before importing numpy,
+
+scipy or WallGo:
+
+L.16
+
+import os
+
+os.environ[’OPENBLAS_NUM_THREADS’] = ’1’
+
+when using OpenBLAS, or
+
+L.17
+
+os.environ[’MKL_NUM_THREADS’] = ’1’
+
+for MKL (whether OpenBLAS or MKL is used can be found by running numpy.__config__.show()).
+
+However, some integrated development environments (IDEs) use their own multithreading settings, in
+
+which case the previous command might not work.
+
+5. Convergence tests
+
+As with any numerical solver, usage of WallGo depends on a number of meta-parameters, which
+
+determine the accuracy of the results. These enter both in the calculation of the collision integrals,
+
+and in the solution of the coupled hydrodynamics, scalar field and Boltzmann equations.
+
+In what follows, we test the dependence of the bubble wall speed on all the most relevant meta-
+
+parameters. Unless otherwise stated, we plot the results of these tests for one benchmark point in
+
+the Standard Model with singlet scalar, explained below in section 6.1. Our default benchmark point
+
+(BM1) has
+
+ms = 120 GeV , λhs = 0.9 , λs = 1 , (BM1)
+
+where ms is the singlet mass, λhs the portal coupling and λs the self coupling. The specific implemen-
+
+tation can be found in Models/SingletStandardModel_Z2/singletStandardModelZ2.py.
+
+5.1. Testing convergence in the number of basis polynomials
+
+Perhaps the most crucial meta-parameters are the integer basis sizes M , the spatial basis size or
+
+spatialGridSize, and N , the momentum basis size or momentumGridSize. These must be sufficiently
+
+34
+
+
+
+0 10 20 30 40
+
+M
+
+0.25
+
+0.30
+
+0.35
+
+0.40
+
+0.45
+
+0.50
+
+0.55
+
+0.60
+
+v
+w
+
+N = 5
+
+N = 11
+
+N = 19
+
+0 5 10 15 20 25 30
+
+N
+
+M = 10
+
+M = 20
+
+M = 40
+
+Figure 2: Convergence for the bubble wall speed, at our parameter point (BM1) in the xSM, as the
+
+numbers of basis polynomials in the spatial (M) and momentum (N) dimensions are increased. The
+
+rate of convergence is expected to be exponential for sufficiently large N and M . The dot-dashed line
+
+highlights the result for largest N and M . All points with N > 20 were computed on a cluster.
+
+large to resolve the length and momentum scales present in the system. For sufficiently large M and
+
+N , the spectral method that we adopt leads to exponential convergence to the continuum limit.
+
+We estimate truncation error of the spectral decomposition by the magnitude of the last coefficient
+
+in the Chebyshev basis. This follows Boyd’s Rule of Thumb [100], and should give the correct order
+
+of magnitude as long as the convergence in M and N is exponential rather than power-like. For one
+
+benchmark point in the xSM, the deviation of vw as a function of N and M is shown in figure 2. At
+
+this benchmark point, the errors due to finite M and N are reduced to a few percent for M & 20 and
+
+N & 10. Fits of the form δvw(M) = a e−bM and δvw(N) = c e−dN yield reasonably good agreement
+
+with b ≈ 0.15 and d ≈ 0.36 respectively, as can be seen in figure 3. However, these values are not
+
+universal.
+
+For additional insight into the approach to the continuum limit, in WallGo we also solve the Boltz-
+
+mann equation using a finite difference method, in addition to the spectral method. The finite differ-
+
+ence method is accurate up to O(M−2) and O(N−2) and hence its asymptotic convergence is much
+
+slower than the spectral method. It is therefore expected that, for sufficiently large M and N , dif-
+
+ferences between the two methods should be larger than the intrinsic truncation error of the spectral
+
+method. WallGo therefore throws a warning if this is not satisfied, and requests a larger basis set.
+
+35
+
+
+
+0 10 20 30 40
+
+M
+
+10−3
+
+10−2
+
+10−1
+
+|v
+w
+(M
+
+,N
+)
+−
+v
+w
+(4
+0,
+21
+)|
+
+N = 19
+
+∝ e−0.15M
+
+0 5 10 15 20
+
+N
+
+M = 40
+
+∝ e−0.36N
+
+Figure 3: Exponential fits to the rate of convergence for the bubble wall speed, at our parameter
+
+point (BM1) in the xSM, as the numbers of basis polynomials in the spatial (M) and momentum (N)
+
+dimensions increase. In computing these data, the error tolerance for the wall speed calculation was
+
+set to 10−3, establishing a floor for the exponential convergence of the data.
+
+5.2. Dependence on meanFreePathScale
+
+An important parameter that the user has to select is meanFreePathScale. It enters in the Grid
+
+object via the definition of the mapping between the physical spatial coordinates z and the compact
+
+ones χ(z), cf. section 3.3. An optimal choice would be similar to the asymptotic decay length of the
+
+Boltzmann equation’s solution when evaluated at a slow wall velocity. In other words, if the solution
+
+behaves like δf(vw → 0, z → ±∞) ∼ exp(∓z/l), then the optimal choice for meanFreePathScale is
+
+l. With the chosen z → χ(z) mapping and for the optimal choice of the meenFreePathScale, the
+
+solution expressed in the χ coordinates will be a straight line close to the boundaries at χ = ±1.
+
+This ensures that, in the χ coordinates in which the Boltzmann equation is solved, the solution is as
+
+smooth as possible which makes it easier to resolve.
+
+In principle, the asymptotic decay length l of the solution is completely determined by the collision
+
+operator C[f ]. Therefore, the optimal meanFreePathScale should only depend on the matrix elements.
+
+Furthermore, if only strong interactions are included in the matrix elements, a simple estimate gives
+
+us l ∼ 1
+α2
+sTn
+
+∼ 70/Tn.
+14
+
+A simple way to test whether the chosen value of meanFreePathScale is adequate is to plot the
+
+solution of the Boltzmann equation in the χ coordinates. This can be done from a WallGoResults
+
+14If other interactions are included, α2
+s can simply be replaced by the relevant couplings. For having the Standard
+
+Model W s out of equilibrium, the relevant couplings would be αwαs. This corresponds to slower decay than decay from
+
+the strong interaction, and is thus relevant to l.
+
+36
+
+
+
+−1.0 −0.5 0.0 0.5 1.0
+
+χ
+
+0.0000
+
+0.0005
+
+0.0010
+
+0.0015
+
+0.0020
+
+0.0025
+
+∆
+0
+0
+/T
+
+2 n
+
+5/Tn
+
+50/Tn
+
+500/Tn
+
+101 102
+
+meanFreePathScale × Tn
+
+0.636
+
+0.638
+
+0.640
+
+0.642
+
+0.644
+
+0.646
+
+v w
+
+M = 20
+
+M = 30
+
+M = 40
+
+M = 50
+
+Figure 4: Left: Value of the function ∆00(χ) for the top quark obtained by solving the Boltzmann
+
+equation with M = 50 and vw = 0.1. Three different values of meanFreePathScale were used (shown
+
+in the legend). Right: Variation of the wall velocity obtained by varying meanFreePathScale with
+
+four different values of M .
+
+object with
+
+L.18
+
+WallGoResults.Deltas.Delta00.coefficients[a]
+
+which returns the values of the function ∆a
+00(χ
+
+(α)) on the χ(α) grid coordinates. The latter can be
+
+accessed via
+
+L.19
+
+WallGoResults.Deltas.Delta00.grid.chiValues
+
+The left side of figure 4 shows an example of a solution for the xSM (BM1) where only the top
+
+quark was considered to be out-of-equilibrium, and only including the strong interaction in the matrix
+
+elements. Three solutions are shown, computed with three different values of meanFreePathScale.
+
+Note that all three curves are meant to represent the same physical solution on z; only the mapping
+
+z → χ(z) is different.
+
+From this figure, it is quite apparent that the value meanFreePathScale = 500/Tn is too large to
+
+efficiently represent the solution. The problem is that the solver samples points too far from the wall
+
+where the solution is nearly vanishing. This means that all the points in the intervals χ ∈ [−1,−0.6]
+
+and [0.6, 1] are essentially wasted. It would therefore be possible to get a similar accuracy with a
+
+smaller value of M (and thus a faster calculation) with a better choice of meanFreePathScale. On
+
+the other hand, the value meanFreePathScale = 5/Tn is clearly too small, which causes numerical
+
+37
+
+
+
+10−3 10−2 10−1 100
+
+smoothing
+
+0.625
+
+0.630
+
+0.635
+
+0.640
+
+0.645
+
+0.650
+
+v
+w
+
+M = 20
+
+M = 30
+
+M = 40
+
+M = 50
+
+0.2 0.4 0.6 0.8
+
+ratioPointsWall
+
+0.640
+
+0.645
+
+0.650
+
+0.655
+
+0.660
+
+0.665
+
+0.670
+
+v
+w
+
+M = 20
+
+M = 30
+
+M = 40
+
+M = 50
+
+Figure 5: Dependence of vw on different values of smoothing (left) and ratioPointsWall (right) in
+
+the xSM. We used ratioPointsWall = 0.5 in the left plot, smoothing = 0.1 in the right plot, and
+
+meanFreePathScale = 50/Tn for both.
+
+instabilities, appearing as large oscillations in the solution. Here, the solver does not explore the
+
+space far away from the wall, so it cannot resolve the solution’s tails. This causes the solution’s
+
+derivative to become infinite at χ = ±1, ultimately creating these numerical instabilities. Finally, the
+
+value of meanFreePathScale = 50/Tn seems much more adequate (note that it is quite close to our
+
+previous estimate of 70/Tn) as it leads to a smooth solution free from wild oscillations. Furthermore,
+
+the solution only vanishes at χ = ±1 so each point sampled by the solver is actually increasing the
+
+solution’s accuracy.
+
+To understand to what extent the computed wall velocity depends on meanFreePathScale, we vary
+
+it over three orders of magnitude resulting in less than a 2% change in vw; see figure 4 (right) for (BM1).
+
+Even in cases of significant numerical instabilities—such as in the 5/Tn curve of figure 4—the oscil-
+
+lations tend to cancel out, keeping the effect on vw minimal. However, if these instabilities become
+
+excessive, the solution would eventually diverge completely. Therefore, we strongly recommend avoid-
+
+ing these instabilities by choosing an appropriate meanFreePathScale. Additionally, as expected,
+
+increasing M reduces the variation in vw since the larger number of points helps resolve the solution
+
+and makes up for a non-optimal value of meanFreePathScale. Also, all the curves roughly agree on
+
+the wall velocity when meanFreePathScale is between 20/Tn and 100/Tn, indicating that the optimal
+
+value for this model should be in that interval.
+
+38
+
+
+
+5.3. Dependence on other Grid parameters
+
+We investigate here the effect of the remaining Grid parameters, smoothing and ratioPointsWall,
+
+on the wall velocity in (BM1). The current Grid3Scales (which inherits from Grid) implementation
+
+used by WallGo divides the spatial direction into three distinct regions. The tails of the solution, which
+
+are located in the intervals ξ ∈ (−∞,−LGrid] and ξ ∈ [LGrid,∞) are mapped to the compact intervals
+
+χ ∈ [−1,−ratioPointWall] and χ ∈ [ratioPointsWall, 1], respectively (LGrid is the wall thickness in
+
+the Grid object). The density of points in the tails is set to decay exponentially when ξ → ±∞, with
+
+a decay length set by meanFreePathScale. The density of points in the wall (which is mapped from
+
+ξ ∈ [−LGrid, LGrid] to χ ∈ [−ratioPointsWall, ratioPointsWall]) is set to be roughly constant. The
+
+smoothing parameter controls the transition from one region to the other. In the smoothing → 0
+
+limit, the mapping’s first derivative becomes discontinuous at χ = ±ratioPointsWall. Increasing
+
+smoothingmakes the transitions smoother between the three regions, which removes the discontinuity
+
+introduced by the mapping, but makes the distinction between the regions less clear.
+
+The effect of these two parameters on the wall velocity is shown in figure 5. Varying smoothing by
+
+four orders of magnitude only changes the wall velocity by a maximum of 3%, which shows that the
+
+results are not very sensitive to this parameter. One can still observe that best convergence is attained
+
+with smoothing ≈ 0.1. However, we note that, when meanFreePathScale is much larger than the
+
+wall width, it can be beneficial to increase smoothing up to ∼ 1 to smooth out the large variation of
+
+scales between the different regions. In the right panel of this figure, one can observe that the impact
+
+of ratioPointsWall on the wall velocity is also small, although best convergence is attained when at
+
+least half of the points are used to resolve the wall.
+
+5.4. Dependence on fieldValueVariationScale and temperatureVariationScale
+
+To numerically evaluate derivatives, WallGo needs an estimate of the relevant temperature and field
+
+scale. A poor choice of these parameters might lead to inaccuracies in the interpolated FreeEnergy
+
+object, which can result in problems while solving the wall velocity. The solver might e.g. mistakenly
+
+return a runaway solution, or not be able to find the local thermal equilibrium solution. Typically,
+
+temperatureVariationScale (TVS) can roughly be estimated by the difference of the critical and
+
+nucleation temperatures, and fieldValueVariationScale (FVVS) can be estimated by the VEVs of
+
+the field.
+
+In figure 6 we demonstrate the dependence of vw on these parameters for the Standard Model with
+
+a light Higgs (see section 6.2). For the five different Higgs masses we consider, the difference between
+
+the critical temperature and nucleation temperature is of the order of 0.2 GeV, and the VEV is of
+
+order 60 GeV. In the left panel, we keep the FVVS fixed at 50 GeV, and we vary the TVS from 0.5 GeV
+
+to 5.0 GeV. We see that the value of vw depends only very weakly on the value of the TVS. For a TVS
+
+39
+
+
+
+0 20 40 60 80
+
+mh (GeV)
+
+0.15
+
+0.20
+
+0.25
+
+0.30
+
+0.35
+
+v
+w
+
+fieldValueVariationScale = 50 GeV
+
+TVS = 0.5 GeV
+
+TVS = 1 GeV
+
+TVS = 2 GeV
+
+TVS = 5 GeV
+
+0 20 40 60 80
+
+mh (GeV)
+
+temperatureVariationScale = 1 GeV
+
+FVVS = 2 GeV
+
+FVVS = 50 GeV
+
+FVVS = 100 GeV
+
+FVVS = 500 GeV
+
+Figure 6: Dependence of vw on different values of temperatureVariationScale (TVS, left) and
+
+fieldValueVariationScale (FVVS, right) for the Standard Model with a light Higgs (cf. section 6.2).
+
+of 0.5 GeV however, the wall velocity is not recovered for mh = 34 GeV.15 For a TVS of 5.0 GeV,
+
+WallGo prints a warning:
+
+Warning: the temperature step size seems too large.
+
+Try decreasing temperatureVariationScale.
+
+Moreover, the obtained vw for mh = 70 GeV has a large error bar. The latter is a result of WallGo
+
+not recovering the LTE value of vw, which enters in the truncation error estimate. From this graph we
+
+thus conclude that the optimal choice of TVS is ∼ 1 GeV, slightly larger than the difference between
+
+the critical and nucleation temperature for this model.
+
+The right panel of figure 6 shows the dependence on the fieldValueVariationScale, for a fixed
+
+TVS of 1.0 GeV. We see that we can vary the scale over a much larger range than the TVS; the results
+
+between 2.0 and 500 GeV are almost identical, and the differences are much smaller than the truncation
+
+error. If we choose a smaller value for the FVVS, the phase tracer throws an error. We thus conclude
+
+that the VEV is an appropriate choice for the FVVS, but that the solution is not very sensitive to it.
+
+15For this particular point, the correct wall velocity would be recovered by decreasing the tolerance of the phase tracer.
+
+We have however chosen to keep it fixed at 10−6 for the graph.
+
+40
+
+
+
+6. Examples beyond the most simple one
+
+6.1. Standard model with singlet scalar
+
+A simple model that renders the electroweak phase transition first-order and is still allowed by ex-
+
+perimental data is the singlet scalar extension (xSM). It is obtained by augmenting the SM with a
+
+new scalar field s, which is not charged under the SM gauge group. To simplify the analysis, one can
+
+impose the singlet field to have an additional Z2 symmetry, in which case the effective potential reads
+
+V eff(Φ, s, T ) = µ2hΦ
+†Φ+ λh(Φ
+
+†Φ)2 +
+1
+
+2
+µ2ss
+
+2 +
+1
+
+4
+λss
+
+4 +
+1
+
+2
+λhs(Φ
+
+†Φ)s2
+
++ VCW(Φ, s) + VT (Φ, s, T ) , (6.1)
+
+where VCW is the Coleman-Weinberg potential, VT the thermal potential, and Φ denotes the Higgs
+
+doublet. This model only depends on three new parameters: the singlet mass in the broken phase
+
+m2
+s = −λhsµ2h/(2λh) + µ2s, its self-coupling λs, and its coupling with the Higgs λhs.
+
+We follow here the methodology of [52] and choose a renormalisation scheme where VCW does not
+
+change the scalar fields’ VEVs and masses. We then have
+
+VCW =
+∑
+
+a
+
+± na
+64π2
+
+{
+
+m4
+a(Φ, s)
+
+[
+
+log
+
+(
+m2
+
+a(Φ, s)
+
+m̄2
+a
+
+)
+
+− 3
+
+2
+
+]
+
++ 2m2
+a(Φ, s)m̄
+
+2
+a
+
+}
+
+, (6.2)
+
+where the upper sign is for bosons and lower one for fermions, the sum is over all the massive particles
+
+(which we take to be the top quark, the W and Z bosons, the Higgs, the singlet and the Goldstone
+
+bosons), na is their number of degrees of freedom, ma(Φ, s) their field-dependent mass and m̄a their
+
+mass in the broken phase at T = 0. Finally, the thermal potential is given by the one-loop contribution
+
+VT =
+T 4
+
+2π2
+
+∑
+
+a
+
+±na
+∫ ∞
+
+0
+dy y2 log
+
+[
+
+1∓ exp
+(
+
+−
+√
+
+y2 +m2
+a(H, s)/T
+
+2
+)]
+
+− g̃π2T 4
+
+90
+, (6.3)
+
+where the second term is the thermal contribution from the massless degrees of freedom, with g̃ =
+
+83.25.
+
+To study the stability of WallGo against a wide range of models, we performed a parameter scan
+
+of the xSM. We used the same data points and nucleation temperatures that were computed in [52],
+
+which were obtained with λs = 1, ms ∈ [62.5, 160] GeV and λhs ∈ [0.5, 1.4]. To compute the wall
+
+velocity, we only considered the top quark to be out-of-equilibrium.
+
+We show the result of this scan in figure 7, which shows the wall velocity computed by WallGoManager
+
+.solveWall() on the left side (deflagration and hybrid solutions) and WallGoManger.solveWall
+
+Detonation() on the right side (detonation solutions). In both cases, the corresponding solution did
+
+not necessarily exist for every model. If the net pressure on the wall is always negative in the relevant
+
+velocity interval (shown in red in the figure), the friction with the plasma would not be strong enough
+
+to stop the wall from accelerating and the wall velocity would end up exceeding vJ for deflagration/hy-
+
+brid solutions and becoming ultrarelativistic for detonations. In detonation solutions, there is also a
+
+41
+
+
+
+Deflagration/hybrid Detonation
+
+80 100 120 140 160
+
+ms (GeV)
+
+0.6
+
+0.8
+
+1.0
+
+1.2
+
+λ
+h
+s
+
+vw > vJ
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+v
+w
+
+80 100 120 140 160
+
+ms (GeV)
+
+0.6
+
+0.8
+
+1.0
+
+1.2
+
+λ
+h
+s
+
+γw ≫ 1
+
+vw < vJ
+
+γw ≫ 1 or vw < vJ
+
+0.70
+
+0.75
+
+0.80
+
+0.85
+
+0.90
+
+0.95
+
+v
+w
+
+Figure 7: Scan of the xSM parameter space where the singlet mass ms and the coupling λhs are varied
+
+with constant λs = 1. The left plot shows deflagration and hybrid solutions and the right plot shows
+
+detonations. The red, black and grey points do not have any solution of the corresponding type. The
+
+legend shows what their wall velocity will be based on the sign of the pressure on the wall.
+
+possibility of having a positive pressure everywhere16 (shown in grey) which indicates that the friction
+
+is too strong to allow solutions with vw > vJ and that these models can only have deflagration or
+
+hybrid solutions. Detonations can also have models with positive pressure at vw = vJ and negative
+
+pressure at vw = 1 with no stable solution (shown in black). A pure static analysis would seem to
+
+indicate that these models would become deflagration/hybrid solutions since they would not be able
+
+to accelerate over the positive pressure at vw = vJ , but time-dependent effects 

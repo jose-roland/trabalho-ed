@@ -1,0 +1,1980 @@
+
+Dynamics of a Tuberculosis Outbreak Model in a
+
+Multi-scale Environment
+
+Selain K. Kaserekaa,b
+
+aUniversity of Kinshasa, Faculty of Sciences and Technologies, Department of
+Mathematics, Statistics and Computer Science, Kinshasa XI P.O. Box 190, Democratic
+
+Republic of the Congo
+bABIL Research Center, Kinshasa XI P.O. Box 190, Democratic Republic of the Congo
+
+Abstract
+
+Modeling and simulation approaches for infectious disease dynamics have
+proven to be essential tools for effective control of the spread of epidemics in
+the population. Among these approaches, it is obvious that compartmental
+mathematical models, such as SIS, SIR, SEIR, etc. are the most widely used
+by researchers. However, they are difficult to apply in a multi-scale environ-
+ment, especially if we want to take into account the heterogeneous behaviors
+of individuals. The aim of this paper is to present a hybrid model in which
+an Equation-Based Model (EBM) of tuberculosis dynamics is coupled to an
+Agent-Based Model (ABM) in a two-scale environment. In this model, indi-
+viduals are placed in cities considered as agents in which the dynamics of the
+disease is modeled by eight compartments and managed by solving a system
+of differential equations. Individual agents move between these cities using an
+ABM that controls their mobility. Considering some parametric values and
+assumptions, the results obtained show that human mobility has a significant
+impact on the spread of tuberculosis within the population. The manage-
+ment of population and disease dynamics at different levels (microscopic and
+macroscopic) testifies to the robustness of the proposed approach.
+
+Keywords: Tuberculosis, Agent-Based Model, Equation-Based Model,
+Mobility, Multi-scale Environment.
+
+1. Introduction
+
+Despite being both preventable and curable, tuberculosis (TB) remains
+one of the world’s leading infectious disease killers according to the World
+
+Preprint submitted to Elsevier Journal November 8, 2024
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+29
+
+7v
+1 
+
+ [
+q-
+
+bi
+o.
+
+PE
+] 
+
+ 6
+ N
+
+ov
+ 2
+
+02
+4
+
+
+
+Health Organization’s (WHO) report [26]. An estimated 10.6 million people
+fell ill with TB in 2021, up from 10.1 million in 2020, and 1.6 million people
+died of TB in 2021. The incidence rate of tuberculosis increased by 3.6% in
+2021 compared to 2020 [3]. This disease is spread mainly by air when in-
+fected people cough or sneeze. It is caused by the bacterium Mycobacterium
+tuberculosis [26]. Poverty and rural exodus are key factors in the spread of
+tuberculosis. Rural exodus, with migration to urban areas, often leads to
+overcrowded neighborhoods with limited access to health services, and rural
+migrants often work in precarious conditions without social protection, in-
+creasing their risk of exposure to tuberculosis. Limited access to healthcare,
+lack of diagnosis and treatment, and stigmatization are major obstacles in
+the fight against tuberculosis.
+
+The increase in the number of cases reported worldwide as reported in [3],
+calls for an enhanced response in the fight against tuberculosis, which requires
+in-depth scientific research. It is therefore imperative to develop mechanisms
+for understanding the spread of this disease within the population at different
+scales, using modeling and simulation approaches that take into account
+population mobility.
+
+In recent years, compartmental mathematical models such as SIS, SIR,
+SEIR, etc. have been the most widely used to control and understand the
+dynamics of infectious diseases in populations [1, 7, 10, 12, 19, 20, 25, 29, 31].
+However, the concrete application of these models to environments that re-
+quire the consideration of individual mobility is not easy. That’s why meta-
+population models have emerged, they consider that populations of the same
+species are spatially distributed and that there are more or less regular and
+important exchanges of individuals between these populations [15]. The habi-
+tat of this metapopulation is an ecological unit corresponding to the land-
+scape, i.e. a set of sites with various stages of ecological succession and whose
+geography allows limited gene exchanges but existing from one site to an-
+other. In general, metapopulation processes emerge within a population of
+individuals as a result of the spatial fragmentation of their habitat. These
+models have increased their weakness with regard to the mobility compo-
+nents. These limitations are treated in an aggregate manner, and therefore
+do not consider the heterogeneous behaviors of individuals.
+
+In the literature, several researchers have been interested in agent-based
+models (ABM) derived from artificial intelligence to understand diseases
+transmission in the population [8, 9, 11, 24]. With regard to the spread of
+tuberculosis, these models have been applied in various research [17, 28, 30].
+
+2
+
+
+
+These models have made it possible to model interactions and contacts be-
+tween individuals (infected or not) in order to take into account certain com-
+plexities of social systems that deterministic models are unable to capture.
+Drawing on the advantages of equation-based models on the one hand, and
+agent-based models on the other, a number of researchers have demonstrated
+the need to couple these two approaches [2, 19, 23]. These studies have
+shown that coupling these approaches should facilitate understanding of the
+dynamics of complex systems, and enable efficient calibration of parameters
+at different levels.
+
+This paper proposes a hybrid model in which a compartmental mathe-
+matical model of tuberculosis is coupled to an agent-based model to analyze
+the spread of the disease at different scales. Indeed, individuals are placed
+in cities in which the dynamics of the disease is managed by solving the dif-
+ferential equation system by the Runge-Kutta method and individuals move
+between several cities over a circle using an agent-based model. Simulations
+of the hybrid model proposed are performed and the impact of population
+mobility on the spread of the disease is assessed.
+
+The remainder of this paper is organized as follows: We present the
+description of the mathematical model (See Section 2), then we show the
+description of the ABM using the Overview, Design concepts and Details
+(ODD) protocol (See Section 3). Section 4 presents performed simulations
+before discussing the results obtained in Section 5. Finally Section 6 is de-
+voted to the concluding remarks.
+
+2. Description of the Mathematical Model
+
+We consider a compartmental model with 8 compartments (groups). In
+the model we consider a population S that is susceptible to contract TB
+infection. This population can be infected according to a contact rate α
+and a transmission rate λ. For this, there is a proportion 1 − p of this
+population that will be infected and therefore will be part of compartment
+I, this is a fast progression to the active TB. We note that a susceptible
+individual can become latent Le (latent early) following a contact rate α and
+a transmission rate λ. In this model a latent individual (Le and Lf ) is not
+yet able to transmit the disease. Latent individual Le can become Lf (latent
+late) following a given rate h. A latent Le can also directly become infectious
+(able to infect other people) at a rate q, an individual Lf can also become
+infectious I at a rate w, this is the low progression to the active TB.
+
+3
+
+
+
+In this model, infected and infectious individuals, who are in the I, Le
+
+and Lf compartments can heal spontaneously and move in the compartment
+R2 according respectively to the rates σ, g2 and k2. They can also heal after
+treatment process and move in the compartment R1 according respectively
+to the rates γ, g1 and k1. These healed individuals can be re-infected accord-
+ing to a rate of transmission λ, a contact rate α and a re-infection rate r.
+Infectious people I, under treatment can also become Le according to a rate
+r1. During the treatment process, there are people who are lost to follow
+up, so people who stop treatment (K). These individuals can be re-infected
+according to a rate r3. In the model, we consider other people who are trans-
+ferred to other hospitals for lack of capacity or medication (T ). These people
+can be re-infected at a rate r2.
+
+Demography is considered in the TB proposed model. We note Λ the
+rate of recruitment of susceptible individuals S. In the model people can
+die, for that we consider µ1 as the rate of natural mortality (not related
+to TB infection) and µ2 the rate of mortality linked to TB infection. The
+Figure 1 below presents the TB transmission dynamics between the different
+compartments of the model.
+
+Figure 1: Compartmental model of TB transmission.
+
+Based on presented information, we obtain the Ordinary Differential
+Equation System Eq. (1).
+
+4
+
+
+
+
+
+Ṡ = Λ− αλpSI − αλ(1− p)SI − µ1S
+
+L̇e = αλpSI + αλrI(R1 +R2) + r1I + r2T + r3K − B̃Le
+
+L̇f = hLe − (µ1 + w + k1 + k2)Lf
+
+İ = wLf + qLe − ÃI + αλR1I + αλR2I + αλ(1− p)SI
+
+Ṙ1 = g1Le + k1Lf + γI − αλrR1I − µ1R1 − αλR1I
+
+Ṙ2 = σI + k2Lf + g2Le − αλR2I − αλrR2I − µ1R2
+
+Ṫ = βI − (µ1 + µ2 + r2)T
+
+K̇ = vI − (µ1 + µ2 + r3)K
+N = S + Le + Lf + I +R1 +R2 + T +K
+
+(1)
+
+Where Ã = (r1 + γ + β + σ + v + µ1 + µ2) and B̃ = (µ1 + h+ q + g1 + g2).
+
+The positivity of the solution, the existence and uniqueness of the solu-
+tion, the calculation of equilibrium points (DFE and EE), the basic repro-
+duction number R0 and the stability of the equilibrium points of this model
+is presented in our recent work [22].
+
+The dynamics of the disease at the level of all cities is managed by solving
+the system of differential equations to control the dynamics of the disease.
+This is the macroscopic level of the model. For individuals to move from city
+to city, they are managed by a model based on intelligent agents that manages
+each agent’s behaviors, including the probability of deciding to travel and
+contamination during the trip. Once the individual arrives at his destination,
+he contributes to the epidemiology of the disease in the city. This is the
+microscopic level of the model. Note that at each simulation step, cities
+generate individuals with their status according to a fixed rate (see Table 3).
+
+3. Description of the ABM using ODD Protocol
+
+To describe the agent-based model, we used the ODD (Overview, Design
+concepts, and Details) protocol as a coherent, logical and readable account
+of ABM structures and dynamics [14].
+
+3.1. Overview
+
+• Purpose: the purpose of the model was to assess the impact of popu-
+lation mobility on the spread of TB in a multi-scale environment.
+
+5
+
+
+
+• Entities, state variables and scale: (1) Agent : in this model we consider
+two types of agent. The first one is the individual. The second one is the
+city. Indeed, an individual agent is located in a given agent city. Each
+individual agent has state variables as well as characteristics presented
+in Table 1. (2) Spatial Units : agent cities generate individual agents
+according to a given rate of generation. An individual agents can move
+from a city to others. State variables of cities are listed in Table 2.
+
+• Environment : we assume that cities have the same population size.
+Based on the geometry of the environment in Gama Platform [13], we
+set the size of a city at 50× 50. The location of cities is a circle and is
+calculated by the function presented by Eq. (2).
+
+L(v) = f
+
+(
+c1
+2
++ rxcos
+
+(
+360
+
+b
+× i
+
+)
+,
+c2
+2
++ rxsin
+
+(
+360
+
+b
+× i
+
+))
+(2)
+
+Where
+
+rx =
+
+(
+c1 − s× 2
+
+2
+
+)
+Key Components:
+
+– i: The city number or identifier.
+
+– s: The size of the city.
+
+– c1: The length of the environment.
+
+– c2: The width of the environment.
+
+– b: The number of cities.
+
+– f : A location function in a two-dimensional plane.
+
+At each simulation time step, each city generates individual agents ac-
+cording to their states (susceptible, early latent, late latent, infectious,
+spontaneously recovered, recovered after treatment, transferred or lost
+to follow- up). The generation rate of this population is given by the
+variable z which is randomly selected between 0.001% and 1% closed
+interval.
+
+6
+
+
+
+• Process overview and scheduling : the model process is in discrete time
+steps representing 1 hour. At the beginning of the simulation, in cities,
+individual agents are in any state. The disease dynamics is managed
+by solving a differential equation system using RK4 method as applied
+in [19]. Individual agents have a probability of leaving a city to another.
+At each time step the sub-models are executed (movement, becoming
+infected, healing, updating of global variables, etc.).
+
+Table 1: Description of agent state variables for the hybrid model.
+
+State variables Description
+Agent identifier Unique agent id
+Age From 0 to 120
+Sex Male, Female
+Susceptible? Is the agent susceptible?
+Early latent? Is the agent early latent?
+Late latent? Is the agent latent late?
+Sick? Is the agent sick?
+Spontaneously recovered? Is the agent spontaneously recovered?
+Recovery after treatment? Is the agent recovered after treatment?
+Transferred? Is the agent transferred?
+Lost to follow-up? Is the agent lost to follow-up?
+Sick days Number of days the agent has been sick
+Early latent days Number of days the agent has been early latent
+Latent late days Number of days the agent has been late latent
+Transferred days Number of days the agent has been transferred
+Lost to follow-up days Number of days the agent has been Lost to follow-up
+Spontaneously recovered days? Number of days the agent has been spontaneously recovered?
+Recovery after treatment days? Number of days the agent has been recovered after treatment?
+Location Determines the location of the agent on the environment
+In movement? Is the agent in movement?
+Neighbors Represents the list of the agent’s neighbors
+Trip range of contact Represents the radius of contamination of the agent during
+
+the trip. The default is taken between 1 and 5m.
+Trip in contact with sick people? Determine if the agent is in contact with sick people in its
+
+range during the trip.
+Destination city The city the agent is moving towards
+Trip contact number List of the number of contacts an agent has had during the trip
+Trip average contacts The average number of contacts an agent has had during the trip
+Trip contact type Random
+
+7
+
+
+
+Table 2: Description of city state variables.
+
+State variables Description
+City identifier Unique city id
+Total individual agent The total number of agents in the city
+Time generate agent The total number of agents generated each time step
+
+3.2. Design Concept
+
+• Basic principle: the dynamics of TB is considered at two levels. (1) The
+first one is in the city (macroscopic). Here, the spread of the disease
+is based on mathematical model (Ordinary Differential Equation). For
+that, eight compartments are considered (susceptible, early latent, late
+latent, infectious, spontaneously recovered, recovered after treatment,
+transferred and lost to follow-up). In this model, when a susceptible
+individual comes into contact with an infectious individual, it is pos-
+sible that the susceptible individual may become exposed or infectious
+according to a rate of contact and a rate of transmission. People can
+travel from their cities to others by choosing a random destination. (2)
+The second one is the individual (microscopic). Here, once individu-
+als travel from their hometown to another city, they are considered as
+agents. Indeed, during the trip, the dynamics of the disease is managed
+by an agent-based model.
+
+• Emergence: the emergence of the system can be seen in the evolution
+of TB infection in all cities considered. At the macroscopic level, it
+depends on the contact rate and transmission rate between infectious
+people and susceptible people. At the microscopic level, it depends on
+the type of initially infectious agents, the other agents that come into
+contact with them along a radius of contamination, the duration of
+contact but also the frequency of contact.
+
+• Adaptation: infectious agents can detect susceptible and cured agents.
+Once cured agents detect infectious agents, these agents avoid contact
+with them.
+
+• Interaction: in this model we assume that agents within the same
+radius interact with each other and also with their environment. For
+
+8
+
+
+
+example, if a susceptible agent is in a same radius as an infectious
+agent, it is possible that the susceptible agent become contaminated.
+
+• Stochasticity : The movement of the agents with their specific states
+are stochastic. The choice of the destination city is random. Stochas-
+ticity is also in the TB contamination as applied in [17]. During the
+traveling, if a susceptible agent comes into contact with an infectious
+agent, there is a certain probability that determines whether that agent
+becomes exposed or directly infectious. In addition, the length of time
+an agent remains in a state (susceptible, early latent, latent late, infec-
+tious, spontaneously recovered, recovered after treatment, transferred
+and lost to follow-up) is randomly chosen.
+
+The probability of leaving one city A to another city B is calculated
+by Eq. (3).
+
+P (travel) = P (hAB) (3)
+
+With A the source city and B the destination city, h a value between
+0.1 and 0.9.
+
+In this model, individual leaving his or her home city to a randomly
+chosen destination city must pass through a central point of the cir-
+cle called ”hub”. The mobility model of individuals on the transport
+network is managed by an agent-based model.
+
+• Observation: data are collected at each execution of the model on
+individual agents according to their states (susceptible, early latent,
+latent late, infectious, spontaneously recovered, recovered after treat-
+ment, transferred and lost to follow-up). The output of the model is
+collected at each time step to observe the evolution of infectious agents
+over time.
+
+3.3. Details
+
+• Initialization: at the beginning of the simulation, a number of suscep-
+tible individuals is placed in all cities and only one city has in addition
+some infectious individuals.
+
+• Sub-model:
+
+9
+
+
+
+– Clock : this sub-model manages time in the model. It is deter-
+mined in hour, day, week, month and year. After every 24 hours,
+the hour variable is reset to zero and the day variable is incre-
+mented by 1. After every 7 days, the day variable is reset to zero
+and the week variable is incremented by 1. After every 4 weeks,
+the week variable is reset to zero and the month variable is incre-
+mented by 1. After every 12 months, the month variable is reset
+to zero and the year variable is incremented by 1. We therefore
+assume a month to 4 weeks (28 days).
+
+– Mobility : agents move from a city to another. The choice of des-
+tination city is random. All information presented below is con-
+sidered during the trip of the agent from a city to another.
+
+– Contamination: at the microscopic level, contamination is based
+on contact between a susceptible agent and an infectious agent,
+and the probability of TB transmission. If a susceptible agent is
+infected then he will change his status from susceptible to exposed
+(Early latent (Le) / Late latent (Lf )) or infectious. At the macro-
+scopic level, contamination is managed by the resolution of the
+differential equation using the fourth-order Runge-Kutta method
+(RK4).
+
+– Early latent : An exposed agent (Le) progresses to (Lf ) or to infec-
+tious according to a certain probability of progression. The time
+that the agent will remain in the state Le before moving to Lf is
+determined by a certain probability as well.
+
+– Late latent : an exposed agent (Lf ) progresses to infectious ac-
+cording to a certain probability of progression. The length of time
+the agent will remain in the (Lf ) state before becoming infectious
+is also determined by a certain probability.
+
+– Recover: infectious agents recover based on a probability of spon-
+taneous recovery or a probability of recovery after taking medica-
+tion.
+
+– Relapse: cured agents may relapse and become exposed or infec-
+tious based on a certain probability.
+
+– Lost to follow-up: when an infectious agent stops taking medica-
+tion before the end of treatment, it is considered lost to follow-up.
+
+10
+
+
+
+Infectious agents become lost to follow-up with a certain proba-
+bility.
+
+– Global variables update: all global variables are updated at the
+end of each time step. At the same time also the number and
+percentage of susceptible, exposed (Early latent and Latent late),
+infected, transferred, lost to follow-up, Recovered (spontaneously
+and after treatment) agents are all calculated.
+
+4. Simulations of the Hybrid Model
+
+To implement the resulting hybrid model, we used a special language
+called GAML (GAma Modeling Language) provided by the GAMA platform,
+which is an open source modeling and simulation environment for creating
+spatially explicit agent-based simulations [13].
+
+4.1. Parameters used in the Model
+
+The Table 3 presents used parameters in performed simulations. Most of
+them was taken from the literature. Other parameters was assumed based
+on data at our disposal.
+
+4.2. Numerical Simulation
+
+To simulate this model we will consider the following case: First, we con-
+sider 6 cities and a high mobility of people between those cities. Second, we
+simulate the model by varying the mobility rate of individuals (low mobility
+rate for infected and infectious individuals) between 6 cities.
+
+This model is implemented using the GAMA platform which is a platform
+designed for field experts, modelers and computer scientists. It is therefore
+a complete modeling and simulation development environment for the con-
+struction of spatially explicit multi-agent simulations. This platform was
+designed completely in Java. As a free tool, GAMA uses the GAML (GAma
+Modeling Language) for coding [13].
+
+For all simulations, we consider that the disease exists in one of the cities
+at the beginning of the simulation. This allows us to evaluate the impact of
+population mobility on the disease dynamics (TB).
+
+11
+
+
+
+Table 3: Parameter values and their meanings
+
+Prms Meaning Value Reference Assumed
+Λ Rate of recruitment (Λ×N) 0.0100 Yes
+µ1 Natural death rate 0.0222 [27]
+µ2 Mortality rate linked to TB 0.040 [4]
+γ Recovered rate after treatment (I to R1) 0.840 [4]
+σ Spontaneously recovered rate (I to R2) 0.250 [22]
+α Contact rate 0.0010 Yes
+λ Rate of transmission 0.100 [22]
+1− p Fraction of fast-developing active TB 0.05 [5] [31]
+β Rate of transfer to a hospital 0.010 Yes
+v Rate of lost to follow up 0.030 [4]
+q Progression rate (Le to I) 0.129 [29]
+h Rate of progression of TB (Le to Lf ) 0.821 [29]
+r Reinfection rate (Ri to Le) with i=1,2 0.030 [5]
+r1 Rate of re-infection (I to Le) 0.63 [29]
+r2 Rate of re-infection (T to Le) 0.63 [29]
+r3 Rate of re-infection (K to Le) 0.63 [29]
+g1 Rate of recovered (Le to R1) 0.840 [4]
+g2 Rate of spontaneously recovered (Le to R2) 0.250 [22]
+k1 Rate of recovered (Lf to R1) 0.840 [4]
+k2 Rate of spontaneously recovered (Lf to R2) 0.250 [22]
+w Rate of progression (Lf to I) 0.075 [29]
+m Mobility rate 0.00001 - 0.01 Yes
+gen∗ Individual generation rate in city 0.00001 - 0.01 Yes
+
+4.2.1. Simulation with a High Mobility Rate for all Individuals
+
+By simulating the proposed model with the basic parameters shown in
+Table 3. We consider the dynamics of TB which spreads globally over 6
+connected cities with the mobility rate of all individual (S, Le, Lf , I, T,K,R1
+
+and R2) equal to 0.01. Figure 2 shows the evolution of the model during
+simulation.
+
+The results obtained are shown in Figure 3 for all the cities (global) and
+in Figure 4 for each city separately (one by one city):
+
+4.2.2. Simulation with Basic Parameters and Consideration of a Low Mobil-
+ity Rate for I, Le and Lf Individuals
+
+The environment with 6 cities connected via a hub is presented in Fig-
+ure 5. The mobility rate considered for I, Le and Lf is equal to 0.00001.
+
+12
+
+
+
+(a) (b)
+
+(c) (d)
+
+Figure 2: Presentation of the environment with 6 cities (circles) interconnected via a
+hub. (a) simulation at time t = 0, (b) simulation at time t = 79, (c) simulation at time
+t = 262, (d) simulation at time t = 328. The concentration of the red color of the city is
+proportional to the level of infectivity of the city.
+
+13
+
+
+
+0 100 200 300 400
+
+0
+20
+00
+0
+
+40
+00
+0
+
+60
+00
+0
+
+80
+00
+0
+
+10
+00
+00
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t)
+
+S(t)
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+Figure 3: Evolution of the model for all cities considered globally
+
+.
+
+The results obtained are shown in Figure 6 for all the cities and in Figure 7
+for each city separately.
+
+4.3. Runtime Evaluation
+
+In the modeling and simulation of infectious disease spread, combining
+equation-based models and agent-based models allows for the creation of a
+hybrid model that benefits from the advantages of both approaches. This
+combination notably reduces execution time and decreases resource require-
+ments, unlike a model entirely based on agents.
+
+In Table 4, we present the execution time of the ABM [17], EBM [22], and
+Hybrid model separately with different values for the susceptible individuals
+(S). For the ABM, the mixed population structure is considered, while for
+
+14
+
+
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t)
+
+S(t)
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t) S(t)
+
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+(a) (b)
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t) S(t)
+
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t) S(t)
+
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+(c) (d)
+
+Figure 4: Evolution of the model with 6 cities (circles) interconnected via a hub. (a)
+presentation of the TB dynamics in city 1, (b) for city 2, (c) for city 3 and (d) for city 4.
+
+the hybrid model, the population structure is a network with three cities
+connected via a central hub. The simulation concludes when the number of
+individuals infected with tuberculosis (I) reaches zero ((I = 0)). This means
+that the disease is eliminated in the population.
+
+Based on the results presented in Table 4, we present in Figure 8, the
+evolution of the runtime of each model according to the number of the sus-
+ceptible individuals.
+
+15
+
+
+
+(a) (b)
+
+(c) (d)
+
+Figure 5: Environment with 6 cities (circles) interconnected via a hub. (a) simulation at
+time t = 0, (b) simulation at time t = 79, (c) simulation at time t = 262, (d) simulation
+at time t = 328. The concentration of the red color of the city is proportional to the level
+of infectivity of the city.
+
+An overall comparison of the execution times of these models shows that
+the hybrid model reduces the execution time by around 17.86% compared
+with the ABMmodel. It should be noted that the simulations were conducted
+on a MacBook Pro equipped with an Intel Core i7 6-core processor, clocked
+at 2.2 GHz. This computer features a 256 KB L2 cache per core, a 9 MB L3
+cache, and Hyper-Threading technology enabled. It has 16 GB of 2400 MHz
+DDR4 RAM and a Radeon Pro 555X graphics card with 4 GB of memory.
+
+4.4. Benchmark Models
+
+Several reasons have confirmed the need to couple agent-based models
+with differential equation-based models to understand disease spread at dif-
+
+16
+
+
+
+0 100 200 300 400
+
+0
+20
+00
+0
+
+40
+00
+0
+
+60
+00
+0
+
+80
+00
+0
+
+10
+00
+00
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t)
+
+S(t)
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+Figure 6: Evolution of the model for all cities considered globally.
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t)
+
+S(t)
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+0 100 200 300 400
+
+0
+50
+00
+
+10
+00
+0
+
+15
+00
+0
+
+Time (Cycles) 
+
+N
+um
+
+be
+r o
+
+f S
+(t)
+
+, I
+(t)
+
+, L
+e(
+
+t) 
+, L
+
+f(t
+) ,
+
+ T
+(t)
+
+ , 
+K
+
+(t)
+ , 
+
+R
+1(
+
+t) 
+an
+
+d 
+R
+
+2(
+t)
+
+S(t)
+I(t)
+Le(t)
+Lf(t)
+T(t)
+K(t)
+R1(t)
+R2(t)
+
+(a) (b)
+
+Figure 7: Evolution of the model with 6 cities (circles) interconnected via a hub. (a) show
+the dynamics for city 1 and (b) for city 2.
+
+17
+
+
+
+Table 4: Runtime for the EBM, ABM and Hybrid Model according to the number of
+susceptible individuals (S) and the basic reproduction number R0 = 0.6887 for the math-
+ematical and hybrid models.
+
+S ABM Hybrid Model EBM
+
+50 17 cycles 11 cycles 8 cycles
+100 34 cycles 20 cycles 13 cycles
+250 58 cycles 30 cycles 18 cycles
+500 82 cycles 55 cycles 23 cycles
+750 87 cycles 65 cycles 29 cycles
+1000 92 cycles 80 cycles 34 cycles
+1250 103 cycles 90 cycles 37 cycles
+2000 110 cycles 100 cycles 43 cycles
+3000 115 cycles 105 cycles 49 cycles
+4000 120 cycles 111 cycles 54 cycles
+5000 124 cycles 115 cycles 58 cycles
+6000 126 cycles 118 cycles 70 cycles
+7000 129 cycles 120 cycles 75 cycles
+8000 132 cycles 125 cycles 88 cycles
+9000 136 cycles 128 cycles 90 cycles
+105 140 cycles 131 cycles 100 cycles
+
+Figure 8: Runtime of ABM, EBM and Hybrid model according to the number of the
+susceptible individuals.
+
+ferent scales. Agent-based models make it possible to simulate complex in-
+teractions between individuals, which are difficult to capture with differential
+
+18
+
+
+
+equations alone. For example, the spread of a disease may depend on a vari-
+ety of individual behaviors and specific social contacts. Differential equations
+are effective for modeling large-scale dynamics, such as the global spread of
+an epidemic. In contrast, agent-based models can simulate small-scale dy-
+namics, such as interactions within a community. It should be noted that
+agent-based models can be easily adapted to include new behaviors or agents,
+while differential equations offer a rigorous mathematical structure for an-
+alyzing global trends. On the basis of the motivations set out above and
+the evidence presented in the Table 5, it appears that coupling these two
+approaches has many advantages.
+
+To demonstrate the robustness of our approach, including the advan-
+tages of combining the agent-based model with the equation-based model, we
+present in Table 6 a comparative study with various compartmental, agent-
+based, and hybrid models found in the literature.
+
+In this comparative study, we highlight the objectives pursued by the
+different authors and highlight several aspects such as stochasticity (yes/no),
+multi-scale environment (yes/no), runtime (Very low/Low/High) and the
+limitations of each model.
+
+5. Discussion of the Results and Recommendations
+
+5.1. General Discussion
+
+The hybrid model implemented and simulated shows that individual mo-
+bility has an impact on the spread of tuberculosis in the population. Indeed,
+Figs. 3 and 4 illustrate that when there is a large number of people moving
+from city to city (mobility rate equal to 0.01 of the population according
+to its status), the disease spreads to all cities. This is justified by the fact
+that infected persons moving from their home city to another city contribute
+to the epidemiology of the destination city (randomly selected). The persis-
+tence of tuberculosis in poor countries can be partially justified by the rural
+migration. For example, in the Democratic Republic of the Congo, poor peo-
+ple living in the provinces move to the capital (Kinshasa) to seek a better
+life. Kinshasa being already one of the cities most affected by TB [4], the
+arrival of new cases from other cities is one of the factors contributing to the
+persistence of tuberculosis in this city.
+
+By reducing the mobility rate to 0.00001 for people with TB infection and
+people with latent TB, simulations show that the disease does not spread in
+all cities as shown in Figs. 6 and 7. This means that restricting the mobility
+
+19
+
+
+
+Table 5: Brief comparison table of Equation-Based Model and and Agent-Based Model.
+
+Criteria EBM ABM
+
+Nature Synthetic: models like the SIR com-
+partmental model simplify complex
+biological processes into equations.
+
+Many parameters: to simulate indi-
+vidual entities, such as agents in an
+ecosystem.
+
+Mathematical Resolution Formalized: the model uses formal-
+ized mathematical approaches like
+differential equations to describe sys-
+tem dynamics
+
+Non-formalized: the model relies on
+non-formalized, rule-based interac-
+tions to simulate behaviors and in-
+teractions of agents.
+
+Biological Abstraction Far from abstract biology: the model
+abstracts biological processes to a
+high level, often simplifying them
+significantly.
+
+Close to biology: the model main-
+tains a closer representation of bio-
+logical processes, simulating detailed
+behaviors of individual entities.
+
+Modularity and Incrementality Little modular and incremental: the
+model is typically less modular and
+incremental, with fixed equations
+that are harder to modify.
+
+Modular and incremental: the model
+is highly modular and incremental,
+allowing for easy addition of new be-
+haviors and interactions.
+
+Description Level Population level: the model de-
+scribes phenomena at the population
+level, such as overall infection rates
+in a population.
+
+Entity level (cell/molecule): the
+model describes phenomena at the
+entity level, such as the behavior of
+individual cells or molecules.
+
+Abstraction Level High abstraction level, focusing on
+aggregated data and overall trends.
+
+Low abstraction level, focusing on
+detailed, individual behaviors and
+interactions.
+
+Runtime Low: the model generally has a low
+runtime, suitable for quick simula-
+tions of simple models.
+
+High: the model often has a high
+runtime due to the complexity of
+simulating numerous individual en-
+tities.
+
+System Homogeneity Homogeneous: the model ssumes
+homogeneity within the population,
+with uniform characteristics.
+
+Heterogeneous: the model takes het-
+erogeneity into account, with diverse
+characteristics and behaviors among
+agents.
+
+Computational Requirements Low: the model requires minimal
+computational resources, suitable for
+simpler models.
+
+High: the model requires significant
+computational power, especially for
+large-scale simulations.
+
+Scalability High: the model can handle large
+populations efficiently due to its ag-
+gregated nature.
+
+Moderate: scalability can be chal-
+lenging due to the detailed simula-
+tion of individual entities.
+
+Ease of Implementation Moderate: the model requires a solid
+understanding of differential equa-
+tions and mathematical modeling.
+
+Complex: the model involves com-
+plex programming and detailed pa-
+rameter settings.
+
+Flexibility Low: the model is less flexible as it
+relies on predefined equations.
+
+High: the model is highly flexible,
+allowing for the inclusion of diverse
+behaviors and interactions.
+
+(between cities) of infectious and latent people is one of the measures to be
+taken to control the spread of tuberculosis across a country.
+
+Based on the results obtained, it seems that the mobility of individuals
+from city to city has a significant impact on the spread of tuberculosis in
+the population. Indeed, when people move from one city to another, they
+can carry tuberculosis bacteria with them, potentially spreading the infec-
+tion to new areas. This is of particular concern in regions with high TB
+
+20
+
+
+
+Table 6: Benchmarking of the models, including the approach used, the objective of the
+study, the stochastic aspect of the model, the runtime and the limitations of the study.
+
+Model Purpose ST MS RunT Limits Refs.
+
+ABM Study the dynamics of TB
+transmission and the role of
+various contact networks in
+the disease using an Agent-
+Based Model.
+
+Yes Yes High The individual’s travel time from a
+source to a chosen destination is not
+clearly specified. So, it is not easy to
+assess the impact of the population
+mobility on the evolution of TB inci-
+dence in different contact networks.
+
+[18]
+
+EBM A mathematical compartmen-
+tal model is proposed to un-
+derstand the spread of TB, in-
+cluding groups lost to follow-
+up and those who have been
+transferred. The model’s
+results indicate that treat-
+ing latent TB infections and
+managing population mobility
+are crucial strategies that TB
+management team should con-
+sider to eliminate the disease
+in the country.
+
+No No Very
+low
+
+The mathematical model presented
+here offers a comprehensive overview
+of the spread of TB at a popula-
+tion level. However, it does not
+delve into the intricate interactions
+between individuals, which can sig-
+nificantly influence the dynamics of
+disease transmission. By focusing on
+a global perspective, the model over-
+looks the heterogeneity in individ-
+ual behaviors, contact patterns, and
+the impact of localized interventions.
+The model may not fully capture the
+nuances required for targeted inter-
+ventions and personalized treatment
+plans.
+
+[22]
+
+EBM &
+ABM
+
+A hybrid model is proposed
+for managing the spread of in-
+fectious diseases. The pro-
+posed model allows geographic
+areas to switch between the
+equation-based model and the
+agent-based model depending
+on the number of agents in-
+fected in the environment.
+The model was tested at the
+town level and then at the
+county level to compare the
+time saved compared to a fully
+agent-based model.
+
+Yes Yes Low As the switch between ABM and
+EBM depends on the number of in-
+fected agents, if the number of these
+agents is very low, the transition will
+not take place at that time. In this
+case, the hybrid model will not cap-
+ture the heterogeneous behavior of
+these agents, which could influence
+and contribute to the dynamics of
+the disease under consideration. In
+addition, since the compartmental
+model considered is of the simplistic
+SEIR type, it is difficult to confirm
+whether the amount of fidelity will
+not be lost.
+
+[16]
+
+EBM &
+ABM
+
+The proposed model integrates
+two modeling paradigms,
+ABM and EBM, to create a
+hybrid approach that opti-
+mizes computational efficiency
+under varying conditions.
+Initially, the model operates
+as agent-based, but it tran-
+sitions to an equation-based
+approach once the number of
+infected individuals becomes
+sufficiently large to justify a
+population-averaged method.
+
+Yes Yes Low As the model starts as agent-based
+and switches to equation-based when
+the number of infected individuals
+is large, the run time should remain
+high compared to other hybrid mod-
+els if the ABM is complex. Addi-
+tionally, the presented example used
+a simplified Agent-Based Model and
+does not account for behavior change
+during an epidemic.
+
+[6]
+
+EBM &
+ABM
+
+In this model we propose a hy-
+brid model that combines an
+EBM with an ABM at differ-
+ent scales. This approach al-
+lows us to capture both the
+broad trends and detailed in-
+teractions within the popula-
+tion. By simulating individ-
+ual movements and behaviors,
+the model provide insights into
+how mobility influences TB
+transmission in a multi-scale
+environment.
+
+Yes Yes Low The mathematical model employs
+eight compartments to analyze TB
+dynamics at the population level,
+which adds to its complexity. Ad-
+ditionally, the proposed experimen-
+tal model does not utilize real-world
+data.
+
+Our
+model
+
+ST : Stochasticity, MS: Multi-scale and RunT : Runtime
+
+21
+
+
+
+prevalence, or where health systems are not well coordinated. Short-term
+mobility between different areas can lead to an increase in TB prevalence, as
+individuals can move from a high-risk to a low-risk area, potentially intro-
+ducing new infections. In addition, mobility can disrupt continuity of care
+for those undergoing TB treatment, leading to poorer health outcomes. TB
+control efforts need to take account of these mobility patterns in order to
+effectively manage and reduce the spread of the disease.
+
+Improving the living conditions of the population in the provinces and
+decentralizing TB care center can be a palliative solution to the rural migra-
+tion. With this strategy, people can simply stay in their home cities because
+the living and care conditions are the same as in other cities.
+
+5.2. Benchmarking Discussion
+
+Simulation results show that our approach is a compromise that benefits
+from the advantages of both ABM and EBM. Table 4 and Figure 8 show
+that the proposed hybrid model reduces the execution time compared with
+the ABM model.
+
+Based on the comparative study presented in Table 6, it appears that
+the combination of these two types of modeling offers a more complete and
+nuanced understanding of the spread of tuberculosis in a highly mobile pop-
+ulation and in a multi-scale environment. Comparing our approach with
+compartmental models, it seems that mathematical modeling offers only a
+global view of disease spread (macroscopic), without highlighting the inter-
+actions between individuals infected or not with tuberculosis (microscopic).
+However, we have found that the execution time of these models remains
+low. It should be noted that agent-based modeling has proven its perfor-
+mance in modeling interactions between individuals, taking into account the
+multi-scale environment and also stochasticity. On the other hand, these
+models require several parameters and their execution time is high compared
+with a hybrid model.
+
+This innovative approach is a powerful tool that enables managers to
+develop effective control strategies in multi-scale environments.
+
+5.3. Recommendation for Managing Population Mobility in Low and Middle
+Income Countries with High TB Prevalence
+
+According to the results of our study, managing the mobility of people
+in a country with a high prevalence of tuberculosis is an important task for
+public health decision-makers. As rural exodus is a specific form of mobility,
+
+22
+
+
+
+it is important to understand its causes, as it promotes the spread of the
+disease.
+
+Since many factors associated with poverty increase the risk of tuber-
+culosis propagation, in developing countries, poverty and lack of economic
+opportunity drive people to seek better living conditions in cities. This leads
+to high human mobility and facilitate the spread of tuberculosis on a large
+scale. Limited access to basic services is another cause of high population
+mobility from villages to cities. Indeed, the lack of essential infrastructures
+such as drinking water, electricity and healthcare encourages rural popula-
+tions to migrate to the cities. It has also been observed that armed conflicts
+and insecurity in certain rural areas force inhabitants to flee to safer areas,
+bringing disease germs with them to the developed cities and thus contribut-
+ing to the prevalence and incidence of tuberculosis in these cities.
+
+To effectively manage the mobility of people caused by the above-mentioned
+problems, governments can consider a number of solutions, including:
+
+• Investing in basic infrastructure (roads, schools, hospitals) to enhance
+the quality of life in rural areas;
+
+• Promoting local initiatives and economic development projects to cre-
+ate jobs in rural areas;
+
+• Introduce sustainable farming techniques and climate-resistant crops
+to boost agricultural productivity;
+
+• Implement measures to guarantee the security of rural populations and
+reduce conflict.
+
+The fight against poverty is therefore essential to reduce the spread of
+tuberculosis and enhance health outcomes in affected communities. It is
+therefore essential to enhance access to healthcare for migrant populations,
+and to implement tuberculosis awareness and prevention programs.
+
+6. Concluding Remarks
+
+In this paper, we presented a model of tuberculosis spread and simu-
+lated it on an environment composed of several cities and having a central
+point as a mandatory passage for the choice of the destination city for trav-
+ellers. The disease dynamics at the level of each city was represented by an
+
+23
+
+
+
+8-compartment model that manages the spread of TB by solving an ordinary
+differential equation using the fourth-order Runge-Kutta method. To ensure
+the mobility of people from city to city, individuals and cities have been con-
+sidered as intelligent agents. At each time step, cities generated individuals
+who had to travel from one city to another randomly selected according to a
+mobility rate. The implemented model is called hybrid because it couples the
+differential equations applied in each city to the intelligent agents that act on
+the individual by considering his heterogeneous behaviors such as mobility,
+random choice of destination (decision making), change of status (interaction
+with other agents), etc. This model benefits from the advantages of these
+two modeling-simulation approaches for complex systems. The model imple-
+mented here has the advantage of not requiring a large number of parameters
+and a high capacity in terms of machine power. In addition to the advantage
+of being synthetic, this hybrid model benefits from the analytical charac-
+ter of mathematical models. Agent-based modeling enriches this model by
+imposing a stochastic character on it through random facts introduced into
+the random choice of the destination city for individuals but also into the
+generation of individuals in different cities at a randomly chosen rate.
+
+The consideration of the individual as an entity in its own right and
+the management of his or her behaviour gives the microscopic aspect to the
+model set up and brings it as close as possible to reality. The mathematical
+management of the spread of the disease in cities gives a macroscopic aspect
+to the model. This model therefore draws its richness from this dynamic
+at two different scales, which gives the emergence of the model at the global
+level. As a result, it seems obvious that the coupling of mathematical models
+to agent-based models will be applied when the dynamics of the complex
+system under consideration is at different scales. The implemented hybrid
+model does not require enough computing power compared to the general
+agent-based model which requires high performance simulation hardware.
+The results obtained show that coupling the EBM and ABM approaches is
+an interesting compromise, as confirmed by our latest work described in [21].
+
+As part of the outlook, we intend to adjust the proposed model and
+proceed with several applications:
+
+• Use real tuberculosis data to compare the results obtained with those
+of simulated data. This should help us validate the proposed model;
+
+• Replace the ordinary differential equations used in the hybrid model
+with stochastic equations, which should make it possible to introduce
+
+24
+
+
+
+randomness at all levels of population and disease dynamics, making
+the proposed model even more realistic;
+
+• Integrate the TB vaccination at the microscopic level of this model.
+This should make it possible to see its impact at the global level of the
+model.
+
+Finally, we believe that the hybrid approach presented in this paper is
+versatile and can be applied to understand the dynamics of other diseases
+without requiring significant modifications.
+
+Acknowledgements
+
+The author would like to thank Professors Emile-Franc Doungmo Goufo,
+Ho Tuong Vinh and Kyandoghere Kyamakya for their valuable discussions
+during the preparation of this paper. He expresses his deep gratitude to the
+referees for their valuable suggestions regarding the revision and improvement
+of the manuscript. The author also extends his thanks to Professor Ruffin-
+Benôıt M. Ngoie for proofreading the manuscript.
+
+Funding
+
+This research received no specific grant from any funding agency in the
+public, commercial, or not-for-profit sectors.
+
+Competing Interests
+
+The author declares that he has no known competing financial interests
+or personal relationships that could have appeared to influence the work
+reported in this paper.
+
+CRediT Author Statement
+
+The author confirms sole responsibility for the following: study concep-
+tion and design, methodology, software development, numerical simulations,
+analysis and interpretation of results, and manuscript preparation.
+
+25
+
+
+
+Code Availability
+
+The GAML (GAma Modeling Language) source codes developed for the
+proposed hybrid model can be found at https://github.com/sedjokas/
+
+TB_Hybrid_Model (accessed on 8 october 2024).
+
+References
+
+[1] Atangana, A., Doungmo Goufo, E.F., 2014. Computational analysis
+of the model describing hiv infection of cd4+ t cells. BioMed research
+international 2014, 618404.
+
+[2] Avegliano, P., Sichman, J.S., 2023. Equation-based versus agent-based
+models: Why not embrace both for an efficient parameter calibration?
+Journal of Artificial Societies and Social Simulation 26.
+
+[3] Bagcchi, S., 2023. Who’s global tuberculosis report 2022. The Lancet
+Microbe 4, e20.
+
+[4] Bisuta, S.F., Kayembe, P.K., Kabedi, M.J.B., Situakibanza, H.N.,
+Ditekemena, J.D., Bakebe, A.M., Lay, G.O., Mesia, G.K., Kayembe,
+J.M.N., Fueza, 2018. Tendances de la tuberculose pulmonaire
+bactériologiquement confirmée et issues thérapeutiques en république
+démocratique du congo: 2007-2017. Ann. Afr. Med 11, e2974.
+
+[5] Blower, S.M., Mclean, A.R., Porco, T.C., Small, P.M., Hopewell, P.C.,
+Sanchez, M.A., Moss, A.R., 1995. The intrinsic transmission dynamics
+of tuberculosis epidemics. Nature medicine 1, 815–821.
+
+[6] Bobashev, G.V., Goedecke, D.M., Yu, F., Epstein, J.M., 2007. A hy-
+brid epidemic model: Combining the advantages of agent-based and
+equation-based approaches, in: 2007 Winter Simulation Conference, pp.
+1532–1537. doi:10.1109/WSC.2007.4419767.
+
+[7] Cao, J.F., Wang, J., Zhao, M., Feng, Y.X., 2023. Dynamics of a nonlocal
+sir epidemic model with free boundaries. Franklin Open 4, 100030.
+
+[8] Chen, J., Bhattacharya, P., Hoops, S., Machi, D., Adiga, A., Mortveit,
+H., Venkatramanan, S., Marathe, M., 2024. Role of heterogeneity: Na-
+tional scale data-driven agent-based modeling for the us covid-19 sce-
+nario modeling hub. Epidemics , 100779.
+
+26
+
+https://github.com/sedjokas/TB_Hybrid_Model
+https://github.com/sedjokas/TB_Hybrid_Model
+http://dx.doi.org/10.1109/WSC.2007.4419767
+
+
+[9] Chumachenko, D., 2024. Exploring different approaches to epidemic pro-
+cesses simulation: Compartmental, machine learning, and agent-based
+models, in: Data-Centric Business and Applications: Advancements in
+Information and Knowledge Management, Volume 2. Springer, pp. 27–
+54.
+
+[10] Doungmo Goufo, E.F., Maritz, R., Munganga, J., 2014. Some properties
+of the kermack-mckendrick epidemic model with fractional derivative
+and nonlinear incidence. Advances in Difference Equations 2014, 1–9.
+
+[11] Gallagher, K., Bouros, I., Fan, N., Hayman, E., Heirene, L., Lamirande,
+P., Lemenuel-Diot, A., Lambert, B., Gavaghan, D., Creswell, R., 2024.
+Epidemiological agent-based modelling software (epiabm). Journal of
+Open Research Software 12.
+
+[12] Goufo, E.F.D., Pene, M.K., Mugisha, S., 2016. Stability analysis of epi-
+demic models of ebola hemorrhagic fever with non-linear transmission.
+J. Nonlinear Sci. Appl 9, 4191–4205.
+
+[13] Grignard, A., Taillandier, P., Gaudou, B., Vo, D.A., Huynh, N.Q., Dro-
+goul, A., 2013. Gama 1.6: Advancing the art of complex agent-based
+modeling and simulation, in: PRIMA 2013: Principles and Practice
+of Multi-Agent Systems: 16th International Conference, Dunedin, New
+Zealand, December 1-6, 2013. Proceedings 16, Springer. pp. 117–131.
+
+[14] Grimm, V., Railsback, S.F., Vincenot, C.E., Berger, U., Gallagher, C.,
+DeAngelis, D.L., Edmonds, B., Ge, J., Giske, J., Groeneveld, J., et al.,
+2020. The odd protocol for describing agent-based and other simulation
+models: A second update to improve clarity, replication, and structural
+realism. Journal of Artificial Societies and Social Simulation 23.
+
+[15] Hanski, I., Gaggiotti, O., 2004. Metapopulation biology: past, present,
+and future, in: Ecology, genetics and evolution of metapopulations. El-
+sevier, pp. 3–22.
+
+[16] Hunter, E., Mac Namee, B., Kelleher, J., 2020. A hybrid agent-based
+and equation based model for the spread of infectious diseases. Journal of
+Artificial Societies and Social Simulation 23, 14. URL: http://jasss.
+soc.surrey.ac.uk/23/4/14.html, doi:10.18564/jasss.4421.
+
+27
+
+http://jasss.soc.surrey.ac.uk/23/4/14.html
+http://jasss.soc.surrey.ac.uk/23/4/14.html
+http://dx.doi.org/10.18564/jasss.4421
+
+
+[17] Kabunga, S.K., Doungmo Goufo, E.F., Tuong, V.H., Kyamakya, K.,
+2020. A stochastic agent-based model and simulation for controlling the
+spread of tuberculosis in a mixed population structure, in: Developments
+of Artificial Intelligence Technologies in Computation and Robotics:
+Proceedings of the 14th International FLINS Conference (FLINS 2020),
+World Scientific. pp. 659–666.
+
+[18] Kasaie, P., Dowdy, D.W., Kelton, W.D., 2013. An agent-based simu-
+lation of a tuberculosis epidemic: understanding the timing of trans-
+mission, in: 2013 Winter Simulations Conference (WSC), IEEE. pp.
+2227–2238.
+
+[19] Kasereka, S., Kasoro, N., Chokki, A.P., 2014. A hybrid model for mod-
+eling the spread of epidemics: Theory and simulation, in: 2014 4th in-
+ternational symposium isko-maghreb: Concepts and tools for knowledge
+management (isko-maghreb), IEEE. pp. 1–7.
+
+[20] Kasereka, S., Le Strat, Y., Léon, L., 2018. Estimation of infection force
+of hepatitis c virus among drug users in france. Recent Advances in
+Nonlinear Dynamics and Synchronization: With Selected Applications
+in Electrical Engineering, Neurocomputing, and Transportation , 319–
+344.
+
+[21] Kasereka, S.K., Zohinga, G.N., Kiketa, V.M., Ngoie, R.B.M., Mputu,
+E.K., Kasoro, N.M., Kyandoghere, K., 2023. Equation-based modeling
+vs. agent-based modeling with applications to the spread of covid-19
+outbreak. Mathematics 11, 253.
+
+[22] Kasereka Kabunga, S., Doungmo Goufo, E.F., Ho Tuong, V., 2020.
+Analysis and simulation of a mathematical model of tuberculosis trans-
+mission in democratic republic of the congo. Advances in Difference
+Equations 2020, 642.
+
+[23] Minucci, S.B., Heise, R.L., Reynolds, A.M., 2024. Agent-based vs.
+equation-based multi-scale modeling for macrophage polarization. Plos
+one 19, e0270779.
+
+[24] Modu, B., Polovina, N., Konur, S., 2023. Agent-based modeling of
+malaria transmission. IEEE Access 11, 19794–19808.
+
+28
+
+
+
+[25] Ojo, M.M., Peter, O.J., Goufo, E.F.D., Nisar, K.S., 2023. A mathemati-
+cal model for the co-dynamics of covid-19 and tuberculosis. Mathematics
+and Computers in Simulation 207, 499–520.
+
+[26] Organization, W.H., 2022. Global tuberculosis report 2021: supplemen-
+tary material. World Health Organization.
+
+[27] Ozcaglar, C., Shabbeer, A., Vandenberg, S.L., Yener, B., Bennett, K.P.,
+2012. Epidemiological models of mycobacterium tuberculosis complex
+infections. Mathematical biosciences 236, 77–96.
+
+[28] Petrucciani, A., Hoerter, A., Kotze, L., Du Plessis, N., Pienaar, E.,
+2024. In silico agent-based modeling approach to characterize multiple
+in vitro tuberculosis infection models. Plos one 19, e0299107.
+
+[29] Trauer, J.M., Denholm, J.T., McBryde, E.S., 2014. Construction of
+a mathematical model for tuberculosis transmission in highly endemic
+regions of the asia-pacific. Journal of theoretical biology 358, 74–84.
+
+[30] Udall, C.B., Searle, C., 2023. Modelling the spread of tuberculosis
+in south african informal settlements, in: Operations Research Forum,
+Springer. p. 7.
+
+[31] Zhao, Y., Li, M., Yuan, S., 2017. Analysis of transmission and control of
+tuberculosis in mainland china, 2005–2016, based on the age-structure
+mathematical model. International journal of environmental research
+and public health 14, 1192.
+
+29
+
+
+	Introduction
+	Description of the Mathematical Model 
+	Description of the ABM using ODD Protocol 
+	Overview
+	Design Concept
+	Details 
+
+	Simulations of the Hybrid Model 
+	Parameters used in the Model
+	Numerical Simulation
+	Simulation with a High Mobility Rate for all Individuals
+	Simulation with Basic Parameters and Consideration of a Low Mobility Rate for I, Le and Lf Individuals
+
+	Runtime Evaluation 
+	Benchmark Models
+
+	Discussion of the Results and Recommendations 
+	General Discussion
+	Benchmarking Discussion
+	Recommendation for Managing Population Mobility in Low and Middle Income Countries with High TB Prevalence 
+
+	Concluding Remarks 
+

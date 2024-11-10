@@ -1,0 +1,2420 @@
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+93
+
+1v
+1 
+
+ [
+qu
+
+an
+t-
+
+ph
+] 
+
+ 7
+ N
+
+ov
+ 2
+
+02
+4
+
+Quantum Advantage with Faulty Oracle
+
+David Rasmussen Lolck†, Laura Mančinska†, and Manaswi Paraashar†
+
+†University of Copenhagen, Denmark
+
+Abstract
+
+This paper investigates the impact of noise in the quantum query model, a fundamental framework for
+quantum algorithms. We focus on the scenario where the oracle is subject to non-unitary (or irreversible)
+noise, specifically under the faulty oracle model, where the oracle fails with a constant probability and
+acts as identity. Regev and Schiff (ICALP’08) showed that quantum advantage is lost for the search
+problem under this noise model. Our main result shows that every quantum query algorithm can be
+made robust in this noise model with a roughly quadratic blow-up in query complexity, thereby preserving
+quantum speedup for all problems where the quantum advantage is super-cubic. This is the first non-
+trivial robustification of quantum query algorithms against an oracle that is noisy.
+
+1 Introduction
+
+Understanding and mitigating noise is one of the most important challenges in quantum computing today
+and the quantum query model is one of the most natural models of computation to study the effects of noise.
+In this model, the goal is to solve a problem P on an unknown input f ∈ {0, 1}n → {0, 1}m. The input f
+can only be accessed by a unitary matrix Of , called oracle, that satisfies Of |z〉 |b〉 = |z〉 |b⊕ f(z)〉 for all
+z ∈ {0, 1}n and b ∈ {0, 1}m, where z⊕ f(z) denotes the bitwise XOR of b and f(z). Furthermore, the goal is
+to do so with bounded-error probability1. by making minimum number queries to Of . Most of the provable
+advantages of quantum algorithms over classical ones are in this model (for example, Grover’s algorithm for
+the search problem ([Gro96]) and Shor’s Algorithm for the period finding problem ([Sho99])) and this model
+is naturally connected to many other areas of quantum computing due to its simplicity. Thus, understanding
+the effects of noise in the query model is a fundamental question.
+
+In this paper, we are interested in the case when the oracle is affected by noise2. There are two types of
+noise that may affect the oracle: unitary (or reversible) and non-unitary (or irreversible). An example of a
+reversible noisy oracle is a low-depth quantum circuit implemented on a fault-tolerant quantum quantum
+computer. However, when such a circuit is implemented on a quantum computer that is not fault-tolerant
+and is affected by noise due to its interaction with the environment, we have an oracle with non-reversible
+noise. The case of reversible noise is well-understood and easy to mitigate: a quantum algorithm designed
+for a fault-free oracle with cost q can be easily modified to give an algorithm for a with cost O(q ln q) that
+works correctly on an oracle with reversible noise ([HMDW03, SYNW06, BNRdW07, IRY06]).
+
+Understanding irreversible noise in the query model has proved to be much more challenging. The majority
+of existing results are limited to the study of the effects irreversible noise for Grover’s algorithm [PNRA99,
+LLZT00, SBW03, FG98, ABNR12, KNR18] or for the search problem itself [RS08, VRRW14, Ros23]. To the
+best of our knowledge, search is the only problem for which lower bounds under a noisy oracle are known.
+The work [RS08] gave the first such lower bound under the following noise model: we are given access to a
+
+1By bounded-error we mean correctly with probability at least 4/5. Algorithms that have success probability (1/2 + δ) can
+be made bounded-error by amplitude amplification [BHMT02] with an overhead of O(1/δ).
+
+2There has been work dealing with noise affecting other components of query algorithms (see [Ros23] and the references
+therein).
+
+1
+
+http://arxiv.org/abs/2411.04931v1
+
+
+faulty oracle Of,p which acts as follows
+
+Of,p(·) =
+{
+
+Of (·) with probability (1− p)
+
+I(·) with probability p,
+(Faulty Oracle)
+
+where I is the identity map, i.e., I(ρ) = ρ for all matrices ρ. Similar to [RS08], we refer to this error model
+as the faulty oracle model. The parameter p is called the error rate. The faulty oracle model, when the error
+rate p is at most 1/2, is the central object of study in this paper. It is natural to consider the regime where
+the error-rate is a constant independent of the system size. This is what we focus on.
+
+The work [RS08] showed an Ω(p2n) lower bound for the search problem in the faulty oracle model. This
+means that quantum advantage is lost when the error rate is a constant. This lower bound has impacted
+several areas of research in quantum computing. Quantum random access memory (qRAM) that stores
+classical information, i.e. bits, was considered in [AGJO+15]. Such a qRAM can be used as an oracle for
+quantum query algorithms. They defined an error model that is quite similar to the faulty oracle model.
+Using the lower bound of [RS08], it was shown in [AGJO+15] that a qRAM that produces queries with
+constant error will not lead to a quantum advantage for the search problem. Furthermore, [AGJO+15]
+conjectured that their error model nullifies the asymptotic speed-ups of other quantum query algorithms
+as well. Most supervised quantum machine learning algorithms assume the existence of qRAM ([GLM08]).
+In view of this and [RS08], the authors of [Wos21] suggested that even small errors can crucially impact
+quantum machine learning algorithms. Query complexity of the search problem has been studied under
+noise models other than the faulty oracle model: [Ros23] gave an Ω(p2n) lower bound for the search problem
+under the depolarizing noise model.
+
+A natural question to ask is whether there are problems for which a quantum advantage is retained even
+under a noisy oracle.
+
+Question. Is there any reasonable fault model for which a quantum speed-up is achievable? ([RS08]) Is a
+significant quantum speedup is ever possible with a faulty oracle? ([CFL+23])
+
+If we restrict our attention to quantum algorithms where the (parallel) query depth is upper bounded by
+a constant, for example Simon’s algorithm [Sim97], then the answer to the question is indeed yes (with
+a polynomial overhead) under the faulty oracle model. [CFL+23] studied the case when the oracle has
+depolarising noise. They showed that quantum algorithms with constant query depth can be made robust
+with a polynomial overhead. However, their techniques do not extend to algorithms that have ω(1) query
+depth without a substantial overhead. Prior to our work, there were no known techniques allowing one to
+maintain quantum advantage in the noisy regime beyond the case of constant (parallel) query depth.
+
+The main contribution of this paper is to show that in the faulty oracle model, a quantum advantage is
+retained for every quantum query algorithm that is sufficiently fast, in the regime of a constant error rate
+p ≤ 1/2. In the next section, we present our main result which shows how to make a quantum algorithm
+robust to faulty oracle with a roughly quadratic blow-up in query complexity.
+
+2 Our Results
+
+We state our main theorem below.
+
+Theorem 2.1. Consider any f : {0, 1}n → {0, 1}m and a bounded-error quantum query algorithm A that
+solves a problem P by making q queries to a (fault-free) oracle Of . Then there exists a bounded-error quantum
+algorithm A′ that solves P and makes O(q3m2 ln q) queries to the faulty oracle Of,p where p ≤ 1/2.
+
+While quantum advantage is lost for the search problem with a faulty oracle ([RS08]), Theorem 2.1 im-
+plies that a quantum advantage is retained for all problems for which there is a quantum algorithm with
+roughly super-cubic advantage. Furthermore, no additional assumptions are made about the structure of
+
+2
+
+
+
+|z〉Z
+
+|0〉S
+
+Of, 12
+
+R−π/4 R π
+2t
+
+R−π/4
+
+×t
+
+E
+
+|i〉Z
+
+|0〉S
+
+|b〉B
+
+F tf F tf
+
+X X
+
+Figure 1: The circuit to the left is F tf and the circuit to right is Gtf .
+
+the algorithms, such as bounded query depth as considered in [CFL+23], in Theorem 2.1. There are several
+quantum query algorithms that have super-cubic, super-polynomial, and even exponential advantage over
+their classical counterparts, and from Theorem 2.1, a quantum advantage is retained for these algorithms.
+We refer the reader to [Jor] which contains an extensive collection of such quantum algorithms.
+
+The following question was asked in [RS08].
+
+Open Problem ([RS08]). Is there any search problem for which a quantum speed-up is achievable with a
+faulty oracle?
+
+Theorem 2.1 resolves this problem in the affirmative when combined with the following search algorithms:
+super-polynomial speedup for the welded tree problem which involves finding a special vertex in a certain
+graph ([CCD+03, LLL24, JZ23, Bel24]) and quartic speedup for searching counterfeit coins given a bunch
+of coins ([INRT12]).
+
+We conclude with some ideas that went into the proof of Theorem 2.1.
+
+2.1 Ideas behind proof of Theorem 2.1
+
+We present our ideas for the case when m = 1, i.e., when f has domain {0, 1}n and range {0, 1}. The proof
+for m ≥ 2 follows from this case with a careful error-analysis (see Section 5). Let A be an algorithm that
+makes q queries to the fault-free oracle Of and solves the problem P with bounded-error. Such an algorithm
+uses three registers: Z, which stores the index of the query; B, which stores the output of the query; and T ,
+which is the workspace used by the algorithm. Let
+
+A = Uq(Of ⊗ IT )Uq−1(Of ⊗ IT ) . . . U1(Of ⊗ IT )U0
+
+where Ui’s act on Z,B and T while Of acts on Z and B. The robust version of A, denoted A′, uses an
+additional register S (called the scratch-pad) and has the form:
+
+A′ = (Uq ⊗ IS)(G
+t
+f ⊗ IT ) . . . (U1 ⊗ IS)(G
+
+t
+f ⊗ IT )(U0 ⊗ IS)
+
+where t = O(q2 ln q) and the unitaries Gtf are constructed from Of,p, as shown in Figure 1. With high
+
+probability over the randomness of Of,p, G
+t
+f satisfy the following property: for a suitable choice of t =
+
+O(q2 ln q) and for all quantum states |ψ〉ZBT
+∥
+
+∥((Of ⊗ IST )− (Gtf ⊗ IT )) |ψ〉ZBT |0〉S
+∥
+
+∥ ≤ O(1/q).
+
+By applying the triangle inequality and discarding the scratch-pad register at the end of the computation,
+we can show that the algorithms A and A′ are close to each other. Thus, with a multiplicative overhead
+of O(q2 ln q), we demonstrate how to make a q-query bounded-error quantum algorithm robust to a faulty
+oracle. Note that this error-reduction procedure is independent of the algorithm A and works by making
+each fault-free oracle call robust to noise.
+
+3
+
+
+
+The construction of Gtf can be broken down into two steps, the first of which is the construction of the
+
+circuit F tf , shown in Figure 1. We show that if the output register B is in the state |0〉 then, with high
+
+probability, F tf acts almost identically to Of . Since for all p, the faulty oracle Of,p acts as identity on inputs
+|z, b〉 where z ∈ {0, 1}n and f(z) = 0, this case is easy to analyze. When f(z) = 1, the action of this circuit
+can be seen as a random walk on a line. We show that for p = 1/2, t = O(q2 ln q) repetitions of E achieve
+sufficient concentration for the underlying random walk. This completes the analysis for the case where the
+B-register is in the state |0〉.
+In the second step, we extend the circuit F tf to construct Gtf , addressing the case when the B-regiter is
+
+in a general state. We follow a standard technique: first, we use F tf to compute the state |f(z)〉; then we
+
+apply a CNOT gate; and finally, we uncompute |f(z)〉 using F tf again. This approach ensures that whenever
+
+f(z) = 1, the circuit F tf is used only when the state in the B-register is close to |0〉, while for f(z) = 0, the
+circuit acts as identity.
+
+Organization
+
+In Section 4, we construct the circuit F tf , and in Section 4.1, we extend this circuit to Gtf . In Section 5,
+we discuss how to further extend the circuit to handle functions of the form f : {0, 1}n → {0, 1}m, where
+m ≥ 2. Finally, in Section 6, we provide a formal proof of Theorem 2.1.
+
+3 Preliminaries
+
+We denote registers with capital letters, such as B, and the Hilbert space corresponding to each register as
+HB. When this is not be clear from the context, we use subscripts to indicate the space that a state belongs
+to or an operator acts on; for example, |ψ〉B ∈ HB . We refer the reader to [BDW02, Ros23] for background
+on quantum query complexity.
+
+For f : {0, 1}n → {0, 1}m, we assume we have access to an underlying oracle Of that acts as
+
+Of |z〉 |b〉 = |z〉 |b⊕ f(z)〉
+
+for all z ∈ {0, 1}n and b ∈ {0, 1}m, where ⊕ denotes the bitwise XOR. Typically, we assume that |z〉Z |b〉B ∈
+HZ ⊗HB, where Z is referred to as the input register and B as the target register. Finally, we use register
+S as an additional scratch-pad register, which is discarded at the end of the computation.
+
+In the faulty oracle model, instead of Of , we are given oracle access to the channel defined as follows
+
+Of,p(·) =
+{
+
+Of (·) With probability (1− p)
+
+I(·) With probability p,
+
+where p is the error-rate and I is the identity map, i.e., I(ρ) = ρ for all matrices ρ. Essentially, with
+probability p, this oracle acts as the identity on its input state, while with probability (1 − p), the oracle
+acts as Of .
+
+From a formal point of view, we think of Of,p as a random variable that takes one of two (unitary matrix)
+values: Of or I, where I is the identity matrix. This is also how we think of the circuits involving Of,p
+and we formulate our theorems and carry out the proofs over the randomness of this process. This has the
+advantage that we can continue treating Of,p as a unitary, even though the faulty oracle entails a random
+irreversible process.
+
+We use a geometric approach to prove the correctness of our constructions. For this, we need the following
+definition.
+
+4
+
+
+
+Definition 3.1 (Absolute Angle Difference). For |z, φ〉 , |z, ψ〉 ∈ HZ ⊗ HB where |ψ〉 and |φ〉 have real
+coefficients and |z〉 is a basis vector from the computational basis, we define the absolute angle difference as
+
+Φ(|z, φ〉 , |z, ψ〉B) = | cos−1 〈φ|ψ〉 | ∈ [0, π].
+
+We have the following upper bound on the distance between two vectors in terms of absolute angle differ-
+ence.
+
+Observation 3.2. For states |z, φ〉 , |z, ψ〉 ∈ HZ ⊗HB where |ψ〉 and |φ〉 have real coefficients and |z〉 is a
+basis vector from the computational basis,
+
+‖|z, φ〉 − |z, ψ〉‖ ≤ Φ(|z, φ〉 , |z, ψ〉)
+
+where the norm is the ℓ2 norm.
+
+Restricting ourselves to only a two-dimensional real space spanned by the vectors |z〉 |0〉 and |z〉 |1〉, we have
+the following observation about the actions of the faulty oracle in this space.
+
+Observation 3.3. For any |φ〉 ∈ R2 and z ∈ {0, 1}n, Of,p acts on |z, φ〉 like:
+
+• If f(z) = 0: Identity
+
+• If f(z) = 1: A reflection in the vector |z,+〉 with probability 1− p and identity with probability p.
+
+We will repeatedly use the rotation matrix, defined as
+
+Rθ =
+
+[
+
+cos θ sin θ
+− sin θ cos θ
+
+]
+
+which performs a clockwise rotation by angle θ.
+
+The trace distance between pure states |φ〉 and |ψ〉 is defined as follows
+
+T (|φ〉 , |ψ〉) = 1
+
+2
+‖|φ〉〈φ| − |ψ〉〈ψ|)‖1 =
+
+√
+
+1− | 〈φ|ψ〉 |2,
+
+see [Wat18] for a proof of the second equality. We have the following lemma.
+
+Lemma 3.4. For any pure states |φ〉 and |ψ〉, we have
+
+T (|φ〉 , |ψ〉) ≤ ‖|φ〉 − |ψ〉‖.
+
+Proof. Observe that
+
+‖|φ〉 − |ψ〉‖2 = 2− 2Re{〈φ|ψ〉}
+≥ 2− 2| 〈φ|ψ〉 |
+≥ 2− 2| 〈φ|ψ〉 | − (1 − | 〈φ|ψ〉 |)2
+
+= 1− | 〈φ|ψ〉 |2
+
+= T (|φ〉 , |ψ〉)2.
+
+5
+
+
+
+|z〉Z
+
+|0〉S
+
+F tf =
+
+|z〉Z
+
+|0〉S
+
+Of, 12
+
+R−π/4 R π
+2t
+
+R−π/4
+
+×t
+
+Figure 2: Robust calculation of Of |z, 0〉
+
+|z〉Z
+
+|b〉B
+
+Gtf =
+
+|z〉Z
+
+|0〉S
+
+|b〉B
+
+F tf F tf
+
+X X
+
+Figure 3: Robust calculation of Of |z, b〉.
+
+4 Overcoming the Faulty Oracle Noise for Boolean functions
+
+In this section, we assume that f is a Boolean function, that is, f : {0, 1}n → {0, 1}. In Section 5, we
+generalize the results of this section to functions of the form f : {0, 1}n → {0, 1}m where m ≥ 2. We will
+furthermore use z ∈ {0, 1}n to denote a bitstring as a possible input to the function f .
+
+We now discuss a central component of our algorithm. For the purpose of this algorithm, we assume p = 1/2.
+It will soon turn out to give some nice symmetry properties that will be important for the proof of correctness.
+Note that if p < 1/2 and p is known, then we can increase the probability of error to 1/2 by simply not
+applying the oracle with probability 1− 1
+
+2(1−p) .
+
+The core part of our algorithm is shown in two figures: Fig. 2 gives the circuit for F tf , and Fig. 3 gives the
+
+circuit for Gtf . It easy to see that when f(z) = 0 then both F tf and Gtf act as identity. Thus, the primary
+
+goal will be to show that ((I ⊗R π
+2t
+)Of, 12 )
+
+t acts very close to identity on |z,+〉, with high probability, when
+
+f(z) = 1.
+
+Intuitively, the circuit F tf does the following steps. First, it rotates the target register by −π/4 which results
+in rotating |z, 0〉 to |z,+〉. Then it repeatedly reflects the input in |z,+〉 using the oracle Of, 12 and rotates
+
+the state by the angle π
+2t . Finally, it rotates the state by −π/4.
+
+Since we are working with a random process, it will be useful to succinctly describe different possible outcomes
+of this process. We will think of the circuits involving the faulty oracle as outputting various pure states
+each with some probability.
+
+Informally, we let |z, ψ〉 denote the state of the computation just before the current step, where f(z) = 1
+and |ψ〉 = α |0〉+ β |1〉 for some real α, β. We use the following notation:
+
+• rf : Oracle fails while |z, ψ〉 is on the right of |z,+〉
+• rs: Oracle succeeds while |z, ψ〉 is on the right of |z,+〉
+• lf : Oracle fails while |z, ψ〉 is on the left of |z,+〉
+• ls: Oracle succeeds while |z, ψ〉 is on the left of |z,+〉
+
+6
+
+
+
+|z,+〉
+|z,ψ〉
+
+|z, 0〉
+
+|z, 1〉
+
+α
+
+(I ⊗ R π
+2t
+
+) |z,ψ〉
+
+α − π
+2t
+
+(a) Failing the oracle on the left, corresponding
+to lf
+
+|z,+〉
+|z,ψ〉
+
+|z, 0〉
+
+|z, 1〉
+
+α + π
+2t
+
+(I ⊗ R π
+2t
+
+)Of |z,ψ〉
+α
+
+(b) Succeeding the oracle on the left, corre-
+sponding to ls
+
+|z,+〉
+
+|z,ψ〉
+
+|z, 0〉
+
+|z, 1〉
+
+α
+
+(I ⊗ R π
+2t
+
+) |z,ψ〉
+α + π
+
+2t
+
+(c) Failing the oracle on the right, correspond-
+ing to rf
+
+|z,+〉
+
+|z, ψ〉
+
+|z, 0〉
+
+|z, 1〉
+
+α − π
+2t
+
+(I ⊗ R π
+2t
+
+)Of |z, ψ〉
+
+α
+
+(d) Succeeding the oracle on the right, corre-
+sponding to rs
+
+Figure 4: The 4 possible actions that the oracle Of,p can end up making when f(z) = 1.
+
+We further define that |z,+〉 is on the right of |z,+〉 to simplify proofs and not have to care about equiva-
+lence.
+
+Definition 4.1. We use a sequence a = a1, . . . , at where ai ∈ {rf, rs, lf, ls} to describe the success/failure
+sequence in a fixed execution of the random process described in Fig. 2. We call such a sequence valid if it
+can arise from some computation.
+
+It should be noted that some sequences in {rf, rs, lf, ls}t do not describe a valid computation. For example,
+every computation must start with either rs of rf since the initial state is |z,+〉 which is defined to be on
+the right.
+
+Definition 4.2. For a sequence describing a computation a = a1, . . . , at, define ci = 1 if ai ∈ {rs, ls} and
+ci = 0 otherwise. Let U(a) be the unitary:
+
+U(a) = (I ⊗R π
+2t
+)(Of )
+
+ct . . . (I ⊗ R π
+2t
+)(Of )
+
+c1 .
+
+This is the unitary that is applied after t repetitions of (I ⊗R π
+2t
+)Of, 12
+
+Ignoring the case when the angle difference is 0, we make a simple observation, which follows easily from
+considering the action of the different reflections and rotations (see Observation 3.3).
+
+Observation 4.3. Let a = a1, . . . , at be the sequence describing the computation, and let |z〉 be a computa-
+tional basis vector where f(z) = 1. If Φ(U(a1, . . . , ai) |z,+〉 , |z,+〉) 6= 0 then
+
+• if ai = rf then Φ(U(a1, . . . , ai) |z,+〉 , |z,+〉) = Φ(U(a1, . . . , ai−1) |z,+〉 , |z,+〉) + π
+2t
+
+7
+
+
+
+• if ai = rs then Φ(U(a1, . . . , ai) |z,+〉 , |z,+〉) = Φ(U(a1, . . . , ai−1) |z,+〉 , |z,+〉)− π
+2t
+
+• if ai = lf then Φ(U(a1, . . . , ai) |z,+〉 , |z,+〉) = Φ(U(a1, . . . , ai−1) |z,+〉 , |z,+〉)− π
+2t
+
+• if ai = ls then Φ(U(a1, . . . , ai) |z,+〉 , |z,+〉) = Φ(U(a1, . . . , ai−1) |z,+〉 , |z,+〉) + π
+2t
+
+An immediate consequence of this is that the angle difference between |z,+〉 and the result of the computation
+is always a multiple of π
+
+2t , which simplifies the analysis.
+
+It is important to note that both when we are on the left side and when we are on the right side there is an
+outcome where the absolute angle difference decreases by π
+
+2t and one where it increases by π
+2t . This is the
+
+reason why we force p = 1/2. Because on the left side, we have the decrease by π
+2t if the oracle fails, while
+
+on the right side, the decrease is when the oracle succeeds. Setting p = 1/2 allows us to model the difference
+in angle using a random walk without having to care for orientation. This idea is formalized in the following
+lemma:
+
+Lemma 4.4. Let A = A1, . . . , At where for each i ∈ {1, . . . , t}, Ai ∈ {rf, rs, lf, ls} is the random variable
+that describes the computation. We define X1, . . . , Xt as Xi = 1 if and only if Ai ∈ {rf, ls} and −1 otherwise.
+Then Pr[Xi = −1] = Pr[Xi = 1] = 1
+
+2 for all 1 ≤ i ≤ t, and all Xi are independent.
+
+Proof. Regardless of whether we are on the right or left, the probability that the oracle succeeds is the same
+as the probability that it fails. So we have Pr[Ai = rs] = Pr[Ai = rf ] and Pr[Ai = ls] = Pr[Ai = lf ]. Since
+Ai ∈ {rf, rs, lf, ls} we conclude that Pr[Ai ∈ {rs, lf}] = 1
+
+2 . Then independence follows from the fact that
+regardless of previous outcomes, Pr[Ai ∈ {rs, lf}] = 1
+
+2 .
+
+The above lemma allows us to use a random walk to bound how much we have moved from our starting
+point.
+
+Lemma 4.5. Let a = a1, . . . , at ∈ {rf, rs, lf, ls}t be a fixed sequence that describes the computation, and
+let |z〉 be a standard basis vector where f(z) = 1. Let X1, . . . , Xt be defined such that Xi = 1 if and only if
+ai ∈ {rf, ls} and −1 otherwise. Then
+
+Φ(U(a) |z,+〉 , |z,+〉) = π
+
+2t
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=1
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+Proof. First we observe that for all r, Φ(U(a1, . . . , ar) |z,+〉 , |z,+〉) takes values that are integer multiples
+of π
+
+2t by Observation 4.3.
+
+Now whenever we have that Φ(U(a1, . . . , ar) |z,+〉 , |z,+〉) 6= 0, by Observation 4.3 we have that:
+
+Φ(U(a1, . . . , ar) |z,+〉 , |z,+〉) = Φ(U(a1, . . . , ar−1) |z,+〉 , |z,+〉) +Xl
+π
+
+2t
+. (1)
+
+We see that this is the same contribution that Xr has to the sum of π
+2t
+
+∣
+
+∣
+
+∣
+
+∑t
+i=1Xi
+
+∣
+
+∣
+
+∣.
+
+Next, observe that if Φ(U(a1, . . . , ar−1) |z,+〉 , |z,+〉) = 0 then in the next step the angle always increases
+and we thus have:
+
+|Φ(U(a1, . . . , ar) |z,+〉 , |z,+〉)| =
+∣
+
+∣
+
+∣Φ(U(a1, . . . , ar−1) |z,+〉 , |z,+〉) +Xr
+π
+
+2t
+
+∣
+
+∣
+
+∣ . (2)
+
+Therefore by taking the absolute value of Eq. (1) and combining it with Eq. (2) we get
+
+Φ(U(a) |z,+〉 , |+〉) = π
+
+2t
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=1
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+.
+
+8
+
+
+
+From this point onward we are going to focus on using this random walk representation of the absolute
+difference to construct a bound on the concentration of the distance.
+
+Lemma 4.6. Let X1, . . . , Xt be random variables that take values independently and uniformly at random
+from the set {−1, 1}. Then with probability at least 1− δ:
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=1
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+<
+√
+
+6t ln(2δ−1).
+
+Proof. Define Yi =
+Xi+1
+
+2 . Then Yi are i.i.d uniform Bernoulli distributed random variables with E[Yi] =
+1
+2 .
+
+Then
+
+Pr
+
+[∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=1
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+≥
+√
+
+6t ln(2δ−1)
+
+]
+
+= Pr
+
+[∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+2
+t
+∑
+
+i=1
+
+Yi − t
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+≥
+√
+
+6t ln(2δ−1)
+
+]
+
+= Pr
+
+[∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=1
+
+Yi −
+t
+
+2
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+≥
+√
+
+6 ln(2δ−1)
+
+t
+· 1
+2
+t
+
+]
+
+≤ 2 exp
+
+(
+
+−6 ln
+(
+
+2δ−1
+)
+
+t
+· 1
+6
+t
+
+)
+
+= δ
+
+where we have used Chernoff bound in the second inequality.
+
+We can now prove the main statement of this section, namely that when t gets large enough, ((I⊗R π
+2t
+)Of, 12 )
+
+t
+
+acts almost with identity on |z,+〉.
+
+Lemma 4.7. Let t ≥
+3
+2π
+
+2 ln(2δ−1)
+γ2 and δ ≤ 1
+
+5 . Then with probability at least 1− δ, for any state |z,+〉 where
+
+|z〉 is a basis vector in the computational basis with f(z) = 1
+
+Φ(((I ⊗R π
+2t
+)Of, 12 )
+
+t |z,+〉 , |z,+〉) ≤ γ.
+
+Proof. Let A = A1, . . . , At where for each i ∈ {1, . . . , t}, Ai ∈ {rf, rs, lf, ls} be a sequence of random
+variables that describe the computation. Let X1, . . . , Xt be defined such that Xi = 1 if and only if Ai ∈
+{rf, ls} and −1 otherwise. By Lemma 4.5 we have
+
+Φ(((I ⊗R π
+2t
+)Of, 12 )
+
+t |z,+〉 , |z,+〉) ≤ π
+
+2t
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=r
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+.
+
+Then by Lemma 4.6 with probability at least 1− δ:
+
+π
+
+2t
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+t
+∑
+
+i=r
+
+Xi
+
+∣
+
+∣
+
+∣
+
+∣
+
+∣
+
+≤ π
+
+2t
+
+√
+
+6t ln(2δ−1)
+
+≤
+π
+√
+
+3
+2 ln(2δ
+
+−1)
+√
+t
+
+≤ γ,
+
+the last inequality follows from t ≥ 6π2 ln(4−1δ−1)
+γ2 .
+
+9
+
+
+
+4.1 Generalizing to all Inputs
+
+In this section, we will continue the work of proving that Gtf acts roughly equivalent to Of . Most of the work
+in this section is essentially to show that we can go from acting correctly on a subset of the basis vectors, as
+was shown with Lemma 4.7, to a general state. The first step is checking for product states when f(z) = 0.
+This is very much the easy case since both the faulty and non-faulty oracles act the same way.
+
+Lemma 4.8. For any state |z, ψ〉 where |z〉 is a basis vector in the computational basis and f(z) = 0,
+
+F tf |z, ψ〉 = Of |z, ψ〉
+
+Proof. If f(z) = 0 then Of |z, ψ〉 = |z, ψ〉. Furthermore from the definition of Of, 12 , we have that when
+
+f(z) = 0 then it always holds that Of, 12 (|z, ψ〉) = |z, ψ〉. This means that
+
+F tf (|z, ψ〉) = (I ⊗R−π/4)(I ⊗R π
+2t
+)t(I ⊗R−π/4) |z, ψ〉 = |z, ψ〉
+
+From Lemma 4.7, we can add the final couple of gates and look at how this affects a basis state in the
+computational basis when f(z) = 1.
+
+Lemma 4.9. Let t ≥
+3
+2π
+
+2 ln(2δ−1)
+γ2 and let F tf be defined as in Fig. 2. Then with probability at least 1− δ for
+
+any basis vector |z, 0〉 from the computational basis such that f(z) = 1,
+
+∥
+
+∥(F tf −Of ) |z, 0〉
+∥
+
+∥ ≤ γ
+
+Proof. Let A = A1, . . . , At be a set of random variables that describe the computation. Then U(A) is the
+actual unitary that is applied by ((I ⊗R π
+
+2t
+)Of, 12 )
+
+t. From Fig. 2 we have F tf = (I ⊗R−π/4)U(A)(I ⊗R−π/4).
+
+We are going to show that F tf acts similarly to Of on all basis vectors from the computational basis |z, 0〉. For
+this we split the basis vectors into two cases, f(z) = 0 and f(z) = 1. The f(z) = 0 follows from Lemma 4.8.
+Therefore we are going to assume that f(z) = 1.
+
+By the triangle inequality, Observation 3.2 and Lemma 4.7 we have that with probability at least 1− δ:
+
+∥
+
+∥(F tf −Of ) |z, 0〉
+∥
+
+∥ =
+∥
+
+∥((I ⊗R−π/4)U(A)(I ⊗R−π/4) |z, 0〉 − |z, 1〉
+∥
+
+∥
+
+=
+∥
+
+∥((I ⊗R−π/4)U(A) |z,+〉 − |z, 1〉
+∥
+
+∥
+
+≤
+∥
+
+∥((I ⊗R−π/4) |z,+〉 − |z, 1〉
+∥
+
+∥+
+∥
+
+∥((I ⊗R−π/4) |z,+〉 − (I ⊗R−π/4)U(A) |z,+〉
+∥
+
+∥
+
+≤ γ
+
+completing the proof.
+
+Next, we show that applying our random process on a basis vector |z〉Z |0〉S does not affect the input register
+Z, but only the output register when f(z) = 1, in this case S (see Fig. 2). This will imply that all of our
+error is going to be concentrated in the S register, which makes it easier to bound.
+
+Lemma 4.10. Let F tf be defined as in Fig. 2, and let |z, 0〉 be a basis vector from the computational basis
+
+such that f(z) = 1. Then there exists a state |ψ〉 (only dependent on the randomness of F tf ) such that
+
+F tf |z, 0〉 = |z, ψ〉
+
+Proof. Fix a as the sequence of computation. Then F tf = (I ⊗ R−π/4)U(a)(I ⊗ R−π/4). Next observe that
+since f(z) = 1, Of |z, 0〉 = (I⊗X) |z, 0〉. If make this substitution for every Of unitary in U(a), then we can
+write F tf |z, 0〉 = (I ⊗ V (a)) |z, 0〉 for some unitary V (a). Defining |ψ〉 = V (a) |0〉 completes the proof.
+
+10
+
+
+
+So far we have only looked at basis vectors, but we will now continue with arbitrary vectors and show that
+when we have |0〉 in the output state we still achieve the intended outcome for F tf .
+
+Lemma 4.11. Let t ≥
+3
+2π
+
+2 ln(2δ−1)
+γ2 and let F tf be defined as in Fig. 2. Then with probability at least 1 − δ
+
+for any state |φ, 0〉,
+∥
+
+∥(F tf −Of ) |φ, 0〉
+∥
+
+∥ ≤ γ.
+
+Proof. Let |φ〉 =
+∑
+
+z αz |z〉 for basis vectors |z〉 in the computational basis. We have
+
+∥
+
+∥(F tf −Of ) |φ, 0〉
+∥
+
+∥ =
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+(F tf −Of )
+∑
+
+z
+
+αz |z, 0〉
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∑
+
+z:f(z)=0
+
+αz(F
+t
+f −Of ) |z, 0〉+
+
+∑
+
+z:f(z)=1
+
+αz(F
+t
+f −Of ) |z, 0〉
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+.
+
+We have by Lemma 4.8 that when f(z) = 0, F tf |z, 0〉 = Of |z, 0〉, enabling us to remove the first term of the
+last equation. On the other hand, when f(z) = 1, then Of |z, 0〉 = |z, 1〉. Thus
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∑
+
+z:f(z)=0
+
+αz(F
+t
+f −Of ) |z, 0〉+
+
+∑
+
+z:f(z)=1
+
+αz(F
+t
+f −Of ) |z, 0〉
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∑
+
+z:f(z)=1
+
+αz(F
+t
+f |z, 0〉 − |z, 1〉)
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+.
+
+We can now without loss of generality assume that there exists a value z0 such that f(z0) = 1, since otherwise
+the norm is 0 and the statement holds.
+
+Next, by Lemma 4.10, when f(z) = 1 we have F tf |z, 0〉 = |z, ψ〉 for some |ψ〉, where |ψ〉 is only dependent
+
+on the randomness of F tf . As this randomness is the same regardless of the value of z we get, we have
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∑
+
+z:f(z)=1
+
+αz(F
+t
+f |z, 0〉 − |z, 1〉)
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∑
+
+z:f(z)=1
+
+αz(|z, ψ〉 − |z, 1〉)
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+
+
+
+
+∑
+
+z:f(z)=1
+
+αz |z〉
+
+
+
+⊗ (|ψ〉 − |1〉)
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+≤ ‖|z0〉 ⊗ (|ψ〉 − |1〉)‖
+=
+∥
+
+∥(F tf −Of ) |z0, 0〉
+∥
+
+∥,
+
+where the inequality follows since
+∑
+
+z:f(z)=1 αz |0〉 has norm at most 1, and the last equality again using
+Lemma 4.10. Finally, applying Lemma 4.9 completes the proof.
+
+So far we have worked on showing that F tf acts correctly. Crucially, it only acts correctly when the initial
+state of the output register is |0〉. This is however not enough to get it to be completely identical to Of .
+To get around this, we add a scratchpad register S which we have full control over, and S initially starts in
+state |0〉. By doing this, we can construct the circuit Gtf that approximately implements Of .
+
+Theorem 4.12. Let t ≥ 6π2 ln(4δ−1)
+γ2 . Let Gtf be defined as in Fig. 3. Then with probability at least 1− δ for
+
+any state |φ〉ZB |0〉S ,
+∥
+
+∥(Gtf − ((Of )ZB ⊗ IS)) |φ〉ZB |0〉S
+∥
+
+∥ ≤ γ.
+
+11
+
+
+
+Proof. From Fig. 3 we have
+
+Gtf = (((IZ ⊗XS)(F
+t
+f )ZS(IZ ⊗XS))⊗ IB)(IZ ⊗ CNOTSB)((F
+
+t
+f )ZS ⊗ IB).
+
+We split this into three parts:
+K = ((F tf )ZS ⊗ IB)
+
+L = (IZ ⊗ CNOTSB)
+
+M = (((F tf )ZS(IZ ⊗XS))⊗ IB)
+
+R = (IZB ⊗XS)
+
+so that Gtf = RMLK. Let |φ〉 =
+∑
+
+z
+
+∑
+
+b αzb |z〉Z |b〉B. Using δ′ = δ/2 and γ′ = γ/2 we have by Lemma 4.11
+with probability 1− δ/2:
+
+‖(K − (Of )ZS ⊗ IB) |ψ〉ZB |0〉S‖ ≤ γ/2. (3)
+
+Next we expand ((Of )ZS ⊗ IB) |ψ〉ZB |0〉S as follows
+
+((Of )ZS ⊗ IB) |ψ〉ZB |0〉S =
+∑
+
+z
+
+αz((Of )ZS ⊗ IB) |z, b〉ZB |0〉S
+
+=
+∑
+
+z
+
+αz |z, b〉ZB |f(z)〉S . (4)
+
+Now applying L we get
+
+L
+∑
+
+z
+
+αz |z, b〉ZB |f(z)〉S =
+∑
+
+z
+
+αz |z, b⊕ f(z)〉ZB |f(z)〉S .
+
+Finally, we are going to apply
+
+M − (((Of )ZS(IZ ⊗XS))⊗ IB) = (((F tf −Of )ZS(IZ ⊗XS))⊗ IB)
+
+and take the norm which gives
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+(((F tf −Of )ZS(IZ ⊗XS))⊗ IB)
+∑
+
+z
+
+αz |z, b⊕ f(z)〉ZB |f(z)〉S
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+(((F tf −Of )ZS)⊗ IB)
+∑
+
+z
+
+αz |z, b⊕ f(z)〉ZB |f(z)⊕ 1〉S
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+
+
+
+
+∑
+
+z:f(z)=0
+
+αz((F
+t
+f −Of )ZS ⊗ IB)(|z, b〉ZB |1〉S) +
+
+∑
+
+z:f(z)=1
+
+αz((F
+t
+f − Of )ZS ⊗ IB)(|z, b⊕ 1〉ZB |0〉S)
+
+
+
+
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+.
+
+For the first term we have that ((F tf − Of )ZS ⊗ IB)(|z, b⊕ 1〉ZB |0〉S = 0, when f(z) = 0 by Lemma 4.8.
+This simplifies the calculation to
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+
+
+
+
+∑
+
+z:f(z)=1
+
+αz((F
+t
+f −Of )ZS ⊗ IB)(|z, b⊕ 1〉ZB |0〉S)
+
+
+
+
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+
+
+
+
+∑
+
+z:f(z)=1
+
+αz((F
+t
+f −Of )ZS)(|z〉Z |0〉S)
+
+
+
+
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+=
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+(F tf −Of )ZS
+
+
+
+
+
+∑
+
+z:f(z)=1
+
+αz(|z〉Z |0〉S)
+
+
+
+
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+.
+
+12
+
+
+
+|z〉Z
+
+|0m〉S
+
+F tf =
+
+|z〉A
+
+|0m〉S
+
+Of, 12
+⊗m
+
+i=1R−π/4
+
+⊗m
+i=1R π
+
+2t
+
+⊗m
+i=1R−π/4
+
+×t
+
+Figure 5: Robust calculation of Of |z, 0〉 for non-Boolean f .
+
+As
+∑
+
+z:f(z)=1 αz(|z〉Z |0〉S) has norm at most 1 we then get by Lemma 4.11 using δ′ = δ/2 and γ′ = γ/2 that
+
+with probability 1− δ/2:
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+(F tf −Of )ZS
+
+
+
+
+
+∑
+
+z:f(z)=1
+
+αz(|z〉Z |0〉S)
+
+
+
+
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+≤ γ/2. (5)
+
+Finally, it is straightforward to see that
+
+R(((Of )ZS(IZ ⊗XS))⊗ IB)L(Of )ZS ⊗ IB = (Of )ZB ⊗ IS (6)
+
+by studying the actions of basis vectors, since this is Fig. 3 but with the F tf replaced with Of .
+
+With probability of 1 − δ from a union bound, we can now use the triangle inequality as well as Eq. (4),
+Eq. (5) and Eq. (6) to bound the norm as:
+
+∥
+
+∥(Gtf − ((Otf )ZB ⊗ IS)) |φ, 0〉ZBS
+∥
+
+∥
+
+≤‖RML(K − (Of )ZS ⊗ IB) |φ, 0〉ZBS‖
++ ‖R(M − (((Of )ZS(IZ ⊗XS))⊗ IB))L(Of )ZS ⊗ IB) |φ, 0〉ZBS‖
++ ‖(R(((Of )ZS(IZ ⊗XS))⊗ IB)L(Of )ZS ⊗ IB − (Of )ZB ⊗ IS) |φ, 0〉ZBS‖
+
+=γ/2 + γ/2 + 0 = γ.
+
+5 Beyond Boolean functions
+
+We will now look at how the description from the previous section can be extended to oracles that do not
+output just a single bit. We are going to look at a function of the form f : {0, 1}n → {0, 1}m, with a
+corresponding oracle Of (see Section 3). We are still given access to the oracle Of,p and want to construct
+an oracle that is very close to Of .
+
+In this setting, we are going to continue to denote the input register as Z and the output register as
+HB =
+
+⊗m
+i=1 HBi which is composed of m single qubits, that is HBi
+
+∼= C2 for all i ∈ {1, . . . ,m}.
+For this, we are going to observe that f corresponds to m boolean functions, each computing a single bit of
+the output. The idea is therefore going to be that we essentially perform the circuit from Fig. 3 m times in
+parallel, such that we error-correct each of the m boolean functions. What is interesting is that we do not
+particularly have to touch the probability of success, since for the m parallel repetitions they are going to
+be perfectly correlated with respect to their error.
+
+We are going to define Gtf for non-Boolean functions simply by replacing each of the single qubit gates with
+gates that act on each of the qubits instead, which can be seen in Fig. 5 and Fig. 6.
+
+13
+
+
+
+|z〉Z
+
+|b〉B
+
+Gtf =
+
+|z〉Z
+
+|0m〉S
+
+|b〉B
+
+F tf F tf
+⊗m
+
+i=1X
+⊗m
+
+i=1X
+
+Figure 6: Robust calculation of Of |z, b〉 for non-Boolean f .
+
+Theorem 5.1. Let t ≥ 6π2m2 ln(4δ−1)
+γ2 . Let Gtf be defined as in Fig. 6. Then with probability at least 1 − δ
+
+for any state |φ〉ZB |0〉S, ∥
+
+∥(Gtf − ((Otf )ZB ⊗ IS)) |φ〉ZB |0m〉S
+∥
+
+∥ ≤ γ.
+
+Proof. For the function f we define fi, i ∈ {1, . . . ,m}, such that fi(z) is the i’th bit of f(z). Let IS−i =
+⊗m
+
+j=1,j 6=i ISj and similar for IB−i . We see thatGtf =
+∏m
+i=1(G
+
+t
+fi
+)ZSiBi⊗IS−iB−i , and thatOtf =
+
+∏m
+i=1(Ofi)ZBi⊗
+
+IB−i , where it should be noted that the Gtfi are defined by Fig. 3 and are perfectly correlated with each
+other since they share the same underlying Of, 12 . So from a couple of triangle inequalities, we get that
+
+∥
+
+∥Gtf − ((Otf )ZB ⊗ IS)) |φ〉ZB |0m〉S
+∥
+
+∥
+
+≤ max
+|ψ〉ZB
+
+∥
+
+∥Gtf − ((Otf )ZB ⊗ IS)) |ψ〉ZB |0m〉S
+∥
+
+∥
+
+= max
+|ψ〉ZB
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+((
+
+m
+∏
+
+i=1
+
+(Gtfi)ZSiBi ⊗ IS−iB−i
+
+)
+
+−
+((
+
+m
+∏
+
+i=1
+
+(Ofi )ZBi ⊗ IB−i
+
+)
+
+⊗ IS
+
+))
+
+|ψ〉ZB |0m〉S
+
+∥
+
+∥
+
+∥
+
+∥
+
+∥
+
+≤
+m
+∑
+
+i=1
+
+max
+|ψ〉
+
+ZBi
+
+∥
+
+∥
+
+∥
+
+(
+
+(
+
+Gtfi
+)
+
+ZSiBi
+−
+(
+
+(Ofi)ZBi ⊗ ISi
+
+))
+
+|ψ〉ZBi |0〉Si
+∥
+
+∥
+
+∥.
+
+Now by Theorem 4.12, with γ′ = γ/m, we can bound each term in the sum. Furthermore, since each Gtfi
+uses the same underlying oracle, we get that they are perfectly correlated in when they either succeed or
+fail. This means that with probability 1− δ:
+
+m
+∑
+
+i=1
+
+max
+|ψ〉ZBi
+
+∥
+
+∥
+
+∥
+
+(
+
+(
+
+Gtfi
+)
+
+ZSiBi
+−
+(
+
+(Ofi)ZBi ⊗ IS
+
+))
+
+|ψ〉ZBi |0
+m〉S
+
+∥
+
+∥
+
+∥ ≤
+m
+∑
+
+i=1
+
+γ/m = γ.
+
+6 Error-correcting arbitrary algorithms: Proof of Theorem 2.1
+
+We now have a way to efficiently construct a robust oracle, both for Boolean functions due to Theorem 4.12
+and for non-Boolean functions due to Theorem 5.1. From this, it is going to be straightforward to convert
+any algorithm into a version that is robust with respect to faulty oracles Of,p where p ≤ 1
+
+2 is known. We
+are simply going to replace each occurrence of the fault-free oracle in the original algorithm with our robust
+version of the oracle.
+
+We are going to model an algorithm as a series of oracle calls separated by unitaries and we let the algorithm
+act on three different registers, Z, B and T . Furthermore, we allow the oracle to act only on the registers
+Z and B, such that T corresponds to the register where the algorithm can both store information between
+oracle calls and perform additional computations.
+
+14
+
+
+
+Letting q be the number of fault-free oracle calls, we can write the unitary that our arbitrary algorithm
+implements as:
+
+V = Uq(Of ⊗ IT )Uq−1(Of ⊗ IT ) . . . U1(Of ⊗ IT )U0.
+
+For the robust algorithm, we furthermore give it access to the space S. This means that we can define the
+unitary where we have replaced each oracle call with a robust version:
+
+V ′ = (Uq ⊗ IS)(G
+t
+f ⊗ IT )(Uq−1 ⊗ IS)(G
+
+t
+f ⊗ IT ) . . . (U1 ⊗ IS)(G
+
+t
+f ⊗ IT )U0.
+
+Theorem 6.1. Let t ≥ 6π2q2m2 ln(4qδ−1)
+γ2 . Let Gtf be defined as in Fig. 6. Let
+
+V = Uq(Of ⊗ IT )Uq−1(Of ⊗ IT ) . . . U1(Of ⊗ IT ),
+
+V ′ = (Uq ⊗ IS)(G
+t
+f ⊗ IT ) . . . (U1 ⊗ IS)(G
+
+t
+f ⊗ IT ).
+
+Then with probability at least 1− δ for any state |φ〉ZBT ,
+
+‖((V ⊗ IS)− V ′) |φ〉ZBT ⊗ |0m〉S‖ ≤ γ.
+
+Proof. The proof simply follows from applying the triangle inequality several times. Define
+
+Vi = (Uq(Of ⊗ IST )Uq−1 . . . (Of ⊗ IT )Ui(G
+t
+f ⊗ IST ) . . . U1(G
+
+t
+f ⊗ IST )U0.
+
+Then we have that Vq = V ′ and trS V0 = V , where trS V0 denotes the partial trace with respect to S. For
+any i we further have that with probability 1− δ
+
+q by Theorem 5.1:
+
+‖(Vi − Vi−1) |ψ〉ZBT |0m〉S‖ ≤ max
+|ψ〉
+
+ZBT
+
+∥
+
+∥((Of ⊗ IST )− (Gtf ⊗ IT )) |ψ〉ZBT |0m〉S
+∥
+
+∥ ≤ γ
+
+q
+.
+
+Due to the fact that Vi−1 an Vi only differ in the operator between Ui−1 and Ui. We can now use this
+equation q times to get by a union bound that with probability at least 1− δ:
+
+‖(Vq − V0) |ψ〉ZBT |0m〉S‖ ≤
+q
+∑
+
+i=1
+
+max
+|ψ〉
+
+ZBT
+
+‖(Vi − Vi−1) |ψ〉ZBT |0m〉S‖
+
+≤
+q
+∑
+
+i=1
+
+γ
+
+q
+= γ
+
+using the triangle inequality in the first inequality.
+
+From this, we can conclude that we can efficiently and robustly simulate the fault-free query algorithm
+with respect to the faulty oracle. The robust algorithm then discards the register S and performs the same
+measurement as the fault-free algorithm. The correctness of the robustified algorithm can be seen via the
+following corollary, for small enough constants γ and δ.
+
+Corollary 6.2. Let t ≥ 6π2q2m2 ln(4qδ−1)
+γ2 . Let Gtf be the quantum channel as defined in Fig. 6. Let
+
+V = Uq(Of ⊗ IT )Uq−1(Of ⊗ IT ) . . . U1(Of ⊗ IT )
+
+V ′ = (Uq ⊗ IS)(G
+t
+f ⊗ IT ) . . . (U1 ⊗ IS)(G
+
+t
+f ⊗ IT ).
+
+Then for any state |φ〉ZBT ,
+
+T (V |φ〉〈φ|V ∗, trS V
+′(|φ〉〈φ|ZBT ⊗ |0m〉〈0m|S)V ′∗) ≤ γ + δ.
+
+15
+
+
+
+Proof. We let ρ = V ′(|φ〉〈φ| ⊗ |0m〉〈0m|)V ′∗. From this ρ can be written as a sum ρ = αρ1 + βρ2 with
+α + β = 1 where ρ1 is a mixed state that satisfy ‖((V ⊗ IS)− V ′) |φ〉ZBT ⊗ |0m〉S‖ ≤ γ, while ρ2 consists
+of states that does not satisfy this. Then by Theorem 6.1 we have β ≤ δ. Furthermore by Lemma 3.4 and
+Theorem 6.1 we have T (ρ1, (V |φ〉〈φ|V ∗)⊗ |0m〉〈0m|) ≤ γ. From this we get that
+
+T ((V |φ〉〈φ| V ∗)⊗ |0m〉〈0m| , ρ) ≤ αT (V |φ〉〈φ|V ∗ ⊗ |0m〉〈0m| , ρ1) + βT (V |φ〉〈φ| V ∗ ⊗ |0m〉〈0m| , ρ2) ≤ δ + γ.
+
+Then the statement follows from the fact that applying the partial trace can only decrease the partial
+trace.
+
+7 Conclusion
+
+In this paper, we demonstrate that under the faulty oracle model, all quantum query algorithms can be
+made robust to noise, implying that a quantum advantage is preserved for any quantum algorithm that
+has a near super-cubic advantage over its classical counterpart. Specifically, if a super-polynomial quantum
+advantage exists for a given problem, such an advantage is retained even under the noisy oracle. This
+robustness is achieved by replacing each oracle call of a q-query quantum algorithm in the fault-free case
+with a subroutine that approximates each fault-free oracle call to within a distance of O(1/q). This procedure
+incurs a multiplicative overhead of O(q2 log q) queries to the faulty oracle, and its correctness is analyzed
+using a one-dimensional random walk.
+
+We conclude by highlighting some open problems. Our robustification subroutine, as described above,
+replaces each fault-free oracle call with a subroutine that queries the faulty oracle O(q2 log q) times. Is
+this overhead optimal, or can it be improved? A lower bound of Ω(q) queries to the faulty oracle follows
+from [RS08]. Our algorithm works under the assumption that the error-rate p ≤ 1/2 (see Section 3 for the
+definition of error-rate) of the faulty oracle is known. We believe that the algorithm can be adapted to
+handle the case where p is unknown, and we mention this as an open question for future work. Finally, an
+important area for further investigation is understanding the impact of other, more “natural” noise models
+(e.g., decoherence and depolarizing noise, see [CFL+23, Ros23]) on quantum query algorithms.
+
+References
+
+[ABNR12] Andris Ambainis, Artūrs Bačkurs, Nikolajs Nahimovs, and Alexander Rivosh. Grover’s al-
+gorithm with errors. In International Doctoral Workshop on Mathematical and Engineering
+Methods in Computer Science, pages 180–189, 2012.
+
+[AGJO+15] Srinivasan Arunachalam, Vlad Gheorghiu, Tomas Jochym-O’Connor, Michele Mosca, and
+Priyaa Varshinee Srinivasan. On the robustness of bucket brigade quantum ram. New Journal
+of Physics, 17(12):123010, 2015.
+
+[BDW02] Harry Buhrman and Ronald De Wolf. Complexity measures and decision tree complexity: a
+survey. Theoretical Computer Science, 288(1):21–43, 2002.
+
+[Bel24] Aleksandrs Belovs. Global phase helps in quantum search: Yet another look at the welded tree
+problem. arXiv preprint arXiv:2404.19476, 2024.
+
+[BHMT02] Gilles Brassard, Peter Hoyer, Michele Mosca, and Alain Tapp. Quantum amplitude amplifica-
+tion and estimation. Contemporary Mathematics, 305:53–74, 2002.
+
+[BNRdW07] Harry Buhrman, Ilan Newman, HEIN Rohrig, and Ronald de Wolf. Robust polynomials and
+quantum algorithms. Theory of Computing Systems, 40:379–395, 2007.
+
+[CCD+03] Andrew M Childs, Richard Cleve, Enrico Deotto, Edward Farhi, Sam Gutmann, and Daniel A
+Spielman. Exponential algorithmic speedup by a quantum walk. In Proceedings of the thirty-
+fifth annual ACM symposium on Theory of computing, pages 59–68, 2003.
+
+16
+
+
+
+[CFL+23] Andrew M Childs, Honghao Fu, Debbie Leung, Zhi Li, Maris Ozols, and Vedang Vyas. Stream-
+ing quantum state purification. arXiv:2309.16387, 2023.
+
+[FG98] Edward Farhi and Sam Gutmann. Analog analogue of a digital quantum computation. Physical
+Review A, 57(4):2403, 1998.
+
+[GLM08] Vittorio Giovannetti, Seth Lloyd, and Lorenzo Maccone. Quantum random access memory.
+Physical review letters, 100(16):160501, 2008.
+
+[Gro96] Lov K Grover. A fast quantum mechanical algorithm for database search. In Proceedings of
+the twenty-eighth annual ACM symposium on Theory of computing, pages 212–219, 1996.
+
+[HMDW03] Peter Høyer, Michele Mosca, and Ronald De Wolf. Quantum search on bounded-error inputs.
+In International Colloquium on Automata, Languages, and Programming, pages 291–299, 2003.
+
+[INRT12] Kazuo Iwama, Harumichi Nishimura, Rudy Raymond, and Junichi Teruyama. Quantum coun-
+terfeit coin problems. Theoretical Computer Science, 456:51–64, 2012.
+
+[IRY06] Kazuo Iwama, Rudy Raymond, and Shigeru Yamashita. Query complexity of quantum biased
+oracles. Quantum Computation and Information: From Theory to Experiment, pages 19–42,
+2006.
+
+[Jor] Stephen Jordan. Quantum algorithm zoo. https://quantumalgorithmzoo.org/#oracular.
+
+[JZ23] Stacey Jeffery and Sebastian Zur. Multidimensional quantum walks. In Proceedings of the 55th
+Annual ACM Symposium on Theory of Computing, pages 1125–1130, 2023.
+
+[KNR18] Dmitry Kravchenko, Nikolajs Nahimovs, and Alexander Rivosh. Grover’s search with faults on
+some marked elements. International Journal of Foundations of Computer Science, 29(04):647–
+662, 2018.
+
+[LLL24] Guanzhong Li, Lvzhou Li, and Jingquan Luo. Recovering the original simplicity: succinct
+and deterministic quantum algorithm for the welded tree problem. In Proceedings of the 2024
+Annual ACM-SIAM Symposium on Discrete Algorithms (SODA), pages 2454–2480, 2024.
+
+[LLZT00] Gui Lu Long, Yan Song Li, Wei Lin Zhang, and Chang Cun Tu. Dominant gate imperfection
+in grover’s quantum search algorithm. Physical Review A, 61(4):042305, 2000.
+
+[PNRA99] B Pablo-Norman and M Ruiz-Altaba. Noise in grover’s quantum search algorithm. Physical
+Review A, 61(1):012301, 1999.
+
+[Ros23] Ansis Rosmanis. Quantum search with noisy oracle. arXiv:2309.14944, 2023.
+
+[RS08] Oded Regev and Liron Schiff. Impossibility of a quantum speed-up with a faulty oracle. In
+Proceedings of the 35th International Colloquium on Automata, Languages and Programming -
+Volume Part I, ICALP ’08, page 773–781, Berlin, Heidelberg, 2008. Springer-Verlag.
+
+[SBW03] Neil Shenvi, Kenneth R Brown, and K Birgitta Whaley. Effects of a random noisy oracle on
+search algorithm complexity. Physical Review A, 68(5):052313, 2003.
+
+[Sho99] Peter W Shor. Polynomial-time algorithms for prime factorization and discrete logarithms on
+a quantum computer. SIAM review, 41(2):303–332, 1999.
+
+[Sim97] Daniel R Simon. On the power of quantum computation. SIAM journal on computing,
+26(5):1474–1483, 1997.
+
+[SYNW06] Tomoya Suzuki, Shigeru Yamashita, Masaki Nakanishi, and Katsumasa Watanabe. Robust
+quantum algorithms with ε-biased oracles. In International Computing and Combinatorics
+Conference, pages 116–125. Springer, 2006.
+
+17
+
+
+
+[VRRW14] Peter Vrana, David Reeb, Daniel Reitzner, and Michael M Wolf. Fault-ignorant quantum
+search. New Journal of Physics, 16(7):073033, 2014.
+
+[Wat18] John Watrous. The Theory of Quantum Information. Cambridge University Press, 2018.
+
+[Wos21] Leonard Wossnig. Quantum machine learning for classical data. arXiv:2105.03684, 2021.
+
+18
+
+
+	Introduction
+	Our Results
+	Ideas behind proof of Theorem 2.1
+
+	Preliminaries
+	Overcoming the Faulty Oracle Noise for Boolean functions
+	Generalizing to all Inputs
+
+	Beyond Boolean functions
+	Error-correcting arbitrary algorithms: Proof of Theorem 2.1
+	Conclusion
+

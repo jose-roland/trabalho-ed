@@ -1,0 +1,1799 @@
+
+An Approach for Molecular and Biological Characterizations of
+
+Virulent Influenza A Viruses
+
+Meitner Cadena and Alejandro Yerovi
+
+November 8, 2024
+
+Abstract
+
+We propose an approach based on a combination of physical, chemical, and mathe-
+
+matical methods to identify and characterize virulent influenza A viruses (IAVs) through
+
+the analysis of the hemagglutinin protein. These methods include the isoelectric point,
+
+extreme value theory, and tree-like classification. The characterization process involves
+
+molecular and biological aspects. This procedure was applied to an IAV sample that
+
+included strains related to known influenza pandemics. The results provided clear posi-
+
+tion and amino acid pairs that identify these virulent viruses. These results show that
+
+our approach is promising to contribute new methodologies to identify and characterize
+
+virulent IAVs.
+
+Keywords: influenza A virus, hemagglutinin, pH, isoelectric point, extreme value theory,
+
+tree-like classification
+
+1 Introduction
+
+It is well-known that the pH influences virus activity, when mainly this parameter decreases.
+
+These interactions should be quite precise, since too low a pH can produce a temporal irre-
+
+versible conformational change in the influenza A virus (Stegmann et al., 1987). Still, this
+
+modification can become permanent if exposure to low pH was for prolonged periods, leaving
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+72
+
+2v
+1 
+
+ [
+q-
+
+bi
+o.
+
+Q
+M
+
+] 
+ 7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+
+
+the virus inactive thereafter. Viral proteins such as hemagglutinin (HA) and matrix protein
+
+1 undergo structural changes due to low pH to facilitate the viral infection process. This
+
+form of activation is usually achieved when the virus reaches the endosomes inside the host
+
+cells (Moreira et al., n.d.). Precisely, the acidic character of these large protein complexes
+
+contributes to said activation of the virus.
+
+In normal environments, the virus cannot maintain a low pH because it risks becoming
+
+unstable. However, some forms of this virus have shown to hold lower pH levels than usual
+
+in normal conditions. This ability would confer to these variants more stability in acidic
+
+environments as those of endosomes, which has been linked to increase their infectivity,
+
+pathogenicity, and transmissibility. In effect, in vitro experiments have shown that HA that
+
+has pH stability provides the virus with more efficiency for its replication (Singanayagam et
+
+al., 2019). We took advantage of this observation to formulate a systematic quantification
+
+of the pH of HA proteins using isoelectric point analysis, extreme value theory, and a novel
+
+hierarchical classification that guides the linkage of amino acid traits to virulence.
+
+In practice, several procedures have been implemented to determine the virulence of influenza
+
+A viruses. In this way, protection mechanisms would be established aimed at at least avoiding
+
+variants of these viruses that could lead to serious situations such as pandemics. These
+
+procedures are based mainly on laboratory tests and assays that attempt to detect variants
+
+that present a high risk of virulence, as the molecular configurations necessary to produce
+
+these risk levels are unknown (Tscherne et al., 2011). For example, it involves identifying
+
+variants that produce changes that alter the entry of viruses as well as their binding to host
+
+cells (Liang, 2023), changes in the activity of the virus polymerase (Tscherne et al., 2011)
+
+and mediations to reduce the host’s immune response (Kobasa et al., 2004). However, these
+
+laboratory studies are limited due to the availability of resources and execution time. That
+
+is, these analyzes are reduced to a few global assessments.
+
+In this article, we propose a different approach to assess virulence. This procedure is practical
+
+since only HA sequences are used. Additionally, a molecular characterization of high-risk
+
+virulence is provided by analyzing historically observed patterns of influenza A pandemics.
+
+It is based on the identification of extreme pH values of HA proteins that would be related
+
+2
+
+
+
+to high virulence, where said pH values are obtained through the notion of isoelectric point.
+
+In this way, molecular characterizations of HA proteins having extreme pH values can be
+
+obtained using classification-like trees.
+
+The following section describes the data and analysis procedures used to identify virulent
+
+influenza A viruses and characterize them molecularly and biologically. The results of the
+
+application of the proposed analysis method are presented in Section 3. Section 4 then
+
+discusses these results with respect to the molecular and biological characteristics of virulent
+
+influenza A viruses. The final section present concluding comments on this research.
+
+2 Materials and Methods
+
+2.1 Data
+
+All hemagglutinin (HA) proteins of influenza A viruses (IAVs) that infected humans and
+
+whose sequences were reported to the National Center for Biotechnology Information (NCBI)
+
+until July 31, 2024 were considered. The main possible subtypes of influenza A HnNm that
+
+affect humans were included, say H1N1, H2N2, H3N2 and H5N1 (Mifsud et al., 2022). From
+
+these HA proteins, the ones that had a partial coding sequence, more than one stop codon
+
+or without their year of registration were discarded. Additionally, only sequences that had
+
+the most common nucleotide length (566) were selected. This gave 30,314 HA proteins.
+
+2.2 Analysis Techniques
+
+2.2.1 Isoelectric Point
+
+To consider the pH of each HA protein, the isoelectric point (pI) of a molecule was used. This
+
+kind of point represents the pH of this molecule when it is electrically neutral (Cleaves, 2011).
+
+This notion has key applications as purification of proteins through their separation (Kos-
+
+mulski, 2016), prediction of protein behavior through protein features as solubility, stability,
+
+and activity (Pergande & Cologna, 2017), removal of viruses from monoclonal antibodies
+
+3
+
+
+
+through anion exchange chromatography (Leisi et al., 2021), and protein extraction through
+
+isoelectric point precipitation (Yao et al., 2023). The HA proteins were then assigned their
+
+isoelectric point calculated from their amino acid sequences using the computePI function
+
+of the seqinr (Charif & Lobry, 2007) library of the R programming environment (R Core
+
+Team, 2021). This function calculates the theoretical pI based on the pK values of the amino
+
+acids reported in (Bjellqvist et al., 1993, 1994). More precisely, each amino acid has ioniz-
+
+able carboxylate and ammonium groups corresponding to the carboxyl and amino groups,
+
+respectively. This produces the following acidity and basicity concentration relationships:
+
+Ka =
+[H+] [COO−]
+
+[COOH]
+and Kb =
+
+[OH−] [NH+
+3 ]
+
+[NH2]
+,
+
+where [X] indicates the concentration of X, COOH is the carboxylic acid or carboxyl group and
+
+NH2 is the amino group. These concentrations show the dissociation levels of the molecules
+
+considered. For instance, if COOH tends to dissociate easily, the values [H+] and [COO−]
+
+will increase while [COOH] will decrease. Then, pI is defined by
+
+pI =
+pKa + pKb
+
+2
+, (1)
+
+where pKa = − log10(Ka) and pKb = − log10(Kb).
+
+This pI calculation has limitations. For example, post-translational modifications that could
+
+alter the protein being analyzed, such as phosphorylation of glycosylation, are not considered
+
+(Kozlowski, 2021), and possible interactions between residues are not observed, as they occur
+
+during a folding process (Harms et al., 2009).
+
+2.2.2 Thresholds For Extreme Values
+
+A formidable and convenient fact for humans is that influenza A pandemics that have occurred
+
+are very rare. Mathematically, this means that the events of this type of pandemic are
+
+susceptible to being analyzed using the Theory of Extreme Values (Haan & Ferreira, 2006).
+
+More precisely, our interest is to identify the extreme pH values of HA proteins in order to
+
+4
+
+
+
+characterize them. In this sense, the mean excess function e(x) of a random variable X can
+
+be used to estimate from where the value x said function behaves as a constant when it is
+
+assumed that X follows a generalized Pareto distribution GPD(ξ, β), 0 < ξ < 1 and β > 0,
+
+for large values x. For this distribution, this function defined by e(x) = E(X − x|X > x),
+
+where E(X) means the expected value of X or its mean, is, say e.g. (Ghosh & Resnick,
+
+2010),
+
+e(x) =
+β + ξx
+
+1− ξ
+. (2)
+
+Therefore, e(x) showing linearly increasing behaviors would suggest the presence of extreme
+
+values. Then, the threshold from which this type of values would be presented would be the
+
+smallest x value for which these unusual behaviors are evident. To determine the threshold
+
+for extreme pH values, the mrlplotx function of the evmix package (Hu & Scarrott, 2018)
+
+of the R programming language was used. In addition, since the objective extreme values
+
+of pH are those that are low, the transformation exp(−pH× ln(10))× 1, 000, 000 to express
+
+these extreme values as high values was applied.
+
+2.3 Classification Trees
+
+To molecularly and biologically characterize virulent IAV variants, an approach as classifi-
+
+cation trees (Breiman et al., 1984) was applied. This non-linear, non-parametric technique
+
+identifies values of certain variables that allow us to discriminate behaviors of a target vari-
+
+able. This process uses an error function that measures how well such discrimination is
+
+achieved. Fewer errors, better classification. As a result, the original data is split based on
+
+the value and variable that produce the lowest error. This procedure is applied recursively
+
+on each subset of data obtained from the set division described above. We propose a bit
+
+different approach for targeting virulent IAVs. It consisted in to analyze sub-sequences of
+
+HA proteins in order to determine the ones related to uniquely virulent IAVs. Note that
+
+from these notable sub-sequences, their initial and final amino acids always facilitate the
+
+distinction between virulent and non-virulent AIVs, but for other amino acids in these sub-
+
+5
+
+
+
+sequences their function is not delved into. Next, the positions that appear most frequently
+
+were identified, as they would be key to identifying virulent IAVs.
+
+Fig. 1 (A) shows a sample of amino acid sequences to illustrate how to find amino acids that
+
+distinguish virulent sequences from those that do not using our classification procedure. This
+
+example shows 5 virulent, denoted by vn with n from 1 to 5, and 9 non-virulent, denoted
+
+by nvn with n from 1 to 9, HA protein sequences, which are supposed to have a length of
+
+40. Amino acids that are not common in a given position are highlighted. Considering sub-
+
+sequences of length 1, the amino acid N in position 2 allows the identification of virulent AIV
+
+since no non-virulent sequence has that amino acid in position 2. Something similar happens
+
+with Y in position 6, H in position 13, C in position 15, L and S in position 16, V in position 17,
+
+K in position 31 and S in position 40. Considering sub-sequences of length 2, CL at position
+
+15 is the only two-amino acid subsequence that allows the identification of a virulent AIV.
+
+These amino acids of interest are summarized in Fig. 1 (B) using a sequence logo (Dong et
+
+al., 2020) that was prepared using the logo tool available at weblogo.berkeley.edu (Crooks
+
+et al., 2004). This drawing shows the virulence-relevant amino acids and their frequencies
+
+that were identified for each position in a reference sequence.
+
+3 Results
+
+Fig. 2 plots the estimated pH of the analyzed HA proteins. These values appear more
+
+frequently during the years after 2000 due to several key factors, such as advances in tech-
+
+nology for high-throughput sequencing (Tsai & Chen, 2011), global health initiatives related
+
+to influenza (Petrova & Russell, 2018), and epidemiological studies (Lavenu et al., 2006).
+
+Furthermore, this figure shows that years with lower pH values would be related to IAV
+
+pandemic years, for example, the years 1918 and 2009.
+
+Fig. 3 presents (A) all these pH values together and (B) their transformed values. The last
+
+values allow us to visualize how far the extreme values located on the right side are from the
+
+common values located on the left side. Application of the function mrlplotx produced the
+
+threshold 0.11639, which corresponds to pH 6.93407 (pH∗). Therefore, 1,666 of 30,314 HA
+
+6
+
+weblogo.berkeley.edu
+
+
+A
+
+B
+
+Figure 1: Example to identify amino acids that characterize virulent IAVs. (A) Sample of
+
+virulent and non-virulent sequences. (B) Sequence logo of potential positions and their amino
+
+acids causing virulence
+
+proteins were determined to be virulent (5.5 %).
+
+Next, the set of all sequences was analyzed using the classification approach described above
+
+to distinguish the ones with pH lower than pH∗ from those with higher pH. To this end,
+
+application of our procedure to classify virulent HA proteins with sub-sequence lengths from
+
+1 to 50 allowed the identification of 284 virulent IAVs. Fig. 4 (A) shows these results of
+
+classification, where all ranges presented in this figure correspond to those identified virulent
+
+IAVs. Fig. 4 (B) shows the coverage for those ranges that means how many ranges overlap
+
+each position. Ranges and coverage were computed using the IRanges package (Pages et
+
+al., 2013). This coverage curve allows the visualization of positions with higher frequencies
+
+through all positions of analyzed HA proteins. This means that such positions are common
+
+to a number of virulent IAVs, which would thus be associated with key positions that have
+
+roles in virulence as they have relevant frequencies.
+
+7
+
+
+
+Figure 2: Boxplot of analyzed pH of IAV HA from 1918 to 2024.
+
+Table 3 shows the detected modes (positions) mentioned above. Their biological function-
+
+alities following e.g. Sriwilaijaroen & Suzuki (2012) are indicated. The ten most frequent
+
+positions are in bold.
+
+8
+
+
+
+A B
+
+Figure 3: Histogram of (A) analyzed and (B) transformed pH of IAV HA from 1918 to 2024.
+
+A B
+
+Figure 4: (A) Observed ranges in the sequence of HA proteins and (B) coverage (in black)
+
+of these ranges.
+
+9
+
+
+
+R
+eg
+io
+n
+
+D
+o
+m
+a
+in
+
+P
+o
+si
+ti
+o
+n
+s
+
+F
+o
+u
+n
+d
+p
+o
+si
+ti
+o
+n
+s
+
+B
+io
+lo
+g
+ic
+a
+l
+fu
+n
+ct
+io
+n
+a
+li
+ti
+es
+
+H
+A
+1
+
+F
+u
+si
+o
+n
+
+2
+2
+–
+3
+4
+
+2
+3
+
+U
+n
+k
+n
+ow
+
+n
+
+3
+4
+–
+?
+(<
+
+6
+3
+)
+
+3
+6
+
+G
+ly
+co
+sy
+la
+ti
+o
+n
+si
+te
+
+fo
+u
+n
+d
+in
+
+a
+ll
+a
+lm
+
+o
+st
+
+H
+1
+v
+ir
+u
+se
+s
+o
+r
+u
+n
+k
+n
+ow
+
+n
+
+E
+st
+er
+a
+sa
+
+6
+4
+–
+?
+(<
+
+7
+6
+)
+
+6
+6
+
+G
+ly
+co
+sy
+la
+ti
+o
+n
+si
+te
+
+fo
+u
+n
+d
+o
+n
+ly
+
+in
+se
+a
+so
+n
+a
+l
+H
+1
+v
+ir
+u
+se
+s
+o
+r
+u
+n
+k
+n
+ow
+
+n
+
+8
+4
+–
+9
+5
+
+8
+8
+
+A
+n
+ti
+g
+en
+
+ic
+si
+te
+
+le
+ss
+
+ch
+a
+n
+g
+ea
+b
+le
+
+†
+
+9
+5
+–
+1
+1
+5
+
+1
+0
+3
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+
+R
+ec
+ep
+
+to
+r-
+b
+in
+d
+in
+g
+
+1
+3
+3
+–
+1
+3
+8
+
+1
+3
+7
+
+M
+o
+n
+o
+cl
+o
+n
+a
+l
+a
+n
+ti
+g
+en
+
+ic
+si
+te
+
+†
+
+1
+4
+3
+–
+1
+5
+2
+
+1
+4
+5
+
+M
+o
+n
+o
+cl
+o
+n
+a
+l
+a
+n
+ti
+g
+en
+
+ic
+si
+te
+
+†
+
+1
+5
+7
+–
+?
+(<
+
+1
+6
+3
+)
+
+1
+5
+8
+
+G
+ly
+co
+sy
+la
+ti
+o
+n
+si
+te
+
+fo
+u
+n
+d
+o
+n
+ly
+
+in
+se
+a
+so
+n
+a
+l
+H
+1
+v
+ir
+u
+se
+s
+o
+r
+a
+n
+ti
+g
+en
+
+ic
+si
+te
+
+1
+7
+3
+–
+1
+8
+2
+
+1
+7
+8
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+
+1
+9
+8
+–
+2
+0
+6
+
+2
+0
+6
+
+P
+o
+si
+ti
+v
+e
+se
+le
+ct
+ed
+
+si
+te
+
+∗
+
+2
+0
+8
+–
+2
+1
+8
+
+2
+1
+4
+
+A
+n
+ti
+g
+en
+
+ic
+si
+te
+
+◦
+
+2
+2
+8
+–
+2
+3
+9
+
+2
+3
+3
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+
+2
+4
+1
+–
+2
+6
+3
+
+2
+5
+0
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+
+E
+st
+er
+a
+se
+
+2
+6
+3
+–
+2
+7
+6
+
+2
+6
+4
+,
+2
+7
+2
+
+G
+ly
+co
+sy
+la
+ti
+o
+n
+si
+te
+
+fo
+u
+n
+d
+o
+n
+ly
+
+in
+se
+a
+so
+n
+a
+l
+H
+1
+v
+ir
+u
+se
+s,
+
+p
+o
+si
+ti
+v
+e
+se
+le
+ct
+ed
+
+si
+te
+
+∗
+fo
+r
+2
+6
+4
+
+F
+u
+si
+o
+n
+
+2
+9
+0
+–
+3
+2
+4
+
+3
+0
+0
+,
+3
+1
+3
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+
+H
+A
+2
+
+F
+u
+si
+o
+n
+
+3
+2
+9
+–
+4
+8
+3
+
+3
+3
+7
+,
+3
+5
+1
+,
+3
+6
+8
+,
+3
+9
+7
+,
+4
+1
+6
+,
+
+C
+o
+n
+se
+rv
+ed
+
+re
+g
+io
+n
+‡
+ex
+ce
+p
+ti
+n
+g
+4
+5
+8
+
+4
+2
+6
+,
+4
+4
+3
+,
+4
+5
+8
+,
+4
+6
+6
+,
+4
+8
+0
+
+N
+o
+t
+d
+efi
+
+n
+ed
+
+4
+8
+9
+–
+5
+1
+4
+
+4
+9
+9
+
+A
+n
+ti
+g
+en
+
+ic
+si
+te
+
+◦
+
+5
+1
+4
+–
+5
+4
+2
+
+5
+1
+6
+,
+5
+4
+2
+
+T
+ra
+n
+sm
+
+em
+b
+ra
+n
+e
+
+(†
+)
+N
+a
+ka
+
+ji
+m
+a
+et
+
+a
+l.
+(2
+0
+0
+5
+),
+
+(‡
+)
+G
+h
+a
+fo
+o
+ri
+
+et
+a
+l.
+(2
+0
+2
+3
+),
+
+(∗
+)
+G
+h
+a
+fo
+o
+ri
+
+et
+a
+l.
+(2
+0
+2
+3
+),
+
+(◦
+)
+L
+u
+cz
+o
+&
+
+S
+p
+a
+ck
+m
+a
+n
+(2
+0
+2
+4
+)
+
+T
+a
+b
+le
+
+1:
+B
+io
+lo
+g
+ic
+al
+
+fu
+n
+ct
+io
+n
+a
+li
+ti
+es
+
+of
+p
+os
+it
+io
+n
+s
+of
+
+H
+A
+
+p
+ro
+te
+in
+s
+d
+et
+ec
+te
+d
+fo
+r
+h
+av
+in
+g
+p
+ot
+en
+ti
+a
+l
+ro
+le
+s
+in
+
+v
+ir
+u
+le
+n
+ce
+.
+
+10
+
+
+
+Table 3 shows that the modes involved are distributed throughout the HA protein. Among
+
+their biological functions, antigenic sites stand out, suggesting that evasion of the host’s
+
+immune system is an important component of the virulence strategy by lowering the pH.
+
+Fig. 5 shows the possible virulence-related positions that were found (in yellow) in three-
+
+dimensional representations of the HA protein. These graphs are based on the 1RUZ 1918
+
+variant available in the Protein Data Base database (Berman et al., 2003) and to obtain these
+
+graphs the VMD (Humphrey et al., 1996) application has been used. These images show (A)
+
+front, (B) side, and (C) top views of this protein.
+
+A B C
+
+Figure 5: (A) front, (B) side, and (C) top views of HA protein containing potential virulence-
+
+related positions of IAVs
+
+Regarding the amino acids associated with ten positions with highest frequencies, Table 2
+
+shows these results, which include the frequencies of the positions in question and also the
+
+frequencies of the amino acids involved. The positions are sorted by decreasing frequency
+
+and in ascending order by position if they match in frequency. The amino acids of each
+
+position are arranged in descending order according to their frequency and alphabetically if
+
+they coincide in frequency. These notable positions were highlighted in Table 3 in bold.
+
+11
+
+
+
+Amino acid
+
+Position Frequency Single Frequency
+
+letter code
+
+233 22 I 13
+
+A 6
+
+T 3
+
+206 20 Q 11
+
+E 4
+
+D 3
+
+K 1
+
+N 1
+
+214 19 A 13
+
+S 3
+
+T 3
+
+66 18 P 10
+
+E 6
+
+K 2
+
+23 17 D 8
+
+G 8
+
+E 1
+
+36 17 V 15
+
+I 2
+
+Amino acid
+
+Position Frequency Single Frequency
+
+letter code
+
+158 17 A 5
+
+K 4
+
+E 2
+
+G 2
+
+R 2
+
+S 2
+
+178 14 L 7
+
+P 3
+
+I 2
+
+Q 1
+
+S 1
+
+264 13 N 7
+
+T 4
+
+K 2
+
+272 13 F 9
+
+G 4
+
+Table 2: Amino acids that distinguish virulent IAVs, associated to positions with highest
+
+frequencies.
+
+4 Discussion
+
+Our main objective of knowing how virulent the structure of an IAV can be to plan prevention
+
+measures against possible epidemics and pandemics has been met. Indeed, our approach
+
+based mainly on the use of pH measurements, the application of extreme value theory and
+
+the configuration of classification-like trees has allowed the identification of key positions in
+
+HA proteins to describe their virulence. According to our approach, well-known pandemic
+
+years appear to be related to virulent viruses collected in 1918 and 2009, but also potential
+
+virulent IAVs would also have appeared in 1968, 1972, 2021, 2023 and 2024. Further, such
+
+12
+
+
+
+identification of those key positions has been determined using local modes because the high
+
+frequency in a representative sample of virulent IAVs would mean that these positions play
+
+a crucial role. Interestingly, these positions are distributed throughout the HA protein, but
+
+some of them definitely seem very important. Furthermore, some of the specific amino acids
+
+involved in these positions have been established.
+
+The distribution of potential virulence-related positions in Table 3 and the position frequency
+
+presented in Table 2 shows that virulent AIVs would be related to both HA1 and HA2, but
+
+with more emphasis with HA1 than with HA2. This clarification between HA1 and HA2
+
+seems not to be included in the scientific literature where what is considered is that both
+
+HA1 and HA2 would play crucial roles in the virulence of IAVs (Shirvani et al., 2020). On
+
+the other hand, considering the frequency of the biological functionalities of the potential
+
+positions of greatest virulence, it is observed that the increase in the intervention of the
+
+antigenic sites would be supported by the decrease in pH. This suggests that these positions
+
+would have biological functions distinct from antigenic sites before mutations occur that
+
+confer antigenic functions to these sites.
+
+Also, it seems difficult to identify crucial positions related to virulence since this concept has
+
+not been characterized in terms of positions. In this way, our model clearly contributes to
+
+clarifying what these potential positions would be.
+
+5 Conclusions
+
+The uncertainty about how the HA protein of an IAV mutates represents a serious limitation
+
+to knowing how virulent this virus can be. Despite this, it has been possible to identify
+
+positions that would be playing a crucial role in the emergence of virulent IAVs. This analysis
+
+based on the application of physical, chemical and mathematical processes thus seems to be
+
+a promising strategy to complement the analyzes carried out to determine the virulence of
+
+an AIV.
+
+Moreover, although the characterization of the mutations has not been addressed in this study,
+
+13
+
+
+
+this essential knowledge could also be revealed by the procedure we have proposed. In fact,
+
+the identification of potential positions with specific amino acids for obtaining virulent IAVs
+
+would allow analyzing the relationships between virulent and non-virulent IAVs. Therefore,
+
+some of these relationships could involve the aforementioned mutations.
+
+As there is still a need to better understand the composition and function of structural and
+
+antigenic integrity sites and even their evolution in positions and amino acids when virulent
+
+IAVs are formed, further investigations are required. These activities that aim at acquiring
+
+new knowledge may also include explorations on topics as Gibbs free energy and molecular
+
+symmetry among others.
+
+References
+
+Berman, H., Henrick, K., & Nakamura, H. (2003). Announcing the worldwide protein data
+
+bank. Nature Structural & Molecular Biology , 10 (12), 980. doi: https://doi.org/10.1038/
+
+nsb1203-980
+
+Bjellqvist, B., Basse, B., Olsen, E., & Celis, J. E. (1994). Reference points for comparisons
+
+of two-dimensional maps of proteins from different human cell types defined in a ph scale
+
+where isoelectric points correlate with polypeptide compositions. Electrophoresis, 15 (1),
+
+529–539.
+
+Bjellqvist, B., Hughes, G. J., Pasquali, C., Paquet, N., Ravier, F., Sanchez, J.-C., . . .
+
+Hochstrasser, D. (1993). The focusing positions of polypeptides in immobilized ph gradi-
+
+ents can be predicted from their amino acid sequences. Electrophoresis, 14 (1), 1023–1031.
+
+Breiman, L., Friedman, J., Olshen, R., & Stone, C. J. (1984). Classification and regression
+
+trees. Chapman and Hall/CRC.
+
+Charif, D., & Lobry, J. (2007). SeqinR 1.0-2: a contributed package to the R project for
+
+statistical computing devoted to biological sequences retrieval and analysis. In U. Bastolla,
+
+M. Porto, H. Roman, &M. Vendruscolo (Eds.), Structural approaches to sequence evolution:
+
+14
+
+
+
+Molecules, networks, populations (p. 207-232). New York: Springer Verlag. (ISBN : 978-
+
+3-540-35305-8)
+
+Cleaves, H. J. J. (2011). Isoelectric point. In M. Gargaud et al. (Eds.), Encyclopedia of
+
+astrobiology (pp. 858–858). Berlin, Heidelberg: Springer Berlin Heidelberg.
+
+Crooks, G. E., Hon, G., Chandonia, J.-M., & Brenner, S. E. (2004). WebLogo: A sequence
+
+logo generator (Vol. 14). https://weblogo.berkeley.edu. Retrieved from https://
+
+weblogo.berkeley.edu (Accessed: 2024-10-29) doi: 10.1101/gr.849004
+
+Dong, Z., et al. (2020). An overview of sequence logo technique and potential application
+
+direction. The Frontiers of Society, Science and Technology , 2 (11), 51–57.
+
+Ghafoori, S. M., Petersen, G. F., Conrady, D. G., Calhoun, B. M., Stigliano, M. Z., Baydo,
+
+R. O., . . . others (2023). Structural characterisation of hemagglutinin from seven influenza
+
+a h1n1 strains reveal diversity in the c05 antibody recognition site. Scientific reports, 13 (1),
+
+6940.
+
+Ghosh, S., & Resnick, S. (2010). A discussion on mean excess plots. Stochastic Processes
+
+and their Applications, 120 (8), 1492–1517.
+
+Haan, L., & Ferreira, A. (2006). Extreme value theory: an introduction (Vol. 3). Springer.
+
+Harms, M. J., Castañeda, C. A., Schlessman, J. L., Sue, G. R., Isom, D. G., Cannon, B. R., et
+
+al. (2009). The pka values of acidic and basic residues buried at the same internal location
+
+in a protein are governed by different factors. Journal of molecular biology , 389 (1), 34–47.
+
+Hu, Y., & Scarrott, C. (2018). evmix: An r package for extreme value mixture modeling,
+
+threshold estimation and boundary corrected kernel density estimation. Journal of Sta-
+
+tistical Software, 84 (5), 1–27. Retrieved from https://www.jstatsoft.org/index.php/
+
+jss/article/view/v084i05 doi: 10.18637/jss.v084.i05
+
+Humphrey, W., Dalke, A., & Schulten, K. (1996). Vmd - visual molecular dynamics. Journal
+
+of Molecular Graphics, 14 , 33-38.
+
+15
+
+https://weblogo.berkeley.edu
+https://weblogo.berkeley.edu
+https://weblogo.berkeley.edu
+https://www.jstatsoft.org/index.php/jss/article/view/v084i05
+https://www.jstatsoft.org/index.php/jss/article/view/v084i05
+
+
+Kobasa, D., Takada, A., Shinya, K., Hatta, M., Halfmann, P., Theriault, S., . . . others (2004).
+
+Enhanced virulence of influenza a viruses with the haemagglutinin of the 1918 pandemic
+
+virus. Nature, 431 (7009), 703–707.
+
+Kosmulski, M. (2016). Isoelectric points and points of zero charge of metal (hydr) oxides: 50
+
+years after parks’ review. Advances in Colloid and Interface Science, 238 , 1–61.
+
+Kozlowski, L. P. (2021). Ipc 2.0: prediction of isoelectric point and p k a dissociation
+
+constants. Nucleic Acids Research, 49 (W1), W285–W292.
+
+Lavenu, A., Leruez-Ville, M., Chaix, M.-L., Boelle, P.-Y., Rogez, S., Freymuth, F., . . . Carrat,
+
+F. (2006). Detailed analysis of the genetic evolution of influenza virus during the course
+
+of an epidemic. Epidemiology & Infection, 134 (3), 514–520.
+
+Leisi, R., Wolfisberg, R., Nowak, T., Caliaro, O., Hemmerle, A., Roth, N. J., & Ros, C.
+
+(2021). Impact of the isoelectric point of model parvoviruses on viral retention in anion-
+
+exchange chromatography. Biotechnology and bioengineering , 118 (1), 116–129.
+
+Liang, Y. (2023). Pathogenicity and virulence of influenza. Virulence, 14 (1), 2223057.
+
+Luczo, J. M., & Spackman, E. (2024). Epitopes in the ha and na of h5 and h7 avian influenza
+
+viruses that are important for antigenic drift. FEMS Microbiology Reviews, 48 (3).
+
+Mifsud, E. J., Farrukee, R., Hurt, A. C., Reading, P. C., & Barr, I. G. (2022). Infection
+
+with different human influenza a subtypes affects the period of susceptibility to secondary
+
+bacterial infections in ferrets. FEMS microbes, 3 , xtac011.
+
+Moreira, E., Yamauchi, Y., & Matthias, P. (n.d.). How influenza virus uses host cell pathways
+
+during uncoating. cells. 2021; 10 (7): 1722.
+
+Nakajima, K., Nobusawa, E., Nagy, A., & Nakajima, S. (2005). Accumulation of amino
+
+acid substitutions promotes irreversible structural changes in the hemagglutinin of human
+
+influenza ah3 virus during evolution. Journal of virology , 79 (10), 6472–6477.
+
+Pages, H., Aboyoun, P., Lawrence, M., Maintainer, M. B. P., biocViews Infrastructure, D.,
+
+XVector, S., & GenomicRanges, B. (2013). Package ’iranges’.
+
+16
+
+
+
+Pergande, M., & Cologna, S. (2017). Isoelectric point separations of peptides and proteins.
+
+proteomes 5 (4): 4.
+
+Petrova, V. N., & Russell, C. A. (2018). The evolution of seasonal influenza viruses. Nature
+
+Reviews Microbiology , 16 (1), 47–60.
+
+R Core Team. (2021). R: A language and environment for statistical computing [Computer
+
+software manual]. Vienna, Austria. Retrieved from https://www.R-project.org/
+
+Shirvani, E., Paldurai, A., Varghese, B. P., & Samal, S. K. (2020). Contributions of ha1
+
+and ha2 subunits of highly pathogenic avian influenza virus in induction of neutralizing
+
+antibodies and protection in chickens. Frontiers in Microbiology , 11 , 1085.
+
+Singanayagam, A., Zambon, M., & Barclay, W. S. (2019). Influenza virus with increased
+
+ph of hemagglutinin activation has improved replication in cell culture but at the cost of
+
+infectivity in human airway epithelium. Journal of Virology , 93 (17), 10–1128.
+
+Sriwilaijaroen, N., & Suzuki, Y. (2012). Molecular basis of the structure and function of
+
+h1 hemagglutinin of influenza virus. Proceedings of the Japan Academy, Series B , 88 (6),
+
+226–249.
+
+Stegmann, T., Booy, F., & Wilschut, J. (1987). Effects of low ph on influenza virus. acti-
+
+vation and inactivation of the membrane fusion capacity of the hemagglutinin. Journal of
+
+Biological Chemistry , 262 (36), 17744–17749.
+
+Tsai, K.-N., & Chen, G.-W. (2011). Influenza genome diversity and evolution. Microbes and
+
+Infection, 13 (5), 479–488.
+
+Tscherne, D. M., Garcia-Sastre, A., et al. (2011). Virulence determinants of pandemic
+
+influenza viruses. The Journal of clinical investigation, 121 (1), 6–13.
+
+Yao, S., Li, W., Martin, G. J., & Ashokkumar, M. (2023). An investigation into the mech-
+
+anism of alkaline extraction-isoelectric point precipitation (ae-iep) of high-thiol plant pro-
+
+teins. Applied Sciences, 13 (11), 6469.
+
+17
+
+https://www.R-project.org/
+
+	Introduction
+	Materials and Methods
+	Data
+	Analysis Techniques
+	Isoelectric Point
+	Thresholds For Extreme Values
+
+	Classification Trees
+
+	Results
+	Discussion
+	Conclusions
+

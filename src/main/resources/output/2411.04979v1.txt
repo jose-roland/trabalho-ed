@@ -1,0 +1,2582 @@
+
+Quantum speedups in solving near-symmetric optimization
+problems by low-depth QAOA
+
+Ashley Montanaro∗1,2 and Leo Zhou†1,3
+
+1Phasecraft Ltd.
+2University of Bristol
+
+3University of California, Los Angeles
+
+November 7, 2024
+
+Abstract
+
+We present new advances in achieving exponential quantum speedups for solving optimiza-
+tion problems by low-depth quantum algorithms. Specifically, we focus on families of combinato-
+rial optimization problems that exhibit symmetry and contain planted solutions. We rigorously
+prove that the 1-step Quantum Approximate Optimization Algorithm (QAOA) can achieve a
+success probability of Ω(1/
+
+√
+n), and sometimes Ω(1), for finding the exact solution in many
+
+cases. Furthermore, we construct near-symmetric optimization problems by randomly sampling
+the individual clauses of symmetric problems, and prove that the QAOA maintains a strong suc-
+cess probability in this setting even when the symmetry is broken. Finally, we construct various
+families of near-symmetric Max-SAT problems and benchmark state-of-the-art classical solvers,
+discovering instances where all known classical algorithms require exponential time. Therefore,
+our results indicate that low-depth QAOA could achieve an exponential quantum speedup for
+optimization problems.
+
+Contents
+
+1 Introduction 2
+
+2 Background 3
+2.1 Quantum approximate optimization algorithm . . . . . . . . . . . . . . . . . . . . . . 3
+2.2 Symmetric CSPs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+2.3 Related work . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+
+3 QAOA can solve symmetric CSPs in polynomial time 6
+3.1 Sn-symmetric CSPs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+
+3.1.1 Success when cost function takes on (mostly) distinct values . . . . . . . . . . 7
+3.1.2 Success in some cases with optimized γ . . . . . . . . . . . . . . . . . . . . . 8
+
+3.2 Sn1 × Sn2-symmetric CSPs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+
+4 QAOA can solve near-symmetric CSPs in polynomial time 12
+∗ashley@phasecraft.io
+†leoxzhou@ucla.edu
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+97
+
+9v
+1 
+
+ [
+qu
+
+an
+t-
+
+ph
+] 
+
+ 7
+ N
+
+ov
+ 2
+
+02
+4
+
+
+
+5 Performance of classical algorithms 14
+5.1 Oracular setting . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+5.2 Simulated annealing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+5.3 Best solvers from SAT and Max-SAT competitions . . . . . . . . . . . . . . . . . . . 16
+
+6 Discussion 20
+
+1 Introduction
+
+Optimization problems are critical to a wide range of real-world applications, and efficiently solving
+these problems is of great practical importance across many fields in science and industry. Quantum
+computers hold the promise of solving certain optimization problems faster than classical algorithms,
+offering potential breakthroughs in speed and efficiency. However, while there is hope for quantum
+speedups, we currently lack strong evidence that near-term quantum computers with limited circuit
+depth can achieve a substantial advantage over classical methods.
+
+In this work, we provide new evidence that a low-depth quantum algorithm, the Quantum Ap-
+proximate Optimization Algorithm (QAOA) [1], can solve families of near-symmetric optimization
+problems exponentially faster than the best known classical algorithms. The QAOA has been pro-
+posed as a general-purpose quantum optimization algorithm that can be run on near-term quantum
+computers, and has seen implementation across a variety of experimental platforms [2, 3, 4, 5].
+In the low-depth regime, however, limitations of the QAOA has been proven for various prob-
+lems [6, 7, 8, 9, 10, 11, 12]. While there has been some evidence that shows low-depth QAOA can
+still provide a quantum speedup for both approximate [13] and exact optimization [14], they ap-
+pear to be only small polynomial speedups. In contrast, our results demonstrate that for problems
+possessing some level of symmetry, an exponential speedup with the QAOA is possible even in the
+low-depth regime.
+
+The symmetric optimization problems we consider are maximum constraint satisfaction problems
+(Max-CSPs) that are defined with a planted n-bit string and has a cost function that exhibit
+certain symmetry. For example, when the symmetry is the symmetric group Sn permuting all n
+bits, the cost function depends only on the Hamming distance to the planted bit string. Similar
+families of problems have been previously studied in the context of quantum annealing, which may
+take polynomial or exponential time to find the solution depending on the problem [15, 16, 17,
+18]. Although a quantum speedup relative to certain general-purpose classical algorithms may be
+obtained in some cases, these symmetric problems are susceptible to attacks by tailored classical
+algorithms that know and take advantage of the symmetry. In this work, however, we take a step
+further to consider the situation where the symmetry is broken by randomly sampling the clauses in
+the cost function, and we call these problems “near-symmetric.” We also instantiate these problem
+explicitly in the form of Boolean satisfiability problems and benchmark them with state-of-the-art
+classical algorithms.
+
+As our main result, we prove that the 1-step QAOA can solve many symmetric and near-
+symmetric problem in polynomial time. Our findings are based on analytically deriving the success
+probability of 1-step QAOA in finding the planted solution using combinatorial calculations and
+a rigorous application of the saddle-point method. For example, given any Sn-symmetric cost
+function that takes on n + 1 distinct values for the different Hamming distances, we show the
+1-step QAOA has Ω(1/
+
+√
+n) success probability in finding the solution (Theorem 3.3). We also
+
+consider various problems with either Sn or (Sn/2)
+2 symmetry and multiple local minima that
+
+confuse classical algorithms, and prove that 1-step QAOA succeeds in finding the global minima
+
+2
+
+
+
+with Ω(1) probability (Theorems 3.4 and 3.7). Furthermore, leveraging the high success probability
+from a low-depth QAOA, we show that the QAOA also succeed with similar probability even when
+the symmetry is broken by random sparsification of the cost function (Theorem 4.1). Hence, using
+repetitions of the 1-step QAOA, one can find the solution in polynomial time with O(
+
+√
+n) or O(1)
+
+queries to the cost function for these symmetric and near-symmetric problems. On the other hand,
+we show that any classical algorithm requires at least Ω(n/ log n) queries to the cost function to
+solve any Sn-symmetric problem, even if the symmetry is known in advance (Claim 5.1).
+
+To explore quantum speedups, we explicitly construct instances of symmetric and near-symmetric
+Max-SAT problems, and study the performance of practical classical optimization algorithm such as
+simulated annealing and state-of-the-art classical SAT and Max-SAT solvers. In particular, we con-
+sider algorithms that are front-runners from recent SAT and Max-SAT competitions, and perform
+numerical experiments up to hundreds of bits to extract their run time scaling. For some instances,
+we show that all classical solvers known to us take exponential time to find the solution. Since
+one can solve these problems in polynomial time using 1-step QAOA, we have what appears to be
+an exponential quantum speedup over general-purpose classical algorithms by low-depth QAOA.
+Our results highlight the potential for significant quantum speedups even with constrained capabil-
+ities of near-term quantum devices, bringing us closer to realizing practical quantum advantages in
+optimization.
+
+2 Background
+
+2.1 Quantum approximate optimization algorithm
+
+The QAOA is a quantum algorithm introduced by [1] for finding approximate solutions to combi-
+natorial optimization problems. The problem task is to minimize a cost function, which counts the
+number (or total weight) of clauses not satisfied by an input bit string. Given a cost function C(x)
+on bit strings x ∈ {0, 1}n, we can define a corresponding quantum operator C, diagonal in the com-
+putational basis, as C|x⟩ = C(x)|x⟩. Moreover, we introduce the operator B =
+
+∑n
+j=1Xj , where Xj
+
+is the Pauli X operator acting on qubit j. Given a set of parameters γ = (γ1, γ2, . . . , γp) ∈ Rp and
+β = (β1, β2, . . . , βp) ∈ Rp, the p-step QAOA initializes the system of qubits in the uniform super-
+position of all bit strings, |s⟩ = 2−n/2
+
+∑
+x |x⟩, and applies p alternating layers of unitary operations
+
+eiγkC and eiβkB to prepare the state
+
+|ψβ,γ⟩ = eiβpBeiγpC · · · eiβ1Beiγ1C |s⟩. (2.1)
+
+Finally, the state |ψβ,γ⟩ is measured in the computational basis to obtain a bit string x with
+probability |⟨x|ψβ,γ⟩|2.
+
+Various strategies have been proposed to choose parameters (β,γ) to minimize the expected
+value of the cost function ⟨ψβ,γ |C|ψβ,γ⟩ upon measurement for any given problem instance (see
+e.g., [19]). In this work, however, we will show how to choose the parameters so that we obtain
+significant probability of finding an exact solution x∗ = argminxC(x), which may not always be
+the parameters that minimize the expected cost.
+
+2.2 Symmetric CSPs
+
+We aim to find exact solutions to combinatorial optimization problems in the form of maximum
+constraint satisfaction problems (Max-CSPs) with a planted solution. These problems are described
+by a cost function C : {0, 1}n → Z counting the number (or total weight) of violated constraints,
+such that C(x) is minimized by the planted bit string s ∈ {0, 1}n, and C(x) ≥ C(s) for all x ̸= s.
+
+3
+
+
+
+Furthermore, we will consider symmetric optimization problems where the cost function is in-
+variant under some symmetry group action on the input modulo the solution string.
+
+Definition 2.1 (Symmetric CSPs). Given a permutation group G ⊆ Sn acting on [n] and a bit
+string s ∈ {0, 1}n, we say that a Max-CSP with cost function C : {0, 1}n → Z is G-symmetric
+relative to s if C(π(x ⊕ s) ⊕ s) = C(x) for all x ∈ {0, 1}n and π ∈ G. Here, ⊕ refers to bitwise
+modulo-2 addition, and [π(x)]i = xπ(i).
+
+Furthermore, we say that a given Max-CSP is a Max-ℓ-CSP (or an ℓ-CSP, for short) when the
+cost function is a sum of ℓ-local constraint clauses, i.e., C(x) =
+
+∑
+αCα(x) where Cα are functions
+
+that depends nontrivially on ℓ or fewer bits. For concreteness, we will focus on the following two
+examples of symmetric CSPs and explain how to generate them by symmetrizing local constraints.
+
+Example 1: Sn-symmetric CSPs. In this case, C(x) = c(|x ⊕ s|) for some function c :
+{0, . . . , n} → Z, where |x ⊕ s| is the Hamming distance between x and s. In what follows, we
+will often refer to both c and C as the cost function interchangeably, and use the upper-case C for
+bit string inputs and the lower-case c for the Hamming distance inputs.
+
+We can generate an Sn-symmetric CSP relative to s from any local “clause” function C1 :
+{0, 1}ℓ → Z by applying C1 to all ℓ-subsets of the bits in x⊕ s. If C1 is not symmetric with respect
+to its input, we will consider all permutations of these subsets too, which effectively symmetrizes
+C1. We think of C1 as corresponding an an individual clause, which we then promote to an overall
+SAT-style formula by applying it to all subsets of the bits. For example, if C1 = x1 ∨ x2, we would
+get an overall formula of the form (y1 ∨ y2)∧ (y1 ∨ y3)∧ · · · ∧ (yn−1 ∨ yn) where yi = xi ⊕ si, with a
+cost function given by the number of unsatisfied clauses. The final formula will have Θ(nℓ) clauses.
+
+As an example, let us consider the following SAT formula (with s = 0n for simplicity):
+
+ϕ = ϕ1 ∧ ϕ2, where ϕ1 = ¬x1 ∧ ¬x2 ∧ · · · ∧ ¬xn, ϕ2 =
+∧
+
+i ̸=j ̸=k
+
+(¬xi ∨ xj ∨ xk). (2.2)
+
+Here, ϕ1 ensures that the only satisfying assignment is s = 0n. ϕ2 ensures that most clauses are ones
+which encourage a local search algorithm to increase the Hamming weight of the current attempt.
+The cost function counting the number of unsatisfied clauses is C(x) =
+
+∑
+i xi +
+
+∑
+i ̸=j ̸=k xi(1 −
+
+xj)(1− xk). More simply, the cost of a bit string x with Hamming weight k is
+
+c(k) = k + k(n− k)(n− k − 1). (2.3)
+
+Note that this cost function has two local minima: the global minimum at k = 0 where c(k) = 0,
+and a suboptimal local minimum at k = n− 1 where c(k) = n− 1. Moreover, the cost decreases in
+the range k/n ≥ 1/3, which causes many classical algorithms to be trapped in the false minimum at
+k = n− 1. For example, an algorithm based on hill climbing to decrease the cost, which starts with
+a uniformly random assignment, will go in the wrong direction. In addition, for most assignments,
+most of the violated clauses are ones in ϕ2; a local search algorithm like WalkSAT that iteratively
+take a violated clause at random and flip one of the bits will more likely flip the last two bits to 1
+instead of the first bit to 0, moving it farther from the solution.
+
+Example 2: Sn1 × Sn2-symmetric CSPs with n1 + n2 = n. In this case, we partition any
+n-bit string into two substrings as x = (x[1],x[2]) where each x[i] is an ni-bit string. Then C(x) =
+c(|x[1] ⊕ s[1]|, |x[2] ⊕ s[2]|) for some function c : [0, n1]× [0, n2] → Z.
+
+Similar to the above example, we can generate an Sn1 × Sn2-symmetric CSP by taking any
+(ℓ1 + ℓ2)-local clause function C2 : {0, 1}ℓ1+ℓ2 → Z and apply them to all possible unions of
+
+4
+
+
+
+ℓ1-subsets from n1 bits and and ℓ2-subset from n2 bits. For example, if (ℓ1, ℓ2) = (3, 2) and
+C2 = x1(1− x2)(1− x3)x4(1− x5), then the corresponding symmetrized CSP is
+
+C(x) =
+∑
+
+i,j,k∈[n1]
+i ̸=j ̸=k
+
+∑
+l,m∈[n2]
+l ̸=m
+
+x
+[1]
+i (1− x
+
+[1]
+j )(1− x
+
+[1]
+k )x
+
+[2]
+l (1− x[2]m ) (2.4)
+
+Note upon an input with substring Hamming weights k1 = |x[1]| and k2 = |x[2]|, the above cost
+function can be written more simply as
+
+c(k1, k2) = k1(n1 − k1)(n1 − k1 − 1)k2(n2 − k2 − 1). (2.5)
+
+2.3 Related work
+
+The performance of the QAOA has been studied for various optimization problems, including the
+Sherrington-Kirkpatrick model [20], MaxCut [13, 21], the Max-q-XORSAT for regular hypergraphs
+[13], q-spin spin-glass models [10, 22], and random Boolean satisfiability problems [14]. Among these
+work, only [14] studied the QAOA in the context of exact optimization where the goal is to find
+the globally optimal solution. The results in [14] show that low-depth QAOA can find solutions to
+random k-SAT with exponentially small probability, although with a better exponent than the state-
+of-the-art classical SAT solvers that were benchmarked, yielding a polynomial quantum speedup.
+Although [13] showed that the QAOA provably achieves an approximate MaxCut value on random
+regular graphs better than any assumption-free polynomial-time classical algorithm, comparison
+against the conjectural state-of-the-art classical algorithm based on message passing [23] suggests
+that a quadratic quantum speedup is more likely [24]. Hence, the question of exponential quantum
+speedup in optimization via the QAOA is still open.
+
+Another line of work has aimed to prove computational hardness results for the QAOA and
+related quantum algorithms. [7, 8, 9, 12] studied the limitation of local quantum algorithms like
+the QAOA for solving combinatorial optimization problems on sparse random graphs, using the
+bounded light-cone of the algorithms at sufficiently low depths. This limitation was later translated
+to the dense spin-glass models in [10]. In addition, [6, 11] proved hardness results for the QAOA by
+exploiting the bit-flip symmetry in certain families of problem. However, all these previously known
+limitations of the QAOA have relied on concentration of the measured bit strings in the Hamming
+weight basis in some manner. We remark that none of the existing hardness results apply to the
+settings we consider in the current paper, since the problems involve highly nonlocal geometry and
+the QAOA operates in a regime where there is no concentration of measurement.
+
+There have also been multiple studies of quantum algorithms on symmetric optimization prob-
+lem. Early results in [15, 16, 17] examined adiabatic quantum annealing (i.e., the quantum adiabatic
+algorithm) on symmetric optimization problems where the cost function depends only on the Ham-
+ming weight of the input bit string. In particular, [16] showed that for some of these problems with
+two local minima, classical simulated annealing takes exponential time to find the global minimum,
+whereas adiabatic quantum annealing may take polynomial or exponential time depending on the
+shape of the potential barrier between the local minima. Later [18] studied quantum annealing on
+more examples of such “perturbed Hamming weight optimization” problems, and found that short-
+time (non-adiabatic) quantum annealing can be much faster than adiabatic quantum annealing.
+Nevertheless, many of these examples have cost functions that are highly nonlocal and cannot be
+instantiated as a Max-CSP with bounded locality. In contrast, all examples of symmetric CSPs we
+study in this work are made out of local clauses that are closer to practical optimization problems.
+
+We remark that [1] has previously claimed but not proven the fact that the 1-step QAOA can
+solve a specific family of symmetric CSPs (which was first studied in [16]) that would take quantum
+
+5
+
+
+
+annealing exponential time. Here, we develop techniques that enable a proof of the claim rigorously,
+as well as considering more general problems and situations when the symmetry is broken.
+
+3 QAOA can solve symmetric CSPs in polynomial time
+
+In this section, we show that the QAOA can solve symmetric CSPs in polynomial time for the two
+example symmetries Sn and Sn1 × Sn2 that we introduced in Section 2.2.
+
+For Sn-symmetric CSPs, we first show in Theorem 3.3 that 1-step QAOA can find the exact
+solution with probability Ω(1/
+
+√
+n) under relatively general assumptions for the cost function. Then
+
+we show in Theorem 3.4 that the success probability of QAOA can be improved to Ω(1) when
+the cost function takes on a specific form. Although more restricted, the symmetric CSPs in the
+second case contain features that are hard for classical algorithms, which we explain in more detail
+in Section 5.
+
+Finally, we consider a generalization of our result to the product symmetry group Sn1 × Sn2
+
+in Section 3.2. There, under a suitable constraint for the form of the cost function, we show in
+Theorem 3.7 that 1-step QAOA can also achieve Ω(1) success probability in finding the exact
+solution for these more general problems.
+
+3.1 Sn-symmetric CSPs
+
+We begin by proposing a couple somewhat general assumptions for Sn-symmetric CSPs under which
+the QAOA succeeds to find the solution with probability Ω(1/
+
+√
+n). This is the assumption that the
+
+cost function takes on distinct values for different input Hamming distances. More formally,
+
+Assumption 3.1. c(k) ̸= c(l) for all k ̸= l.
+
+Assumption 3.2. Prx,y
+
+[
+c(|x|) = c(|y|) and |x| ̸= |y|
+
+]
+= o(1/
+
+√
+n) for bit strings x,y ∈ {0, 1}n
+
+drawn uniformly at random.
+
+We believe that Assumption 3.1 can be easily checked to be satisfied for many Sn-symmetric
+CSPs constructed from symmetrizing local constraints. Intuitively, an Sn-symmetric Max-ℓ-CSP
+constructed from symmetrizing a ℓ-local clause has a cost function that takes on values in the range
+of [0,Θ(nℓ)], and so it’s usually unlikely that the n + 1 values repeat. More rigorously, we show
+for example later in Lemma 3.5 that this assumption is satisfied for the symmetric SAT problem
+given in Eq. (2.2) with a simple number-theoretic proof. Assumption 3.2 is weaker (and thus more
+general) since it is implied by Assumption 3.1, and it allows c(k) to take on repeated values for the
+relatively rarer Hamming distances. Under either assumptions, we prove:
+
+Theorem 3.3. For any family of Sn-symmetric CSPs satisfying Assumption 3.1 or 3.2, the 1-step
+QAOA finds the solution with probability Ω(1/
+
+√
+n).
+
+We remark that distinctness of the c(k)’s is required to some extent for the quantum algorithm
+to succeed in polynomial time. This is because in the extreme case when c(0) = 0, c(k) = 1 for
+k ̸= 0, we are in the situation of unstructured search, and the running time must be Ω(
+
+√
+2n) due to
+
+the lower bound by [25].
+Next, we consider the case of Sn-symmetric cost functions that take on a specific form and show
+
+that 1-step QAOA can succeed to find the solution with Ω(1) probability. For any integers ℓ, a with
+0 ≤ a ≤ ℓ, we consider any cost function that looks like the following to leading order in n:
+
+c(k) = nℓ
+(k
+n
+
+)a(
+1− k
+
+n
+
+)ℓ−a
++O(nℓ−1). (3.1)
+
+6
+
+
+
+Note the example problem given earlier with cost function (2.3) falls under this case. Furthermore,
+we expect such cost functions can be challenging for classical algorithms since they contain two
+distant local minima at k = 0 and k = n. For these problems, we show in the below theorem that
+there are parameters for 1-step QAOA to find the exact solution with Ω(1) probability.
+
+Theorem 3.4. For any Sn-symmetric problem with cost function of the form (3.1) where ℓ ̸= 2a,
+the 1-step QAOA with γ = 2ℓ−2
+
+ℓ−2a
+π
+
+nℓ−1 and β = −π/4 can achieve Ω(1) probability of finding the exact
+solution.
+
+In what follows, we prove Theorem 3.3 in Section 3.1.1, and then Theorem 3.4 in Section 3.1.2.
+
+3.1.1 Success when cost function takes on (mostly) distinct values
+
+To prove Theorem 3.3 under either Assumption 3.1 or 3.2, we begin by noting that the 1-step QAOA
+produces the following state for parameters β, γ ∈ R:
+
+|ψβ,γ⟩ = eiβ
+∑
+
+j XjeiγC |+⟩⊗n.
+
+Observe that
+
+⟨s|ψβ,γ⟩ = ⟨0n|
+∏
+
+j,sj=1
+
+Xje
+iβ
+
+∑
+j XjeiγC |+⟩⊗n =
+
+1√
+2n
+
+⟨0n|eiβ
+∑
+
+j Xj
+∑
+
+x∈{0,1}n
+eiγc(|x⊕s|)|x⊕ s⟩
+
+=
+1√
+2n
+
+⟨0n|eiβ
+∑
+
+j Xj
+∑
+
+x∈{0,1}n
+eiγc(|x|)|x⟩
+
+so without loss of generality we can assume that s = 0n. Then let us fix β = −π/4 and compute
+
+⟨s|ψβ,γ⟩ =
+1
+
+2n
+(⟨0|+ i⟨1|)⊗n
+
+∑
+x∈{0,1}n
+
+eiγc(|x|)|x⟩ = 1
+
+2n
+
+∑
+x∈{0,1}n
+
+i|x|eiγc(|x|)
+
+=
+1
+
+2n
+
+n∑
+k=0
+
+ikeiγc(k)
+(
+n
+
+k
+
+)
+. (3.2)
+
+Proof of Theorem 3.3. Let us choose γ uniformly at random from [0, 2π) and compute the expected
+success probability. Starting from Eq. (3.2), we get
+
+Eγ [|⟨s|ψβ,γ⟩|2] =
+1
+
+22n
+
+n∑
+k,l=0
+
+ik−lEγ [e
+iγ(c(k)−c(l))]
+
+(
+n
+
+k
+
+)(
+n
+
+l
+
+)
+=
+
+1
+
+22n
+
+n∑
+k=0
+
+(
+n
+
+k
+
+)2
+
++ ϵn =
+1
+
+22n
+
+(
+2n
+
+n
+
+)
++ ϵn
+
+= Θ(1/
+√
+n) + ϵn (3.3)
+
+where we used Stirling’s approximation for the first term. The error term collects the remaining
+part of the initial double sum:
+
+ϵn :=
+1
+
+22n
+
+∑
+k ̸=l
+
+(
+n
+
+k
+
+)(
+n
+
+l
+
+)
+ik−lEγ [e
+
+iγ(c(k)−c(l))] =
+1
+
+22n
+
+∑
+k ̸=l
+
+(
+n
+
+k
+
+)(
+n
+
+l
+
+)
+ik−l1c(k)=c(l),
+
+where we used the fact that Eγ [e
+iγz] = 0 for any integer z ̸= 0, and denoted 1A as the indicator
+
+function that returns 1 if statement A is true and 0 otherwise. For cost functions satisfying As-
+sumption 3.1, we have ϵn = 0, which immediately proves the theorem for this case. For the more
+
+7
+
+
+
+general case under Assumption 3.2, let us rewrite the error term as
+
+ϵn =
+1
+
+22n
+
+∑
+x,y∈{0,1}n
+
+i|x|−|y|1c(|x|)=c(|y|)∧ |x|̸=|y|
+
+|ϵn| ≤
+1
+
+22n
+
+∑
+x,y∈{0,1}n
+
+1c(|x|)=c(|y|)∧ |x|̸=|y| = Pr
+x,y
+
+[
+c(|x|) = c(|y|) ∧ |x| ≠ |y|
+
+]
+. (3.4)
+
+Assumption 3.2 implies |ϵn| = o(1/
+√
+n), which implies Eγ [|⟨s|ψβ,γ⟩|2] = Θ(1/
+
+√
+n). Therefore, under
+
+either assumptions, QAOA outputs the correct answer s with probability Θ(1/
+√
+n), and O(
+
+√
+n)
+
+repetitions are sufficient to identify s.
+
+To illustrate the applicability of Theorem 3.3, we show in the below lemma that the example
+Sn-symmetric SAT problem given in Section 2.2 indeed satisfies the distinct-value assumption, and
+hence the theorem can be applied to rigorously prove the success of 1-step QAOA.
+
+Lemma 3.5. Consider the SAT problem defined in Eq. (2.2) with cost function c(k) in Eq. (2.3).
+Then for all n satisfying n ≡ 0 or 1 mod 4, Assumption 3.1 is satisfied.
+
+Proof. Suppose for the sake of contradiction that c(k) = c(m) for some k ̸= m. Then
+
+0 =
+c(m)− c(k)
+
+m− k
+= k2 + k(m+ 1− 2n) + (m− n)2 +m− n+ 1. (3.5)
+
+To simplify this expression, let δ = m− n, which allows us to write
+
+0 = k2 + k(δ + 1− n) + δ2 + δ + 1. (3.6)
+
+If this equation has an integer solution, that it must have a solution in mod 4 as well, yielding
+
+0 = k2 + k(δ + 1− n) + δ2 + δ + 1 mod 4.
+
+It is straightforward to verify that when n = 0 or 1 mod 4, the above equality is not satisfiable for
+all 42 possible of choices of (k, δ) mod 4. Thus, no integer solution to Eq. (3.6) exists, implying
+there is no integer solution to c(m) = c(k) where k ̸= m.
+
+3.1.2 Success in some cases with optimized γ
+
+We now prove Theorem 3.4 to show that 1-step QAOA can succeed with Ω(1) probability on some
+families of Sn-symmetric CSPs.
+
+We will again set β = −π/4 and consider the parameter regime of γ where
+
+γ =
+Γ
+
+nℓ−1
+π.
+
+Following Eq. (3.2) and plugging in the form of c(k) assumed in Eq. (3.1), we have
+
+⟨s|ψβ,γ⟩ =
+1
+
+2n
+
+n∑
+k=0
+
+(
+n
+
+k
+
+)
+exp
+
+[
+in
+π
+
+2
+Pn(k/n)
+
+]
+(3.7)
+
+where
+Pn(ξ) = ξ + 2Γξa(1− ξ)ℓ−a +O
+
+( 1
+
+n
+
+)
+.
+
+8
+
+
+
+Note we can interpret k in the summand above as a random variable distributed as Binom(n, 1/2),
+which converges to a Gaussian variable N (n/2, n/4) in the n → ∞ limit by the Central Limit
+Theorem. Hence we can replace the sum on k with an integral in this limit as:
+
+lim
+n→∞
+
+⟨s|ψβ,γ⟩ = lim
+n→∞
+
+1√
+2πn/4
+
+∫ ∞
+
+−∞
+exp
+
+[
+−(k − n/2)2
+
+2n/4
++ in
+
+π
+
+2
+Pn(k/n)
+
+]
+dk
+
+= lim
+n→∞
+
+n√
+2πn/4
+
+∫ ∞
+
+−∞
+enS(ξ)+iϵn(ξ)dξ (3.8)
+
+where we denoted ξ = k/n and
+
+S(ξ) = −2
+(
+ξ − 1
+
+2
+
+)2
++ i
+
+π
+
+2
+
+[
+ξ + 2Γξa(1− ξ)ℓ−a
+
+]
+,
+
+and ϵn(ξ) contains the left-over terms in Pn(ξ) that remains uniformly bounded as n → ∞. We
+note that ℜ[S(ξ)] has a single maximum over ξ ∈ R at ξ0 = 1/2. We want to apply the saddle-point
+method to evaluate Eq. (3.8) which requires ξ0 to be a non-degenerate saddle point of S(ξ). This
+requirement translates to the conditions that
+
+0 = S′(ξ0) = i
+π
+
+2
+
+(
+1 +
+
+2a− ℓ
+
+2ℓ−2
+Γ
+)
+, and 0 ̸= S′′(ξ0) = −4 + iπΓ
+
+(ℓ− 2a)2 − ℓ
+
+2ℓ−2
+. (3.9)
+
+These conditions can be satisfied when ℓ ̸= 2a by choosing
+
+Γ =
+2ℓ−2
+
+ℓ− 2a
+,
+
+which ensures that ξ0 is a unique non-degenerate saddle point of S(ξ). Then the integral in Eq. (3.8)
+satisfies the prerequisites for applying the saddle-point method (see e.g., [26]), yielding
+
+lim
+n→∞
+
+⟨s|ψβ,γ⟩ = lim
+n→∞
+
+n√
+2πn/4
+
+√
+− 2π
+
+nS′′(ξ0)
+enS(ξ0)+iϵn(ξ0),
+
+lim
+n→∞
+
+|⟨s|ψβ,γ⟩|2 =
+
+∣∣∣∣∣ 4
+
+4− iπ (ℓ−2a)2−ℓ
+ℓ−2
+
+∣∣∣∣∣ =
+(
+1 + π2
+
+[(ℓ− 2a)2 − ℓ]2
+
+16(ℓ− 2)2
+
+)−1/2
+
+. (3.10)
+
+Note we used the fact that ℜ[S(ξ0)] = 0 and ϵn(ξ0) ∈ R.
+
+3.2 Sn1 × Sn2-symmetric CSPs
+
+In this section, we study families of Sn1 × Sn2-symmetric CSPs in the large problem size limit.
+Specifically, we will let αi = ni/n and consider the limit where n→ ∞ with αi as fixed constants.
+
+For any Sn1 × Sn2-symmetric CSPs, the cost function can be written as
+
+C(x) = c(d1(x, s), d2(x, s)) (3.11)
+
+where dj(x, s) = |x[j]⊕s[j]| is the Hamming distance between x and s among the subset of nj bits.
+Similar to the setting of Theorem 3.4, we will consider situations where the cost function take
+
+on a restricted form where more explicit calculations can be done.
+
+9
+
+
+
+Assumption 3.6. Consider a family of Sn1 × Sn2-symmetric CSPs in the limit of n → ∞ with
+αi = ni/n > 0 fixed. Assume there is a positive integer ℓ, a finite sequence of non-negative integer
+4-tuples (aµ, bµ, cµ, dµ) satisfying aµ + bµ + cµ + dµ = ℓ for all µ, and a sequence of κµ ∈ R, such
+that the cost function of the CSP can be written to leading order in n as
+
+c(k1, k2) = nℓf(k1/n1, k2/n2) +O(nℓ−1),
+
+where f(ξ1, ξ2) =
+∑
+µ
+
+κµξ
+aµ
+1 (1− ξ1)
+
+bµξ
+cµ
+2 (1− ξ2)
+
+dµ . (3.12)
+
+Furthermore, we assume that
+
+1
+
+α1
+
+∑
+µ
+
+κµ(aµ − bµ) =
+1
+
+α2
+
+∑
+µ
+
+κµ(cµ − dµ) ̸= 0, (3.13)
+
+and det
+
+4α1 + iπα1
+
+∑
+µ κµ[(aµ−bµ)2−(aµ+bµ)]∑
+
+µ κµ(aµ−bµ)
+iπα1
+
+∑
+µ κµ(aµ−bµ)(cµ−dµ)∑
+
+µ κµ(aµ−bµ)
+
+iπα1
+
+∑
+µ κµ(aµ−bµ)(cµ−dµ)∑
+
+µ κµ(aµ−bµ)
+4α2 + iπα2
+
+∑
+µ κµ[(cµ−dµ)2−(cµ+dµ)]∑
+
+µ κµ(cµ−dµ)
+
+ ̸= 0. (3.14)
+
+We remark that one method to ensure that conditions (3.13) and (3.14) are satisfied, for example,
+is by choosing α1 = α2 = 1/2, having at least one term where aµ ̸= bµ, and then symmetrizing the
+cost function over the two subsets to get c′(ξ1, ξ2) = c(ξ1, ξ2) + c(ξ2, ξ1).
+
+Theorem 3.7. Consider any Sn1 × Sn2-symmetric CSP satisfying Assumption 3.6. In the limit of
+n→ ∞ with ni/n = αi held fixed, the 1-step QAOA can achieve Ω(1) probability of finding the exact
+solution with γ = Θ(1/nℓ−1).
+
+Proof. We again set β = −π/4 and consider the parameter regime of γ where
+
+γ =
+Γ
+
+nℓ−1
+π. (3.15)
+
+Similar to the Sn-symmetric case, we can write the overlap of the 1-step QAOA state with the
+solution bit string as
+
+⟨s|ψβ,γ⟩ =
+1
+
+2n
+(⟨0|+ i⟨1|)⊗n
+
+∑
+x∈{0,1}n
+
+eiγc(d1(x,s),d2(x,s))|x⊕ s⟩ = 1
+
+2n
+
+n1∑
+k1=0
+
+n2∑
+k2=0
+
+ik1+k2eiγc(k1,k2)
+(
+n1
+k1
+
+)(
+n2
+k2
+
+)
+
+=
+1
+
+2n
+
+n1∑
+k1=0
+
+n2∑
+k2=0
+
+(
+n1
+k1
+
+)(
+n2
+k2
+
+)
+exp
+
+[
+in
+π
+
+2
+Pn
+
+(k1
+n1
+,
+k2
+n2
+
+)]
+, (3.16)
+
+where we used the form of c(k1, k2) in Eq. (3.12) to write
+
+Pn(ξ1, ξ2) =
+2∑
+
+i=1
+
+αiξi + 2Γf(ξ1, ξ2) +O
+( 1
+
+n
+
+)
+. (3.17)
+
+Treating each ki that we sum over in Eq. (3.16) as a random variable distributed as Binom(ni, 1/2),
+we can apply the Central Limit Theorem to replace them with Gaussian variables N (ni/2, ni/4) in
+
+10
+
+
+
+the n→ ∞ limit. In this limit, the sums become Gaussian integrals, and we get
+
+lim
+n→∞
+
+⟨s|ψβ,γ⟩ = lim
+n→∞
+
+∫∫ ∞
+
+−∞
+exp
+
+[
+−
+
+2∑
+i=1
+
+(ki − ni/2)
+2
+
+2ni/4
++ in
+
+π
+
+2
+Pn
+
+(k1
+n1
+,
+k2
+n2
+
+)] 2∏
+i=1
+
+dki√
+2πni/4
+
+= lim
+n→∞
+
+∫∫ ∞
+
+−∞
+exp
+
+[
+−2n
+
+2∑
+i=1
+
+αi(ξi −
+1
+
+2
+)2 + in
+
+π
+
+2
+Pn(ξ)
+
+] 2∏
+i=1
+
+dξi
+√
+2ni√
+π
+
+= lim
+n→∞
+
+∫∫ ∞
+
+−∞
+exp
+
+[
+nS(ξ) + iϵn(ξ)
+
+] 2∏
+i=1
+
+dξi
+√
+2αin√
+π
+
+. (3.18)
+
+where we regroup terms to obtain
+
+S(ξ) =
+2∑
+
+i=1
+
+[
+− 2αi(ξi −
+
+1
+
+2
+)2 + i
+
+π
+
+2
+αiξi
+
+]
++ iπΓf(ξ), (3.19)
+
+and ϵn(ξ) containing the sub-leading order terms in Pn(x) that remains uniformly bounded as
+n → ∞. Observe that ℜ[S(ξ)] achieves a unique maximum at ξ∗ = (1/2, 1/2) in the domain
+of integration ξ ∈ R2. We want to apply the saddle point method to evaluate the integral in
+Eq. (3.18), but we will need to ensure ξ∗ is a non-degenerate saddle point of S(ξ). This translates
+to the condition that ∇S(ξ∗) = 0 and detHS(ξ
+
+∗) ̸= 0, where HS is the Hessian of S. To this end,
+let us examine ∇S(ξ∗), whose components are
+
+∂S
+
+∂ξ1
+
+∣∣∣
+ξ=ξ∗
+
+=
+iπ
+
+2
+
+[
+α1 +
+
+Γ
+
+2ℓ−2
+
+∑
+µ
+
+κµ(aµ − bµ)
+]
+,
+
+∂S
+
+∂ξ2
+
+∣∣∣
+ξ=ξ∗
+
+=
+iπ
+
+2
+
+[
+α2 +
+
+Γ
+
+2ℓ−2
+
+∑
+µ
+
+κµ(cµ − dµ)
+]
+.
+
+Since the only free parameter is Γ, these components can be simultaneously made zero only if
+1
+α1
+
+∑
+µ κµ(aµ − bµ) =
+
+1
+α2
+
+∑
+µ κµ(cµ − dµ) ̸= 0, (3.20)
+
+which is the condition in Eq. (3.13). Assuming this condition, we choose
+
+Γ = −2ℓ−2α1
+
+[∑
+µ
+
+κµ(aµ − bµ)
+]−1
+
+(3.21)
+
+to ensure that ∇S(ξ∗) = 0. Let us next examine the second-order derivatives in the Hessian matrix
+elements, which are
+
+∂2S
+
+∂ξ1ξ2
+
+∣∣∣
+ξ=ξ∗
+
+=
+iπΓ
+
+2ℓ−2
+
+∑
+µ
+
+κµ(aµ − bµ)(cµ − dµ),
+
+∂2S
+
+∂ξ21
+
+∣∣∣
+ξ=ξ∗
+
+= −4α1 +
+iπΓ
+
+2ℓ−2
+
+∑
+µ
+
+κµ[(aµ − bµ)
+2 − (aµ + bµ)],
+
+∂2S
+
+∂ξ22
+
+∣∣∣
+ξ=ξ∗
+
+= −4α2 +
+iπΓ
+
+2ℓ−2
+
+∑
+µ
+
+κµ[(cµ − dµ)
+2 − (cµ + dµ)].
+
+Note that the condition that detHS(ξ
+∗) ̸= 0 with the Γ chosen in (3.21) is equivalent to the
+
+condition (3.14) in Assumption 3.6. Hence, ξ∗ is indeed a non-degenerate saddle point of S(ξ)
+under the assumption. Now that we have met the requirements for applying the saddle point
+method, we can evaluate the integral in Eq. (3.18) to get
+
+lim
+n→∞
+
+|⟨s|ψβ,γ⟩|2 = lim
+n→∞
+
+(2π
+n
+
+2n
+
+π
+
+)2
+α1α2e
+
+2nℜ[S(ξ∗)] 1
+
+| detHS(ξ∗)|
+=
+
+16α1α2
+
+| detHS(ξ∗)|
+, (3.22)
+
+where we used the fact that ℜ[S(ξ∗)] = 0.
+
+11
+
+
+
+4 QAOA can solve near-symmetric CSPs in polynomial time
+
+Building on the result on symmetric CSPs in the previous section, we now consider more general
+families of optimization problems where the symmetry is broken while still enabling a high success
+probability for the QAOA. One reason to break the symmetry is to construct problems that are
+potentially more challenging for classical algorithms, since they might not be able to take advantage
+of the symmetry if known in advance.
+
+While there are multiple ways to break the assumption of symmetry, here we focus on an explicit
+method to construct CSPs with broken symmetry that uses only local clauses. The key idea is to
+take any symmetric CSPs consisting of local clauses and “sparsify” it by randomly sampling the
+clauses that make up the cost function. (We will briefly discuss another method to break symmetry
+in Remark 4.5 at the end of this section.) Our result shows if the QAOA success probability is high
+on the original symmetric CSP, then it remains high on the sparsified version with the symmetry
+broken.
+
+The starting point of our construction is as follows. Suppose we are given a symmetric CSP of
+the form C(x) =
+
+∑
+αCα(x), where each Cα is a single unit-weight constraint clause. For example,
+
+the clause ϕα = xi ∧ xj ∧ ¬xk would correspond to Cα(x) = (1− xi)(1− xj)xk. We then consider
+a “sparsified” version of the same CSP
+
+C̃w(x) =
+∑
+α
+
+wαCα(x), (4.1)
+
+where wα’s are i.i.d. random weights drawn from some distribution. For concreteness, we consider
+a specific case where each wα is a Bernoulli random variable with mean f .
+
+Note that the symmetry is typically broken in the sparsified CSP. Nevertheless, we show in the
+below theorem that as long as the QAOA succeeds for the original symmetric CSP with sufficiently
+small parameter γ, the QAOA also succeeds for the near-symmetric, sparsified CSPs.
+
+Theorem 4.1. Assume the 1-step QAOA with (γ, β) = (γ0/n
+ℓ−1,−π/4) for some constant γ0
+
+achieves Ω(1) ground state probability on a symmetric ℓ-CSP with Θ(nℓ) unit-weight constraint
+clauses. Consider a random Bernoulli-sparsified version of the same CSP where we choose f =
+dn/n
+
+ℓ−1 so that the interaction graph has average degree dn. Then as long as dn = Ω(n), the QAOA
+can also achieve Ω(1) ground state probability on the sparsified CSP with Ω(1) probability over the
+random instances.
+
+As shown previously in Theorems 3.4 and 3.7, we can achieve Ω(1) ground state probability for
+many families of symmetric ℓ-CSPs using the 1-step QAOA with γ = Θ(1/nℓ−1) . Combined with
+the above theorem, this tells us that we can also solve the corresponding near-symmetric CSPs with
+high probability.
+
+To prove Theorem 4.1, we start by showing that in the small angle limit, the 1-step QAOA
+state generated by the sparsified C̃w with appropriately rescaled γ is approximately the same as the
+QAOA state generated with the original C. (Note that C needs not be symmetric for this lemma.)
+
+Lemma 4.2. Given any CSP C =
+∑
+
+αCα consisting of unit-weight constraints, i.e. C2
+α = Cα, let
+
+C̃w be its sparsified version with randomly chosen i.i.d. weights (wα)α drawn from a distribution
+with mean E[wα] = f ̸= 0 and variance σ2. Then
+
+Ew
+
+∥∥∥(eiγC − ei(γ/f)C̃w
+)
+|+⟩⊗n
+
+∥∥∥2 ≤ γ2σ2
+
+f2
+ExC(x) (4.2)
+
+12
+
+
+
+Proof. Let |δψ⟩ = (eiγC − ei(γ/f)C̃w)|+⟩⊗n, then
+
+|δψ⟩ = 1
+
+2n/2
+
+∑
+x
+
+(
+eiγC(x) − ei(γ/f)C̃w(x)
+
+)
+|x⟩,
+
+and ∥|δψ⟩∥2 = Ex
+
+∣∣∣eiγC(x) − ei(γ/f)C̃w(x)
+∣∣∣2 .
+
+For any bit string x, let
+
+∆(x) := C(x)− 1
+
+f
+C̃w(x) =
+
+1
+
+f
+
+∑
+α
+
+(f − wα)Cα(x).
+
+It’s easy to see that Ew[∆(x)] = 0. Furthermore,
+
+Ew[∆
+2(x)] =
+
+1
+
+f2
+
+∑
+α
+
+∑
+α′
+
+Ew
+
+[
+(f − wα)(f − wα′)
+
+]
+Cα(x)Cα′(x).
+
+Noting that the covariance between wα and wα′ is zero due to independence if α ̸= α′, we have
+
+Ew[∆
+2(x)] =
+
+1
+
+f2
+
+∑
+α
+
+Ew[(f − wα)
+2]C2
+
+α(x) =
+σ2
+
+f2
+
+∑
+α
+
+Cα(x) =
+σ2
+
+f2
+C(x), (4.3)
+
+where we used the assumption of unit-weight constraints to set C2
+α = Cα. Finally, using the fact
+
+that |eia − eib| ≤ |a− b| for any a, b ∈ R, we have
+
+Ew∥|δψ⟩∥2 ≤ Ew,x[γ
+2∆2(x)] =
+
+γ2σ2
+
+f2
+ExC(x),
+
+concluding the proof.
+
+Proof of Theorem 4.1. Here we focus on the case when C is a symmetric ℓ-CSP with Θ(nℓ) unit-
+weight clauses, and each wα is a Bernoulli random variable. Then ExC(x) = Θ(nℓ) and σ2 =
+f(1 − f). Let |ψ⟩ and |ψ̃w⟩ be the QAOA states corresponding to original symmetric CSP and
+the sparsified CSP, respectively. Then using Lemma 4.2 and Markov’s inequality, we have for any
+K > 1,
+
+∥|ψ⟩ − |ψ̃w⟩∥ ≤ O(Kγnk/2
+√
+(1− f)/f) = O(K
+
+√
+n/dn)
+
+with 1−1/K2 probability over the weights w. From the assumption we have |⟨ψ|s⟩|2 ≥ Ω(1), which
+together implies ∣∣⟨ψ̃w|s⟩
+
+∣∣2 ≥ Ω(1)−O(K
+√
+n/dn).
+
+This remains at least Ω(1) if dn = Ω(K2n).
+
+Remark 4.3. We now provide some comments on the proof of Theorem 4.1. In the parameter
+regime γ = Θ(1/nℓ−1) considered, both γC = Θ(n) and γC̃w/f = Θ(n) are not small. However,
+using Lemma 4.1 we find that
+
+∥∥(eiγC−eiγC̃w/f )|+⟩⊗n
+∥∥ is small. To give some intuition for why this is
+
+the case, let us think of C̃w/f as a rescaled version of the sparsified cost function so that on average,
+Ew[C̃w(x)/f ] = C(x) = Θ(nℓ). Reading off Eq. (4.3) and plugging in σ2 = f(1 − f) for Bernoulli
+random weights, we see that its standard deviation is
+
+√
+(1− f)/f
+
+√
+C(x) = O(nℓ−1), where the last
+
+equality used the condition f = Ω(1/nℓ−2) from the theorem statement. Consequently, γC̃w(x)/f =
+γC(x) ± O(1), which means the fluctuations due to sparsification is relatively small compared to
+the average Θ(n) phase in the operator eiγC̃w/f , resulting in approximately the same quantum state
+as the original QAOA.
+
+13
+
+
+
+Remark 4.4 (Learning the hidden string from observing individual clauses). In the setting of
+near-symmetric CSPs constructed with the above sparsification method, one natural question to
+ask is: Can one exploit the knowledge of the approximate symmetry to learn the hidden string
+s by observing the sampled clauses in the cost function and running a classical algorithm? As
+an example, let us consider a near-Sn-symmetric CSP constructed by symmetrizing a local clause
+function and then sparsifying. Specifically, for any bit string a ∈ {0, 1}n with Hamming weight ℓ,
+consider the ℓ-local clause
+
+Ca(x) = a · (x⊕ s),
+
+where a · b ∈ {0, 1} denotes the modulo-2 inner product of a and b. The cost function of the Sn-
+symmetric CSP can be written as C(x) = N
+
+∑
+π∈Sn
+
+Cπ(a)(x), where N is a normalization constant
+accounting for repeated clauses. Now, in a sparsified version of the cost function, observing a clause
+Cb allows one to infer the value of eb = b · s. With Ω(n) observed clauses, one can solve the
+corresponding system of linear equations with Gaussian elimination to determine s in this case.
+
+However, there is a strong limitation to this approach of recovering s. Note that the problem of
+learning s from the observations (a, ea = a · s) is a parity learning problem (see e.g., [27]). This is
+closely related to the learning parity with noise (LPN) problem, which is believed to be so difficult
+that it has been used as a cryptographic assumption [28]. In the above setting, we have limited
+ourselves to a’s that have bounded Hamming weights, which relates to the sparse LPN problem (see
+e.g., [29, 30]). Indeed, we can simulate the sparse LPN problem by including in the cost function
+symmetrized clauses of the form C ′
+
+a(x) = 1−Ca(x), sampled with a different probability than Ca.
+Given a random clause, it is impossible to tell whether it came from Ca or C ′
+
+a, and observing either
+would yield the equation a · s = ea or a · s = 1− ea, respectively. This results in a noisy system of
+linear equations equivalent to the sparse LPN problem, which is believed to take exponential time
+to solve classically in various regimes [29, 30].
+
+Remark 4.5 (Other methods to break symmetry). Another way to generalize our results to
+symmetry-broken problems while retaining the QAOA’s success is as follows. Suppose the QAOA
+achieves Ω(p(n)) ground state overlap with the solution bit string for CSPs that are G-symmetric
+for some function p(n), then it is not difficult to see that the QAOA can also solve any CSP whose
+cost function C(x) obeys G-symmetry for all but o(p(n)) fraction of all 2n bit strings inputs. One
+method to explicitly construct such a symmetry-broken CSP is to take a G-symmetric CSP, ran-
+domly choose o(p(n)) fraction of 2n bit strings and alter their cost function value. However, this
+will result in a highly nonlocal CSP that may not resemble any natural or practically relevant
+optimization problems.
+
+5 Performance of classical algorithms
+
+5.1 Oracular setting
+
+We first consider classical algorithms in the oracular setting where the algorithm can only query
+the cost function as a black box. In this setting, we show that there exists an efficient classical
+algorithm to solve any Sn-symmetric CSPs satisfying Assumption 3.1 with O(n/ log n) queries, and
+that this is tight. We also show that a natural class of hill-climbing algorithms is unable to solve
+them all efficiently.
+
+Claim 5.1. For any Sn-symmetric CSP based on a known cost function C(x) = c(|x ⊕ s|) taking
+distinct values as in Assumption 3.1, there is a classical algorithm that uses O(n/ log n) queries to
+C to find the solution, and runs in polynomial time. Furthermore, any classical algorithm needs
+Ω(n/ log n) queries to find the solution even knowing the shape of c(k) in advance.
+
+14
+
+
+
+Proof. As the algorithm knows the cost function C is Sn-symmetric and it takes distinct values, we
+can assume that C(x) = |x ⊕ s|, by remapping the output of the cost function if necessary. We
+first describe a (well-known) simple classical algorithm which uses O(n) queries and makes O(n)
+additional operations. Query all bit strings of Hamming weight at most 1. The query to 0n returns
+|s|, while each query to a bit string of Hamming weight 1 returns either |s|−1 or |s|+1, depending
+on whether the corresponding bit of s is equal to 0 or 1, enabling us to output s.
+
+Perhaps surprisingly, this complexity can be improved to O(n/ log n) queries. First we query
+x = 0n, as before, to learn the Hamming weight of s. Subsequent queries to bit strings x return
+the number of bits that differ between s and x. Using this and our knowledge of the Hamming
+weights of s and x allows us to compute |s ∧ x|. This is equivalent to learning the number of 1’s
+in s, restricted to an arbitrary subset X of the bits. The problem of learning a bit string s given
+queries of this form is known as quantitative group testing (QGT), and it turns out that we can
+learn an arbitrary bit string with O(n/ log n) subset queries, and in polynomial time [31, 32, 33].
+
+Finally, we provide a matching lower bound on the number of queries used by any classical
+algorithm. We note that to find the planted string s requires n bits of information. On the other
+hand, each classical query provides at most O(log(n)) bits of information from the returned value
+of the cost function, since there can be at most n+1 distinct values. Hence, Ω(n/ log n) queries are
+necessary to recover s.
+
+Remark 5.2 (O(1) quantum vs. Ω(n/ log n) classical query). Recall that we have shown in Theo-
+rem 3.3 that the QAOA with 1 query achieves Ω(1/
+
+√
+n) of recovering the bit string as long as the
+
+cost function takes on distinct values, and thus O(
+√
+n) quantum queries is enough to find s with
+
+high probability. For specific cases such as the cost in Eq. (2.2), 1-step QAOA can find s with Ω(1)
+probability due to Theorem 3.3 and Lemma 3.5. Hence, in these examples, O(1) quantum queries
+are sufficient to recover s compared to the Ω(n/ log n) classical query lower bound.
+
+Remark 5.3. We remark that the algorithms in Claim 5.1 heavily rely on the fact that the cost
+function takes on n + 1 distinct values. For the first algorithm, one can for example adversarially
+construct a cost function where c(|s| − 1) = c(|s|+ 1), so that queries with bit strings of Hamming
+weight 1 would give no information about the bits of s. Note this adversarial cost function still sat-
+isfies Assumption 3.2 when
+
+∣∣|s|−n/2∣∣ ≥ Ω(
+√
+n log n), allowing the QAOA to succeed. Furthermore,
+
+the second algorithm based on QGT can run into issues when the evaluations of |s ∧ x| are noisy,
+which can manifest from either non-distinctness or sparsification. In some cases, for sufficiently
+strong noise, a superpolynomial lower bound on the query complexity of the noisy QGT problem
+has been shown using information-theoretical arguments [34].
+
+In this oracular setting, we also consider a hill climbing algorithm, which is one that always
+makes (deterministic or random) local moves that reduce the cost function.
+
+Claim 5.4. There is an oracular Sn-symmetric CSP based on a cost function c(|x|) taking dis-
+tinct values, such that any hill climbing algorithm A using a random initial starting point requires
+exponentially many starting points to find the solution.
+
+Proof. Consider the cost function c(0) = 0, c(k) = n− k+1 for k = 1, . . . , n. If A does not happen
+to choose x = 0n as the initial bit string, all subsequent moves will increase the Hamming weight,
+eventually ending up in the local minimum x = 1n. So Ω(2n) random initial guesses are needed to
+find the unique solution.
+
+This does not contradict the previous result because the algorithms in Claim 5.1 are not hill
+climbing algorithms, in terms of the original cost function (as opposed to the cost function after
+
+15
+
+
+
+remapping of the costs to C(x) = |x ⊕ s|, in which case one can define a hill-climbing algorithm
+which does work).
+
+5.2 Simulated annealing
+
+Simulated annealing is a powerful general-purpose classical optimization algorithm that often serves
+as a point of comparison for quantum algorithms. Indeed, previous work on quantum annealing [16,
+18] for Sn-symmetric problems has compared its performance to simulated annealing. Their results
+have shown that quantum annealing is generally superior to simulated annealing, although there
+are problems where both algorithms take exponential time to find the global minimum.
+
+For the problems we consider this paper, it is generally not difficult to construct instances where
+simulated annealing will take exponential time to find the solution. Take for example the cost
+function in Eq. (2.3), where there is a global minimum at k = 0 and false minimum near k = n, and
+the cost decreases with k in the range k/n ≥ 1/3. Simulated annealing with a random initial string
+will start with k ≈ n/2 with high probability. While there is a possibility of updates that lower k,
+it requires a sequence of n/2−n/3 = n/6 bit flips to climb over the hill which has an energy barrier
+of height Θ(n2). At any low temperature T = O(n), each energy increasing move is only accepted
+with probability exp(−∆E/T ) = exp(−Ω(1)) which is uniformly bounded away from 1. Hence, the
+transition probability to escape the false minimum with single-bit updates is exponentially small in
+n, implying that simulated annealing will take exponential time.
+
+5.3 Best solvers from SAT and Max-SAT competitions
+
+In this section, we move beyond the limited examples of classical algorithms discussed above and
+benchmark the performance of more general, state-of-the-art classical algorithms on the symmetric
+and near-symmetric CSPs. For this benchmark, we will construct a few families of Sn-symmetric
+and (Sn/2)
+
+2-symmetric SAT problems in the form of Boolean formulas. We also construct related
+families of near-symmetric CSPs by using the random sampling trick discussed in Section 4. These
+constructed problems are then put to the test by six state-of-the-art classical algorithms, including
+some front-runners in recent SAT and Max-SAT competitions. While we find that some of these
+problems can be solved by a subset of the classical algorithms in polynomial time, we also discover
+families of problems with an approximate (Sn/2)
+
+2 symmetry that appear to require exponential run
+time from all tested classical solvers. Since we have shown that 1-step QAOA can succeed in solving
+these problems in polynomial time, these constructed local CSPs serve as somewhat convincing
+candidates for exponential quantum speedup by a low-depth QAOA in optimization.
+
+Construction of Benchmark Problems. We begin by explaining our constructions of Sn-
+symmetric SAT problems that will be used in the benchmarking test. Given a solution string s to
+be planted, we first transform the input x into y = x ⊕ s and then construct a Boolean formula
+based on the bits of y. For convenience of notation, we will denote ℓNm for any ℓ ≥ m ≥ 0 as
+the Boolean formula made by considering all ℓ-subsets of n bits and including a clause containing
+a disjunction of the selected literals with m negations. Furthermore, we include all permutations of
+each subset whenever m ̸= 0, ℓ. For example,
+
+2N2 =
+∧
+i<j
+
+(¬yi ∨ ¬yj), 3N1 =
+∧
+
+i ̸=j ̸=k
+
+(¬yi ∨ yj ∨ yk), 4N2 =
+∧
+
+i ̸=j ̸=k ̸=l
+
+(¬yi ∨ ¬yj ∨ yk ∨ yl).
+
+As a shorthand, we also denote ℓNm1m2 = ℓNm1 ∧ ℓNm2. For any given family of symmetric SAT
+problems, we may also construct a near-symmetric SAT problem by choosing to keep each Boolean
+clause with probability f .
+
+16
+
+
+
+As an example, consider the Max-4-SAT problem 4N1 ∧ 3N31 ∧ 2N0 whose cost function, when
+written in terms of k = |y| = |x⊕ s|, is
+
+c(k) = k(n− k)(n− k− 1)(n− k− 2)+ k(n− k)(n− k− 1)+
+k(k − 1)(k − 2)
+
+3!
++
+
+(n− k)(n− k − 1)
+
+2!
+.
+
+Note that this example Boolean formula is not satisfiable, and there are two (frustrated) local
+minima at k = 0 and near k = n, respectively. Note that the k = 0 local minimum acquires Θ(n2)
+energy from the 2N0 subformula, whereas the k = n local minimum is penalized with Θ(n3) energy
+by the 3N3 subformula. Hence, this construction ensures that k = 0 is the true global minimum
+that corresponds to the exact planted solution.
+
+We also consider (Sn/2)
+2-symmetric CSPs which allow us to construct more complex problems
+
+with additional local minima. In this construction, we first divide the n bits into two equal-sized
+groups. Then there are two types of local clauses we can use to construct an (Sn/2)
+
+2-symmetric
+Boolean formula: (1) clauses that contains bits from one group but not the other, and (2) clauses
+that contain bits from both groups. We can construct formula from the first type in the same way
+as the Sn-symmetric case above, and we will denote these formulas in the same way as ℓNm. For the
+second type of clauses, we consider all ℓ1-subsets from the first n/2 bits and all ℓ2-subsets from the
+second n/2 bits, and construct a clause with m1 negations in the ℓ1-subset and m2 negations in the
+ℓ2-subset. As before, we consider all permutations within the ℓj-subset unless mj = 0 or mj = ℓj .
+For brevity, we denote the Boolean formula constructed with this method as (ℓ1, ℓ2)N(m1,m2).
+Moreover, to satisfy Assumption 3.6 that leads to a guarantee for QAOA’s success in solving the
+problem via Theorem 3.7, we further symmetrize the formula constructed from both types of clauses
+by joining another copy of the formula where the roles of the two groups are switched.
+
+For concreteness, let us illustrate this construction with two example (Sn/2)
+2-symmetric formu-
+
+las: 5N1 and (3, 2)N(1, 0). Given the planted string s, we set y = x ⊕ s and partition y into two
+equal-sized substrings (y[1],y[2]). Then,
+
+5N1 =
+∧
+
+i ̸=j ̸=k ̸=l ̸=m
+
+(¬y[1]i ∨ y[1]j ∨ y[1]k ∨ y[1]l ∨ y[1]m )
+∧
+
+i ̸=j ̸=k ̸=l ̸=m
+
+(¬y[2]i ∨ y[2]j ∨ y[2]k ∨ y[2]l ∨ y[2]m ),
+
+(3, 2)N(1, 0) =
+∧
+
+i ̸=j ̸=k,l<m
+
+(¬y[1]i ∨ y[1]j ∨ y[1]k ∨ y[2]l ∨ y[2]m )
+∧
+
+i ̸=j ̸=k,l<m
+
+(¬y[2]i ∨ y[2]j ∨ y[2]k ∨ y[1]l ∨ y[1]m ).
+
+Furthermore, denoting k1 = |y[1]| and k2 = |y[2]|, the corresponding cost functions to leading order
+in n are:
+
+c5N1(k1, k2) = k1(n1 − k1)
+4 + k2(n2 − k2)
+
+4 +O(n4),
+
+c(3,2)N(1,0)(k1, k2) = (k1 + k2)(n1 − k1)
+2(n2 − k2)
+
+2 +O(n4).
+
+Note these functions have four local minima, corresponding to (k1, k2) = (0, 0), (n1, 0), (0, n2), (n1, n2).
+
+Numerical Benchmark Results. For our numerical benchmarks, we have selected the following
+six state-of-the-art SAT and Max-SAT solvers:
+
+1. WalkSATlm (SAT solver): An improved version of the famous WalkSAT algorithm. This was
+found to be best performant classical algorithm for random ℓ-SAT in [14].
+
+2. kissat (SAT solver): 2nd in Main Track UNSAT of SAT Competition 2021.
+
+3. lstechMaple (SAT solver): 2nd in Main Track SAT in SAT Competition 2021.
+
+17
+
+
+
+4. akmaxsat (Max-SAT solver): Winner of MaxSAT Evaluation 2010, 2011, and 2012.
+
+5. EvalMaxSAT (Max-SAT solver): Winner of Unweighted Exact Track in MaxSAT Evaluation
+2023.
+
+6. MaxCDCL (Max-SAT solver): Winner of Weighted Exact Track in MaxSAT Evaluation 2023.
+
+In Figure 1, we show our benchmark result on the symmetric 3-SAT problem 3N1 ∧ 2N2. We
+observe that WalkSATlm, the algorithm previously studied in Ref. [14] as the best classical solver
+for random ℓ-SAT and a key competitor against QAOA, turns out to be the worst out of the six
+algorithms studied here and runs in exponential time. The run time scaling for the other algorithms
+are milder. The best classical SAT solver for this problem is kissat which seems to run in time linear
+in the number of clauses Θ(n3). Similar linear time scaling is also apparently achieved by Max-SAT
+solvers EvalMaxSAT and MaxCDCL, as shown by the lines flattening as n→ ∞ in Figure 1(c).
+
+Since kissat appears to be the best solvers for symmetric SAT problems, we benchmark its
+performance on more complicated problems with higher locality and broken symmetry in Figure 2.
+The result in subplot (a) indicates that for ℓ ≤ 4, kissat can solve these near-symmetric ℓ-SAT in
+time linear in problem size Θ(nℓ). However, for 5-SAT, the kissat appears to have an extra Θ(
+
+√
+n)
+
+factor overhead in its run time. Since the QAOA can solve these ℓ-SAT problems with O(nℓ) gates,
+there appears to be an Ω(
+
+√
+n) quantum speedup for ℓ ≥ 5. In Figure 2(b), we explore the effect
+
+of varying the fraction f of clauses kept in the sparsification process. We find that sparsification
+appears to generally make the problem harder for kissat, but does not seem to alter the scaling
+behavior of run times relative to problem size beyond a constant factor.
+
+We next consider near-symmetric Max-SAT problems. As an example, we consider 4N1∧3N31∧
+2N0 randomly sparsified by keeping each clause with probability f . The unsparsified Sn-symmetric
+cost function is visualized in Figure 3(a). Since these problems are not satisfiable by construction,
+SAT-only solvers such as kissat, lstechMaple, and WalkSATlm are not applicable. We benchmark
+the other three Max-SAT solvers on the near-Sn-symmetric 4N1∧3N31∧2N0 problem where f = 0.8
+fraction of the clauses are randomly included. The run time results in Figure 3(b)(c) show that this
+problem is harder for MaxCDCL, which seems to take exponential time. However, EvalMaxSAT still
+
+0 0.5 1
+0
+
+0.05
+
+0.1
+
+0.15
+
+101 102 103
+
+10-5
+
+100
+
+105
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+kissat
+lstechMaple
+WalkSATlm
+n^3
+
+0 50 100 150 200 250 300 350
+10-8
+
+10-6
+
+10-4
+
+10-2
+
+100
+
+102
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+kissat
+lstechMaple
+WalkSATlm
+
+Figure 1: Performance of various classical SAT and Max-SAT solvers on a family of Sn-symmetric
+3-SAT problems. (a) Example cost function plotted versus normalized Hamming distance to the
+hidden string s at n = 200. (b) Run times plotted as a function of number of bits n on a log-log
+scale, where n3 is plotted as a guide to the eyes. Individual dots correspond to runs with different
+choices of s, and dashed line connects the averages at each n. (c) Run times divided by n3, which is
+roughly the number of clauses in the formula, plotted on a log-linear scale. The flat lines of kissat,
+EvalMaxSAT and MaxCDCL indicate their run time scales linearly with the problem size Θ(n3).
+
+18
+
+
+
+101 102
+
+10-7
+
+10-6
+
+0 20 40 60 80 100 120 140
+0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1
+10-6
+
+Figure 2: kissat run time rescaled by problem size for different near-Sn-symmetric ℓ-SAT problems,
+where we explore the dependence with respect to locality ℓ in (a) and the sparsification fraction f
+in (b). Here f is the fraction of clauses sampled from the corresponding symmetric ℓ-SAT problems
+to construct the near-symmetric problem. Dashed lines connect averages over 3∼5 instances with
+different choices of s and clause sampling realizations. Error bars are standard errors of the mean.
+
+0 0.5 1
+0
+
+0.02
+
+0.04
+
+0.06
+
+0.08
+
+0.1
+
+0.12
+
+101 102
+10-4
+
+10-2
+
+100
+
+102
+
+104
+
+106
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+n^4
+
+0 10 20 30 40 50 60 70
+
+10-6
+
+10-4
+
+10-2
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+
+0 0.5 1
+0
+
+0.02
+
+0.04
+
+0.06
+
+0.08
+
+0.1
+
+101 102
+10-4
+
+10-2
+
+100
+
+102
+
+104
+
+106
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+n^5
+
+10 15 20 25 30 35
+10-8
+
+10-6
+
+10-4
+
+10-2
+
+100
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+
+Figure 3: Performance of classical Max-SAT solvers on two families of near-Sn-symmetric Max-
+ℓ-SAT problems for ℓ = 4 (top row) and ℓ = 5 (bottom row), constructed with clause sampling.
+(a)(d) Plot of the energy landscape as a function of the normalized Hamming distance to s. (b)(e)
+Run times plotted as a function of number of bits n on a log-log scale. (c)(f) Run times divided
+by nℓ plotted as a function of n on a log-linear scale. Individual dots correspond to 3 problem
+instances at each n with different clause sampling and choices of s, and dashed lines connect their
+averages. The results suggest that akmaxsat and MaxCDCL take exponential time on both problems,
+but EvalMaxSAT seems to run in O(nℓ) time.
+
+appears to be able to solve these instances in Θ(n4) which is linear in the problem size. We also
+considered a family of near-Sn-symmetric Max-5-SAT problem in Figure 3(d)(e)(f). Nevertheless,
+
+19
+
+
+
+101 102
+10-5
+
+100
+
+105
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+n^5
+
+10 15 20 25 30 35 40
+10-8
+
+10-6
+
+10-4
+
+10-2
+
+100
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+
+101 102
+10-4
+
+10-2
+
+100
+
+102
+
+104
+
+106
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+n^6
+
+12 14 16 18 20 22 24
+10-8
+
+10-6
+
+10-4
+
+10-2
+
+akmaxsat
+EvalMaxSAT
+MaxCDCL
+
+Figure 4: Performance of classical Max-SAT solvers on two families of near-(Sn/2)2-symmetric Max-
+ℓ-SAT problems for ℓ = 5 (top row) and ℓ = 6 (bottom row), constructed with clause sampling.
+(a)(d) Contour plots of the energy landscapes of the two families of Max-ℓ-SAT problems, as a
+function of the two subset Hamming distances to s. (b)(e) Run times of various classical algorithms
+plotted as a function of number of bits n on a log-log scale. (c)(f) Run times divided by nℓ plotted
+on a log-linear scale. Individual dots correspond to 3 problem instances at each n with different
+clause sampling and choices of s, and dashed lines connect their averages. For both problems, all
+three algorithms appear to require exp(n) run time in the large n limit.
+
+the run time scaling of EvalMaxSAT still appears approximately linear in the problem size Θ(n5)
+despite the higher locality.
+
+Finally, we consider Max-ℓ-SAT problems that approximately exhibit (Sn/2)
+2 symmetry and
+
+hope that the additional local minima may pose further challenge to the classical algorithms. The
+results for two families of such problems, ℓ = 5 and 6 respectively, are plotted in Figure 4. Both
+families of problems appears to stump all the Max-SAT solvers with exponential run time. Since
+our Theorems 3.7 and 4.1 imply that 1-step QAOA can solve them with Ω(1) probability using
+O(nℓ) quantum gates, these two families of near-(Sn/2)2-symmetric Max-ℓ-SAT provides an example
+optimization problem that gives the QAOA an exponential speedup over the state-of-the-art classical
+Max-SAT solvers.
+
+6 Discussion
+
+We have studied the performance of the QAOA on symmetric and near-symmetric combinatorial
+optimization problems, and found evidence that even 1-step QAOA can outperform state-of-the-art
+classical algorithms and offer exponential speedups in some cases. The symmetric optimization
+problems we consider are maximum constraint satisfaction problems (Max-CSPs) where the cost
+function is invariant under a permutation subgroup acting on the bits, relative to a solution bit
+
+20
+
+
+
+string. These symmetries enable rigorous analysis of the QAOA, and we derive the closed form
+expression for its success probability, uncovering intriguing quantum mechanisms that allow the
+QAOA to quickly find the solution in many cases.
+
+For example, when the cost function is purely a function of the Hamming distance to the
+solution and takes on mostly distinct values, we show that the 1-step QAOA has Ω(1/
+
+√
+n) success
+
+probability in finding the solution. For cost functions that take on specific forms with multiple local
+minima that confuse classical algorithms, we show that 1-step QAOA can find the solution with
+Ω(1) probability. This means with repeated measurements, the QAOA can find the solution with
+O(
+
+√
+n) or O(1) queries to the cost function, using poly(n) time whenever the cost function has a
+
+polynomial-sized instantiation.
+These results allow us to demonstrate significant quantum speedups by the QAOA over state-
+
+of-the-art classical algorithms on these symmetric and near-symmetric problems. In the query
+complexity setting, we show that for Sn-symmetric problems, any classical algorithm provably re-
+quires at least Ω(n/ log n) queries to the cost function, even knowing in advance the symmetry and
+shape of the cost function. Depending on the problem, this is quadratically or superpolynomially
+worse compared to the quantum query complexity using 1-step QAOA. In the more general setting,
+we explicitly design families of symmetric and near-symmetric Max-SAT problems and study the
+performance of leading classical optimization algorithms. These algorithms include simulated an-
+nealing and several state-of-the-art classical SAT and Max-SAT solvers that are recent winners of
+SAT and Max-SAT competitions, whose run time scaling we study through numerical benchmark
+on problems involving up to hundreds of bits. Our results show that for some of these problems, all
+of these classical algorithms take exponential time to find the solution. This implies an exponential
+separation between 1-step QAOA and general-purpose classical algorithms.
+
+Our work opens up several intriguing future research directions. While symmetry might appear
+important for the QAOA to succeed, we have shown that our result is robust even when the symme-
+try is broken by randomly sampling the clauses. In particular, we show that the QAOA can succeed
+with Ω(1) probability even when taking a symmetric Max-ℓ-SAT problem with Θ(nℓ) clauses and
+sampling only a subset of Θ(n2) clauses, which may also enable a practical implementation on
+near-term quantum computers. While we have mostly focused on comparisons to state-of-the-art
+general-purpose classical algorithms for these sparsified near-symmetric SAT problems, it would
+be of great interest to investigate whether a tailored classical algorithm that knows the potential
+presence of a symmetry can solve these problems faster. In particular, it would be very interesting
+if there are constructions that can evade classical attacks that attempt to learn the hidden string
+from observing the sampled clauses, as we have discussed in Remark 4.4. Moreover, this random
+sparsification is just one possible method of breaking the symmetry while maintaining high suc-
+cess probability for the QAOA. It would be interesting to explore other ways that an optimization
+problem can be approximately symmetric and still yield a quantum speedup.
+
+We believe that studying optimization problems with symmetries enables better understanding
+of the unique behaviors of quantum algorithms and opens up new possibilities of superpolynomial
+quantum speedups. Our result has focused on two example symmetries, namely Sn and Sn1 ×
+Sn2 that permute the order of bit variables. As seen in our results, going from Sn to (Sn/2)
+
+2
+
+produces more complex problems with possibility of additional local minima that confuse classical
+algorithms and lead to an exponential quantum speedup over the best general-purpose classical
+solvers. Therefore, it would be interesting to consider extensions of our work to other symmetry
+groups, including not only those that permute the bits but also those that act on the bit strings
+directly. We remark that the analysis of quantum algorithms like the QAOA is tractable as long as
+the number of orbits from the group action is polynomially bounded. There is a rich landscape of
+symmetric optimization problems awaiting exploration for large quantum speedups.
+
+21
+
+
+
+Acknowledgments
+
+We thank Edward Farhi and Sam Gutmann for reading our manuscript and providing helpful
+comments. AM and LZ acknowledge funding from the European Research Council (ERC) under the
+European Union’s Horizon 2020 research and innovation programme (grant agreement No. 817581).
+
+References
+
+[1] Edward Farhi, Jeffrey Goldstone, and Sam Gutmann. A Quantum Approximate Optimization
+Algorithm. arXiv preprint arXiv:1411.4028, 2014. URL https://arxiv.org/abs/1411.4028.
+
+[2] Guido Pagano, Aniruddha Bapat, Patrick Becker, Katherine S. Collins, Arinjoy De, Paul W.
+Hess, Harvey B. Kaplan, Antonis Kyprianidis, Wen Lin Tan, Christopher Baldwin, Lucas T.
+Brady, Abhinav Deshpande, Fangli Liu, Stephen Jordan, Alexey V. Gorshkov, and Christopher
+Monroe. Quantum approximate optimization of the long-range ising model with a trapped-ion
+quantum simulator. Proceedings of the National Academy of Sciences, 117(41):25396–25401,
+2020. URL https://www.pnas.org/doi/abs/10.1073/pnas.2006373117.
+
+[3] Matthew P Harrigan, Kevin J Sung, Matthew Neeley, Kevin J Satzinger, Frank Arute, et al.
+Quantum approximate optimization of non-planar graph problems on a planar superconducting
+processor. Nature Physics, 17(3):332–336, 2021.
+
+[4] Sepehr Ebadi, Alexander Keesling, Madelyn Cain, Tout T. Wang, Harry Levine, Dolev Blu-
+vstein, Giulia Semeghini, Ahmed Omran, Jinguo Liu, Rhine Samajdar, Xiu-Zhe Luo, Beatrice
+Nash, Xun Gao, Boaz Barak, Edward Farhi, Subir Sachdev, Nathan Gemelke, Leo Zhou, Soon-
+won Choi, Hannes Pichler, Shengtao Wang, Markus Greiner, Vladan Vuletic, and Mikhail D.
+Lukin. Quantum Optimization of Maximum Independent Set using Rydberg Atom Arrays.
+Science, 376(6598):1209–1215, 2022.
+
+[5] Ruslan Shaydulin, Changhao Li, Shouvanik Chakrabarti, Matthew DeCross, Dylan Herman,
+Niraj Kumar, Jeffrey Larson, Danylo Lykov, Pierre Minssen, Yue Sun, Yuri Alexeev, Joan M.
+Dreiling, John P. Gaebler, Thomas M. Gatterman, Justin A. Gerber, Kevin Gilmore, Dan
+Gresh, Nathan Hewitt, Chandler V. Horst, Shaohan Hu, Jacob Johansen, Mitchell Matheny,
+Tanner Mengle, Michael Mills, Steven A. Moses, Brian Neyenhuis, Peter Siegfried, Romina
+Yalovetzky, and Marco Pistoia. Evidence of scaling advantage for the quantum approximate op-
+timization algorithm on a classically intractable problem. Science Advances, 10(22):eadm6761,
+2024. URL https://www.science.org/doi/abs/10.1126/sciadv.adm6761.
+
+[6] Sergey Bravyi, Alexander Kliesch, Robert Koenig, and Eugene Tang. Obstacles to variational
+quantum optimization from symmetry protection. Physical Review Letters, 125(26):260505,
+2020.
+
+[7] Edward Farhi, David Gamarnik, and Sam Gutmann. The quantum approximate optimization
+algorithm needs to see the whole graph: A typical case. arXiv preprint arXiv:2004.09002, 2020.
+
+[8] Edward Farhi, David Gamarnik, and Sam Gutmann. The quantum approximate optimization
+algorithm needs to see the whole graph: Worst case examples. arXiv preprint arXiv:2005.08747,
+2020.
+
+[9] Chi-Ning Chou, Peter J. Love, Juspreet Singh Sandhu, and Jonathan Shi. Limitations of Local
+Quantum Algorithms on Random MAX-k-XOR and Beyond. In 49th International Colloquium
+
+22
+
+https://arxiv.org/abs/1411.4028
+https://www.pnas.org/doi/abs/10.1073/pnas.2006373117
+https://www.science.org/doi/abs/10.1126/sciadv.adm6761
+
+
+on Automata, Languages, and Programming (ICALP 2022), volume 229, pages 41:1–41:20,
+Dagstuhl, Germany, 2022. ISBN 978-3-95977-235-8.
+
+[10] Joao Basso, David Gamarnik, Song Mei, and Leo Zhou. Performance and limitations of the
+QAOA at constant levels on large sparse hypergraphs and spin glass models. In 63rd Annual
+Symposium on Foundations of Computer Science (FOCS 2022), pages 335–343. IEEE, 2022.
+
+[11] Anurag Anshu and Tony Metger. Concentration Bounds for Quantum States and Limitations
+on the QAOA from Polynomial Approximations. In 14th Innovations in Theoretical Computer
+Science Conference (ITCS 2023), volume 251, pages 5:1–5:8, 2023. ISBN 978-3-95977-263-1.
+
+[12] Antares Chen, Neng Huang, and Kunal Marwaha. Local algorithms and the failure of log-depth
+quantum advantage on sparse random CSPs. arXiv preprint arXiv:2310.01563, 2023.
+
+[13] Joao Basso, Edward Farhi, Kunal Marwaha, Benjamin Villalonga, and Leo Zhou. The Quan-
+tum Approximate Optimization Algorithm at High Depth for MaxCut on Large-Girth Regular
+Graphs and the Sherrington-Kirkpatrick Model. In 17th Conference on the Theory of Quan-
+tum Computation, Communication and Cryptography (TQC 2022), volume 232, pages 7:1–7:21,
+2022. ISBN 978-3-95977-237-2.
+
+[14] Sami Boulebnane and Ashley Montanaro. Solving Boolean Satisfiability Problems With The
+Quantum Approximate Optimization Algorithm. PRX Quantum, 5:030348, 2024. URL https:
+//doi.org/10.1103/PRXQuantum.5.030348.
+
+[15] Wim van Dam, Michele Mosca, and Umesh Vazirani. How powerful is adiabatic quantum
+computation? In 42nd Annual Symposium on Foundations of Computer Science (FOCS 2001),
+pages 279–287. IEEE, 2001. URL https://doi.org/10.1109/SFCS.2001.959902.
+
+[16] Edward Farhi, Jeffrey Goldstone, and Sam Gutmann. Quantum adiabatic evolution algorithms
+versus simulated annealing. arXiv preprint arXiv:quant-ph/0201031, 2002.
+
+[17] Ben W. Reichardt. The quantum adiabatic optimization algorithm and local minima. In
+Proceedings of the Thirty-Sixth Annual ACM Symposium on Theory of Computing (STOC
+2004), page 502–510, New York, NY, USA, 2004. Association for Computing Machinery. ISBN
+1581138520. URL https://doi.org/10.1145/1007352.1007428.
+
+[18] Siddharth Muthukrishnan, Tameem Albash, and Daniel A. Lidar. Tunneling and speedup in
+quantum optimization for permutation-symmetric problems. Phys. Rev. X, 6:031010, 2016.
+URL https://doi.org/10.1103/PhysRevX.6.031010.
+
+[19] Leo Zhou, Sheng-Tao Wang, Soonwon Choi, Hannes Pichler, and Mikhail D. Lukin. Quan-
+tum Approximate Optimization Algorithm: Performance, Mechanism, and Implementation
+on Near-Term Devices. Phys. Rev. X, 10:021067, 2020. URL https://doi.org/10.1103/
+PhysRevX.10.021067.
+
+[20] Edward Farhi, Jeffrey Goldstone, Sam Gutmann, and Leo Zhou. The Quantum Approximate
+Optimization Algorithm and the Sherrington-Kirkpatrick Model at Infinite Size. Quantum, 6:
+759, 2022.
+
+[21] Sami Boulebnane and Ashley Montanaro. Predicting parameters for the Quantum Approx-
+imate Optimization Algorithm for MAX-CUT from the infinite-size limit. arXiv preprint
+arXiv:2110.10685, 2021.
+
+23
+
+https://doi.org/10.1103/PRXQuantum.5.030348
+https://doi.org/10.1103/PRXQuantum.5.030348
+https://doi.org/10.1109/SFCS.2001.959902
+https://doi.org/10.1145/1007352.1007428
+https://doi.org/10.1103/PhysRevX.6.031010
+https://doi.org/10.1103/PhysRevX.10.021067
+https://doi.org/10.1103/PhysRevX.10.021067
+
+
+[22] Jahan Claes and Wim van Dam. Instance independence of single layer quantum approximate
+optimization algorithm on mixed-spin models at infinite size. Quantum, 5:542, 2021.
+
+[23] Ahmed El Alaoui, Andrea Montanari, and Mark Sellke. Local algorithms for maximum cut
+and minimum bisection on locally treelike regular graphs of large degree. Random Structures &
+Algorithms, 63(3):689–715, May 2023. ISSN 1098-2418. URL http://dx.doi.org/10.1002/
+rsa.21149.
+
+[24] The QAOA at High Depth for MaxCut on Large-Girth Regular Graphs and the Sherrington-
+Kirkpatrick Model. Talk presented at 17th Conference on the Theory of Quantum Computation,
+Communication and Cryptography (TQC’22), 2022. URL https://www.youtube.com/watch?
+v=yYmwfEYtKO4&t=5267s.
+
+[25] Charles H. Bennett, Ethan Bernstein, Gilles Brassard, and Umesh Vazirani. Strengths and
+weaknesses of quantum computing. SIAM Journal on Computing, 26(5):1510–1523, 1997. URL
+https://doi.org/10.1137/S0097539796300933.
+
+[26] Francesco Pinna and Carlo Viola. The saddle-point method in CN and the generalized Airy
+functions. Bull. Soc. Math. France, 147:221–257, 2019.
+
+[27] Avrim Blum, Adam Kalai, and Hal Wasserman. Noise-tolerant learning, the parity problem,
+and the statistical query model. J. ACM, 50(4):506–519, July 2003. ISSN 0004-5411. URL
+https://doi.org/10.1145/792538.792543.
+
+[28] Krzysztof Pietrzak. Cryptography from learning parity with noise. In SOFSEM 2012: Theory
+and Practice of Computer Science, pages 99–114, Berlin, Heidelberg, 2012. Springer Berlin
+Heidelberg.
+
+[29] Benny Applebaum, Boaz Barak, and Avi Wigderson. Public-key cryptography from different
+assumptions. In Proceedings of the Forty-Second ACM Symposium on Theory of Computing
+(STOC 2010), page 171–180, New York, NY, USA, 2010. Association for Computing Machinery.
+ISBN 9781450300506. URL https://doi.org/10.1145/1806689.1806715.
+
+[30] Xue Chen, Wenxuan Shu, and Zhaienhe Zhou. Algorithms for Sparse LPN and LSPN Against
+Low-noise. arXiv preprint arXiv:2407.19215, 2024. URL https://arxiv.org/abs/2407.
+19215.
+
+[31] I-Hsiang Wang, Shao-Lun Huang, Kuan-Yun Lee, and Kwang-Cheng Chen. Data extraction
+via histogram and arithmetic mean queries: Fundamental limits and algorithms. In 2016 IEEE
+International Symposium on Information Theory (ISIT), pages 1386–1390, 2016.
+
+[32] Oliver Gebhard, Max Hahn-Klimroth, Dominik Kaaser, and Philipp Loick. On the parallel re-
+construction from pooled data. In 2022 IEEE International Parallel and Distributed Processing
+Symposium (IPDPS), pages 425–435, 2022.
+
+[33] Mahdi Soleymani and Tara Javidi. A Non-Adaptive Algorithm for the Quantitative Group
+Testing Problem. In Proceedings of Thirty Seventh Conference on Learning Theory, volume
+247 of Proceedings of Machine Learning Research, pages 4574–4592. PMLR, 2024. URL https:
+//proceedings.mlr.press/v247/soleymani24a.html.
+
+[34] Wei-Ning Chen and I-Hsiang Wang. Partial data extraction via noisy histogram queries: In-
+formation theoretic bounds. In 2017 IEEE International Symposium on Information Theory
+(ISIT), pages 2488–2492, 2017.
+
+24
+
+http://dx.doi.org/10.1002/rsa.21149
+http://dx.doi.org/10.1002/rsa.21149
+https://www.youtube.com/watch?v=yYmwfEYtKO4&t=5267s
+https://www.youtube.com/watch?v=yYmwfEYtKO4&t=5267s
+https://doi.org/10.1137/S0097539796300933
+https://doi.org/10.1145/792538.792543
+https://doi.org/10.1145/1806689.1806715
+https://arxiv.org/abs/2407.19215
+https://arxiv.org/abs/2407.19215
+https://proceedings.mlr.press/v247/soleymani24a.html
+https://proceedings.mlr.press/v247/soleymani24a.html
+
+	Introduction
+	Background
+	Quantum approximate optimization algorithm
+	Symmetric CSPs
+	Related work
+
+	QAOA can solve symmetric CSPs in polynomial time
+	Sn-symmetric CSPs
+	Success when cost function takes on (mostly) distinct values
+	Success in some cases with optimized 
+
+	Sn1Sn2-symmetric CSPs
+
+	QAOA can solve near-symmetric CSPs in polynomial time
+	Performance of classical algorithms
+	Oracular setting
+	Simulated annealing
+	Best solvers from SAT and Max-SAT competitions
+
+	Discussion
+

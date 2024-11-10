@@ -1,0 +1,3004 @@
+
+On the Instrumental Discrepancies in
+
+Lyman-alpha Observations of Solar Flares
+
+Harry J. Greatorex ∗1, Ryan O. Milligan 1, and Ingolf E.
+Dammasch 2
+
+1Astrophysics Research Centre, School of Mathematics and Physics, Queen’s
+University Belfast, Belfast, United Kingdom, BT7 1NN
+
+2Solar Influences Data Analysis Center, Royal Observatory of Belgium, Circular
+Avenue 3, 1180 Uccle, Brussels, Belgium
+
+Abstract
+
+Despite the energetic significance of Lyman-alpha (Lyα; 1216Å) emis-
+sion from solar flares, regular observations of flare related Lyα have been
+relatively scarce until recently. Advances in instrumental capabilities and
+a shift in focus over previous Solar Cycles mean it is now routinely possi-
+ble to take regular co-observations of Lyα emission in solar flares. Thus, it
+is valuable to examine how the instruments selected for flare observations
+may influence the conclusions drawn from the analysis of their unique mea-
+surements. Here, we examine three M-class flares each observed in Lyα
+by GOES-14/EUVS-E, GOES-15/EUVS-E, or GOES-16/EXIS-EUVS-B,
+and at least one other instrument from PROBA2/LYRA, MAVEN/EUVM,
+ASO-S/LST-SDI, and SDO/EVE-MEGS-P. For each flare, the relative
+and excess flux, contrast, total energy, and timings of the Lyα emission
+were compared between instruments. It was found that while the discrep-
+ancies in measurements of the relative flux between instruments may be
+considered minimal, the calculated contrasts, excess fluxes, and energetics
+may differ significantly - in some cases up to a factor of five. This may
+have a notable impact on multi-instrument investigations of the variable
+Lyα emission in solar flares and estimates of the contribution of Lyα to
+the radiated energy budget of the chromosphere. The findings presented
+in this study will act as a guide for the interpretation of observations of
+flare-related Lyα from upcoming instruments during future Solar Cycles
+and inform conclusions drawn from multi-instrument studies.
+
+1 Introduction
+
+The Lyman-alpha line of neutral hydrogen (Lyα; 1216Å) is the most intense
+emission line in the quiescent solar spectrum [Curdt et al., 2001]. In spite of
+
+∗Corresponding author: hgreatorex01@qub.ac.uk
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+00
+73
+
+6v
+1 
+
+ [
+as
+
+tr
+o-
+
+ph
+.S
+
+R
+] 
+
+ 1
+ N
+
+ov
+ 2
+
+02
+4
+
+https://orcid.org/0000-0002-5302-0887
+https://orcid.org/0000-0001-5031-1892
+https://orcid.org/0000-0002-5302-0887
+
+
+this, observations of flare-related Lyα emission have historically been relatively
+scarce. Among the earliest measurements of flare-related Lyα emission were
+the spectroscopic observations of Skumanich et al. [1978] using the Laboratoire
+de Physique Stellaire et Planetaire (LPSP; Bonnet et al. 1978) onboard Eighth
+Orbiting Solar Observatory (OSO-8), and of Canfield and van Hoosier [1980]
+using the NRL Spectrograph [Bartoe et al., 1977] within the Apollo Telescope
+Mount onboard Skylab. However, due to the individual instrumental capabilities
+required to observe such an energetic emission line on flare timescales, it has only
+been possible in the last decade to conduct statistical studies using calibrated
+photometric measurements of flare-related Lyα.
+
+Milligan et al. [2020] conducted a large-scale statistical study of Lyα flares
+observed by the Geostationary Operational Environmental Satellites (GOES)
+during Solar Cycle 24. From their analysis of >500 M- and X-class flares, it was
+found that both the energy and contrast in flare-related Lyα emission tend to
+scale with Soft X-Ray (SXR) magnitude. Furthermore, it was found that 95%
+of the flares sampled had an associated Lyα contrast of <10%. However, unique
+cases could reach contrasts of up to ∼30%. Comparatively, observations of flare-
+related Lyα from the Project for On-Board Autonomy (PROBA2; Santandrea
+et al. 2013) have consistently found contrasts of < 1% (Kretzschmar et al.
+2013, Raulin et al. 2013). One explanation for these notably low contrasts may
+be significant detector degradation and the presence of contaminants in the
+PROBA2 signal. Currently, the extent to which these discrepancies may exist
+in co-observations between individual instruments is not well documented.
+
+Lyα emission is optically thick and therefore observations in Lyα are subject
+to effects of Centre-to-Limb Variation (CLV), whereby the position of a flare
+on the solar disk (and the subsequent column depth along the observing line
+of sight) can impact the measured Lyα irradiance (for further discussion see
+Woods et al. 1995, Woods et al. 2006, Milligan 2021). The extent to which
+CLV may impact Lyα observations was examined by Milligan et al. [2020] using
+combined stereoscopic observations of an X1.1 flare from GOES-15 and the
+Mars Atmosphere and Volatile Evolution (MAVEN; Eparvier et al. 2015) in
+orbit around Mars. For MAVEN, the flare was located close to disk-centre,
+whereas for GOES the flare appeared at the solar limb. Subsequently, a ∼45%
+increase in flare-related Lyα excess was observed at Mars relative to Earth,
+thus demonstrating the magnitude of CLV on observations of optically-thick
+emission.
+
+Temporally, flare-related Lyα emission tends to peak in conjunction with
+nonthermal Hard X-Ray (HXR) emission and therefore the derivative of the
+SXRs in alignment with the Neupert Effect [Neupert, 1968]; examples of the
+nonthermal origin of Lyα emission are demonstrated in Nusinov et al. [2006],
+da Costa et al. [2009], Milligan et al. [2017], Dominique et al. [2018], Li et al.
+[2022], Tian et al. [2023], and Greatorex et al. [2023]. In some instances, sec-
+ondary Lyα emission peaks occur during the decay-phase, which is speculated
+to originate from cooling loop plasma rather than the flare footpoint regions
+[Kretzschmar et al., 2013], or from filament eruptions [Wauters et al., 2022].
+However, systematic effects have also been shown to account for apparent viola-
+
+2
+
+
+
+tions of expected Neupertian behaviour. Milligan and Chamberlin [2016] found
+flare-related Lyα emission observed by the Extreme-ultraviolet Variability Ex-
+periment (EVE; Woods et al. 2012) onboard SDO to peak within the gradual
+phase co-temporally with the associated Soft X-ray (SXR) emission. This was
+later attributed to issues with the Kalman filters used during data processing
+(D. Woodraska - Private Communication)
+
+Recent instrumental advancements mean that it is now possible to image so-
+lar flares in Lyα on sufficient timescales to observe the dynamic spatial develop-
+ment of flare footpoints, loops, and ribbons. Li et al. [2022] studied a C1.4 flare
+using observations from the Lyα channel of High Resolution Imager within the
+Extreme Ultraviolet Imager onboard Solar Orbiter (SO/EUI-HRILyα; Müller
+et al. 2020, Rochus et al. 20201). In their study, the authors found a co-spatial
+relationship between Lyα emission and nonthermal HXR sources, similarity in
+spatiotemporal behaviour between Lyα and He ii (304Å) emission observed by
+the Extreme Ultraviolet Imager (EUVI; Howard et al. 2008) onboard the Solar
+Terrestrial Relations Observatory Ahead (STEREO-A; Kaiser et al. 2008) and
+the Atmospheric Imaging Assembly onboard the Solar Dynamics Observatory
+(SDO/AIA; Pesnell et al. 2012, Boerner et al. 2012), and Lyα brightenings in
+both the rise and decay phase of the flare. Furthermore, the Solar Disk Im-
+ager within the Lyman-alpha Solar Telescope onboard the recently launched
+Advanced Space-based Solar Observatory (ASO-S/SDI-LST; Li et al. 2019, Feng
+et al. 2019, Gan et al. 2023, Chen et al. 2024) has been used to examine the
+presence of long-period QPPs in an X6.4 solar flare, co-temporal with the associ-
+ated HXR emission [Li et al., 2024]. Similar behaviour was presented by Milligan
+et al. [2017] in a multi-instrument study using observations from GOES, SDO,
+and the Reuven Ramaty High Energy Solar Spectroscopic Imager (RHESSI; Lin
+et al. 2002).
+
+Multi-instrument observations are crucial for examining fundamental open
+questions surrounding the origin of flare-related emission, constraining the ra-
+diated energy budget of the chromosphere, and the temporal evolution of flare-
+related emission during different phases of solar flares. Using joint observations
+from SDO, GOES, PROBA2, and RHESSI, Wauters et al. [2022] examined an
+M6.7 flare with an additional peak in Lyα emission during the decay phase of
+the flare that had no temporal correlation to the HXR or SXR emission. Using
+images in 1600Å from SDO/AIA, the source of the emission was later attributed
+to a failed filament eruption in proximity to the flare origin. Moreover, using
+combined observations from RHESSI and GOES, both Milligan et al. [2014]
+and Greatorex et al. [2023] were able to examine the contribution of Lyα to the
+radiated energy budget of the chromosphere during solar flares. These studies
+found for both an X- and M-class flare, Lyα may account for up to ∼8% of the
+energy deposited into the chromosphere by nonthermal electrons.
+
+When conducting precise analysis of solar flares, it is currently unclear to
+what extent the instruments chosen for observations may impact the conclusions
+drawn from their observations. This fact becomes more pertinent with the con-
+
+1SO was omitted from this study due to difficulty in obtaining sufficient calibration data.
+
+3
+
+
+
+sideration of newly-launched and upcoming missions such as ASO-S, GOES-R,
+and Solar-C [Watanabe, 2014]. With the wealth of available data from current
+missions, it is possible to thoroughly examine Lyα emission during solar flares.
+This paper aims to assess the level of agreement in Lyα observations of solar
+flares between different missions, focussing on observable metrics that may be
+used to infer the underlying mechanisms driving the emission, such as the rela-
+tive and excess fluxes, the flare contrasts, energetics, and timings. This analysis
+should act as a guide for future studies using next generation instruments.
+
+The instruments examined within this study are summarised in Section 2.
+A discussion of the unique instrumental observing capabilities including the
+spectral response functions and bandpasses is presented in Section 3. The flare
+sample used for the individual case studies, as well as the calibration, standard-
+isation, and analysis techniques are presented in Section 4. Section 5 details the
+results of each case study. Finally, a discussion of the impact of this study and
+future Lyα observation capabilities is presented in Section 6.
+
+2 Instrumentation
+
+This study focuses on the examination of observations of flare-related Lyα emis-
+sion from multiple missions that have served the solar community over Solar
+Cycle 24 and 25. The following section presents a brief summary of each in-
+strument included in this study and details the individual calibration processes
+carried out for each instrument where relevant. Table 1 contains a technical
+summary of each instrument.
+
+2.1 GOES-14/EUVS–E and GOES-15/EUVS–E
+
+GOES-14 and GOES-15 both featured an X-Ray Sensor (XRS; Hanser and
+Sellers 1996, Chamberlin et al. 2009) and Extreme Ultraviolet Sensor (EUVS;
+Viereck et al. 2007, Evans et al. 2010), observing disk-integrated SXR and Ex-
+treme Ultraviolet (EUV) emission at a near 100% duty cycle. EUVS consisted
+of five channels (A–E) covering the 50–170Å, 240–340Å, 200–620Å, 200–800Å,
+and 1180–1250Å wavelength ranges. The E-channel (EUVS–E) was a dedicated
+broadband channel centred around the Lyα line at 1216Å, observing the full
+solar disk at 10.24s cadence. These GOES satellites operated in a geostationary
+orbit at an altitude of approximately 36 000 km. Thus, observations from GOES
+are subject to geocoronal absorption that are more pronounced around the
+equinoxes. In this instance, EUV emission is absorbed by hydrogen in the geo-
+corona, leading to a reduction in the observed emission. As a result, it is impor-
+tant to consider Lyα observations where the effect of the geocorona is minimal
+and/or can be accounted for. The GOES-14/EUVS-E and GOES-15/EUVS-E
+observations suffer from degradation over time, which is compensated for by
+using daily averages from the Solar Stellar Irradiance Comparison Experiment
+onboard the Solar Radiation and Climate Experiment (SORCE/SOLSTICE;
+McClintock et al. 2005) to scale the daily averages from GOES. Thus, while the
+
+4
+
+
+
+degradation and absolute values are scaled to SORCE/SOLSTICE, the vari-
+ability is determined by the GOES instrument. For this study, the degradation
+corrected 1nm band (121-122nm) data were used.
+
+2.2 GOES-16/EXIS–EUVS–B
+
+GOES-16 operates with an incorporated set of SXR and EUV sensors as part
+of a combined Extreme Ultraviolet and X-ray Irradiance Sensors (EXIS) suite.
+The EUVS for EXIS is comprised of two channels (A and B) measuring the
+spectral irradiance of lines within the 250–310Å and 1170–1410Å wavelength
+ranges, respectively, and a third channel (Channel-C) taking relative measure-
+ments of the Mg ii core/wing ratio between 2750–2850Å. The EUVS–B chan-
+nel is comprised of a photodiode array with diode clusters allocated to cover
+significant solar emission lines such as C iii (1175Å), H i Lyα (1216Å), C ii
+(1335Å), and S iv/O iv (1405Å), each with an approximate width of 6Å. The
+final irradiance data from EUVS-B is a summation of the fluxes over the pho-
+todiodes for each separate cluster. At the time of writing, these full-disk L2
+irradiances from EXIS/EUVS–B are available at 60s cadence, future products
+following additional processing are expected to have cadences of 1s. Similar to
+red GOES-14/15, GOES-16 operates in a geostationary orbit with an altitude
+of approximately 36 000 km (see Eparvier et al. 2009 for a detailed discussion of
+EUVS for GOES-16). For this study, Version 1.0.5 of the science-quality solar
+line data from GOES-16/EXIS were used; at the time of writing this is the most
+up-to-date publicly available version of the GOES-16 data.
+
+Several caveats need to be considered for GOES-16/EXIS-EUVS-B data.
+Firstly, the presence of multi-hour post-eclipse thermal dips in the spectral lines
+due to incompletely corrected temperature impacts may affect the EUVS obser-
+vations, although it is simple to exclude these data as required. The magnitude
+of this in the Lyα line is difficult to quantify due to the additional effect of the
+geocorona. Furthermore, an annual cycle oscillation artifact with a magnitude
+of 1.3% of the measured flux impacts the irradiances of the Lyα channel of
+EUVS. It is unclear what impact these may have on the observations presented
+in this study.
+
+2.3 PROBA2/LYRA
+
+The Large Yield Radiometer (LYRA; Hochedez et al. 2006, Dominique et al.
+2013) onboard PROBA2 is a tri-unit broadband radiometer with four distinct
+channels observing in the SXR to mid-ultraviolet regime. The Lyα filters from
+Units 1 and 2 (MSM Diamond Detector) and Unit 3 (AXUV Si Detector) of
+LYRA cover the 1200–1230Å wavelength range, taking full-disk irradiance mea-
+surements at 0.05s cadence. The nominal unit of LYRA has suffered signifi-
+cant degradation and no longer observes Lyα emission, due to changes in the
+Lyα channel bandpass. The degradation of the LYRA instrument has been
+attributed to the deposition of carbon and silicon on the detectors, creating a
+contaminant layer that is more opaque to longer wavelengths relative to short
+
+5
+
+
+
+resulting in different signal losses depending on wavelength (BenMoussa et al.
+2015, Wauters et al. 2022). The data collected during special observing cam-
+paigns using the backup unit are still sufficient to observe flare related Lyα
+emission (M. Dominique. 2023 - Private Communication). PROBA2 has a
+Sun-synchronous orbit at 720 km altitude placing it in Low-Earth Orbit.
+
+2.4 MAVEN/EUVM
+
+The Extreme Ultraviolet Monitor (EUVM) onboard the MAVEN satellite is a
+Sun-facing instrument consisting of three channels taking disk-integrated broad-
+band irradiances in the SXR and EUV regimes. The Lyα channel (Channel C)
+of EUVM covers the 1170–1250Å wavelength range, measuring irradiance at 1s
+cadence. Nominal EUVM observations are taken in the operations case with
+the Sun within science FOV and aperture mechanism “open”, which produces
+valid solar irradiance measurements. MAVEN operates in a highly elliptical
+orbit around Mars, with an apoapsis of ∼6000 km and periapsis of ∼150 km.
+
+2.5 SDO/EVE-MEGS-P
+
+SDO/EVE features a set of Multiple EUV Grating Spectrographs (MEGS) com-
+prised of three main components. The grazing-incidence spectrograph (MEGS-
+A) and normal-incidence spectrograph (MEGS-B) sample the 50-370Å and 350-
+1050Å wavelength range at 1Å resolution, respectively2. The broadband photo-
+diode (MEGS-P) used with the first grating of MEGS-B is centred on the Lyα
+line. SDO operates in a 28◦ inclined geosynchronous orbit at an altitude of 36
+000 km. At the time of writing, the degradation of MEGS-B means that MEGS-
+P operates on a flare trigger system, with a 60s cadence (previously MEGS-P
+has operated with 10s cadence).
+
+2.6 ASO-S/LST-SDI
+
+The ASO-S mission is the first space-based Chinese mission dedicated to solar
+observation. The LST is one of the instruments onboard ASO-S. The SDI within
+LST images the full solar disk at 1216Å with a spatial resolution of 9.5′′ and
+a routine exposure time of 13.5s3. ASO-S operates in a Sun-synchronous orbit
+with an altitude of 720 km and an inclination of 98◦ relative to Earth’s equator.
+The nominal cadence for routine SDI observations is between 4–40s; SDI images
+are also available in 60s intervals due to the “image download interval” set in
+response to telemetry limitations.
+
+2Due to an instrumentation failure on 26 May 2014, MEGS-A is no longer operational.
+3This has increased to 16.5s due to degradation of the instrument.
+
+6
+
+
+
+Table 1: Summary of the observing instruments from each mission used in this
+work. *Cadences are taken as the cadence of the L2 calibrated data available
+from the dedicated mission repositories for each observation. **Average between
+two peaks in GOES-15/EUVS-E response function.
+
+Mission Instrument Orbit Observation Cadence Bandpass Response Peak
+
+Type (s)* FWHM (Å) λ (Å)
+GOES-14 EUVS–E Geostationary Photometry 10.24 131.1 1214
+
+GOES-15 EUVS–E Geostationary Photometry 10.24 108.7 1227**
+
+GOES-16 EXIS–EUVS–B Geostationary Photometry 60.0 - -
+
+PROBA2 LYRA Sun-synchronous Photometry 0.05 104.5 1200
+
+MAVEN EUVM Areocentric Photometry 1.0 64.4 1200
+
+SDO EVE-MEGS-P Geosynchronous Photometry 60.0 91.6 1205
+
+ASO-S LST-SDI Sun-synchronous Imaging 60.0 92.3 1216
+
+3 Spectral Response Functions and Bandpasses
+
+The spectral response of a given instrument quantifies the effectiveness of an
+instrument in transforming incident flux into a measurable output for a given
+emission spectrum. Figure 1 shows the normalised spectral response for each
+broadband instrument described in Section 2. Also presented are the diode re-
+sponsivities of GOES-16/EXIS–EUVS–B, where each grey bar denotes a unique
+photodiode. Generally, the normalised spectral responses for the broadband Lyα
+instruments resemble a Gaussian profile with the central peak residing within
+the 1200-1220Å wavelength range. It appears that several of the spectral re-
+sponses are centred slightly blueward of the Lyα core at 1216Å (denoted by
+the vertical solid black line in Figure 1). The GOES-15/EUVS–E spectral re-
+sponse appears to be double peaked, with the larger peak appearing around
+1245Å and the average of the two peaks being ∼1227Å. The responsivities for
+GOES-16/EXIS–EUVS–B show the distinct clusters centred about their unique
+corresponding emission lines, with cluster B positioned about the Lyα core
+and the responsivity apparently increasing monotonically with wavelength. It
+should be noted that the responses are normalised for comparison and do not
+necessarily give an indication of the true instrumental responsivity as they are
+dimensionless. The true responsivity may change due to degradation over the
+instrument lifetime. The wavelength at the peak of the spectral response for
+each instrument is summarised in Table 1.
+
+The FWHM of the spectral response function for each instrument is pre-
+sented as a horizontal line in Figure 2. Also included is a model of a daily av-
+eraged quiet-Sun (QS) EUV spectrum from the Flare Irradiance Spectral Model
+
+7
+
+
+
+1100 1150 1200 1250 1300 1350 1400
+Wavelength (Å)
+
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+
+N
+or
+
+m
+al
+
+is
+ed
+
+ R
+es
+
+po
+ns
+
+e 
+Fu
+
+nc
+tio
+
+n
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+D
+io
+
+de
+ R
+
+es
+po
+
+ns
+iv
+
+ity
+  (
+
+10
+9 Am
+
+2 nm
+W
+
+1 )
+
+GOES-14/EUVS-E
+GOES-15/EUVS-E
+MAVEN/EUVM
+PROBA2/LYRA
+
+ASO-S/LST-SDI
+SDO/EVE MEGS-P
+GOES-16/EXIS-EUVS-B
+GOES-16/EXIS-EUVS-B [1216Å]
+
+Figure 1: Normalised spectral responses for the instruments examined in this
+work. The Lyα line core at 1216Å is denoted by the vertical solid line. The
+GOES-16 diodes are denoted by grey bars, where the width of the bar is ap-
+proximately 6Å. Unhatched grey bars denote the cluster about the Lyα line.
+
+v2 (FISM2; Chamberlin et al. 2020), where the prominent central peak corre-
+sponds to the Lyα line. The values of the FWHM bandpasses are summarised
+in Table 1. From Figure 2, GOES-14/EUVS–E has the broadest bandpass and
+MAVEN/EUVM has the narrowest. In terms of FWHM values, the values be-
+tween instruments show reasonable similarity. However, the central point of
+the bandpass appears to demonstrate a non-negligible difference between each
+instrument.
+
+To explore the spectral purity of the observations, the spectral response for
+each instrument was convolved with a model QS spectra from FISM2 in the
+1080–1420Å wavelength range (Figure 3). From this convolution, it is apparent
+that for all the instruments examined the measured irradiance across the full
+bandpass is dominated by Lyα. From Figure 3 it is apparent that contributions
+to the irradiance from nearby species such as Si iii (1206Å) and O v (1218Å) are
+found to be 100–1000× less than that of Lyα, thus suggesting it is reasonable
+to assume that the observed irradiance from each instrument is dominated by
+Lyα (Woods et al. [2012] state the filter purity of MEGS-P to be 99%).
+
+8
+
+
+
+1100 1150 1200 1250 1300 1350 1400
+Wavelength (Å)
+
+GOES-14/EUVS-E
+GOES-15/EUVS-E
+MAVEN/EUVM
+
+SDO/EVE MEGS-P
+ASO-S/LST-SDI
+PROBA2/LYRA
+
+GOES-16/EXIS-EUVS-B
+GOES-16/EXIS-EUVS-B [1216Å]
+FISM2
+
+Figure 2: FWHM of the spectral responses presented in Figure 1. The horizon-
+tal lines denote the widths of the FWHM bandpasses. The GOES-16 diodes are
+denoted by grey bars, where the width of each bar is approximately 6Å. Un-
+hatched grey bars denote the cluster about the Lyα line. A QS EUV spectrum
+from FISM2 is overplot in the solid, thin black line.
+
+Wavelength (Å)
+
+1.000
+
+Wavelength (Å)
+
+0.100
+
+Wavelength (Å)
+0.001
+
+0.010
+
+N
+or
+
+m
+al
+
+is
+ed
+
+ S
+pe
+
+ct
+ra
+
+l R
+es
+
+po
+ns
+
+e 
+C
+
+on
+vo
+
+lv
+ed
+
+ 
+ w
+
+ith
+ F
+
+IS
+M
+
+2 
+Sp
+
+ec
+tru
+
+m
+
+1100 1150 1200 1250 1300 1350 1400
+Wavelength (Å)
+
+0.000
+
+GOES-14/EUVS-E
+GOES-15/EUVS-E
+GOES-16/EXIS-EUVS-B
+[1216Å] - Approximated
+PROBA2/LYRA
+
+MAVEN/EUVM
+ASO-S/LST-SDI
+SDO/EVE MEGS-P
+
+Figure 3: Convolution of a model QS EUV spectrum from FISM2 and the spec-
+tral responses for each instrument on a logarithmic scale. The black dot-dashed
+line denotes a rough approximation of the GOES-16/EXIS-EUVS-B response
+about the Lyα cluster derived from the diode responsivities.
+
+9
+
+
+
+4 Flare Sample and Analysis
+
+In order to make instrumental comparison between flare observations, three case
+studies were conducted each using a unique combination of instruments. The
+flare sample used for these studies was selected on the fulfillment of the following
+criteria:
+
+• Each flare was M-class or above to facilitate sufficient observable Lyα flux
+increases attributed to the flare.
+
+• Each flare was co-observed by the active GOES satellite at the time of the
+observation and at least one other instrument from Section 2.
+
+• Each flare occurred on-disk from the respective instrument FOV, reducing
+the impact of Centre-to-Limb Variation.
+
+• The full flare period was observed by each instrument examined in that
+case study, with a sufficient preflare period to calculate a background flux
+value.
+
+• Instruments must be operating in standard observation modes to prevent
+additional impact of increased cadences, additional attenuation from fil-
+ters, spacecraft maneuvers, and variable pointing (imagers, etc.).
+
+Table 2 presents a summary of three flares that met the above criteria. The
+flare timings and classes were taken from the 1–8Å SXR observations from the
+XRS instrument on the relevant GOES satellite.
+
+Table 2: Observational summary of the flare sample.
+Solar GOES GOES GOES GOES Heliographic Observing
+
+Object Start Peak End Class Position Instrument
+Locator (UT) (UT) (UT)
+SOL2010–02–08 13:32 13:47 13:50 M2.0 N28W08 GOES-14/EUVS–E
+
+PROBA2/LYRA
+
+SOL2016–04–18 00:14 00:29 00:39 M6.7 N11W60 GOES-15/EUVS–E
+
+MAVEN/EUVM
+
+SOL2023–05–09 03:42 03:54 04:05 M6.5 N13W26 GOES-16/EXIS–EUVS–B
+
+ASO-S/LST-SDI
+
+SDO/EVE-MEGS-P
+
+4.1 Standardisation and Calibration
+
+In order to make a reasonable comparison between instruments, Lyα measure-
+ments were converted to disk-integrated irradiance at 1AU, in units of Wm−2.
+
+10
+
+
+
+The following sections detail the calibration and standardisation procedures
+conducted for the relevant instruments.
+
+4.1.1 Scaling Observations to 1AU
+
+As MAVEN is a Mars orbiting mission, a scaling factor is required to convert the
+Lyα observations from Mars to Earth distance. This scaling factor is calculated
+as (RMS
+
+RES
+)2, where RMS and RES are the Mars-Sun and Earth-Sun separation
+
+distances at the time of the flare, respectively. A scaling factor of 2.52 was
+found for MAVEN.
+
+Additionally, a light travel-time correction factor was calculated as:
+
+∆t =
+RScS −RES
+
+c
+seconds (1)
+
+where c is the speed of light in ms−1 and the separation distance is given in
+m. This Earth-Mars travel time could then be subtracted from the observation
+time to align with observation time taken at 1AU. The calculated value of ∆t
+for MAVEN at the time of the flare was found to be 289s. Similar scaling was
+performed for Earth-orbiting instruments to ensure all observations were scaled
+to 1AU.
+
+4.1.2 Radiometric Calibration of Images
+
+Image data require radiometric calibration in order to covert the pixel data
+in DNs−1 to irradiance in Wm−2. For ASO-S/LST-SDI, this calibration was
+carried out using the IDL program lst radcalib.pro within the LST anal-
+ysis package available from the Science Operation and Data Centre (SODC).
+For this calibration, the image data were despiked using “L.A.Cosmic” cos-
+mic ray identification algorithm (van Dokkum et al. 2012), incorporated into
+the LST software package, and a Radiometric Calibration Factor (RCF) of
+1.98×10−8 erg DN−1 cm−2 was applied. The RCF is calculated using the ratio
+of EUVS Lyα daily averages from GOES to LST data and is time-dependent
+due to degradation of instrument over the mission lifetime. Following this, im-
+age data from ASO-S/LST-SDI was converted from spatially-resolved data to
+1-dimensional lightcurves via summation of the pixels present in the full-disk
+image. It was assumed that the flux within the image exposure time may be
+extrapolated across the total imaging cadence. This may have an impact on the
+understanding of the temporal behaviour of the flux, although will not impact
+the magnitude of Lyα emission.
+
+4.1.3 Centre-to-Limb Variation Correction
+
+Given the position of SOL2016–04–18 on the solar disk, and the differing van-
+tage points of GOES-15 and MAVEN, a CLV correction factor was required to
+account for the impact of the relative flare position on the observed Lyα emis-
+sion. Firstly, a translation of the longitudinal flare position was performed from
+
+11
+
+
+
+0°
+
+45°
+
+90°
+
+135°
+
+180°
+
+225°
+
+270°
+
+315°
+
+0.5
+1.0
+
+1.5
+2.0
+
+Spacecraft Positions
+2016-April-18
+
+Mars Earth
+
+Figure 4: Approximate position relative to the Sun-Earth line for Mars in He-
+liographic Stonyhurst coordinates on the date of the flare observation. The
+magenta cross marks the approximate position of SOL2016–04–18. Labelled
+concentric circles denote distance from the Sun (central yellow circle) in AU.
+
+the position on-disk as seen from Earth to the approximate position as seen
+from Mars. This was carried out under the assumption of an unchanged flare
+latitude via the following:
+
+ϕMars = ϕEarth −∆θEarth−Mars (2)
+
+where ϕMars and ϕEarth denote the approximate longitudes as observed from
+Mars and Earth, respectively, and ∆θEarth−Mars denotes the angular separation
+between Earth and Mars at the time of the flare. The position of Mars relative
+to Earth at the time of SOL2016–04–18 is presented in Figure 4. The value
+of ∆θEarth−Mars was found to be 15.8◦. From Equation 2, the angle ϕMars
+
+was calculated as ∼44◦, thus giving approximate heliographic coordinates of
+SOL2016–04–18 relative to Mars of N11W44.
+
+Following this, a CLV correction factor (C) was calculated for both vantage
+points using a cosine-squared method, which is justified by the fall-off of irradi-
+ance toward the solar limb as demonstrated by Milligan et al. [2020]. The CLV
+correction factor is calculated as:
+
+C = cos2(ω)×
+(
+1− |ϕ|
+
+360
+
+)
+(3)
+
+where ω is the heliographic latitude in degrees and ϕ is the heliographic longitude
+in degrees. This yielded CLV correction factors for the MAVEN and GOES-15
+
+12
+
+
+
+observations of 0.8030 and 0.8512, respectively. The measured Lyα fluxes from
+each instrument were then multiplied by their respective correction factors.
+
+4.1.4 Recalibration of PROBA2/LYRA Data
+
+The PROBA2/LYRA observations for SOL2010–02–08 were studied in detail
+by Kretzschmar et al. [2013]. In their study, the authors note that the standard
+degradation correction may underestimate the flare irradiance increase. Instead
+they opted to manually calibrate the L1 data, correcting for degradation, dark
+currents, and spacecraft motion. The Lyα observations from PROBA2/LYRA
+were recalibrated using the methods from Kretzschmar et al. [2013] to reproduce
+their observations for this study. Dark currents were estimated as a function of
+temperature and removed from the irradiance. A multiplicative degradation cor-
+rection was applied by dividing the flux by the estimated (approximately linear)
+degradation for 08–February–2010. Finally, an orbital correction was applied
+by constructing an orbital pattern for 08–February–2010 and dividing the flux
+by this. The observations were also degraded to 3s cadence by summation, thus
+providing an improved signal-to-noise ratio (SNR).
+
+4.2 Flare Analysis
+
+For each flare, the preflare background was taken as the mean flux over a 10
+minute period before the XRS start time. The flare contrast was calculated from
+the peak flux divided by the background, while the excess flux was taken as the
+background subtracted irradiance. The energy radiated in Lyα was found by
+converting the background subtracted irradiance from flux measured at Earth
+(IEarth) to power radiated at the Sun (PSun) by the following:
+
+PSun = 2πR2 × 107 IEarth erg s−1 (4)
+
+where R is the Sun-Earth distance and all observations were scaled to 1AU. The
+value 107 is a conversion factor from J to erg. The total energy for each flare
+was then calculated by integrating the power between the GOES X-ray (XRS
+1–8Å) start and end times. The uncertainty in the observed fluxes was taken as
+the standard deviation of the flux in the preflare background period. Finally,
+the time of the measured Lyα peak for each observation relative to the GOES
+X-ray peak was calculated as tSXR
+
+Peak − tLyαPeak (∆tPeak) for each instrument. The
+uncertainty in peak time was taken as ± cadence
+
+2 .
+
+5 Results
+
+Each case presented below details flare observations in Lyα from two or more
+instruments, examining the relative flux in Lyα, the flare-related contrast, the
+excess flux, energetics, and timing. A quantitative summary of these observa-
+tions is presented in Table 3.
+
+13
+
+
+
+-1000" -500" 0" 500" 1000"
+
+1000"
+
+500"
+
+0"
+
+-500"
+
+-1000"
+
+Solar-X (arcsec)
+
+So
+la
+
+r-Y
+ (a
+
+rc
+se
+
+c)
+
+PROBA2/SWAP 174Å 2010-February-08 13:48:30 UT
+
+Figure 5: PROBA2/SWAP (174Å) image of SOL2010–02–08 at a time close to
+the flare peak. The cyan bounding box denotes the active region attributed to
+the solar flare. The small magenta box denotes the approximate position of the
+flare source.
+
+5.1 SOL2010–02–08
+
+The M2.0 flare that occurred on 08–February–2010 was jointly observed by
+GOES-14/EUVS-E and PROBA2/LYRA. An image from the Sun Watcher us-
+ing Active Pixel System detector and Image Processing (SWAP; Berghmans
+et al. 2006) onboard PROBA2 is presented in Figure 5 and the raw lightcurves
+from both instruments are presented in top panel of Figure 6, while the contrasts
+and excess fluxes are shown in the bottom panel. From Figure 6 it is apparent
+that there is a substantial disagreement between the relative fluxes from GOES-
+14/EUVS–E and PROBA2/LYRA, with the flare profile from PROBA2/LYRA
+appearing notably lower in comparison to GOES-14/EUVS–E. The peak value
+of the relative flux was found to be 7.1 × 10−3 Wm−2 and 6.7 × 10−3Wm−2
+
+for GOES/EUVS–E and PROBA2/LYRA, respectively. The respective peaks
+in Lyα from the two instruments appear to show temporal agreement with each
+other but not the SXR derivative. Kretzschmar et al. [2013] conducted a de-
+tailed analysis of this flare and found similar results in the flux, suggesting this
+is due to delayed brightening in the EUV wavelengths as the flare plasma cools
+and is therefore coronal in origin.
+
+From the bottom panel of Figure 6, the peak contrasts in Lyα were found to
+be approximately 3.5% and 0.7% for GOES-14/EUVS–E and PROBA2/LYRA,
+respectively, demonstrating a factor of five difference in their calculated values.
+
+14
+
+
+
+Start Time: 08-February-2010 13:32 UT
+
+0.0066
+
+0.0068
+
+0.0070
+
+0.0072
+
+0.0074
+
+0.0076
+
+0.0078
+Ly
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+PROBA2/LYRA - Channel 1
+GOES-14/EUVS-E
+GOES-14/XRS 1-8Å
+
+XRS Start
+d/dt SXR Peak
+
+XRS Peak
+XRS End
+
+13:30 13:35 13:40 13:45 13:50 13:55
+Start Time: 08-February-2010 13:32 UT
+
+1.000
+
+1.005
+
+1.010
+
+1.015
+
+1.020
+
+1.025
+
+1.030
+
+1.035
+
+1.040
+
+Ly
+ C
+
+on
+tra
+
+st
+
+10 6
+
+10 5
+
+10 4
+
+SX
+R
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+0.00000
+
+0.00004
+
+0.00008
+
+0.00012
+
+0.00016
+
+0.00020
+
+0.00024
+
+0.00028
+
+A
+bs
+
+ou
+lte
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+Figure 6: Flare lightcurves from the analysis of SOL2010–02–08. Top Panel:Lyα
+and SXR irradiance lightcurves from GOES-14/EUVS–E (green dashed),
+GOES-14/XRS (grey solid), and PROBA2/LYRA (green solid). Bottom Panel:
+Normalised Lyα enhancement and excess flux of Lyα emission for each instru-
+ment. In both panels, the green dotted line denotes the PROBA2/LYRA data
+following manual calibration of L1 data. The shaded regions denote the data
+±σ, where σ is the standard deviation of the flux in a 600s preflare window for
+each observation. Vertical dashed, dot-dashed, and solid lines denote the XRS
+start, XRS peak, and XRS end times, respectively. Vertical dotted lines denote
+the peak of the SXR derivative.
+
+Moreover, the peak value of excess flux was found to vary from 2.4×10−4 Wm−2
+
+and 0.5×10−4 Wm−2 between observations. Converting the excess flux to units
+of power and integrating over the full flare period, the total energy radiated in
+Lyα as observed by GOES-14/EUVS–E was found to be 1.3 × 1029 erg, three
+times larger than that found for PROBA2/LYRA, which was calculated as 0.4×
+1029 erg. Such a difference in total energy becomes significant to calculations
+
+15
+
+
+
+-1000" -500" 0" 500" 1000"
+
+1000"
+
+500"
+
+0"
+
+-500"
+
+-1000"
+
+Solar-X (arcsec)
+
+So
+la
+
+r-Y
+ (a
+
+rc
+se
+
+c)
+
+SDO/AIA 171Å 2016-April-18 00:28:10 UT
+
+Figure 7: SDO/AIA (171Å) image of SOL2016–04–18 at a time close to the flare
+peak. The cyan bounding box denotes the active region location. The small
+magenta box denotes the approximate position of the flare source.
+
+of the chromospheric energy budget when compared with HXR spectroscopic
+observations.
+
+One explanation for the significant difference in contrast and flare excess
+between GOES-14/EUVS-E and PROBA2/LYRA could be contamination of
+the LYRA bandpass from continuum emission during QS conditions. Specifically
+the response function of unit 2 of PROBA2/LYRA (used for this study) contains
+an additional feature at approximately 2000Å, which is beyond the range of
+Figure 2. The “out-of-band” continuum emission in this range accounts for
+approximately 70% of the observed QS emission in this unit. Despite this, during
+flare conditions the enhancements in emission in this spectral range are minimal.
+Thus, the relative flare signal measured by PROBA2/LYRA in this case can
+be considered to be dominated by Lyα. However, when discussing contrast
+and flare excess it is likely that the continuum emission in the preflare signal
+may contribute to a large background flux, which in turn leads to a reduced
+contrast and flare excess in the overall measurements from PROBA2/LYRA
+(M. Dominique. 2024 - Private Communication).
+
+5.2 SOL2016–04–18
+
+The M6.7 flare on 18–April–2016 was co-observed in Lyα from Earth and Mars
+by GOES-15/EUVS–E and MAVEN/EUVM, respectively. Imaging for this flare
+from SDO/AIA (171Å) is presented in Figure 7. Lightcurves from both obser-
+
+16
+
+
+
+Start Time: 18-April-2016 00:14 UT
+
+0.0066
+
+0.0068
+
+0.0070
+
+0.0072
+
+0.0074
+
+0.0076
+
+0.0078
+
+0.0080
+
+0.0082
+
+Ly
+ Ir
+
+ra
+di
+
+an
+ce
+
+ (W
+ m
+
+2 )
+MAVEN/EUVM
+GOES-15/EUVS-E
+GOES-15/XRS 1-8Å
+
+XRS Start
+d/dt SXR Peak
+
+XRS Peak
+XRS End
+
+00:10 00:15 00:20 00:25 00:30 00:35 00:40 00:45
+Start Time: 18-April-2016 00:14 UT
+
+1.000
+
+1.020
+
+1.040
+
+1.060
+
+1.080
+
+1.100
+
+1.120
+
+Ly
+ C
+
+on
+tra
+
+st
+
+10 6
+
+10 5
+
+10 4
+
+10 3
+
+SX
+R
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+0.0000
+
+0.0001
+
+0.0002
+
+0.0003
+
+0.0004
+
+0.0005
+
+0.0006
+
+0.0007
+
+0.0008
+
+A
+bs
+
+ou
+lte
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+Figure 8: Flare lightcurves from the analysis of SOL2016–04–18. Top Panel:
+Lyα and SXR irradiance lightcurves from GOES-15/EUVS–E (red dashed),
+GOES-15/XRS (grey solid), and MAVEN/EUVM (red solid). Bottom Panel:
+normalised Lyα enhancement and excess flux of Lyα emission for each instru-
+ment. The shaded regions denote the data ±1σ, where σ is the standard devia-
+tion of the flux in a 600s preflare window for each observation. Vertical dashed,
+dot-dashed, and solid lines denote the XRS start, XRS peak, and XRS end
+times, respectively. Vertical dotted lines denote the peak of the SXR derivative.
+
+vations (following the standardisation of the MAVEN/EUVM data and CLV
+correction) are presented in the top panel Figure 8. The peak relative flux
+was found to be within 4% between GOES-15/EUVS–E and MAVEN/EUVM.
+The observations show remarkable temporal agreement. Slight differences in
+their temporal behaviour only occur around short bursts, which are captured
+
+17
+
+
+
+by MAVEN/EUVM but not GOES-15/EUVS–E due to the factor of 10 differ-
+ence in their cadences. The contrasts and excess fluxes calculated from each
+observation are presented in the bottom panel of Figure 8. The peak contrasts
+for GOES-15/EUVS–E and MAVEN/EUVM were found to be 4.2% and 7.4%,
+respectively. The peak values of the excess flux were found to be within a factor
+of 1.5, with corresponding total energies of 3.0 × 1029 erg and 5.5 × 1029 erg.
+Thus, the energy found using MAVEN/EUVM is almost a factor of two larger
+than that of GOES-15/EUVS–E.
+
+-1000" -500" 0" 500" 1000"
+
+1000"
+
+500"
+
+0"
+
+-500"
+
+-1000"
+
+Solar-X (arcsec)
+
+So
+la
+
+r-Y
+ (a
+
+rc
+se
+
+c)
+
+SDO/AIA 171Å 2023-May-09 03:54:09 UT
+
+Figure 9: SDO/AIA (171Å) image of SOL2023–05–09 at a time close to the
+flare peak. The cyan bounding box denotes the approximate flare location. The
+small magenta box denotes the approximate position of the flare source.
+
+5.3 SOL2023–05–09
+
+The M6.5 flare on 09–May–2023 was observed photometrically in Lyα by both
+GOES-16/EXIS–EUVS–B and SDO/EVE-MEGS-P, as well as imaged by ASO-
+S/LST-SDI. A context image from SDO/AIA (171Å) is presented in Figure 9.
+Following the radiometric calibration of the ASO-S/LST-SDI data detailed in
+Section 4.1.2, comparison was made with the photometric observations. The top
+panel of Figure 10 presents the relative flux from each instrument. It is apparent
+that peak relative fluxes for the three observing instruments differ by approx-
+imately 6%. The larger flux found SDO/EVE-MEGS-P may be attributed to
+broadening of the instrument bandpass over time, which is not necessarily mea-
+surable (Woodraska. 2023 - Private Communication).
+
+18
+
+
+
+0.0088
+
+0.0090
+
+0.0092
+
+0.0094
+
+0.0096
+
+0.0098
+
+0.0100
+
+Ly
+ Ir
+
+ra
+di
+
+an
+ce
+
+ (W
+ m
+
+2 )
+GOES-16/EXIS-EUVS-E
+ASO-S/LST-SDI
+SDO/EVE-MEGS-P
+
+GOES-16/EXIS-XRS 1-8Å
+XRS Start
+d/dt SXR Peak
+
+XRS Peak
+XRS End
+
+03:35 03:40 03:45 03:50 03:55 04:00 04:05 04:10
+Start Time: 09-May-2023 03:42 UT
+
+1.000
+
+1.005
+
+1.010
+
+1.015
+
+1.020
+
+1.025
+
+1.030
+
+1.035
+
+1.040
+
+Ly
+ C
+
+on
+tra
+
+st
+
+10 6
+
+10 5
+
+10 4
+
+10 3
+
+SX
+R
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+0.00000
+
+0.00005
+
+0.00010
+
+0.00015
+
+0.00020
+
+0.00025
+
+0.00030
+
+0.00035
+
+A
+bs
+
+ou
+lte
+
+ Ir
+ra
+
+di
+an
+
+ce
+ (W
+
+ m
+2 )
+
+Figure 10: Flare lightcurves from the analysis of SOL2023–05–09. Top
+Panel:Lyα and SXR irradiance lightcurves from GOES-16/EXIS–EUVS–B (blue
+dashed), GOES-16/EXIS–XRS (grey solid), ASO-S/LST-SDI (blue dotted), and
+SDO/EVE-MEGS-P (blue solid). Bottom Panel: normalised Lyα enhancement
+and excess flux of Lyα emission for each instrument. The shaded regions denote
+the data ±σ, where σ is the standard deviation of the flux in a 600s preflare win-
+dow for each observation. Vertical dashed, dot-dashed, and solid lines denote
+the XRS start, XRS peak, and XRS end times, respectively. Vertical dotted
+lines denote the peak of the SXR derivative.
+
+Despite the similarity in flare profiles, the contrasts were found to range
+from 0.7% to 3.5%. This suggests that despite the similarity in the measured
+Lyα peak, the sensitivity to the QS flux levels may drive discrepancies in the
+background values with which the contrasts are calculated. Similarly, the peak
+excess fluxes differed by up to 2.5×10−4 Wm−2 between all observations, trans-
+
+19
+
+
+
+lating to a maximum discrepancy in total energy of 4.0× 1029 erg.
+
+75 100 125 150 175 200 225 250
+t SXR
+
+Peak - t Ly
+Peak (s)
+
+PROBA2/LYRA - Channel 1
+GOES-14/EUVS-E
+MAVEN/EUVM
+
+GOES-15/EUVS-E
+GOES-16/EXIS-EUVS-B
+
+ASO-S/LST-SDI
+SDO/EVE-MEGS-P
+
+Figure 11: Time differences between the SXR peak (1–8Å) from GOES and the
+Lyα peak for each observing instrument for each flare. Colours denote each flare
+in the sample. Markers denote the unique observing instrument. The width of
+the horizontal lines affixed to each marker correspond to the instrument cadence.
+
+5.4 Timings
+
+For each flare, the time difference between the GOES SXR peak in the 1–8Å
+band and the observed Lyα peak from each instrument was calculated in or-
+der to identify any lag or lead times. Figure 11 presents the absolute value
+of tSXR
+
+Peak − tLyαPeak (∆tPeak) for each instrument. The uncertainty is taken as
+± cadence
+
+2 , given by the horizontal error bars. For SOL2010–02–08 there is a
+disparity of 0.6s between the ∆tPeak values calculated for PROBA2/LYRA and
+GOES-14/EUVS–E. There is a remarkable agreement between the ∆tPeak val-
+ues calculated for GOES-15/EUVS–E and MAVEN/EUVM for SOL2016–04–18
+with a discrepancy of 0.3s. For SOL2023–05–09, there is a broad agreement in
+∆tPeak between GOES-16/EXIS–EUVS–B and SDO/EVE-MEGS-P, although
+the uncertainty of these values is particularly large due to the relatively low (60s)
+cadence between measurements. There is a time difference of 16s in ∆tPeak be-
+tween these two instruments and ASO-S/LST-SDI. However, the ∆tPeak values
+for this flare all lie withing the associated uncertainties of one another. Gener-
+ally, the peak times between instruments are in relatively good agreement with
+each other given the associated uncertainties in the recorded times.
+
+6 Discussion and Future Missions
+
+In this work, we present an inter-instrument comparison of flare-related Lyα
+observations for three M-class flares, focussing on the relative and excess flux,
+
+20
+
+
+
+the calculated flare contrast, and the total radiated energy. From this we find
+measurement inconsistencies to exist to a varying degree across seven different
+Lyα instruments. The key findings are as follows:
+
+• Relative fluxes between instruments for all three flares examined here are
+in sufficient agreement, such that the conclusions drawn from their analysis
+will be negligibly impacted by the choice of instrument.
+
+• Discrepancies in the contrasts and excess fluxes are of sufficient degree to
+have a substantial effect on the conclusions drawn from multi-instrument
+Lyα studies.
+
+• The calculated energies between instruments are sufficiently different to
+potentially have a significant impact on constraining the contribution of
+Lyα to the radiated energy budget of solar flares.
+
+• The flare timings between instruments are in relatively good agreement
+considering the uncertainties and therefore are minimally impacted by the
+choice of observing instrument.
+
+Milligan et al. [2020] demonstrated that 95 % of M- and X-class flares ob-
+served by GOES-15/EUVS–E have an associated Lyα contrast of ≤10%, with
+an upper limit to the contrast of ∼30 %, while Raulin et al. [2013] found Lyα
+contrasts measured by PROBA2/LYRA to be consistently <1%. The flares ex-
+amined here were found to have contrasts ranging from 0.3% up to 7.4%, but
+importantly it has been demonstrated here that these ranges may be influenced
+by the observing instrument. The findings presented here show that the contrast
+range may vary by up to ∼3.5% depending on the observing instrument. This
+discrepancy is over half of the range of contrast variability found in Greatorex
+et al. [2023]. Moreover, it has been shown that the calculated values of excess
+flux can vary by up to a factor of five between instruments. This implies that
+analyses of solar flare excess in Lyα may be significantly impacted by the choice
+of observing instrument, thus influencing the conclusions drawn from flare ob-
+servations and further calculations of the flare energy carried out using these
+fluxes. On the contrary, the values of relative flux were found to be in sufficient
+agreement such that any analysis done with these fluxes would be minimally
+impacted by the discrepancies between observations from different instruments.
+
+Calculations of the radiated energy in Lyα are also vital for estimating the
+contribution of this wavelength (and therefore others) to the radiated energy
+budget of the chromosphere. Relatively few studies have compared the radiated
+energy in Lyα to the incident nonthermal electron energy deposited into the
+chromosphere during flares. From those studies, Lyα has been found to radi-
+ate up to ∼8% of the chromospheric energy (Milligan et al. 2014). Here it has
+been demonstrated that calculations of the radiated energy in Lyα may vary by
+up to an order of magnitude between observations from different instruments.
+This has significant implication for statistical studies attempting to quantify
+the radiated energy in Lyα over a large flare sample, particularly when using
+
+21
+
+
+
+multiple instruments as part of those observations. In this work, it has not been
+possible to compute the nonthermal electron energies for each flare due to a lack
+of uniform HXR observations from a single observing instrument. Introducing
+variation in HXR observations will add unnecessary excess uncertainty in calcu-
+lated energies that may distract from the discrepancies in the Lyα observations.
+Under the assumption of a single nonthermal energy for each flare, the discrep-
+ancies in the calculated Lyα energy could substantially alter estimates of the
+percentage contribution of Lyα emission to the radiated energy budget of the
+chromosphere.
+
+Data driven models such as FISM2 depend on observations to form statis-
+tics, from which approximations can be made for emission spectra from solar
+flares. These models have application in the study of atmospheric responses to
+solar flares (Qian et al. 2010, 2011, 2012, Lollo et al. 2012), as well as in the
+development of models designed to aid in the analysis of observations from mis-
+sions such as MAVEN (Thiemann et al. 2017, Chaffin et al. 2015, Chaufray et al.
+2015, Jain et al. 2015, Sakai et al. 2016). The interpretation of the results from
+studies employing these models is thus reliant on the precision and credibility
+of the underlying observations.
+
+Significant disagreement in the observed Lyα peak times between GOES/EUVS–
+E and SDO/EVE-MEGS-P were presented by Milligan and Chamberlin [2016].
+They found a delay in peak times between instruments of 5–10 minutes, which
+was eventually attributed to the Kalman filter used to smooth data in SDO/EVE
+processing; this filter was subsequently replaced with a Fourier transform filter,
+which ultimately prevented the recurrence of this issue. The time discrepancies
+presented in this work are not as substantial as those presented in Milligan and
+Chamberlin [2016]; the differences in peak times between instruments could be
+attributed to the variability in cadences, or in the case of imagers, the assump-
+tions of constant flux between exposure, which may be an oversimplification
+of the true behaviour of the Lyα flux. While temporal discrepancies between
+observations may not have a substantial impact on calculations flare energetics,
+they may affect the understanding of energy transport processes in flares as well
+as the derived relationships between solar flares and associated atmospheric re-
+sponses in the unique sub-regions of the ionosphere (Berdermann et al. 2018,
+Raulin et al. 2013, Hayes et al. 2021, Milligan et al. 2020, Chakraborty et al.
+2021, Barta et al. 2022).
+
+The convolution of the FISM2 spectra in Section 3 demonstrates that there
+is minimal contribution to the total measured Lyα irradiance from additional
+species in the bandpass of each instrument. Minor variations between instru-
+ments are present in the wings of the Lyα profile as well as in the blueward
+and redward wavelengths surrounding the Lyα line. However, the core emission
+significantly dominates the measured flux in all cases by at least two orders of
+magnitude, therefore the total measured irradiance may be considered to be
+predominantly from the Lyα line.
+
+Given the standardisation of the observations carried out in this work, it is
+implicit that the observed discrepancies found between instruments are unlikely
+to be attributable to the observation field of view or observing techniques of
+
+22
+
+
+
+the instruments. Instead, the discrepancies in the measured flux between in-
+struments may be driven by inherent properties of the instrument itself or the
+calibration process carried out on the raw data. Absorption from the goecorona
+may be able to account for differences in observed flux between instruments at
+different orbital heights. Specifically, satellites in Low-Earth Orbit may mea-
+sure lower levels of Lyα irradiance compared to those with more extended orbits
+due to the absorption of Lyα photons by Hydrogen in the Earth’s geocorona.
+Wauters et al. [2022] suggested that geocornal absorption may be a poten-
+tial explanation for a factor of 20 difference between GOES-15/EUVS-E and
+PROBA2/LYRA observations of a solar flare in Lyα. Additionally, the spectral
+assumptions used to scale observations for each instrument may influence the
+returned flare profiles. For example, GOES-15/EUVS-E data are scaled to the
+Whole Heliosphere Interval QS reference spectrum and thus systematic uncer-
+tainties may be present in the observed flare data (Woods et al. 2009, Milligan
+2021).
+
+Ultimately, it is important to acknowledge any discrepancy in observations
+between instruments, particularly when conducting multi-instrument studies,
+which are becoming evermore possible with the expanding availability of flare-
+related Lyα observations. Previously, GOES observations in the SXRs have
+been considered the “industry standard” for flare classifications and timings. It
+may be of value to establish some form of agreeable standard of observation to
+scale measurements from dedicated Lyα missions to. Analysis of results from
+upcoming missions with Lyα observing capabilities such as Solar-C featuring
+the Solar Spectral Irradiance Monitor (SoSpIM; Harra et al. 2022), and the The
+Solar eruptioN Integral Field Spectrograph (SNIFS; Chamberlin et al. 2020)
+sounding rocket will benefit from recognition of the diversity of conclusions that
+may be drawn from Lyα observations depending on the observing instrument.
+The findings presented here may guide interpretation of the observations taken
+by the current and new generation of Lyα instruments as part of future studies.
+
+7 Acknowledgements
+
+H.J.G would like to thank the UK’s Science & Technology Facilities Coun-
+cil (ST/W507751/1) for supporting this research. R.O.M would like to thank
+the UK’s Science & Technologies Facilities Council for the award of an Ernest
+Rutherford Fellowship (ST/N004981/2). They also thank M. Mathioudakis
+(QUB) for stimulating discussions on this work. H.J.G would also like to thank
+the attendees of the 2024 SoSpIM meeting for their feedback on the results
+presented in this work. The authors would like to thank Y. Li (PMO) and
+the LST Team for their invaluable assistance with the ASO-S data used for
+this study. The authors would also like to thank J. Machol (CU-CIRES &
+NOAA-NCEI) for their useful comments on the discussion of the GOES mis-
+sion. They also thank M. Dominique (ROB) for their invaluable assistance with
+the PROBA2 data used in this study. Furthermore, they thank P. Chamberlin,
+T. Woods, and D. Woodraska (CU-LASP) for their help and advice with both
+
+23
+
+
+
+the MAVEN and SDO data incorporated into this work. The ASO-S mission
+is supported by the Strategic Priority Research Program on Space Science, the
+Chinese Academy of Sciences (CAS). LYRA is a project of the Centre Spa-
+tial de Liege, the Physikalisch-Meteorologisches Observatorium Davos and the
+Royal Observatory of Belgium funded by the Belgian Federal Science Policy
+Office (BELSPO) and by the Swiss Bundesamt für Bildung und Wissenschaft.
+Finally, the authors would like to thank the referee of this article for their useful
+comments, which have greatly contributed to the overall improvement of this
+work.
+
+8 Data Availability
+
+No new data was generated as part of this study. Observation and responsivity
+data are available for GOES-16 from https://www.ncei.noaa.gov/products/
+
+goes-r-extreme-ultraviolet-xray-irradiance and for GOES-14 and-15 from
+https://www.ncei.noaa.gov/products/goes-1-15/space-weather-instruments.
+PROBA2 data is available from the LYRA data centre, or directly here: https:
+//proba2.sidc.be/data/LYRA. The response function data for LYRA was
+privately communicated to the authors by M. Dominique and is presented
+in Dominique et al. [2013]. MAVEN/EUVM data can be accessed through
+the Planetary Data System, or directly here: https://pds-ppi.igpp.ucla.
+
+edu/mission/MAVEN/Extreme_Ultraviolet_Monitor. SDO/EVE data may
+be accessed via the CU/LASP EVE data site or directly here: https://lasp.
+colorado.edu/eve/data_access/index.html, the response function for MEGS-
+P was privately communicated by T. Woods. ASO-S/LST-SDI data is avail-
+able from the SODC via http://aso-s.pmo.ac.cn/sodc/dataArchive.jsp.
+ASO-S analysis software may be accessed via http://aso-s.pmo.ac.cn/sodc/
+
+analysisSoftware.jsp. The response function of ASO-S/LST-SDI was pri-
+vately communicated to the authors by Y. Li and is presented in Chen et al.
+[2024]. The FISM2 data are publicly available on the LISIRD data site on the
+FISM page, or directly here: http://lasp.colorado.edu/lisird/. All ob-
+servation data in this study may be analysed using SolarSoftware (SSWIDL;
+https://www.lmsal.com/solarsoft/) or SunPy (https://sunpy.org/; The
+SunPy Community et al. 2020).
+
+References
+
+Veronika Barta, Randa Natras, Vladimir Srećković, David Koronczay, Michael
+Schmidt, and Desanka Šulic. Multi-instrumental investigation of the solar
+flares impact on the ionosphere on 05–06 december 2006. Frontiers in En-
+vironmental Science, 10, 2022. ISSN 2296-665X. doi: 10.3389/fenvs.2022.
+904335. URL https://www.frontiersin.org/articles/10.3389/fenvs.
+
+2022.904335.
+
+J. D. F. Bartoe, G. E. Brueckner, J. D. Purcell, and R. Tousey. Extreme
+
+24
+
+https://www.ncei.noaa.gov/products/goes-r-extreme-ultraviolet-xray-irradiance
+https://www.ncei.noaa.gov/products/goes-r-extreme-ultraviolet-xray-irradiance
+https://www.ncei.noaa.gov/products/goes-1-15/space-weather-instruments
+https://proba2.sidc.be/data/LYRA
+https://proba2.sidc.be/data/LYRA
+https://pds-ppi.igpp.ucla.edu/mission/MAVEN/Extreme_Ultraviolet_Monitor
+https://pds-ppi.igpp.ucla.edu/mission/MAVEN/Extreme_Ultraviolet_Monitor
+https://lasp.colorado.edu/eve/data_access/index.html
+https://lasp.colorado.edu/eve/data_access/index.html
+http://aso-s.pmo.ac.cn/sodc/dataArchive.jsp
+http://aso-s.pmo.ac.cn/sodc/analysisSoftware.jsp
+http://aso-s.pmo.ac.cn/sodc/analysisSoftware.jsp
+http://lasp.colorado.edu/lisird/
+https://www.lmsal.com/solarsoft/
+https://sunpy.org/
+https://www.frontiersin.org/articles/10.3389/fenvs.2022.904335
+https://www.frontiersin.org/articles/10.3389/fenvs.2022.904335
+
+
+ultraviolet spectrograph ATM experiment S082B. American Journal, 16:879–
+886, April 1977. doi: 10.1364/AO.16.000879.
+
+A. BenMoussa, B. Giordanengo, S. Gissot, I. E. Dammasch, M. Dominique,
+J. F. Hochedez, A. Soltani, N. Bourzgui, T. Saito, U. Schühle, A. Gottwald,
+U. Kroth, and A. R. Jones. Degradation assessment of LYRA after 5 years on
+orbit - Technology Demonstration -. Experimental Astronomy, 39(1):29–43,
+March 2015. doi: 10.1007/s10686-014-9437-7.
+
+J. Berdermann, M. Kriegel, D. Banyś, F. Heymann, M. M. Hoque, V. Wilken,
+C. Borries, A. Heßelbarth, and N. Jakowski. Ionospheric response to the x9.3
+flare on 6 september 2017 and its implication for navigation services over
+europe. Space Weather, 16(10):1604–1615, 2018. doi: https://doi.org/10.
+1029/2018SW001933. URL https://agupubs.onlinelibrary.wiley.com/
+
+doi/abs/10.1029/2018SW001933.
+
+D. Berghmans, J. F. Hochedez, J. M. Defise, J. H. Lecat, B. Nicula, V. Slemzin,
+G. Lawrence, A. C. Katsyiannis, R. van der Linden, A. Zhukov, F. Clette,
+P. Rochus, E. Mazy, T. Thibert, P. Nicolosi, M. G. Pelizzo, and U. Schühle.
+SWAP onboard PROBA 2, a new EUV imager for solar monitoring. Advances
+in Space Research, 38(8):1807–1811, January 2006. doi: 10.1016/j.asr.2005.
+03.070.
+
+Paul Boerner, Christopher Edwards, James Lemen, Adam Rausch, Carolus
+Schrijver, Richard Shine, Lawrence Shing, Robert Stern, Theodore Tarbell,
+Alan Title, C Jacob Wolfson, Regina Soufli, Eberhard Spiller, Eric Gullik-
+son, David McKenzie, David Windt, Leon Golub, William Podgorski, Paola
+Testa, and Mark Weber. Initial calibration of the atmospheric imaging as-
+sembly (AIA) on the solar dynamics observatory (SDO). Solar Physics, 275
+(1):41–66, January 2012.
+
+R. M. Bonnet, P. Lemaire, J. C. Vial, G. Artzner, P. Gouttebroze, A. Jouchoux,
+J. W. Leibacher, A. Skumanich, and A. Vidal-Madjar. The LPSP instrument
+on OSO 8. II. In-flight performance and preliminary results. Astrophys. J.,
+221:1032–1053, May 1978. doi: 10.1086/156109.
+
+R. C. Canfield and M. E. van Hoosier. Observed Lα profiles for two solar flares:
+14:12 UT 15 June, 1973 and 23:16 UT 21 January, 1974. Sol. Phys., 67(2):
+339–350, August 1980. doi: 10.1007/BF00149811.
+
+M. S. Chaffin, J. Y. Chaufray, J. Deighan, N. M. Schneider, W. E. McClin-
+tock, A. I. F. Stewart, E. Thiemann, J. T. Clarke, G. M. Holsclaw, S. K.
+Jain, M. M. J. Crismani, A. Stiepen, F. Montmessin, F. G. Eparvier, P. C.
+Chamberlain, and B. M. Jakosky. Three-dimensional structure in the Mars H
+corona revealed by IUVS on MAVEN. Geophys. Res. Lett., 42(21):9001–9008,
+November 2015. doi: 10.1002/2015GL065287.
+
+25
+
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2018SW001933
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2018SW001933
+
+
+S. Chakraborty, J. M. Ruohoniemi, J. B. H. Baker, R. A. D. Fiori, S. M.
+Bailey, and K. A. Zawdie. Ionospheric sluggishness: A characteristic time-
+lag of the ionospheric response to solar flares. Journal of Geophysical Re-
+search: Space Physics, 126(4):e2020JA028813, 2021. doi: https://doi.org/10.
+1029/2020JA028813. URL https://agupubs.onlinelibrary.wiley.com/
+
+doi/abs/10.1029/2020JA028813. e2020JA028813 2020JA028813.
+
+P. C. Chamberlin, F. G. Eparvier, V. Knoer, H. Leise, A. Pankratz,
+M. Snow, B. Templeman, E. M. B. Thiemann, D. L. Woodraska, and
+T. N. Woods. The flare irradiance spectral model-version 2 (fism2).
+Space Weather, 18(12):e2020SW002588, 2020. doi: https://doi.org/10.1029/
+2020SW002588. URL https://agupubs.onlinelibrary.wiley.com/doi/
+
+abs/10.1029/2020SW002588. e2020SW002588 10.1029/2020SW002588.
+
+P. C. Chamberlin, D. J. Schmit, A. N. Daw, V. Polito, Q. Gong, and R. O.
+Milligan. The Solar eruptioN Integral Field Spectrograph (SNIFS) Sound-
+ing Rocket. In AGU Fall Meeting Abstracts, volume 2020, pages SH056–03,
+December 2020.
+
+Phillip C. Chamberlin, Thomas N. Woods, Francis G. Eparvier, and Andrew R.
+Jones. Next generation x-ray sensor (XRS) for the NOAA GOES-R satellite
+series. In Silvano Fineschi and Judy A. Fennelly, editors, Solar Physics and
+Space Weather Instrumentation III, volume 7438 of Society of Photo-Optical
+Instrumentation Engineers (SPIE) Conference Series, page 743802, August
+2009. doi: 10.1117/12.826807.
+
+J. Y. Chaufray, J. Deighan, M. S. Chaffin, N. M. Schneider, W. E. McClintock,
+A. I. F. Stewart, S. K. Jain, M. Crismani, A. Stiepen, G. M. Holsclaw, J. T.
+Clarke, F. Montmessin, F. G. Eparvier, E. M. B. Thiemann, P. C. Cham-
+berlin, and B. M. Jakosky. Study of the Martian cold oxygen corona from
+the O I 130.4 nm by IUVS/MAVEN. Geophys. Res. Lett., 42(21):9031–9039,
+November 2015. doi: 10.1002/2015GL065341.
+
+Bo Chen, Li Feng, Guang Zhang, Hui Li, Lingping He, Kefei Song, Quan-
+feng Guo, Ying Li, Yu Huang, Jingwei Li, Jie Zhao, Jianchao Xue, Gen Li,
+Guanglu Shi, Dechao Song, Lei Lu, Beili Ying, Haifeng Wang, Shuang Dai,
+Xiaodong Wang, Shilei Mao, Peng Wang, Kun Wu, Shuai Ren, Liang Sun,
+Xianwei Yang, Mingyi Xia, Xiaoxue Zhang, Peng Zhou, Chen Tao, Yang Liu,
+Sibo Yu, Xinkai Li, Shuting Li, Ping Zhang, Qiao Li, Zhengyuan Tian, Yue
+Zhou, Jun Tian, Jiahui Shan, Xiaofeng Liu, Zhichen Jing, and Weiqun Gan.
+Inflight Performance and Calibrations of the Lyman-alpha Solar Telescope
+on board the Advanced Space-based Solar Observatory. arXiv e-prints, art.
+arXiv:2408.01937, August 2024. doi: 10.48550/arXiv.2408.01937.
+
+W. Curdt, P. Brekke, U. Feldman, K. Wilhelm, B. N. Dwivedi, U. Schühle,
+and P. Lemaire. The SUMER spectral atlas of solar-disk features. Astron.
+Astrophys., 375:591–613, August 2001. doi: 10.1051/0004-6361:20010364.
+
+26
+
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2020JA028813
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2020JA028813
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2020SW002588
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2020SW002588
+
+
+F. Rubio da Costa, L. Fletcher, N. Labrosse, and F. Zuccarello. Observations
+of a solar flare and filament eruption in lyman α and x-rays. A&A, 507(2):
+1005–1014, 2009. doi: 10.1051/0004-6361/200912651. URL https://doi.
+
+org/10.1051/0004-6361/200912651.
+
+M. Dominique, J. F. Hochedez, W. Schmutz, I. E. Dammasch, A. I. Shapiro,
+M. Kretzschmar, A. N. Zhukov, D. Gillotay, Y. Stockman, and A. Ben-
+Moussa. The LYRA Instrument Onboard PROBA2: Description and In-
+Flight Performance. Sol. Phys., 286(1):21–42, August 2013. doi: 10.1007/
+s11207-013-0252-5.
+
+Marie Dominique, Andrei N. Zhukov, Petr Heinzel, Ingolf E. Dammasch, Lau-
+rence Wauters, Laurent Dolla, Sergei Shestov, Matthieu Kretzschmar, Janet
+Machol, Giovanni Lapenta, and Werner Schmutz. First Detection of Solar
+Flare Emission in Mid-ultraviolet Balmer Continuum. Astrophys. J. Lett.,
+867(2):L24, November 2018. doi: 10.3847/2041-8213/aaeace.
+
+Francis Eparvier, Phillip Chamberlin, Thomas Woods, and Edward Thiemann.
+The solar extreme ultraviolet monitor for maven. Space Science Reviews, 195,
+09 2015. doi: 10.1007/s11214-015-0195-2.
+
+Francis G. Eparvier, David Crotser, Andrew R. Jones, William E. McClin-
+tock, Martin Snow, and Thomas N. Woods. The Extreme Ultraviolet Sensor
+(EUVS) for GOES-R. In Silvano Fineschi and Judy A. Fennelly, editors, So-
+lar Physics and Space Weather Instrumentation III, volume 7438 of Society
+of Photo-Optical Instrumentation Engineers (SPIE) Conference Series, page
+743804, August 2009. doi: 10.1117/12.826445.
+
+J. S. Evans, D. J. Strickland, W. K. Woo, D. R. McMullin, S. P. Plunkett, R. A.
+Viereck, S. M. Hill, T. N. Woods, and F. G. Eparvier. Early Observations by
+the GOES-13 Solar Extreme Ultraviolet Sensor (EUVS). Sol. Phys., 262(1):
+71–115, March 2010. doi: 10.1007/s11207-009-9491-x.
+
+Li Feng, Hui Li, Bo Chen, Ying Li, Roberto Susino, Yu Huang, Lei Lu, Bei-Li
+Ying, Jing-Wei Li, Jian-Chao Xue, Yu-Tong Yang, Jie Hong, Jian-Ping Li,
+Jie Zhao, Wei-Qun Gan, and Yan Zhang. The Lyman-alpha Solar Telescope
+(LST) for the ASO-S mission - III. data and potential diagnostics. Research
+in Astronomy and Astrophysics, 19(11):162, November 2019. doi: 10.1088/
+1674-4527/19/11/162.
+
+Weiqun Gan, Cheng Zhu, Yuanyong Deng, Zhe Zhang, Bo Chen, Yu Huang, Lei
+Deng, Haiyan Wu, Haiying Zhang, Hui Li, Yang Su, Jiangtao Su, Li Feng,
+Jian Wu, Jijun Cui, Chi Wang, Jin Chang, Zengshan Yin, Weiming Xiong,
+Bin Chen, Jianfeng Yang, Fu Li, Jiaben Lin, Junfeng Hou, Xianyong Bai,
+Dengyi Chen, Yan Zhang, Yiming Hu, Yaoming Liang, Jianping Wang, Kefei
+Song, Quanfeng Guo, Lingping He, Guang Zhang, Peng Wang, Haicao Bao,
+Caixia Cao, Yanping Bai, Binglong Chen, Tao He, Xinyu Li, Ye Zhang, Xing
+Liao, Hu Jiang, Youping Li, Yingna Su, Shijun Lei, Wei Chen, Ying Li, Jie
+
+27
+
+https://doi.org/10.1051/0004-6361/200912651
+https://doi.org/10.1051/0004-6361/200912651
+
+
+Zhao, Jingwei Li, Yunyi Ge, Ziming Zou, Tai Hu, Miao Su, Haidong Ji, Mei
+Gu, Yonghuang Zheng, Dezhen Xu, and Xing Wang. The Advanced Space-
+Based Solar Observatory (ASO-S). Sol. Phys., 298(5):68, May 2023. doi:
+10.1007/s11207-023-02166-x.
+
+Harry J. Greatorex, Ryan O. Milligan, and Phillip C. Chamberlin. Observational
+Analysis of Lyα Emission in Equivalent-magnitude Solar Flares. Astrophys.
+J., 954(2):120, September 2023. doi: 10.3847/1538-4357/acea7f.
+
+Frederick A. Hanser and Francis Bach Sellers. Design and calibration of the
+GOES-8 solar x-ray sensor: the XRS. In Edward R. Washwell, editor, GOES-
+8 and Beyond, volume 2812, pages 344 – 352. International Society for Optics
+and Photonics, SPIE, 1996. doi: 10.1117/12.254082. URL https://doi.
+
+org/10.1117/12.254082.
+
+Louise K. Harra, Andrea Alberti, David Berghmans, Phillip Chamberlin, Marie
+Dominique, Francis G. Eparvier, Samuel Gissot, Hirohisa Hara, Margit
+Haberreiter, Tomoaki Hori, Hidekatsu Jin, Matthieu Kretzschmar, Shinsuke
+Imada, Tomoko Kawate, Silvio Koller, Samuel Krucker, Patrick Langer, Le-
+andro Meier, Ryan Milligan, Yoshizumi Miyoshi, Nozomu, Nishitani, Dany
+Pfiffner, Eugene Rozanov, Toshifumi Shimizu, Edward Thiemann, Daniel
+Tye, Kyoko Watanabe, Thomas Woods, Kok Leng Yeo, Akimasa Ieda, and
+Krzysztof Barczynski. A spectral solar irradiance monitor (SoSpIM) on the
+JAXA Solar-C (EUVST) space mission. In 44th COSPAR Scientific Assem-
+bly. Held 16-24 July, volume 44, page 834, July 2022.
+
+Laura A. Hayes, Oscar S. D. O’Hara, Sophie A. Murray, and Peter T. Gallagher.
+Solar flare effects on the earth’s lower ionosphere. Solar Physics, 296(11),
+Nov 2021. ISSN 1573-093X. doi: 10.1007/s11207-021-01898-y. URL http:
+
+//dx.doi.org/10.1007/s11207-021-01898-y.
+
+J. F. Hochedez, W. Schmutz, Y. Stockman, U. Schühle, A. Benmoussa, S. Koller,
+K. Haenen, D. Berghmans, J. M. Defise, J. P. Halain, A. Theissen, V. De-
+louille, V. Slemzin, D. Gillotay, D. Fussen, M. Dominique, F. Vanhelle-
+mont, D. McMullin, M. Kretzschmar, A. Mitrofanov, B. Nicula, L. Wauters,
+H. Roth, E. Rozanov, I. Rüedi, C. Wehrli, A. Soltani, H. Amano, R. van der
+Linden, A. Zhukov, F. Clette, S. Koizumi, V. Mortet, Z. Remes, R. Petersen,
+M. Nesládek, M. D’Olieslaeger, J. Roggen, and P. Rochus. LYRA, a solar UV
+radiometer on Proba2. Advances in Space Research, 37(2):303–312, January
+2006. doi: 10.1016/j.asr.2005.10.041.
+
+R. A. Howard, J. D. Moses, A. Vourlidas, J. S. Newmark, D. G. Socker, S. P.
+Plunkett, C. M. Korendyke, J. W. Cook, A. Hurley, J. M. Davila, W. T.
+Thompson, O. C. St Cyr, E. Mentzell, K. Mehalick, J. R. Lemen, J. P.
+Wuelser, D. W. Duncan, T. D. Tarbell, C. J. Wolfson, A. Moore, R. A. Har-
+rison, N. R. Waltham, J. Lang, C. J. Davis, C. J. Eyles, H. Mapson-Menard,
+G. M. Simnett, J. P. Halain, J. M. Defise, E. Mazy, P. Rochus, R. Mercier,
+M. F. Ravet, F. Delmotte, F. Auchere, J. P. Delaboudiniere, V. Bothmer,
+
+28
+
+https://doi.org/10.1117/12.254082
+https://doi.org/10.1117/12.254082
+http://dx.doi.org/10.1007/s11207-021-01898-y
+http://dx.doi.org/10.1007/s11207-021-01898-y
+
+
+W. Deutsch, D. Wang, N. Rich, S. Cooper, V. Stephens, G. Maahs, R. Baugh,
+D. McMullin, and T. Carter. Sun Earth Connection Coronal and Heliospheric
+Investigation (SECCHI). Space Sci. Rev., 136(1-4):67–115, April 2008. doi:
+10.1007/s11214-008-9341-4.
+
+S. K. Jain, A. I. F. Stewart, N. M. Schneider, J. Deighan, A. Stiepen, J. S. Evans,
+M. H. Stevens, M. S. Chaffin, M. Crismani, W. E. McClintock, J. T. Clarke,
+G. M. Holsclaw, D. Y. Lo, F. Lefèvre, F. Montmessin, E. M. B. Thiemann,
+F. Eparvier, and B. M. Jakosky. The structure and variability of Mars upper
+atmosphere as seen in MAVEN/IUVS dayglow observations. Geophys. Res.
+Lett., 42(21):9023–9030, November 2015. doi: 10.1002/2015GL065419.
+
+M. L. Kaiser, T. A. Kucera, J. M. Davila, O. C. St. Cyr, M. Guhathakurta, and
+E. Christian. The STEREO Mission: An Introduction. Space Sci. Rev., 136
+(1-4):5–16, April 2008. doi: 10.1007/s11214-007-9277-0.
+
+M. Kretzschmar, M. Dominique, and I. E. Dammasch. Sun-as-a-Star Observa-
+tion of Flares in Lyman α by the PROBA2/LYRA Radiometer. Sol. Phys.,
+286(1):221–239, August 2013. doi: 10.1007/s11207-012-0175-6.
+
+Dong Li, Zhenxiang Hong, Zhenyong Hou, and Yang Su. Localizing Quasiperi-
+odic Pulsations in Hard X-Ray, Microwave, and Lyα Emissions of an X6.4
+Flare. Astrophys. J., 970(1):77, July 2024. doi: 10.3847/1538-4357/ad566c.
+
+Hui Li, Bo Chen, Li Feng, Ying Li, Yu Huang, Jing-Wei Li, Lei Lu, Jian-
+Chao Xue, Bei-Li Ying, Jie Zhao, Yu-Tong Yang, Wei-Qun Gan, Cheng Fang,
+Ke-Fei Song, Hong Wang, Quan-Feng Guo, Ling-Ping He, Bo Zhu, Cheng
+Zhu, Lei Deng, Hai-Chao Bao, Cai-Xia Cao, and Zhong-Guang Yang. The
+Lyman-alpha Solar Telescope (LST) for the ASO-S mission — I. Scientific
+objectives and overview. Research in Astronomy and Astrophysics, 19(11):
+158, November 2019. doi: 10.1088/1674-4527/19/11/158.
+
+Y. Li, Qiao Li, De-Chao Song, Andrea Francesco Battaglia, Hualin Xiao, Säm
+Krucker, Udo Schühle, Hui Li, Weiqun Gan, and M. D. Ding. The lyα emis-
+sion in a c1.4 solar flare observed by the extreme ultraviolet imager aboard
+solar orbiter. The Astrophysical Journal, 936(2):142, sep 2022. doi: 10.
+3847/1538-4357/ac897c. URL https://dx.doi.org/10.3847/1538-4357/
+
+ac897c.
+
+R. P. Lin, B. R. Dennis, G. J. Hurford, D. M. Smith, A. Zehnder, P. R. Har-
+vey, D. W. Curtis, D. Pankow, P. Turin, M. Bester, A. Csillaghy, M. Lewis,
+N. Madden, H. F. van Beek, M. Appleby, T. Raudorf, J. McTiernan, R. Ra-
+maty, E. Schmahl, R. Schwartz, S. Krucker, R. Abiad, T. Quinn, P. Berg,
+M. Hashii, R. Sterling, R. Jackson, R. Pratt, R. D. Campbell, D. Malone,
+D. Landis, C. P. Barrington-Leigh, S. Slassi-Sennou, C. Cork, D. Clark,
+D. Amato, L. Orwig, R. Boyle, I. S. Banks, K. Shirey, A. K. Tolbert,
+D. Zarro, F. Snow, K. Thomsen, R. Henneck, A. McHedlishvili, P. Ming,
+M. Fivian, John Jordan, Richard Wanner, Jerry Crubb, J. Preble, M. Ma-
+tranga, A. Benz, H. Hudson, R. C. Canfield, G. D. Holman, C. Crannell,
+
+29
+
+https://dx.doi.org/10.3847/1538-4357/ac897c
+https://dx.doi.org/10.3847/1538-4357/ac897c
+
+
+T. Kosugi, A. G. Emslie, N. Vilmer, J. C. Brown, C. Johns-Krull, M. As-
+chwanden, T. Metcalf, and A. Conway. The Reuven Ramaty High-Energy
+Solar Spectroscopic Imager (RHESSI). Sol. Phys., 210(1):3–32, November
+2002. doi: 10.1023/A:1022428818870.
+
+Anthony Lollo, Paul Withers, Kathryn Fallows, Zachary Girazian, Majd Matta,
+and P. C. Chamberlin. Numerical simulations of the ionosphere of mars
+during a solar flare. Journal of Geophysical Research: Space Physics, 117
+(A5), 2012. doi: https://doi.org/10.1029/2011JA017399. URL https:
+
+//agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JA017399.
+
+William E. McClintock, Gary J. Rottman, and Thomas N. Woods. Solar-
+Stellar Irradiance Comparison Experiment II (Solstice II): Instrument Con-
+cept and Design. Sol. Phys., 230(1-2):225–258, August 2005. doi: 10.1007/
+s11207-005-7432-x.
+
+Ryan O. Milligan. Solar irradiance variability due to solar flares ob-
+served in lyman-alpha emission. Solar Physics, 296(3), mar 2021.
+doi: 10.1007/s11207-021-01796-3. URL https://doi.org/10.1007%
+
+2Fs11207-021-01796-3.
+
+Ryan O. Milligan and Phillip C. Chamberlin. Anomalous temporal behaviour
+of broadband Lyα observations during solar flares from SDO/EVE. Astron.
+Astrophys., 587:A123, March 2016. doi: 10.1051/0004-6361/201526682.
+
+Ryan O. Milligan, Graham S. Kerr, Brian R. Dennis, Hugh S. Hudson, Lyn-
+dsay Fletcher, Joel C. Allred, Phillip C. Chamberlin, Jack Ireland, Mi-
+halis Mathioudakis, and Francis P. Keenan. The radiated energy bud-
+get of chromospheric plasma in a major solar flare deduced from multi-
+wavelength observations. Astrophys. J., 793(2):70, Sep 2014. ISSN 1538-
+4357. doi: 10.1088/0004-637x/793/2/70. URL http://dx.doi.org/10.
+
+1088/0004-637X/793/2/70.
+
+Ryan O. Milligan, Bernhard Fleck, Jack Ireland, Lyndsay Fletcher, and Brian R.
+Dennis. Detection of three-minute oscillations in full-disk lyα emission during
+a solar flare. The Astrophysical Journal, 848(1):L8, oct 2017. doi: 10.3847/
+2041-8213/aa8f3a. URL https://doi.org/10.3847/2041-8213/aa8f3a.
+
+Ryan O. Milligan, Hugh S. Hudson, Phillip C. Chamberlin, Iain G. Hannah, and
+Laura A. Hayes. Lyman-alpha variability during solar flares over solar cycle 24
+using goes-15/euvs-e. Space Weather, 18(7), Jul 2020. ISSN 1542-7390. doi:
+10.1029/2019sw002331. URL http://dx.doi.org/10.1029/2019SW002331.
+
+D. Müller, St. Cyr, O. C., Zouganelis, I., Gilbert, H. R., Marsden, R., Nieves-
+Chinchilla, T., Antonucci, E., Auchère, F., Berghmans, D., Horbury, T.
+S., Howard, R. A., Krucker, S., Maksimovic, M., Owen, C. J., Rochus, P.,
+Rodriguez-Pacheco, J., Romoli, M., Solanki, S. K., Bruno, R., Carlsson, M.,
+Fludra, A., Harra, L., Hassler, D. M., Livi, S., Louarn, P., Peter, H., Schühle,
+U., Teriaca, L., del Toro Iniesta, J. C., Wimmer-Schweingruber, R. F.,
+
+30
+
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JA017399
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JA017399
+https://doi.org/10.1007%2Fs11207-021-01796-3
+https://doi.org/10.1007%2Fs11207-021-01796-3
+http://dx.doi.org/10.1088/0004-637X/793/2/70
+http://dx.doi.org/10.1088/0004-637X/793/2/70
+https://doi.org/10.3847/2041-8213/aa8f3a
+http://dx.doi.org/10.1029/2019SW002331
+
+
+Marsch, E., Velli, M., De Groof, A., Walsh, A., and Williams, D. The solar or-
+biter mission - science overview. A&A, 642:A1, 2020. doi: 10.1051/0004-6361/
+202038467. URL https://doi.org/10.1051/0004-6361/202038467.
+
+Werner M. Neupert. Comparison of Solar X-Ray Line Emission with Microwave
+Emission during Flares. Astrophys. J. Lett., 153:L59, July 1968. doi: 10.1086/
+180220.
+
+A. A. Nusinov, T. V. Kazachevskaya, S. N. Kuznetsov, I. N. Myagkova, and
+B. Yu. Yushkov. Ultraviolet, hard X-ray, and gamma-ray emission of solar
+flares recorded by VUSS-L and SONG instruments in 2001 2003. Solar System
+Research, 40(4):282–285, July 2006. doi: 10.1134/S0038094606040034.
+
+W. Dean Pesnell, B. J. Thompson, and P. C. Chamberlin. The Solar Dynamics
+Observatory (SDO). Sol. Phys., 275(1-2):3–15, January 2012. doi: 10.1007/
+s11207-011-9841-3.
+
+Liying Qian, Alan G. Burns, Phillip C. Chamberlin, and Stanley C. Solomon.
+Flare location on the solar disk: Modeling the thermosphere and iono-
+sphere response. Journal of Geophysical Research: Space Physics, 115(A9),
+2010. doi: https://doi.org/10.1029/2009JA015225. URL https://agupubs.
+
+onlinelibrary.wiley.com/doi/abs/10.1029/2009JA015225.
+
+Liying Qian, Alan G. Burns, Phillip C. Chamberlin, and Stanley C. Solomon.
+Variability of thermosphere and ionosphere responses to solar flares. Jour-
+nal of Geophysical Research: Space Physics, 116(A10), 2011. doi: https:
+//doi.org/10.1029/2011JA016777. URL https://agupubs.onlinelibrary.
+
+wiley.com/doi/abs/10.1029/2011JA016777.
+
+Liying Qian, Alan G. Burns, Stanley C. Solomon, and Phillip C. Chamberlin.
+Solar flare impacts on ionospheric electrodyamics. Geophysical Research Let-
+ters, 39(6), 2012. doi: https://doi.org/10.1029/2012GL051102. URL https:
+
+//agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2012GL051102.
+
+Jean-Pierre Raulin, Gérard Trottet, Matthieu Kretzschmar, Edith L. Macotela,
+Alessandra Pacini, Fernando C. P. Bertoni, and Ingolf E. Dammasch. Re-
+sponse of the low ionosphere to x-ray and lyman-α solar flare emissions. Jour-
+nal of Geophysical Research: Space Physics, 118(1):570–575, 2013. doi: https:
+//doi.org/10.1029/2012JA017916. URL https://agupubs.onlinelibrary.
+
+wiley.com/doi/abs/10.1029/2012JA017916.
+
+P. Rochus, Auchère, F., Berghmans, D., Harra, L., Schmutz, W., Schühle, U.,
+Addison, P., Appourchaux, T., Aznar Cuadrado, R., Baker, D., Barbay, J.,
+Bates, D., BenMoussa, A., Bergmann, M., Beurthe, C., Borgo, B., Bonte,
+K., Bouzit, M., Bradley, L., Büchel, V., Buchlin, E., Büchner, J., Cabé, F.,
+Cadiergues, L., Chaigneau, M., Chares, B., Choque Cortez, C., Coker, P.,
+Condamin, M., Coumar, S., Curdt, W., Cutler, J., Davies, D., Davison, G.,
+Defise, J.-M., Del Zanna, G., Delmotte, F., Delouille, V., Dolla, L., Dumesnil,
+
+31
+
+https://doi.org/10.1051/0004-6361/202038467
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2009JA015225
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2009JA015225
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JA016777
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2011JA016777
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2012GL051102
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2012GL051102
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2012JA017916
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2012JA017916
+
+
+C., Dürig, F., Enge, R., François, S., Fourmond, J.-J., Gillis, J.-M., Gior-
+danengo, B., Gissot, S., Green, L. M., Guerreiro, N., Guilbaud, A., Gyo,
+M., Haberreiter, M., Hafiz, A., Hailey, M., Halain, J.-P., Hansotte, J., Hec-
+quet, C., Heerlein, K., Hellin, M.-L., Hemsley, S., Hermans, A., Hervier, V.,
+Hochedez, J.-F., Houbrechts, Y., Ihsan, K., Jacques, L., Jérôme, A., Jones,
+J., Kahle, M., Kennedy, T., Klaproth, M., Kolleck, M., Koller, S., Kotsialos,
+E., Kraaikamp, E., Langer, P., Lawrenson, A., Le Clech´, J.-C., Lenaerts,
+C., Liebecq, S., Linder, D., Long, D. M., Mampaey, B., Markiewicz-Innes,
+D., Marquet, B., Marsch, E., Matthews, S., Mazy, E., Mazzoli, A., Mein-
+ing, S., Meltchakov, E., Mercier, R., Meyer, S., Monecke, M., Monfort, F.,
+Morinaud, G., Moron, F., Mountney, L., Müller, R., Nicula, B., Parenti, S.,
+Peter, H., Pfiffner, D., Philippon, A., Phillips, I., Plesseria, J.-Y., Pylyser,
+E., Rabecki, F., Ravet-Krill, M.-F., Rebellato, J., Renotte, E., Rodriguez, L.,
+Roose, S., Rosin, J., Rossi, L., Roth, P., Rouesnel, F., Roulliay, M., Rousseau,
+A., Ruane, K., Scanlan, J., Schlatter, P., Seaton, D. B., Silliman, K., Smit, S.,
+Smith, P. J., Solanki, S. K., Spescha, M., Spencer, A., Stegen, K., Stockman,
+Y., Szwec, N., Tamiatto, C., Tandy, J., Teriaca, L., Theobald, C., Tychon,
+I., van Driel-Gesztelyi, L., Verbeeck, C., Vial, J.-C., Werner, S., West, M. J.,
+Westwood, D., Wiegelmann, T., Willis, G., Winter, B., Zerr, A., Zhang, X.,
+and Zhukov, A. N. The solar orbiter eui instrument: The extreme ultravi-
+olet imager. A&A, 642:A8, 2020. doi: 10.1051/0004-6361/201936663. URL
+https://doi.org/10.1051/0004-6361/201936663.
+
+Shotaro Sakai, Laila Andersson, Thomas E. Cravens, David L. Mitchell, Chris-
+tian Mazelle, Ali Rahmati, Christopher M. Fowler, Stephen W. Bougher,
+Edward M. B. Thiemann, Francis G. Eparvier, Juan M. Fontenla, Paul R.
+Mahaffy, John E. P. Connerney, and Bruce M. Jakosky. Electron energet-
+ics in the Martian dayside ionosphere: Model comparisons with MAVEN
+data. Journal of Geophysical Research (Space Physics), 121(7):7049–7066,
+July 2016. doi: 10.1002/2016JA022782.
+
+S. Santandrea, K. Gantois, K. Strauch, F. Teston, E. Tilmans, C. Baijot,
+D. Gerrits, A. De Groof, G. Schwehm, and J. Zender. PROBA2: Mis-
+sion and Spacecraft Overview. Sol. Phys., 286(1):5–19, August 2013. doi:
+10.1007/s11207-013-0289-5.
+
+A. Skumanich, A. Jouchoux, J. Castelli, P. Lemaire, G. Artzner, P. Gouttebroze,
+J. C. Vial, and R. M. Bonnet. OSO-8 Radio and X-ray observations of the 19
+April 1977 flare. In Bulletin of the American Astronomical Society, volume 10,
+page 441, March 1978.
+
+The SunPy Community, Will T. Barnes, Monica G. Bobra, Steven D. Christe,
+Nabil Freij, Laura A. Hayes, Jack Ireland, Stuart Mumford, David Perez-
+Suarez, Daniel F. Ryan, Albert Y. Shih, Prateek Chanda, Kolja Glogowski,
+Russell Hewett, V. Keith Hughitt, Andrew Hill, Kaustubh Hiware, Andrew
+Inglis, Michael S. F. Kirk, Sudarshan Konge, James Paul Mason, Shane An-
+thony Maloney, Sophie A. Murray, Asish Panda, Jongyeob Park, Tiago
+
+32
+
+https://doi.org/10.1051/0004-6361/201936663
+
+
+M. D. Pereira, Kevin Reardon, Sabrina Savage, Brigitta M. Sipőcz, David
+Stansby, Yash Jain, Garrison Taylor, Tannmay Yadav, Rajul, and Trung Kien
+Dang. The sunpy project: Open source development and status of the
+version 1.0 core package. The Astrophysical Journal, 890:68–, 2020. doi:
+10.3847/1538-4357/ab4f7a. URL https://iopscience.iop.org/article/
+
+10.3847/1538-4357/ab4f7a.
+
+Edward M. B. Thiemann, Phillip C. Chamberlin, Francis G. Eparvier, Brian
+Templeman, Thomas N. Woods, Stephen W. Bougher, and Bruce M. Jakosky.
+The maven euvm model of solar spectral irradiance variability at mars: Algo-
+rithms and results. Journal of Geophysical Research: Space Physics, 122(3):
+2748–2767, 2017. doi: https://doi.org/10.1002/2016JA023512. URL https:
+
+//agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2016JA023512.
+
+Zheng-Yuan Tian, Li Feng, Lei Lu, Fan-Xiaoyu Xia, Yang Su, Wei-Qun Gan,
+Hui Li, and Yue Zhou. Lyα Emission Enhancement Associated with Soft
+X-Ray Microflares. Research in Astronomy and Astrophysics, 23(6):065011,
+June 2023. doi: 10.1088/1674-4527/accc75.
+
+Pieter G. van Dokkum, J. Bloom, and Malte Tewes. L.A.Cosmic: Lapla-
+cian Cosmic Ray Identification. Astrophysics Source Code Library, record
+ascl:1207.005, July 2012.
+
+Rodney Viereck, Fred Hanser, John Wise, Soumyendu Guha, Andrew Jones,
+Don McMullin, Simon Plunket, Doug Strickland, and Scott Evans. Solar
+extreme ultraviolet irradiance observations from GOES: design characteristics
+and initial performance. In Silvano Fineschi and Rodney A. Viereck, editors,
+Solar Physics and Space Weather Instrumentation II, volume 6689 of Society
+of Photo-Optical Instrumentation Engineers (SPIE) Conference Series, page
+66890K, September 2007. doi: 10.1117/12.734886.
+
+Tetsuya Watanabe. The Solar-C Mission. In Jacobus M. Oschmann Jr., Mark
+Clampin, Giovanni G. Fazio, and Howard A. MacEwen, editors, Space Tele-
+scopes and Instrumentation 2014: Optical, Infrared, and Millimeter Wave,
+volume 9143, page 91431O. International Society for Optics and Photonics,
+SPIE, 2014. doi: 10.1117/12.2055366. URL https://doi.org/10.1117/12.
+
+2055366.
+
+L. Wauters, M. Dominique, R. Milligan, I. E. Dammasch, M. Kretzschmar,
+and J. Machol. Observation of a Flare and Filament Eruption in Lyman-α
+on 8 September 2011 by the PRoject for OnBoard Autonomy/Large Yield
+Radiometer (PROBA2/LYRA). Sol. Phys., 297(3):36, March 2022. doi: 10.
+1007/s11207-022-01963-0.
+
+T. N. Woods, F. G. Eparvier, R. Hock, A. R. Jones, D. Woodraska, D. Judge,
+L. Didkovsky, J. Lean, J. Mariska, H. Warren, D. McMullin, P. Chamberlin,
+G. Berthiaume, S. Bailey, T. Fuller-Rowell, J. Sojka, W. K. Tobiska, and
+R. Viereck. Extreme Ultraviolet Variability Experiment (EVE) on the Solar
+
+33
+
+https://iopscience.iop.org/article/10.3847/1538-4357/ab4f7a
+https://iopscience.iop.org/article/10.3847/1538-4357/ab4f7a
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2016JA023512
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2016JA023512
+https://doi.org/10.1117/12.2055366
+https://doi.org/10.1117/12.2055366
+
+
+Dynamics Observatory (SDO): Overview of Science Objectives, Instrument
+Design, Data Products, and Model Developments. Sol. Phys., 275(1-2):115–
+143, January 2012. doi: 10.1007/s11207-009-9487-6.
+
+Thomas N. Woods, Gary J. Rottman, O. R. White, Juan Fontenla, and E. H.
+Avrett. The Solar LY alpha Line Profile. Astrophys. J., 442:898, April 1995.
+doi: 10.1086/175492.
+
+Thomas N. Woods, Greg Kopp, and Phillip C. Chamberlin. Contributions of
+the solar ultraviolet irradiance to the total solar irradiance during large flares.
+Journal of Geophysical Research: Space Physics, 111(A10), 2006. doi: https:
+//doi.org/10.1029/2005JA011507. URL https://agupubs.onlinelibrary.
+
+wiley.com/doi/abs/10.1029/2005JA011507.
+
+Thomas N. Woods, Phillip C. Chamberlin, Jerald W. Harder, Rachel A. Hock,
+Martin Snow, Francis G. Eparvier, Juan Fontenla, William E. McClintock,
+and Erik C. Richard. Solar Irradiance Reference Spectra (SIRS) for the 2008
+Whole Heliosphere Interval (WHI). Geophys. Res. Lett., 36(1):L01101, Jan-
+uary 2009. doi: 10.1029/2008GL036373.
+
+34
+
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2005JA011507
+https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2005JA011507
+
+
+T
+ab
+
+le
+3:
+
+S
+u
+m
+m
+ar
+y
+of
+
+th
+e
+an
+
+al
+y
+si
+s
+re
+su
+lt
+s
+fo
+r
+ea
+ch
+
+o
+b
+se
+rv
+a
+ti
+o
+n
+.
+R
+el
+a
+ti
+v
+e
+fl
+u
+x
+p
+ea
+k
+va
+lu
+es
+
+w
+er
+e
+ta
+ke
+n
+fr
+o
+m
+
+ca
+li
+b
+ra
+te
+d
+ir
+ra
+d
+ia
+n
+ce
+s
+
+th
+at
+
+w
+er
+e
+sc
+al
+ed
+
+to
+1A
+
+U
+an
+
+d
+gi
+v
+en
+
+to
+th
+e
+n
+ea
+re
+st
+
+2
+si
+g
+n
+ifi
+ca
+n
+t
+fi
+g
+u
+re
+s.
+
+F
+la
+re
+
+O
+b
+se
+rv
+
+in
+g
+
+P
+e
+a
+k
+F
+lu
+x
+R
+e
+l
+
+P
+e
+a
+k
+
+P
+e
+a
+k
+F
+lu
+x
+E
+x
+c
+
+T
+o
+ta
+
+l
+E
+n
+e
+rg
+
+y
+tS
+
+X
+R
+
+P
+e
+a
+k
+−
+tL
+
+y
+α
+
+P
+e
+a
+k
+
+Id
+e
+n
+ti
+fi
+e
+r
+
+In
+st
+ru
+
+m
+e
+n
+t
+
+(1
+0−
+
+3
+W
+
+m
+−
+2
+)
+
+C
+o
+n
+tr
+a
+st
+
+(%
+)
+
+(1
+0−
+
+4
+W
+
+m
+−
+2
+)
+
+(1
+02
+
+9
+er
+g
+)
+
+(s
+)
+
+S
+O
+L
+20
+10
+–0
+2–
+08
+
+G
+O
+E
+S
+-1
+4/
+E
+U
+V
+S
+–
+E
+
+7
+.1
+
+±
+0
+.0
+0
+9
+
+3
+.5
+
+±
+0
+.1
+
+2
+.4
+
+±
+0
+.0
+9
+
+1
+.3
+
+±
+0
+.0
+0
+1
+
+1
+2
+9
+.6
+±
+5
+.1
+2
+
+P
+R
+O
+B
+A
+2/
+L
+Y
+R
+A
+
+6
+.7
+
+±
+0
+.0
+1
+
+0
+.7
+
+±
+0
+.2
+
+0
+.5
+
+±
+0
+.1
+
+0
+.4
+
+±
+0
+.0
+0
+0
+0
+7
+
+1
+2
+9
+.0
+±
+1
+.5
+
+S
+O
+L
+20
+16
+–0
+4–
+18
+
+G
+O
+E
+S
+-1
+5/
+E
+U
+V
+S
+–E
+
+7
+.3
+
+±
+0
+.0
+0
+8
+
+4
+.4
+
+±
+0
+.1
+
+3
+.2
+
+±
+0
+.0
+8
+
+3
+.0
+
+±
+0
+.0
+0
+1
+
+2
+4
+9
+.2
+±
+5
+.1
+2
+
+M
+A
+V
+E
+N
+/E
+
+U
+V
+M
+
+7
+.6
+
+±
+0
+.0
+0
+7
+
+7
+.4
+
+±
+0
+.1
+
+5
+.0
+
+±
+0
+.0
+0
+7
+
+5
+.5
+
+±
+0
+.0
+0
+0
+1
+
+2
+4
+8
+.1
+±
+0
+.5
+
+S
+O
+L
+20
+23
+–0
+5–
+09
+
+G
+O
+E
+S
+-1
+6/
+E
+X
+IS
+–
+E
+U
+V
+S
+–B
+
+8
+.9
+
+±
+0
+.0
+1
+
+0
+.7
+
+±
+0
+.1
+
+0
+.7
+
+±
+0
+.0
+1
+
+0
+.3
+
+±
+0
+.0
+0
+9
+
+1
+2
+0
+.0
+±
+3
+0
+.0
+
+S
+D
+O
+/E
+
+V
+E
+-M
+
+E
+G
+S
+-P
+
+9
+.5
+
+±
+0
+.0
+4
+
+3
+.5
+
+±
+0
+.5
+
+3
+.2
+
+±
+0
+.0
+4
+
+4
+.3
+
+±
+0
+.0
+4
+
+1
+2
+0
+.0
+±
+3
+0
+.0
+
+A
+S
+O
+-S
+/L
+
+S
+T
+-S
+D
+I
+
+9
+.2
+
+±
+0
+.0
+1
+
+1
+.6
+
+±
+0
+.1
+
+1
+.4
+
+±
+0
+.0
+1
+
+2
+.0
+
+±
+0
+.0
+0
+9
+
+1
+0
+4
+.0
+±
+3
+0
+.0
+
+35
+
+
+	Introduction
+	Instrumentation
+	GOES-14/EUVS–E and GOES-15/EUVS–E
+	GOES-16/EXIS–EUVS–B
+	PROBA2/LYRA
+	MAVEN/EUVM
+	SDO/EVE-MEGS-P
+	ASO-S/LST-SDI
+
+	Spectral Response Functions and Bandpasses
+	Flare Sample and Analysis
+	Standardisation and Calibration
+	Scaling Observations to 1AU
+	Radiometric Calibration of Images
+	Centre-to-Limb Variation Correction
+	Recalibration of PROBA2/LYRA Data
+
+	Flare Analysis
+
+	Results
+	SOL2010–02–08
+	SOL2016–04–18
+	SOL2023–05–09
+	Timings
+
+	Discussion and Future Missions
+	Acknowledgements
+	Data Availability
+

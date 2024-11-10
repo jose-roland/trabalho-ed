@@ -1,0 +1,1459 @@
+
+Prepared for submission to JCAP
+
+Extracting Axion String Network
+Parameters from Simulated
+
+CMB Birefringence Maps using
+Convolutional Neural Networks
+
+Ray Hagimoto, Andrew J. Long, and Mustafa A. Amin
+
+Department of Physics and Astronomy, Rice University, Houston, TX 77005, USA
+
+E-mail: rmh14@rice.edu, andrewjlong@rice.edu, mustafa.a.amin@rice.edu
+
+Abstract. Axion-like particles may form a network of cosmic strings in the Universe today
+that can rotate the plane of polarization of cosmic microwave background (CMB) photons.
+Future CMB observations with improved sensitivity might detect this axion-string-induced
+birefringence effect, thereby revealing an as-yet unseen constituent of the Universe and offering
+a new probe of particles and forces that are beyond the Standard Model of Elementary Particle
+Physics. In this work, we explore how spherical convolutional neural networks (SCNNs) may
+be used to extract information about the axion string network from simulated birefringence
+maps. We construct a pipeline to simulate the anisotropic birefringence that would arise
+from an axion string network, and we train SCNNs to estimate three parameters related to
+the cosmic string length, the cosmic string abundance, and the axion-photon coupling. Our
+results demonstrate that neural networks are able to extract information from a birefringence
+map that is inaccessible with two-point statistics alone (i.e., the angular power spectrum).
+We also assess the impact of noise on the accuracy of our SCNN estimators, demonstrating
+that noise at the level anticipated for Stage IV (CMB-S4) measurements would significantly
+bias parameter estimation for SCNNs trained on noiseless simulated data, and necessitate
+modeling the noise in the training data.ar
+
+X
+iv
+
+:2
+41
+
+1.
+05
+
+00
+2v
+
+1 
+ [
+
+as
+tr
+
+o-
+ph
+
+.C
+O
+
+] 
+ 7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+mailto:rmh14@rice.edu
+mailto:andrewjlong@rice.edu
+mailto:mustafa.a.amin@rice.edu
+
+
+Contents
+
+1 Introduction 1
+
+2 Mock birefringence data simulation procedure 4
+
+3 Neural network architecture and training 6
+
+4 Validation of neural network performance 7
+4.1 Estimator performance on known inputs 7
+4.2 Approximate Bayesian computation 9
+4.3 Interpretation of results 10
+
+5 Estimator degradation due to noise 11
+
+6 Summary and conclusion 13
+
+A Loop redshift probability density 15
+
+B Neural network architectures 16
+
+1 Introduction
+
+Precision measurements of the cosmic microwave background (CMB) radiation yield a wealth
+of data with which cosmologists are able to infer the constituents of the cosmos [1]. The
+CMB’s statistical properties provide compelling evidence for the presence of new physics,
+beyond the Standard Model of Particle Physics, such as dark matter and dark energy. The
+next generation of CMB telescopes is expected to reach unprecedented levels of precision,
+particularly in regard to polarization measurements [2]. These measurements will provide an
+exciting opportunity to probe signatures of additional beyond the Standard Model physics
+that are inaccessible with current sensitivity levels [3].
+
+In this work, we are interested in the cosmological signatures of hypothetical axion-
+like particles (ALPs) coupled to electromagnetism. We assume the standard Chern-Simons
+interaction, which takes the form
+
+Lint = −1
+
+4
+gaγγaFµνF̃
+
+µν , (1.1)
+
+where gaγγ is the axion-photon coupling parameter, a(x) is the pseudoscalar axion field, Fµν(x)
+is the electromagnetic field strength tensor, and F̃µν(x) is the dual tensor. The coupling
+depends on the fine structure constant αem ≈ 1/137, the axion decay constant fa, and the
+electromagnetic anomaly coefficient A as gaγγ = Aαem/(4πfa). ALPs arise naturally in string
+theory as a consequence of the additional compact spatial dimensions [4, 5]. In these theories,
+instanton effects lift the ALP potential and their exponential sensitivity leads to a vast range
+of ALP masses spanning from nearly the Planck scale to far below the current Hubble scale
+H0 ≈ 10−33 eV [6, 7]. Such ALPs are also expected to interact with electromagnetism at a
+strength that can possibly be probed with astrophysical and cosmological observations [7].
+
+– 1 –
+
+
+
+One of the most well-studied cosmological signatures of ALPs is cosmic birefringence. As
+a linearly-polarized electromagnetic wave propagates through a varying ALP field, the plane of
+polarization is rotated by an angle α ∝ gaγγ∆a that depends on the Chern-Simons coupling
+and the change in the ALP field [8–13]. Measuring cosmic birefringence is an important
+science driver for current and future CMB experiments [2, 3, 14]. Measurements of isotropic
+and anisotropic birefringence in upcoming CMB surveys are expected to improve by at least an
+order of magnitude [2, 15, 16]. An exciting development in recent years is that a measurement
+of isotropic birefringence in CMB data has been reported with ≈ 3σ statistical significance [17–
+20]. See ref. [21] a review of recent developments in the measurement of isotropic birefringence.
+
+Various studies have explored the implications of axion-induced birefringence for cosmo-
+logically distance sources of polarized light like the CMB. While a homogeneous ALP field
+could induce isotropic cosmic birefringence [9, 11], there is theoretical motivation to consider
+configurations such as string and domain wall networks that can form from phase transitions
+in the early Universe [22]. A remarkable feature of birefringence from string loops is that it
+does not directly depend on string tension and arises even if the string network is a subdomi-
+nant component of the the total energy budget of the universe [23]. Moreover, the anisotropic
+birefringence signal from a network, if detected, is likely to be more robust against calibration
+errors that might affect isotropic birefringence measurements.
+
+Dynamics of topological axion defects and the birefringence induced by them have been
+studied in refs. [24, 25]. CMB birefringence power spectra and non-Gaussian signatures from
+axion strings have been computed in refs. [23, 26, 27]. Constraints on axion-string parameters
+using published birefringence power spectra have been derived in refs. [28, 29]. The potential
+of using radio emissions from spiral galaxies to probe birefringence caused by axion strings has
+been explored in ref. [30]. A tomographic constraint on anisotropic birefringence generated
+at reionization was provided in ref. [31, 32]. The birefringence from axion domain walls has
+been studied in refs. [33–36] and axion dark energy in ref. [37].
+
+Recent advances in statistical learning and computing have made it possible to harness
+the power of neural networks in cosmology [38–46]. In particular, spherical convolutional
+neural networks (SCNNs) designed for data with a spherical topology have been developed,
+such as those implemented in the Python package DeepSphere [47, 48]. These networks have
+demonstrated capability in distinguishing cosmological models using simulated weak lensing
+all sky maps [49], and have been used for cosmological parameter inference in KiDS-1000
+weak lensing maps [50].
+
+In this work we explore how SCNNs can be used to estimate axion string network pa-
+rameters from simulated all sky maps of CMB birefringence. To this end, we train SCNNs
+to estimate the parameters of a phenomenological model known as the loop-crossing model
+(LCM) [26], given simulated noiseless CMB birefringence maps. In previous works, measured
+birefringence power spectra have been compared against the power spectrum predicted from
+the LCM [28, 29], with the tightest constraint yielding A2ξ0 ≲ 0.93 at 95% confidence level.
+However, a fundamental limitation of this approach is that some model parameters are degen-
+erate at the level of the power spectrum since in the LCM, the birefringence power spectrum
+is directly proportional to A2ξ0. The LCM parameter ξ0 is a phenomenological parameter
+that describes the energy density of the string network in a Hubble volume. This means that
+inference using only the power spectrum is fundamentally unable to independently measure
+A and ξ0. To address this issue, the use of higher order statistics such as the trispectrum
+and wavelet scattering transform have been explored and were shown to break the degeneracy
+between A and ξ0 [27, 51]. The ability for SCNNs to learn statistical properties of image data
+
+– 2 –
+
+
+
+Figure 1: Illustration of our neutral network training and inference pipelines. Mock data is
+generated by performing simulations of the loop crossing model (LCM), which has parameters
+A, ζ0, and ξ0. Data takes the form of a pixelated map of birefringence rotation angles
+α(n̂i) in HEALPix format. Mock data is used to train three spherical convolutional neural
+networks (SCNNs), which return point estimates of Z = log10(ζ0), A = log10(A2ξ0), and
+X = log10(ξ
+
+2
+0/A). We validate the training of the SCNNs using two checks of their parameter
+
+inference. One method is approximate Bayesian computation (ABC), which calculates the
+posterior over the LCM model parameters.
+
+motivates the exploration of this tool for axion string parameter estimation.
+
+Our strategy in this work is to train three spherical convolutional neural networks to
+estimate the LCM parameters ζ0, A, and ξ0 using realizations of axion-string induced bire-
+fringences maps as training data. We then assess their performance by using approximate
+Bayesian computation to sample the posterior distributions. This pipeline is illustrated in fig-
+ure 1. Our results demonstrate that neural networks are a powerful tool that can be used
+to look for evidence of cosmic axion strings in future CMB polarization measurements. In
+addition to considering noiseless simulations, we explore the effect that adding noise to the
+maps has on the estimates produced by these neural networks.
+
+– 3 –
+
+
+
+Parameter Prior
+log10 ζ0 U
+
+(
+log10(0.3), log10(3)
+
+)
+log10A U
+
+(
+log10(0.1), log10(1)
+
+)
+log10 ξ0 U
+
+(
+log10(3), log10(30)
+
+)
+Table 1: Priors used in inference and mock-data generation. The logarithms are drawn
+uniformly from the ranges shown.
+
+2 Mock birefringence data simulation procedure
+
+In this section we discuss how we generated mock data of the anisotropic birefringence arising
+from an axion string network by employing Loop Crossing Model (LCM) simulations. The
+LCM [52] treats all axion strings in the network to be circular planar loops whose positions
+are statistically homogeneous, whose orientations are statistically isotropic, and whose mean
+abundance and typical size evolve to scale with the cosmological expansion. The LCM is
+informed by numerical 3D lattice simulations of axion string network dynamics [53–62], which
+reveal that the network scales with the cosmological expansion (up to a possible logarithmic
+correction that remains under debate).
+
+In our implementation, the LCM has four parameters: a size parameter ζ0 related to
+the radius of string loops, an abundance parameter ξ0 related to the number of string loops,
+the mass parameter ma related to the string network collapse, and an intensity parameter
+A related to the amplitude of birefringence. At time t we assume that all loops in the
+network have the same (physical) radius r(t) = ζ0 dH(t), which grows with time to scale with
+the increasing Hubble distance dH(t) = 1/H(t). The average number density of loops also
+decreases as n(t) = ξ0d
+
+−3
+H (t)/(2πζ0) to maintain scaling. A logarithmic deviation from scaling
+
+would correspond to a growth in ξ0 by a negligible factor between recombination and today,
+which we neglect. The axion mass ma controls the time when the string network develops
+domain walls and collapses, through the relation ma ∼ 3H(t) [26]. In this work we restrict
+ourselves to masses ma ≲ 4 × 10−33 eV so that the string networks survive at least until
+today. Photons passing through the disk enclosed by a loop develop a birefringence rotation
+angle of ∆α = ±Aαem where A is the electromagnetic anomaly coefficient, αem ≈ 1/137
+is the electromagnetic fine structure constant, and the sign depends on the loop’s winding
+number and orientation [23]. As a photon propagates though multiple loops, its birefringence
+accumulates α =
+
+∑
+∆α. Figure 2 is a graphical illustration of the LCM and induced CMB
+
+birefringence; we indicate photons propagating through a network of circular planar string
+loops, shown in three redshift slices. In the bottom half of figure 2 we show mollweide
+projections of the cumulative birefringence map from z = 1100 to the indicated redshift.
+
+The procedure that we employ to create mock data is the following.
+
+1. Draw a set of LCM model parameters ζ0, A, and ξ0 from the prior distributions in ta-
+ble 1. We set ma = 0. These priors are informed by theoretical expectations for the
+values these parameters may take. For example A is a sum over the squared electro-
+magnetic charge of particles in the theory, so A is not expected to be much smaller than
+an O(1) number. This partially motivates us to take our prior to have support in the
+region A ∈ [0.1, 1].
+
+2. Select a HEALPix resolution parameter. For all of the work present in this article,
+we take Nside = 128 corresponding to Npix = 196, 608 pixels. This corresponds to an
+
+– 4 –
+
+
+
+Figure 2: Illustration of birefringence accumulation in the loop crossing model (LCM).
+CMB photons (yellow arrowed lines) propagate from the surface of last scattering (z = 1100)
+to Earth (z = 0). The intervening space is filled with an LCM string network consisting
+of circular planar loops with statistically homogeneous positions and statistically isotropic
+orientations. Each time a photon passes through a loop its plane of polarization incurs a
+rotation of ∆α±Aαem depending on the orientation of the loop. Birefringence accumulates
+over time with multiple loop crossings. Three redshift slices (z = 240, z = 40, and z = 5)
+are illustrated, showing a possible realization of the string network (orange shells with black
+circles) and the accumulated birefringence (mollweide projections). This graphic is figure 4
+of ref. [29], and we reproduce it here with permission from the authors.
+
+angular scale of approximately 0.5 degrees.
+
+3. Calculate the average number of loops in the network ⟨Nloops⟩ by using numerical meth-
+ods to evaluate the integral [26]
+
+⟨Nloops⟩ = 2
+ξ0
+ζ0
+
+∫ zcmb
+
+0
+dz H2(z)(1 + z)−3 s2(z) . (2.1)
+
+Here zcmb = 1100 is the fiducial redshift at recombination, s(z) ≡
+∫ z
+0 H−1(z′) dz′
+
+is the comoving distance from the observer (at z = 0) to redshift z, and H(z) ≡
+H0
+
+√
+Ωr (1 + z)4 +Ωm (1 + z)3 +ΩΛ is the Hubble parameter at redshift z. We assume
+
+an ΛCDM cosmology with Ωr = 9× 10−5, Ωm = 0.3, and ΩΛ = 0.7.
+
+4. Choose the number of loops in this realization by sampling N̂loops ∼ Poisson(⟨Nloops⟩).
+
+5. To populate the network with loops, for each loop we generate a random position drawn
+uniformly from a 2-sphere, a random orientation drawn uniformly from a 2-sphere, a
+random winding number drawn uniformly from ±1, and a random redshift z drawn
+
+– 5 –
+
+
+
+from the probability density (see appendix A)
+
+p(z) =
+H2(z)(1 + z)−3 s2(z)∫ zcmb
+
+0 dz′H2(z′)(1 + z′)−3s2(z′)
+(2.2)
+
+with support only on the interval z ∈ (0, zcmb). A derivation of eq. (2.2) can be found
+in appendix A. Once a random z is chosen, the circular loop’s comoving radius is taken
+to be rco = ζ0(1 + z)/H(z).
+
+6. Using a HEALPix discretization scheme [63], for each loop find the pixels whose line
+of sight vectors pass through the interior of the loop. At these pixels increment their
+values by ∆α = ±Aαem.
+
+The result of this procedure is a spatially-discretized birefringence map αi = α(n̂i) that takes
+values on each of the pixels n̂i.
+
+3 Neural network architecture and training
+
+Our mock data takes the form of an all-sky birefringence map, having a spherical topology.
+We therefore choose to use a neural network architecture which appropriately accounts for the
+geometry of the data. To this end, we use the DeepSphere Python package, which is a library
+for creating SCNNs [47, 48]. Previous work has applied DeepSphere to cosmological mock
+data with HEALPix [49]; and to KiDS-1000 weak lensing maps for parameter inference [50].
+
+We train three neural networks, such that each of them is an estimator for one of the
+three LCM model parameters. Rather than directly learning ζ0, ξ0, and A, we find that it is
+advantageous for the networks to instead learn
+
+Z ≡ log10(ζ0) , A ≡ log10(A2ξ0) , and X ≡ log10(ξ
+2
+0/A) . (3.1)
+
+This is the case for two reasons. First, the birefringence angular power spectrum in the LCM
+is directly proportional to A2ξ0 and its shape is controlled by ζ0 [52]. This means that power
+spectrum information can be used to infer these parameters. On the other hand, ξ20/A is
+orthogonal to A2ξ0 in the (log10 ξ0, log10A) plane so inferring this combination of parameters
+requires information beyond the power spectrum. Hence, training a neural network to esti-
+mate ξ20/A will allow us to assess whether or not information beyond the power spectrum is
+being recovered. Second, since A2ξ0 and ξ20/A vary over several orders of magnitude, and be-
+cause we care more about the neural networks’ ability to provide accurate estimates to within
+an order of magnitude, training them to learn the base-10 logarithms of these parameters is
+a direct way to enforce this.
+
+We use the architectures shown in tables 2, 3, and 4 which can be found in appendix B.
+We use 3 convolutional layers for ζ0 with a total of 9,881 parameters since we found that this
+was sufficient for good performance on the range of parameters allowed by our priors (see
+table 1). For the A and X networks we used deeper networks with 6 to 8 convolutional layers
+and 20,113 to 3,566,273 trainable parameters respectively. The convolutions themselves are
+implemented using DeepSphere’s ChebyshevConv layers which approximate the convolution
+kernels as a Chebyshev polynomial expansion in terms of the discrete Laplacian operator as
+explained in refs. [48, 64]. These convolutions are approximately equivariant under rotations of
+the input map, i.e., a rotation of the map followed by a convolution is the same as a convolution
+
+– 6 –
+
+
+
+followed by a rotation. After all the convolutions we use global average pooling [65] to ensure
+that the outputs of the neural networks are invariant under rotations of the input map.
+
+For our mock data set we generate 20,000 axion-string-induced birefringence maps (with
+HEALPix pixelization) by performing repeated LCM simulations using the parameters ζ0,
+ξ0, and A sampled from the priors in table 1 and by following the procedure described in
+section 2. These data are then split into training and validation sets with a ratio of 80:20.
+Finally, we train three neural networks to provide estimators for Z, A, or X using a mean-
+squared-error loss [66]. Training was performed using the Adam optimizer [67] with a learning
+rate schedule starting at 0.005, which decays by 4% every epoch. Training is stopped when
+the validation loss does not improve by at least 1×10−5 over 8 consecutive epochs. We define
+the trained neural network as the set of network parameters with the lowest validation loss.
+
+To illustrate the performance of the three networks, we show an example in figure 3.
+For this example, we take the LCM model parameters to be ζ0 = 1, A = 0.316, and ξ0 = 10,
+which correspond to Z = 0, A ≈ 0, and X ≈ 2.5. We generate four pixelated birefringence
+maps α(n̂i), which are random realizations of the LCM simulation procedure. These maps
+are then passed to the three SCNNs, which have already been trained, yielding estimates
+Ẑ, Â, and X̂. In general we will use hatted variables to denote the outputs of the SCNNs,
+and unhatted variables to denote the LCM model parameters. We emphasize that the neural
+network is deterministic, such that the same map α(n̂i) always yields the same estimate, Ẑ
+for example. However, the procedure of generating the mock data via the LCM simulation
+is stochastic, so a single set of LCM model parameters generates many possible realizations
+α(n̂i). In this example, one can see that two of the SCNNs are performing very well; the Ẑ
+and Â estimates are close to the input model parameters Z and A. The third SCNN performs
+moderately well; the estimate X̂ differs from the input parameter X = log10(ξ
+
+2
+0/A) = 2.5
+
+by as much as ∆X = 0.44, which corresponds to a factor of 2.8 in ξ20/A. We discuss the
+SCNN performance further in the next section, where we also provide quantitative measures
+of success.
+
+4 Validation of neural network performance
+
+In order to assess the performance of the neural networks to provide accurate and precise
+estimates of the LCM model parameters, we perform the following two tests. To quantify the
+networks’ accuracy, we directly compare SCNN parameter estimators with true LCM model
+parameters across a 2D slice of the parameter space. To quantify the networks’ precision, we
+employ approximate Bayesian computation to sample the posterior distribution and infer the
+spread in the network output. In the following subsections, we discuss both approaches.
+
+4.1 Estimator performance on known inputs
+
+To get a sense of the reliability of the parameter estimates from our neural networks we want
+to quantify deviations from known inputs. This can be achieved by scanning the parameter
+space and calculating the average error at each point. To do this calculation we perform
+992,600 draws of the LCM model parameters ζ0, ξ0, and A from the priors in table 1, and
+calculate the corresponding Z, A, and X using eq. (3.1). For each draw we do an LCM
+simulation and pass the mock data to the neural networks which return parameter estimates
+Ẑ, Â, and X̂. We then divide the (A,X) plane into 50 × 50 = 2500 bins. In each bin we
+
+– 7 –
+
+
+
+Figure 3: Illustration of LCM parameter estimation using SCNNs on simulated birefringence
+maps. From left to right we show, (1) a set of LCM model parameters Z = 0, A = 0,
+and X = 2.5, corresponding to ζ0 = 1, A = 0.316, and ξ0 = 10; (2) four realizations
+of birefringence mock data generated using LCM simulation; (3) graphical depiction of our
+three SCNNs; and (4) parameter estimates furnished by each of the three SCNNs for each of
+the four maps.
+
+compute the error magnitude defined as
+
+error magnitude = average of
+√
+(Â−A)2 + (X̂ −X)2 , (4.1)
+
+where the average is with respect to the samples in the bin. Some bins have no samples,
+because they are excluded by our priors; other bins contain between 65 and 809 samples.
+
+The results of this analysis are shown in figure 4. The color heat map shows the error
+magnitude in each bin. The white regions have no samples, because they are outside of
+our prior range, as indicated by the labeled values of A and ξ0. The arrows indicate the
+displacement from the true value to the average estimated value. For example, an arrow
+pointing upward means that the neural networks tend to overestimate the value of X but are
+relatively accurate for A.
+
+This figure offers several indications of the performance of the SCNNs. The error mag-
+nitude is typically smaller than 0.4 across most of the (A,X) parameter space, corresponding
+to a factor of 100.4 ≈ 2.5 in the parameters A2ξ0 and ξ20/A. However, the error predominantly
+arises from ξ20/A, as indicated by the mostly-vertical arrows. This poorer performance in the
+X = log10(ξ
+
+2
+0/A) estimator was expected, and we discuss it further in section 4.3.
+
+Notice that the region of parameter space in which X is large tends to have larger error
+magnitude (i.e., warmer colors). For larger ξ0 the error is expected to grow, because the
+network contains a greater number of loops. The birefringence map generated by many over-
+lapping loops appears increasingly like a Gaussian random field [27], and obscures information
+about the string network. This leads to a larger error magnitude.
+
+The performance of the network to accurately estimate X is particularly poor at the
+upper-left boundary. This is indicated by the bright orange cells on the heat map and the long
+
+– 8 –
+
+
+
+Figure 4: An illustration of the performance of our trained SCNNs. We show the error
+magnitude (4.1) as a colored heatmap where cooler/darker colors indicate better performance.
+We also show the displacement from input parameter pair to the average output of the SCNNs
+as a white arrow. There are no samples in the white regions, which are outside of our prior
+range, as indicated by the diagonal labels; see also table 1.
+
+downward arrows. Here the error magnitude reaches 0.8 corresponding to underestimating
+ξ20/A by a factor of 100.8 ≈ 6.3.
+
+The X neural network tends to overpredict when the input value is small (i.e., upward
+arrows near the bottom of the figure) and underpredict when the input value is large (i.e.,
+downward arrows near the top). Consequently, there is a region of parameter space where the
+predictions are particularly accurate – this is the very dark region of the plot. If the network
+were trained again using a new set of randomly-generated training data, we anticipate that
+the general trends seen in figure 4 would persist, while the particular values of the error
+magnitude would change.
+
+4.2 Approximate Bayesian computation
+
+We designed the SCNNs to provide a single estimator of the LCM model parameters (rather
+than a probability density). In this section, we discuss how approximate Bayesian compu-
+tation (ABC) [68] can be employed to ascribe an uncertainty to those estimates. More for-
+mally, the uncertainty of the network is quantified by the posterior distribution p(θ|θ̂), where
+θ ≡ (Z,A,X) are the parameters and θ̂ ≡ (Ẑ, Â, X̂) are the estimates of the parameters. To
+obtain samples from p(θ|θ̂) we use ABC, following the procedure outlined below.
+
+– 9 –
+
+
+
+1. Define a distance measure between parameter estimates θ̂ and a target value θ̂target as
+
+ρ(θ̂, θ̂target) =
+
+√
+(Ẑ − Ẑtarget)2 + (Â− Âtarget)2 + (X̂ − X̂target)2 .
+
+2. Pick a tolerance ϵ. We use ϵ = 0.07, which was found to be sufficient for convergence.
+
+3. Sample LCM model parameters ζ0, A, and ξ0 from the priors in table 1, and compute
+the corresponding θ = (Z,A,X) using eq. (3.1).
+
+4. Generate a pixelated LCM birefringence map α(n̂i) following the procedure in section 2.
+
+5. Pass the map through each neural network to obtain estimates θ̂ = (Ẑ, Â, X̂).
+
+6. Keep the sampled θ if ρ(θ̂, θ̂target) < ϵ.
+
+7. Repeat steps 3− 6 until a desired number of accepted samples is reached.
+
+Figure 5 shows the outcome of this procedure for a representative parameter point. We
+show samples from the posterior distribution for θ̂target = (0, 0, 2.5), which corresponds to
+ζ̂0 = 1, ξ̂0 = 10, and Â = 0.316. The three lower subplots show the 2D marginal posteriors
+for each pair of parameters, and the three upper subplots show the 1D marginal posterior
+(black histogram) and prior (gray dashed histogram) of each individual parameter. The red
+cross indicates the target value θ̂target.
+
+From the 2D posteriors, we can assess possible correlations between estimator errors. No
+significant correlations are observed. Since the networks are trained independently we expect
+uncorrelated errors.
+
+From the 1D posteriors, we can assess the SCNNs’ uncertainties. For each of the three es-
+timators, the posteriors are approximately centered at the target value, which is an indication
+of the SCNNs’ accuracy. The posteriors have standard deviations of σZ = 0.03, σA = 0.014,
+and σX = 0.3. This means that the ζ0 parameter is typically within a factor of 100.03 ≈ 1.07
+of the target value; the A2ξ0 parameter is typically within a factor of 100.014 ≈ 1.03 of the
+target value; and the ξ20/A parameter is typically within a factor of 100.3 ≈ 2 of the target
+value. For ζ0 and A2ξ0 the SCNNs are quite precise with uncertainties below 10% (for this
+example). For ξ20/A the uncertainty is much larger. Nevertheless, all three 1D posteriors, even
+ξ20/A, have standard deviations that are smaller than the prior distribution’s as evidenced by
+the black histograms being narrower than the grey lines in figure 5.
+
+4.3 Interpretation of results
+
+The results shown in figure 4 and figure 5 indicate that the neural networks have learned
+ways to extract information to infer these parameters. This is especially interesting for X =
+log10(ξ
+
+2
+0/A) since part of our motivation for this work was to see if SCNNs can break the
+
+parameter degeneracy between A and ξ0 that is present in power spectrum-only analyses [27,
+51]. The stronger predictive power of the Z and A neural networks over the X network can
+be understood in the following way: unlike for Z and A, there is no information contained
+in the power spectrum which allow one to discern between different values of X. Therefore,
+the only way for the X estimator to learn useful information is to extract information beyond
+the power spectrum, which is harder because it requires the network to learn more complex
+patterns.
+
+– 10 –
+
+
+
+1.00
+
+10−1
+
+100
+
+101
+
+A
+2
+ξ 0
+
+1.00
+
+0.3 1.0 3.0
+
+ζ0
+
+101
+
+102
+
+103
+
+ξ2 0
+/A
+
+10-1 100 101
+
+A2ξ0
+
+101 102 103
+
+ξ2
+0/A
+
+316
+
+Figure 5: Posteriors on the parameters Z = log10(ζ0), A = log10(A2ξ0), and X =
+log10(ξ
+
+2
+0/A) obtained using ABC sampling when θ̂target = (Ẑ, Â, X̂) = (0, 0, 2.5). The
+
+diagonal subplots show the 1D marginal posteriors. The gray dashed curves in the diagonal
+subplots depict the prior for each parameter. Gray vertical lines depict the parameter with
+the highest posterior density. Red vertical lines depict θ̂target. Lower-left subplots show a his-
+togram of 2D marginal posteriors. Red crosses depict the projection of θ̂target in each plane.
+
+5 Estimator degradation due to noise
+
+We trained our neural networks to provide parameter estimates on noiseless maps. How-
+ever, real birefringence maps are reconstructed from CMB polarization data. This means
+that birefringence maps will have noise sourced from the Q and U measurements as well
+as the statistical estimators used to reconstruct the birefringence. A popular technique for
+birefringence reconstruction is to use quadratic estimators [69–71]. For example, POLAR-
+BEAR, ACT, and SPT have all used quadratic estimators in their analysis of anisotropic
+birefringence [72–74]. For a more general discussion of CMB birefringence quadratic estima-
+tors and their statistical reconstruction noise see [28]. In this section we explore how our
+neural networks, which were trained on noiseless maps, can perform on noisy data.
+
+We model the noisy pixelated birefringence maps as αS(n̂i) + αN (n̂i) where the signal
+αS(n̂i) is generated from the LCM simulation. The noise αN (n̂i) is assumed to be a Gaussian
+random field drawn from the angular power spectrum Nℓ, uncorrelated with the signal. We
+assume Nℓ ∝ ℓ0 is constant, corresponding to white noise. This choice is motivated by
+the noise being dominated by reconstruction noise [28]. We study different noise levels by
+multiplying the expected CMB-S4 noise level NCMB−S4
+
+ℓ = 1.5×10−5 deg2, which we obtained
+
+– 11 –
+
+
+
+Figure 6: Left: a realization of a CMB birefringence map generated with LCM parameters
+ζ0 = 1.0, A = 0.316, and ξ0 = 10.0. Middle: a realization of Gaussian random noise for a
+CMB-S4-like experiment. Right: combined signal and noise. Since the noise power spectrum
+follows a white noise profile, the noise level increases toward smaller angular scale. As a
+result, the granularity of the noise in the map shown is determined by the resolution of the
+map. A higher resolution would give the appearance of smaller scale fluctuations.
+
+from figure 1 of ref. [28], by a multiplicative factor. We use the synfast method of healpy
+to generate αN (n̂i). An example of the signal and noise maps appears in figure 6.
+
+The histograms in figure 7 show the distribution of estimators for each neural network
+given LCM parameters ζ0 = 1, A = 0.316, and ξ0 = 10, which correspond to Z = 0, A = 0,
+and X = 2.5. The networks were trained on noiseless maps and tested on birefringence maps
+with various noise levels. The results for each estimator are shown across three panels. In
+each panel we depict the input LCM parameter value with a vertical black line. In general
+the estimators tend to give biased predictions with comparable variances when provided with
+noisy data.
+
+In order from top to bottom the panels show our results for the Z, A, and X estimators.
+The Z estimator exhibits a bias toward smaller values than the true parameter at Z = 0. This
+is shown by the fact that the centers of the distributions move to smaller values with increasing
+noise. For example, the prediction for 0.5NCMB−S4
+
+ℓ is centered at Z ≈ −0.45, whereas the
+prediction for NCMB−S4
+
+ℓ is centered at around Z ≈ −0.65. This can be understood as the
+neural network interpreting the noise as part of the signal. Since the noise power spectrum
+is approximately a power law with a positive index over the range of multipoles that can be
+probed with the map resolution of Nside = 128, the noise looks like many small loops about the
+size of a pixel. In a similar way, the A estimator biases its predictions to larger values than the
+true value. Again, this is to be expected since the neural network interprets the noise as part
+of the signal. At the level of the power spectrum the noise is additive: Ctot
+
+ℓ = Csignal
+ℓ +Cnoise
+
+ℓ ,
+which can partially account for the trend in the prediction bias. The X estimator is the
+most affected by the addition of noise. Like the A estimator, its predictions are biased above
+the true value. However, we see that while the bias for the Z and A estimators is less than
+an order of magnitude for all noise levels, the X estimator’s bias is larger than the other
+estimators’ bias at every noise level. This upward bias is expected since X is proportional
+to ξ20 , which controls the number density of loops. If the noise is interpreted as signal it will
+have the appearance of adding many loops on small scales, leading to an upward bias.
+
+In order for all three estimators to be biased by no more than an order of magnitude,
+one would need an experiment with about 10 times less noise than CMB-S4 as shown by
+the yellow histograms in figure 7. This analysis reveals that our noiseless estimators prove
+inadequate to provide reliable estimates at the noise level of a CMB-S4-like experiment.
+Therefore methods for improving the estimators are required. A discussion of some of these
+
+– 12 –
+
+
+
+−0.7 −0.6 −0.5 −0.4 −0.3 −0.2 −0.1 0.0 0.1
+
+Ẑ
+
+0
+
+20
+
+40
+
+0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8
+
+Â
+
+0
+
+20
+
+40
+
+2.00 2.25 2.50 2.75 3.00 3.25 3.50 3.75 4.00
+
+X̂
+
+0
+
+20
+
+40
+
+NCMB-S4
+`
+
+0.5NCMB-S4
+`
+
+0.1NCMB-S4
+`
+
+0.01NCMB-S4
+`
+
+noiseless
+
+Figure 7: Performance of our SCNNs on noisy mock data. For each noise level (colored
+histograms) we show the sample distribution over the SCNN estimators Ẑ (top), Â (middle),
+and X̂ (bottom). To generate each histogram, we perform 100 LCM simulations with ζ0 = 1,
+ξ0 = 10, and A = 0.316 (corresponding to Z = 0, A = 0, and X = 2.5, indicated by the
+vertical black bar), add white noise up to the level of a CMB-S4-like experiment, and pass
+these noisy birefringence maps to our SCNNs, which were trained on noiseless mock data.
+
+can be found in section 6.
+
+6 Summary and conclusion
+
+In this work, we have explored how spherical convolutional neural networks (SCNNs) can be
+used to perform parameter inference on simulated axion-string-induced birefringence maps.
+Below is a summary of the main contributions and results of this work:
+
+• We developed a pipeline for generating HEALPix maps of anisotropic birefringence
+based on a simulation of the loop-crossing model (LCM), which has phenomenological
+parameters ζ0, ξ0, and A, and which control the radius of string loops, the number
+of string loops, and the birefringence accumulated by a photon after passing through
+a single loop, respectively. The LCM parameterization is informed by string network
+dynamics.
+
+– 13 –
+
+
+
+• We trained three independent SCNNs to estimate the parameters Z ≡ log10 ζ0, A ≡
+log10A2ξ0, and X ≡ log10 ξ
+
+2
+0/A from these maps. The choice of these parameters is
+
+driven by the following considerations. First, the birefringence power spectrum from
+axion strings is proportional to A2ξ0, so it is natural to train our SCNNs to learn this
+combination of parameters and another, ξ20/A for which the power spectrum provides no
+information. Second, some parameters can take values over several orders of magnitude.
+This motivates us to train the SCNNs to infer the base-10 log of the parameters.
+
+• We evaluated the SCNN estimators’ performance on birefringence maps generated from
+known LCM model parameters (see figure 4), finding that the networks performed very
+well for Z and A, and moderately well for X. For example, the Z and A estimators are
+typically biased by no more than 0.04 units, which corresponds to a factor of 100.04 ≈
+1.10 deviation from the true value of ζ0 or A2ξ0. On the other hand, depending on the
+input value the X estimator is typically biased by less than 0.3 units corresponding to
+a factor of 100.3 ≈ 2 error in ξ20/A – although the error can be as high as a factor of 6
+for some values of ξ20/A.
+
+• We used approximate Bayesian computation to sample the posterior distribution for
+the case when the estimators yield Ẑ = 0, Â = 0, and X̂ = 2.5, which allowed us to
+quantify the statistical uncertainty of the predictions (see figure 5). The estimates for
+Z and A had standard deviations of σZ = 0.03 and σA = 0.014, respectively. The X
+estimator had a larger uncertainty with σX = 0.3.
+
+• By simulating CMB birefringence maps with various noise levels we demonstrated that
+the accuracy of the neural networks is degraded in a qualitatively predictable way.
+
+Our work was motivated in part by the question: can a neural network learn information
+about a birefringence map that is inaccessible with its power spectrum alone? In particular,
+in the context of the loop crossing model, the birefringence angular power spectrum only
+depends upon the intensity and abundance parameters, A and ξ0, through the combination
+A2ξ0, but not the combination ξ20/A. Based on several tests of their accuracy and precision, we
+conclude that the SCNNs that learned A2ξ0 and ξ20/A are able to furnish reliable estimators
+of these parameters when provided with noiseless birefringence maps generated from LCM
+simulations. Of course the uncertainty in ξ20/A is much larger than in A2ξ0, approximately
+a factor of 2 versus 3% for the sample parameter point illustrated in figure 5. This was
+expected, since information about ξ20/A is not encoded in the power spectrum, but rather
+stored in higher-point correlations. Nevertheless, our priors based on UV considerations and
+string network simulations allow the parameters A and ξ0 to each vary by about an order of
+magnitude, and even the factor of 2 uncertainty in ξ20/A is informative, relatively speaking.
+
+Our work demonstrates that even with an unoptimized architecture and inference pipeline,
+SCNNs are capable of extracting information beyond the power spectrum. We anticipate that
+better performance (particularly in extracting ξ20/A) could be achieved with an alternative
+architecture and/or extended inference pipeline. For example, we have trained estimators us-
+ing mean-squared-error loss which may allow for biases, but the method presented in ref. [75]
+uses deep summaries to construct minimally-biased point estimators.
+
+These results are a step toward a pipeline that can be used to do inference on real data,
+but there are areas available for improvement. In section 5 we found that noise introduces
+additional biases in the predictions, particularly for X, which exhibited biases as large as two
+
+– 14 –
+
+
+
+orders of magnitude for CMB-S4 noise levels. We found that to yield parameter estimates
+within an order of magnitude from the true value, one would need an experiment with 10%
+of the noise level compared to CMB-S4. To address noise more effectively, one could explore
+two potential strategies. First, neural networks could (and should!) be trained on maps
+that already include noise specific to the experimental setup. This would allow the model to
+learn both the signal and the noise features, leading to more robust predictions. Additionally,
+one could implement techniques from [45], which demonstrated improvements by using a
+combination of max/average pooling and random permutations in the deeper layers of the
+network. These regularization and data augmentation techniques help the network generalize
+better in noisy environments by preventing overfitting to large-scale correlations that might
+include noise. We leave the exploration of these techniques to future work.
+
+Acknowledgments
+
+This material is based upon work supported (in part: R.H. and A.J.L.) by the National
+Science Foundation under Grant Nos. PHY-2114024 and PHY-2412797. M.A.A. is supported
+by a DOE grant DOE-SC0021619. Some of the results in this paper have been derived using
+the healpy and HEALPix packages. A.J.L. thanks Bhuvnesh Jain and Matthew Johnson
+for illuminating discussions of machine learning methods. R.H. would like to thank Siyang
+Ling for his invaluable contributions to the LCM simulation code, and Juehang Qin, Dorian
+Amaral, and Ivy Li for useful conversations about statistical learning.
+
+A Loop redshift probability density
+
+This appendix provides a derivation of eq. (2.2), which gives the probability density p(z) to
+find a string loop at redshift z. In the LCM the average number of string loops with comoving
+radius between r and r+ dr, with comoving position between s⃗ and s⃗+ ds⃗ on the observer’s
+past light cone, and with orientation (normal to the plane of the loop) between k̂ and k̂+dk̂
+is given by [26]
+
+dN = ν(r, z) dr d3s⃗
+d2k̂
+
+4π
+.
+
+The assumption that loops are oriented isotropically implies that ν is independent of k̂, and
+the assumption that the loops are distributed homogeneously throughout space at a given time
+implies that ν only depends on s⃗ through s = |s⃗|, which is a proxy for time (or redshift) on the
+past light cone. In spherical polar form we have d3s⃗ = s2 d2n̂ ds, where n̂ is the unit vector
+pointing in the direction of s⃗. To write d3s⃗ in terms of z note that s(z) =
+
+∫ z
+0 H−1(z′)dz′.
+
+Hence, d3s⃗ = s2(z)H−1(z) dz d2n̂.
+In order to more conveniently parameterize the scaling property of string loop networks
+
+we introduce a kernel function χ(ζ, z) as in ref. [26] such that,
+
+ν(r, z) =
+
+∫ ∞
+
+0
+dζ χ(ζ, z)
+
+H(z)2(1 + z)−2
+
+2πr
+δ
+[
+r − ζ(1 + z)/H(z)
+
+]
+. (A.1)
+
+To implement the assumption that all string loops have the same radius at a given time, we
+take χ(ζ, z) = ξ0 δ(ζ − ζ0). Integrating over the loop radius and orientation gives the average
+number of loops with comoving position between s⃗ and s⃗+ ds⃗ to be
+
+dN =
+
+∫ ∞
+
+0
+dr
+
+∫
+4π
+
+d2k̂
+
+4π
+ν(r, z) d3s⃗ =
+
+ξ0
+2πζ0
+
+(
+H(z)2(1 + z)−3 s2(z) dz
+
+)
+d2n̂ . (A.2)
+
+– 15 –
+
+
+
+The expression on the right implicitly defines a probability density over z which is obtained
+by normalizing it over the range of possible redshift values. Hence, taking zcmb = 1100, we
+have
+
+p(z) =
+H2(z)(1 + z)−3 s2(z)∫ zcmb
+
+0 H2(z)(1 + z)−3 s2(z) dz
+,
+
+which appears in eq. (2.2).
+
+B Neural network architectures
+
+This appendix contains the architectures used for our SCNNs in tables 2-4. To construct our
+neural networks we use the Python package DeepSphere [47, 48]. This package provides
+implementations of layers designed for use on HEALPix formatted maps. These include the
+ChebyshevConv and MaxPool layers which perform convolutions and pooling.
+
+– 16 –
+
+
+
+Layer type Output shape Parameters
+Input (Nb, Npix, 1) 0
+ChebyshevConv (K=32, Fout=40) (Nb, Npix, 40) 840
+MaxPool (p=2) (Nb, 12288, 40) 0
+ChebyshevConv (K=10, Fout=20) (Nb, 12288, 20) 8020
+MaxPool (p=1) (Nb, 768, 20) 0
+ChebyshevConv (K=5, Fout=10) (Nb, 768, 10) 1010
+GlobalAvgPool (Nb, 10) 0
+Flatten (Nb, 10) 0
+Dense (Nb, 1) 11
+
+Table 2: Neural network architecture used for the Z = log10(ζ0) estimator. The batch
+size is Nb = 32 and the HEALPix resolution parameter is Nside = 128, so the number of
+pixels is Npix = 196, 608. All layers use ReLU activations and batch normalization is disabled
+(use_bn=False).
+
+Layer type Output shape Parameters
+Input (Nb, Npix, 1) 0
+ChebyshevConv (K=5, Fout=8) (Nb, Npix, 8) 48
+MaxPool (p=2) (Nb, 12288, 8) 0
+ChebyshevConv (K=5, Fout=16) (Nb, 12288, 16) 656
+ChebyshevConv (K=5, Fout=16) (Nb, 12288, 16) 1296
+MaxPool (p=1) (Nb, 3072, 16) 0
+ChebyshevConv (K=5, Fout=32) (Nb, 3072, 32) 2592
+ChebyshevConv (K=5, Fout=32) (Nb, 3072, 32) 5152
+MaxPool (p=1) (Nb, 768, 32) 0
+ChebyshevConv (K=5, Fout=64) (Nb, 768, 64) 10304
+GlobalAvgPool (Nb, 64) 0
+Flatten (Nb, 64) 0
+Dense (Nb, 1) 65
+
+Table 3: Neural network architecture used for the A = log10(A2ξ0) estimator. The batch
+size is Nb = 32 and the HEALPix resolution parameter is Nside = 128, so the number of
+pixels is Npix = 196, 608. All layers use ReLU activations and batch normalization is disabled
+(use_bn=False).
+
+– 17 –
+
+
+
+Layer type Output shape Parameters
+Input (Nb, Npix, 1) 0
+ChebyshevConv (K=5, Fout=16) (Nb, Npix, 16) 96
+ChebyshevConv (K=5, Fout=32) (Nb, Npix, 32) 2592
+MaxPool (p=2) (Nb, 12288, 32) 0
+ChebyshevConv (K=5, Fout=64) (Nb, 12288, 64) 10432
+ChebyshevConv (K=5, Fout=128) (Nb, 12288, 128) 41344
+MaxPool (p=1) (Nb, 3072, 128) 0
+ChebyshevConv (K=5, Fout=256) (Nb, 3072, 256) 164608
+ChebyshevConv (K=5, Fout=512) (Nb, 3072, 512) 656896
+MaxPool (p=1) (Nb, 768, 512) 0
+ChebyshevConv (K=5, Fout=512) (Nb, 768, 512) 1312256
+ChebyshevConv (K=5, Fout=512) (Nb, 768, 512) 1312256
+GlobalAvgPool (Nb, 512) 0
+Flatten (Nb, 512) 0
+Dense (Nb, 128) 65664
+Dense (Nb, 1) 129
+
+Table 4: Neural network architecture used for the X = log10(ξ
+2
+0/A) estimator. The batch
+
+size is Nb = 8 and the HEALPix resolution parameter is Nside = 128, so the number of
+pixels is Npix = 196, 608. All layers use ReLU activations and batch normalization is disabled
+(use_bn=False).
+
+– 18 –
+
+
+
+References
+
+[1] Planck collaboration, Aghanim, N. and others, Planck 2018 results. VI. Cosmological
+parameters, Astron. Astrophys. 641 (2020) A6, [1807.06209].
+
+[2] CMB-HD collaboration, Aiola, Simone and others, Snowmass2021 CMB-HD White Paper,
+2203.05728.
+
+[3] Chang, Clarence L. and others, Snowmass2021 Cosmic Frontier: Cosmic Microwave Background
+Measurements White Paper, 2203.07638.
+
+[4] Svrcek, Peter and Witten, Edward, Axions In String Theory, JHEP 06 (2006) 051,
+[hep-th/0605206].
+
+[5] Arvanitaki, Asimina and Dimopoulos, Savas and Dubovsky, Sergei and Kaloper, Nemanja and
+March-Russell, John, String Axiverse, Phys. Rev. D 81 (2010) 123530, [0905.4720].
+
+[6] Hui, Lam and Ostriker, Jeremiah P. and Tremaine, Scott and Witten, Edward, Ultralight scalars
+as cosmological dark matter, Phys. Rev. D 95 (2017) 043541, [1610.08297].
+
+[7] Gendler, Naomi and Marsh, David J. E. and McAllister, Liam and Moritz, Jakob, Glimmers
+from the axiverse, JCAP 09 (2024) 071, [2309.13145].
+
+[8] Carroll, Sean M. and Field, George B., The Einstein equivalence principle and the polarization of
+radio galaxies, Phys. Rev. D 43 (1991) 3789.
+
+[9] Harari, Diego and Sikivie, Pierre, Effects of a Nambu-Goldstone boson on the polarization of
+radio galaxies and the cosmic microwave background, Phys. Lett. B 289 (1992) 67–72.
+
+[10] Carroll, Sean M., Quintessence and the rest of the world, AIP Conf. Proc. 478 (1999) 291–294.
+
+[11] Lue, Arthur and Wang, Li-Min and Kamionkowski, Marc, Cosmological signature of new parity
+violating interactions, Phys. Rev. Lett. 83 (1999) 1506–1509, [astro-ph/9812088].
+
+[12] Fedderke, Michael A. and Graham, Peter W. and Rajendran, Surjeet, Axion Dark Matter
+Detection with CMB Polarization, Phys. Rev. D 100 (2019) 015040, [1903.02666].
+
+[13] Fujita, Tomohiro and Murai, Kai and Nakatsuka, Hiromasa and Tsujikawa, Shinji, Detection of
+isotropic cosmic birefringence and its implications for axion-like particles including dark energy,
+Phys. Rev. D 103 (2021) 043509, [2011.11894].
+
+[14] CMB-S4 collaboration, Abazajian, Kevork N. and others, CMB-S4 Science Book, First
+Edition, 1610.02743.
+
+[15] Pogosian, Levon and Shimon, Meir and Mewes, Matthew and Keating, Brian, Future CMB
+constraints on cosmic birefringence and implications for fundamental physics, Phys. Rev. D 100
+(2019) 023507, [1904.07855].
+
+[16] BICEP/Keck collaboration, Ade, P. A. R. and others, BICEP/Keck XVIII: Measurement of
+BICEP3 polarization angles and consequences for constraining cosmic birefringence and inflation,
+2410.12089.
+
+[17] Minami, Yuto and Komatsu, Eiichiro, New Extraction of the Cosmic Birefringence from the
+Planck 2018 Polarization Data, Phys. Rev. Lett. 125 (2020) 221301, [2011.11254].
+
+[18] Diego-Palazuelos, P. and others, Cosmic Birefringence from the Planck Data Release 4, Phys.
+Rev. Lett. 128 (2022) 091302, [2201.07682].
+
+[19] Eskilt, J. R., Frequency-Dependent Constraints on Cosmic Birefringence from the LFI and HFI
+Planck Data Release 4, Astron. Astrophys. 662 (2022) A10, [2201.13347].
+
+[20] Eskilt, Johannes R. and Komatsu, Eiichiro, Improved Constraints on Cosmic Birefringence
+from the WMAP and Planck Cosmic Microwave Background Polarization Data, 2205.13962.
+
+– 19 –
+
+http://dx.doi.org/10.1051/0004-6361/201833910
+https://arxiv.org/abs/1807.06209
+https://arxiv.org/abs/2203.05728
+https://arxiv.org/abs/2203.07638
+http://dx.doi.org/10.1088/1126-6708/2006/06/051
+https://arxiv.org/abs/hep-th/0605206
+http://dx.doi.org/10.1103/PhysRevD.81.123530
+https://arxiv.org/abs/0905.4720
+http://dx.doi.org/10.1103/PhysRevD.95.043541
+https://arxiv.org/abs/1610.08297
+http://dx.doi.org/10.1088/1475-7516/2024/09/071
+https://arxiv.org/abs/2309.13145
+http://dx.doi.org/10.1103/PhysRevD.43.3789
+http://dx.doi.org/10.1016/0370-2693(92)91363-E
+http://dx.doi.org/10.1063/1.59405
+http://dx.doi.org/10.1103/PhysRevLett.83.1506
+https://arxiv.org/abs/astro-ph/9812088
+http://dx.doi.org/10.1103/PhysRevD.100.015040
+https://arxiv.org/abs/1903.02666
+http://dx.doi.org/10.1103/PhysRevD.103.043509
+https://arxiv.org/abs/2011.11894
+https://arxiv.org/abs/1610.02743
+http://dx.doi.org/10.1103/PhysRevD.100.023507
+http://dx.doi.org/10.1103/PhysRevD.100.023507
+https://arxiv.org/abs/1904.07855
+https://arxiv.org/abs/2410.12089
+http://dx.doi.org/10.1103/PhysRevLett.125.221301
+https://arxiv.org/abs/2011.11254
+http://dx.doi.org/10.1103/PhysRevLett.128.091302
+http://dx.doi.org/10.1103/PhysRevLett.128.091302
+https://arxiv.org/abs/2201.07682
+http://dx.doi.org/10.1051/0004-6361/202243269
+https://arxiv.org/abs/2201.13347
+https://arxiv.org/abs/2205.13962
+
+
+[21] Komatsu, Eiichiro, New physics from the polarized light of the cosmic microwave background,
+Nature Rev. Phys. 4 (2022) 452–469, [2202.13919].
+
+[22] Kibble, T. W. B., Topology of Cosmic Domains and Strings, J. Phys. A 9 (1976) 1387–1398.
+
+[23] Agrawal, Prateek and Hook, Anson and Huang, Junwu, A CMB Millikan experiment with
+cosmic axiverse strings, JHEP 07 (2020) 138, [1912.02823].
+
+[24] Huang, M. C. and Sikivie, P., The Structure of Axionic Domain Walls, Phys. Rev. D 32 (1985)
+1560.
+
+[25] Harvey, Jeffrey A. and Naculich, Stephen G., Cosmic Strings From Pseudoanomalous U(1)s,
+Phys. Lett. B 217 (1989) 231–237.
+
+[26] Jain, Mudit and Long, Andrew J. and Amin, Mustafa A., CMB birefringence from
+ultralight-axion string networks, JCAP 05 (2021) 055, [2103.10962].
+
+[27] Hagimoto, Ray and Long, Andrew J., Measures of non-Gaussianity in axion-string-induced
+CMB birefringence, JCAP 09 (2023) 024, [2306.07351].
+
+[28] Yin, Weichen Winston and Dai, Liang and Ferraro, Simone, Probing cosmic strings by
+reconstructing polarization rotation of the cosmic microwave background, 2111.12741.
+
+[29] Jain, Mudit and Hagimoto, Ray and Long, Andrew J. and Amin, Mustafa A., Searching for
+axion-like particles through CMB birefringence from string-wall networks, JCAP 10 (2022) 090,
+[2208.08391].
+
+[30] Yin, Weichen Winston and Dai, Liang and Huang, Junwu and Ji, Lingyuan and Ferraro,
+Simone, A New Probe of Cosmic Birefringence Using Galaxy Polarization and Shapes,
+2402.18568.
+
+[31] Sherwin, Blake D. and Namikawa, Toshiya, Cosmic birefringence tomography and calibration
+independence with reionization signals in the CMB, Mon. Not. Roy. Astron. Soc. 520 (2023)
+3298–3304, [2108.09287].
+
+[32] Namikawa, Toshiya, Tomographic constraint on anisotropic cosmic birefringence, 2410.05149.
+
+[33] Takahashi, Fuminobu and Yin, Wen, Kilobyte Cosmic Birefringence from ALP Domain Walls,
+2012.11576.
+
+[34] Gonzalez, Diego and Kitajima, Naoya and Takahashi, Fuminobu and Yin, Wen, Stability of
+domain wall network with initial inflationary fluctuations and its implications for cosmic
+birefringence, Phys. Lett. B 843 (2023) 137990, [2211.06849].
+
+[35] Kitajima, Naoya and Kozai, Fumiaki and Takahashi, Fuminobu and Yin, Wen, Power spectrum
+of domain-wall network and its implications for isotropic and anisotropic cosmic birefringence,
+2205.05083.
+
+[36] Ferreira, Ricardo Z. and Gasparotto, Silvia and Hiramatsu, Takashi and Obata, Ippei and
+Pujolas, Oriol, Axionic defects in the CMB: birefringence and gravitational waves, JCAP 05
+(2024) 066, [2312.14104].
+
+[37] Obata, Ippei, Implications of the Cosmic Birefringence Measurement for the Axion Dark
+Matter Search, 2108.02150.
+
+[38] Schmelzle, Jorit and Lucchi, Aurelien and Kacprzak, Tomasz and Amara, Adam and Sgier,
+Raphael and Réfrégier, Alexandre and Hofmann, Thomas, Cosmological model discrimination
+with Deep Learning, 1707.05167.
+
+[39] Peel, Austin and Lalande, Florian and Starck, Jean-Luc and Pettorino, Valeria and Merten,
+Julian and Giocoli, Carlo and Meneghetti, Massimo and Baldi, Marco, Distinguishing standard
+and modified gravity cosmologies with machine learning, Phys. Rev. D 100 (2019) 023508,
+[1810.11030].
+
+– 20 –
+
+http://dx.doi.org/10.1038/s42254-022-00452-4
+https://arxiv.org/abs/2202.13919
+http://dx.doi.org/10.1088/0305-4470/9/8/029
+http://dx.doi.org/10.1007/JHEP07(2020)138
+https://arxiv.org/abs/1912.02823
+http://dx.doi.org/10.1103/PhysRevD.32.1560
+http://dx.doi.org/10.1103/PhysRevD.32.1560
+http://dx.doi.org/10.1016/0370-2693(89)90857-5
+http://dx.doi.org/10.1088/1475-7516/2021/05/055
+https://arxiv.org/abs/2103.10962
+http://dx.doi.org/10.1088/1475-7516/2023/09/024
+https://arxiv.org/abs/2306.07351
+https://arxiv.org/abs/2111.12741
+http://dx.doi.org/10.1088/1475-7516/2022/10/090
+https://arxiv.org/abs/2208.08391
+https://arxiv.org/abs/2402.18568
+http://dx.doi.org/10.1093/mnras/stac3146
+http://dx.doi.org/10.1093/mnras/stac3146
+https://arxiv.org/abs/2108.09287
+https://arxiv.org/abs/2410.05149
+https://arxiv.org/abs/2012.11576
+http://dx.doi.org/10.1016/j.physletb.2023.137990
+https://arxiv.org/abs/2211.06849
+https://arxiv.org/abs/2205.05083
+http://dx.doi.org/10.1088/1475-7516/2024/05/066
+http://dx.doi.org/10.1088/1475-7516/2024/05/066
+https://arxiv.org/abs/2312.14104
+https://arxiv.org/abs/2108.02150
+https://arxiv.org/abs/1707.05167
+http://dx.doi.org/10.1103/PhysRevD.100.023508
+https://arxiv.org/abs/1810.11030
+
+
+[40] Ribli, Dezső and Pataki, Bálint Ármin and Zorrilla Matilla, José Manuel and Hsu, Daniel and
+Haiman, Zoltán and Csabai, István, Weak lensing cosmology with convolutional neural networks
+on noisy data, Mon. Not. Roy. Astron. Soc. 490 (2019) 1843–1860, [1902.03663].
+
+[41] Fluri, Janis and Kacprzak, Tomasz and Lucchi, Aurelien and Refregier, Alexandre and Amara,
+Adam and Hofmann, Thomas and Schneider, Aurel, Cosmological constraints with deep learning
+from KiDS-450 weak lensing maps, Phys. Rev. D 100 (2019) 063514, [1906.03156].
+
+[42] Hortua, Hector J. and Volpi, Riccardo and Marinelli, Dimitri and Malagò, Luigi, Parameter
+estimation for the cosmic microwave background with Bayesian neural networks, Phys. Rev. D
+102 (2020) 103509, [1911.08508].
+
+[43] Guzman, Eric and Meyers, Joel, Reconstructing cosmic polarization rotation with
+ResUNet-CMB, JCAP 01 (2022) 030, [2109.09715].
+
+[44] Taylor, Peter L. and Craigie, Matthew and Ting, Yuan-Sen, Unsupervised searches for
+cosmological parity violation: An investigation with convolutional neural networks, Phys. Rev. D
+109 (2024) 083518, [2312.09287].
+
+[45] Zhong, Kunhao and Gatti, Marco and Jain, Bhuvnesh, Improving convolutional neural networks
+for cosmological fields with random permutation, Phys. Rev. D 110 (2024) 043535, [2403.01368].
+
+[46] DES collaboration, Jeffrey, N. and others, Dark Energy Survey Year 3 results: likelihood-free,
+simulation-based wCDM inference with neural compression of weak-lensing map statistics,
+2403.02314.
+
+[47] Defferrard, Michaël and Milani, Martino and Gusset, Frédérick and Perraudin, Nathanaël,
+DeepSphere: a graph-based spherical CNN, in International Conference on Learning
+Representations (ICLR), 2020.
+
+[48] Defferrard, Michaël and Perraudin, Nathanaël and Kacprzak, Tomasz and Sgier, Raphael,
+DeepSphere: towards an equivariant graph-based spherical CNN, in ICLR Workshop on
+Representation Learning on Graphs and Manifolds, 2019. 1904.05146.
+
+[49] Perraudin, Nathanaël and Defferrard, Michaël and Kacprzak, Tomasz and Sgier, Raphael,
+DeepSphere: Efficient spherical convolutional neural network with HEALPix sampling for
+cosmological applications, Astronomy and Computing 27 (Apr., 2019) 130–146, [1810.12186].
+
+[50] Fluri, Janis and Kacprzak, Tomasz and Lucchi, Aurelien and Schneider, Aurel and Refregier,
+Alexandre and Hofmann, Thomas, Full wCDM analysis of KiDS-1000 weak lensing maps using
+deep learning, Phys. Rev. D 105 (2022) 083518, [2201.07771].
+
+[51] Yin, Weichen Winston and Dai, Liang and Ferraro, Simone, Testing charge quantization with
+axion string-induced cosmic birefringence, JCAP 07 (2023) 052, [2305.02318].
+
+[52] Jain, Mudit and Vilenkin, Alexander, Clustering of cosmic string loops, JCAP 09 (2020) 043,
+[2006.15358].
+
+[53] Yamaguchi, Masahide and Kawasaki, M. and Yokoyama, Jun’ichi, Evolution of axionic strings
+and spectrum of axions radiated from them, Phys. Rev. Lett. 82 (1999) 4578–4581,
+[hep-ph/9811311].
+
+[54] Yamaguchi, Masahide and Yokoyama, Jun’ichi, Quantitative evolution of global strings from the
+Lagrangian view point, Phys. Rev. D 67 (2003) 103514, [hep-ph/0210343].
+
+[55] Hiramatsu, Takashi and Kawasaki, Masahiro and Sekiguchi, Toyokazu and Yamaguchi,
+Masahide and Yokoyama, Jun’ichi, Improved estimation of radiated axions from cosmological
+axionic strings, Phys. Rev. D 83 (2011) 123531, [1012.5502].
+
+[56] Hiramatsu, Takashi and Kawasaki, Masahiro and Saikawa, Ken’ichi and Sekiguchi, Toyokazu,
+Production of dark matter axions from collapse of string-wall systems, Phys. Rev. D 85 (2012)
+105020, [1202.5851].
+
+– 21 –
+
+http://dx.doi.org/10.1093/mnras/stz2610
+https://arxiv.org/abs/1902.03663
+http://dx.doi.org/10.1103/PhysRevD.100.063514
+https://arxiv.org/abs/1906.03156
+http://dx.doi.org/10.1103/PhysRevD.102.103509
+http://dx.doi.org/10.1103/PhysRevD.102.103509
+https://arxiv.org/abs/1911.08508
+http://dx.doi.org/10.1088/1475-7516/2022/01/030
+https://arxiv.org/abs/2109.09715
+http://dx.doi.org/10.1103/PhysRevD.109.083518
+http://dx.doi.org/10.1103/PhysRevD.109.083518
+https://arxiv.org/abs/2312.09287
+http://dx.doi.org/10.1103/PhysRevD.110.043535
+https://arxiv.org/abs/2403.01368
+https://arxiv.org/abs/2403.02314
+https://arxiv.org/abs/1904.05146
+http://dx.doi.org/10.1016/j.ascom.2019.03.004
+https://arxiv.org/abs/1810.12186
+http://dx.doi.org/10.1103/PhysRevD.105.083518
+https://arxiv.org/abs/2201.07771
+http://dx.doi.org/10.1088/1475-7516/2023/07/052
+https://arxiv.org/abs/2305.02318
+http://dx.doi.org/10.1088/1475-7516/2020/09/043
+https://arxiv.org/abs/2006.15358
+http://dx.doi.org/10.1103/PhysRevLett.82.4578
+https://arxiv.org/abs/hep-ph/9811311
+http://dx.doi.org/10.1103/PhysRevD.67.103514
+https://arxiv.org/abs/hep-ph/0210343
+http://dx.doi.org/10.1103/PhysRevD.83.123531
+https://arxiv.org/abs/1012.5502
+http://dx.doi.org/10.1103/PhysRevD.85.105020
+http://dx.doi.org/10.1103/PhysRevD.85.105020
+https://arxiv.org/abs/1202.5851
+
+
+[57] Kawasaki, Masahiro and Saikawa, Ken’ichi and Sekiguchi, Toyokazu, Axion dark matter from
+topological defects, Phys. Rev. D 91 (2015) 065014, [1412.0789].
+
+[58] Lopez-Eiguren, Asier and Lizarraga, Joanes and Hindmarsh, Mark and Urrestilla, Jon, Cosmic
+Microwave Background constraints for global strings and global monopoles, JCAP 07 (2017) 026,
+[1705.04154].
+
+[59] Gorghetto, Marco and Hardy, Edward and Villadoro, Giovanni, Axions from Strings: the
+Attractive Solution, JHEP 07 (2018) 151, [1806.04677].
+
+[60] Hindmarsh, Mark and Lizarraga, Joanes and Lopez-Eiguren, Asier and Urrestilla, Jon, Scaling
+Density of Axion Strings, Phys. Rev. Lett. 124 (2020) 021301, [1908.03522].
+
+[61] Gorghetto, Marco and Hardy, Edward and Villadoro, Giovanni, More Axions from Strings,
+2007.04990.
+
+[62] Hindmarsh, Mark and Lizarraga, Joanes and Lopez-Eiguren, Asier and Urrestilla, Jon,
+Approach to scaling in axion string networks, 2102.07723.
+
+[63] Górski, K. M. and Hivon, E. and Banday, A. J. and Wandelt, B. D. and Hansen, F. K. and
+Reinecke, M. and Bartelman, M., HEALPix - A Framework for high resolution discretization, and
+fast analysis of data distributed on the sphere, Astrophys. J. 622 (2005) 759–771,
+[astro-ph/0409513].
+
+[64] Shuman, David and Narang, Sunil and Frossard, Pascal and Ortega, Antonio and
+Vandergheynst, Pierre, The Emerging Field of Signal Processing on Graphs: Extending
+High-Dimensional Data Analysis to Networks and Other Irregular Domains, IEEE Signal
+Processing Magazine 30 (May, 2013) 83–98, [1211.0053].
+
+[65] Lin, Min and Chen, Qiang and Yan, Shuicheng, Network In Network, arXiv e-prints (Dec.,
+2013) arXiv:1312.4400, [1312.4400].
+
+[66] James, Gareth and Witten, Daniela and Hastie, Trevor and Tibshirani, Robert and others, An
+introduction to statistical learning, vol. 112. Springer, 2013.
+
+[67] Kingma, Diederik P, Adam: A method for stochastic optimization, arXiv preprint
+arXiv:1412.6980 (2014) .
+
+[68] Y. Fan and S. A. Sisson, Abc samplers, 2018.
+
+[69] Kamionkowski, Marc, How to De-Rotate the Cosmic Microwave Background Polarization, Phys.
+Rev. Lett. 102 (2009) 111302, [0810.1286].
+
+[70] Gluscevic, Vera and Kamionkowski, Marc and Cooray, Asantha, De-Rotation of the Cosmic
+Microwave Background Polarization: Full-Sky Formalism, Phys. Rev. D 80 (2009) 023510,
+[0905.1687].
+
+[71] Yadav, Amit P. S. and Biswas, Rahul and Su, Meng and Zaldarriaga, Matias, Constraining a
+spatially dependent rotation of the Cosmic Microwave Background Polarization, Phys. Rev. D 79
+(2009) 123009, [0902.4466].
+
+[72] POLARBEAR collaboration, Ade, Peter A. R. and others, POLARBEAR Constraints on
+Cosmic Birefringence and Primordial Magnetic Fields, Phys. Rev. D 92 (2015) 123509,
+[1509.02461].
+
+[73] Namikawa, Toshiya and others, Atacama Cosmology Telescope: Constraints on cosmic
+birefringence, Phys. Rev. D 101 (2020) 083527, [2001.10465].
+
+[74] SPT collaboration, Bianchini, F. and others, Searching for Anisotropic Cosmic Birefringence
+with Polarization Data from SPTpol, Phys. Rev. D 102 (2020) 083504, [2006.08061].
+
+[75] Fluri, Janis and Lucchi, Aurelien and Kacprzak, Tomasz and Refregier, Alexandre and
+Hofmann, Thomas, Cosmological parameter estimation and inference using deep summaries,
+Phys. Rev. D 104 (2021) 123526, [2107.09002].
+
+– 22 –
+
+http://dx.doi.org/10.1103/PhysRevD.91.065014
+https://arxiv.org/abs/1412.0789
+http://dx.doi.org/10.1088/1475-7516/2017/07/026
+https://arxiv.org/abs/1705.04154
+http://dx.doi.org/10.1007/JHEP07(2018)151
+https://arxiv.org/abs/1806.04677
+http://dx.doi.org/10.1103/PhysRevLett.124.021301
+https://arxiv.org/abs/1908.03522
+https://arxiv.org/abs/2007.04990
+https://arxiv.org/abs/2102.07723
+http://dx.doi.org/10.1086/427976
+https://arxiv.org/abs/astro-ph/0409513
+http://dx.doi.org/10.1109/MSP.2012.2235192
+http://dx.doi.org/10.1109/MSP.2012.2235192
+https://arxiv.org/abs/1211.0053
+http://dx.doi.org/10.48550/arXiv.1312.4400
+http://dx.doi.org/10.48550/arXiv.1312.4400
+https://arxiv.org/abs/1312.4400
+http://dx.doi.org/10.1103/PhysRevLett.102.111302
+http://dx.doi.org/10.1103/PhysRevLett.102.111302
+https://arxiv.org/abs/0810.1286
+http://dx.doi.org/10.1103/PhysRevD.80.023510
+https://arxiv.org/abs/0905.1687
+http://dx.doi.org/10.1103/PhysRevD.79.123009
+http://dx.doi.org/10.1103/PhysRevD.79.123009
+https://arxiv.org/abs/0902.4466
+http://dx.doi.org/10.1103/PhysRevD.92.123509
+https://arxiv.org/abs/1509.02461
+http://dx.doi.org/10.1103/PhysRevD.101.083527
+https://arxiv.org/abs/2001.10465
+http://dx.doi.org/10.1103/PhysRevD.102.083504
+https://arxiv.org/abs/2006.08061
+http://dx.doi.org/10.1103/PhysRevD.104.123526
+https://arxiv.org/abs/2107.09002
+
+	Introduction
+	Mock birefringence data simulation procedure
+	Neural network architecture and training
+	Validation of neural network performance
+	Estimator performance on known inputs
+	Approximate Bayesian computation
+	Interpretation of results
+
+	Estimator degradation due to noise
+	Summary and conclusion
+	Loop redshift probability density
+	Neural network architectures
+
