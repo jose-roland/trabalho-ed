@@ -1,13 +1,24 @@
 package converter;
 
-import org.apache.tika.Tika;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Scanner;
+
+import org.apache.tika.Tika;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PdfToTxtConverter {
+    private static final Logger logger = LoggerFactory.getLogger(PdfToTxtConverter.class);
+
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("> Inserir documentos: ");
+        String pdfDirectory = scanner.nextLine();
+
         // Caminho para o diretório que contém os PDFs e o diretório de saída para os arquivos TXT
-        String pdfDirectory = "C:/Code/teste/Teste/src/main/resources/input/";
+        // String pdfDirectory = "C:/Code/teste/Teste/src/main/resources/input/";
         String outputDirectory = "C:/Code/teste/Teste/src/main/resources/output/";
 
         int count = 1;
@@ -15,16 +26,18 @@ public class PdfToTxtConverter {
         // Cria o diretório de saída, se não existir
         File outputDir = new File(outputDirectory);
 
-        if (!outputDir.exists())
-            outputDir.mkdirs();
+        if (!outputDir.exists() && !outputDir.mkdirs())
+            System.err.println("Falha ao criar o diretório de saída.");
+        else
+            System.out.println("Diretório de saída criado ou já existe.");
 
         Tika tika = new Tika();
 
         // Obtém todos os arquivos PDF no diretório especificado
         File folder = new File(pdfDirectory);
-        File[] listOfFiles = folder.listFiles((dir, name) -> name.endsWith(".pdf"));  // Filtra apenas PDFs
+        File[] listOfFiles = folder.listFiles((file) -> file.getName().endsWith(".pdf"));
 
-        if (listOfFiles != null) {
+        if (listOfFiles != null)
             for (File pdfFile : listOfFiles) {
                 try {
                     // Lê o conteúdo do PDF
@@ -41,16 +54,12 @@ public class PdfToTxtConverter {
                     System.out.println(count + ". Conversão do arquivo " + pdfFile.getName() + " realizada com sucesso");
 
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println(count + ". Erro ao processar o arquivo " + pdfFile.getName());
+                    logger.error("{} Erro ao processar o arquivo {}", count, pdfFile.getName(), e);
                 }
 
                 count++;
             }
-        } else {
+        else
             System.out.println("Nenhum arquivo PDF encontrado no diretório.");
-        }
-
-        count = 1;
     }
 }
