@@ -3,7 +3,6 @@ package converter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
-
 import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,21 +11,20 @@ public class PdfToTxtConverter {
     private static final Logger logger = LoggerFactory.getLogger(PdfToTxtConverter.class);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("> Inserir documentos: ");
-        String pdfDirectory = scanner.nextLine();
-
         // Caminho para o diretório que contém os PDFs e o diretório de saída para os arquivos TXT
         // Usar esse aqui para teste: C:\Code\UFMS\estrutura-dados\trabalho\src\main\resources\input
         String outputDirectory = "C:/Code/UFMS/estrutura-dados/trabalho/src/main/resources/output/";
-
+        Scanner scanner = new Scanner(System.in);
         int count = 0;
+
+        System.out.print("> Inserir documentos: ");
+        String pdfDirectory = scanner.nextLine();
 
         Tika tika = new Tika();
 
         // Obtém todos os arquivos PDF no diretório especificado
         File folder = new File(pdfDirectory);
+
         File[] listOfFiles = folder.listFiles((file) -> file.getName().endsWith(".pdf"));
 
         if (listOfFiles != null) {
