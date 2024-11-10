@@ -1,0 +1,902 @@
+
+Fermionic transport through a driven quantum point contact:
+breakdown of Floquet thermalization beyond a critical driving frequency.
+
+Ivan V. Dudinets
+Russian Quantum Center, 30 Bolshoy Boulevard, building 1,
+
+Skolkovo Innovation Center territory, Moscow, 121205, Russia and
+Moscow Institute of Physics and Technology, Institutskii per. 9, Dolgoprudnyi, 141700, Russia
+
+Oleg Lychkovskiy
+Skolkovo Institute of Science and Technology, the territory of the Skolkovo Innovation Center,
+
+Bolshoy Boulevard, 30, p.1, Moscow 121205, Russia and
+Steklov Mathematical Institute of Russian Academy of Sciences, Gubkina str., 8, Moscow, 119991, Russia
+
+(Dated: November 8, 2024)
+
+We study a quantum system that consists of two fermionic chains coupled by a driven quantum
+point contact (QPC). The QPC contains a bond with a periodically varying tunneling amplitude.
+Initially the left chain is packed with fermions while the right one is empty. We numerically track
+the evolution of the system and demonstrate that, at frequencies above a critical one, the current
+through the QPC halts, and the particle imbalance between the chains remains forever. This implies
+a spectacular breakdown of the Floquet version of the eigenstate thermalization hypothesis which
+predicts a homogeneous particle density profile at large times. We confirm the effect for various
+driving protocols and interparticle interactions.
+
+Introduction. Leveraging a rich phenomenology of
+quantum transport is essential for the advancement of
+science and technology at nano- and microscales. The
+unceasing theoretical efforts in understanding this phe-
+nomenology are of crucial importance, as they provide
+the foundation to interpret experimental results, predict
+new phenomena, and guide the design of next-generation
+quantum and microelectronic devices [1–5].
+
+Here we contribute to these efforts by studying a sys-
+tem of two tight-binding fermionic chains connected by a
+quantum point contact (QPC) with a periodically driven
+tunneling amplitude, see Fig. 1. Initially, the left chain
+is filled by fermions while the right one is empty.
+
+This system has been studied previously in the case of
+noninteracting fermions [6]. It has been shown to exhibit
+a nonequilibrium phase transition under the variation of
+the driving frequency: while for low frequencies the QPC
+is conducting, for frequencies above the single-particle
+band gap the QPC turns to be insulating, and the initial
+imbalance of particle densities lasts forever [6].
+
+At first sight, the latter behavior should become im-
+possible when the interactions between the fermions come
+into play. This expectation is based on the Floquet ver-
+sion of the eigenstate thermalization hypothesis (the Flo-
+quet ETH) [7, 8] which is believed to hold for generic
+interacting periodically-driven quantum many-body sys-
+tems [7–13]. The Floquet ETH predicts that a state
+locally indistinguishable from the infinite-temperature
+thermal state will establish in the long run, which im-
+plies the homogeneous distribution of particles across
+both chains.
+
+Here we demonstrate that this expectation is wrong:
+the QPC remains insulating above a critical frequency
+even when the interactions between the fermions are on.
+
+This implies the breakdown of the Floquet ETH above
+the critical frequency.
+
+The rest of the Letter is organized as follows. In the
+next section we introduce our model, observables and
+methods. Then we report and interpret the results. Fi-
+nally, we discuss the results and give an outlook of pos-
+sible further developments.
+
+Model. The system under study consists of two
+one-dimensional chains harboring spinless fermions, see
+Fig. 1. The lengths of the chains are (L + 1) and L.
+They are chosen to be unequal to avoid degeneracies due
+to the reflection symmetry. The chains are connected by
+a driven QPC. The total Hamiltonian reads
+
+Ht = HL +HR + Vint + Vt, (1)
+
+Here HL and HR describe hopping along left and right
+chains, respectively,
+
+HL =− 1
+
+2
+
+L∑
+j=1
+
+(c†jcj+1 + c†j+1cj), (2)
+
+HR =− 1
+
+2
+
+2L∑
+j=L+2
+
+(c†jcj+1 + c†j+1cj), (3)
+
+cj are fermionic annihilation operators, Vint is the in-
+terparticle interaction term and Vt is the time-periodic
+Hamiltonian of the QPC acting exclusively on the pair
+of boundary sites, see Fig 1. Here we focus on the specific
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+98
+
+2v
+1 
+
+ [
+co
+
+nd
+-m
+
+at
+.s
+
+tr
+-e
+
+l]
+  7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+
+
+2
+
+FIG. 1. The system under study consists of two fermionic
+tight-binding chains coupled by a bond with a periodically
+driven tunneling amplitude. The bond constitutes the time-
+dependent quantum point contact.
+
+Vt and Vint,
+
+Vt = −1
+
+2
+ft
+
+(
+ĉ†L+1ĉL+2 + ĉ†L+2ĉL+1
+
+)
+, ft = sinωt,
+
+(4)
+
+Vint = U
+
+2L∑
+j=1
+
+njnj+1, (5)
+
+where ω is the driving frequency, nj = c†jcj is the particle
+number operator at the j’th site and U is the interaction
+strength. Other types of Vt and Vint are addressed in the
+Supplementary Material [14]. The noninteracting case of
+U = 0 was studied in ref. [6].
+The number of fermions is conserved and we fix it to
+
+be N = L + 1. Initially, the fermions fill the left chain,
+while the right chain is empty:
+
+Ψ0 =
+
+L+1∏
+j=1
+
+c†j
+
+ |vac⟩. (6)
+
+The state of the system Ψt evolves according to the
+Schrödinger equation i∂tΨt = HtΨt.
+We focus on a specific observable, the number of
+
+fermions in the right chain:
+
+NR =
+
+2L+1∑
+j=L+2
+
+nj . (7)
+
+Its expectation value ⟨NR⟩t = ⟨Ψt|NR|Ψt⟩ is initially zero
+and grows as a result of particle flow through the QPC.
+
+At large times NR is expected to fluctuate around its
+long-time average ⟨NR⟩∞ ≡ lim
+
+t→∞
+t−1
+
+∫ t
+
+0
+dt′⟨NR⟩t′ . In the
+
+absence of degeneracies in the Floquet spectrum, ⟨NR⟩∞
+can be computed as
+
+⟨NR⟩∞ =
+∑
+α
+
+|⟨Φα|Ψ0⟩|2⟨Φα|NR|Φα⟩, (8)
+
+where Φα are the Floquet eigenstates, i.e. eigenstates
+of the operator of quantum evolution over the driving
+period τ = 2π/ω.
+
+FIG. 2. Evolution of particle density for two driving frequen-
+cies. For a frequency below the critical one (left column) par-
+ticles tend to distribute uniformly over sites. For a frequency
+above the critical one (right column) the particle imbalance
+between the chains is retained. Dashed horizontal line delin-
+eates two chains.
+
+Results. We use the QuSpin package [15, 16] to nu-
+merically solve the Schrödinger equation and compute
+Floquet spectrum and eigenstates for finite systems of
+sizes up to 2L + 1 = 15. We do this for various fre-
+quencies. We find qualitative differences in the dynamics
+and Floquet eigenstates above and below some critical
+frequency ωc, see Fig. 3. For not too large interaction
+strengths U ≲ 1, this critical frequency approximately
+equals 2, as in the noninteracting case [6].
+For frequencies below the critical one the system
+
+evolves towards thermalization: particles flow from the
+left chain to the right one through the QPC and eventu-
+ally distribute uniformly across both chains, see Fig. 2
+and Fig. 3 (a). The equilibrium value ⟨NR⟩∞ coincides,
+up to small finite size corrections, with the value
+
+NR = N L/(2L+ 1) (9)
+
+obtained for the uniform distribution of particles over the
+
+
+
+3
+
+FIG. 3. (a) The number of particles in the right chain, ⟨NR⟩t, as a function of time for frequencies below (ω = 1.5) and above
+(ω = 2.5) the critical frequency. Steady state values computed according to eq. (8) are shown by horizontal dashed lines.
+The horizontal black line shows the value of NR corresponding to the uniform distribution of particles over the chains. The
+interaction strength is U = 0.5. The total number of sites and fermions is 2L+ 1 = 15 and N = 8, respectively. (b) Diagonal
+matrix elements of the operator NR in Floquet basis for different Floquet energies ϵα.
+
+FIG. 4. The scaling with the system size of (a) the steady state value ⟨NR⟩∞ and (b) the maximal deviation of the diagonal
+matrix element ⟨Φα|NR|Φα⟩ from the uniform value NR. The interaction strength is U = 0.5. One can see the quantitative
+difference in the scaling behavior for frequencies below and above the critical frequency ωc ≃ 2.
+
+sites of the system.
+
+In contrast, for frequencies above the critical one the
+QPC effectively turns insulating: the particles stay in the
+left chain and never come to the right one. In this case
+the equilibrium value ⟨NR⟩∞ is around zero, as shown in
+Fig. 2 and Fig. 3 (a).
+
+The diagonal matrix elements ⟨Φα|NR|Φα⟩ of NR over
+the Floquet basis is shown in Fig. 3 (b). The patterns
+below and above the critical frequency are distinctly dif-
+ferent. Below the critical frequency the matrix elements
+tightly concentrate around NR, consistent with the Flo-
+
+quet ETH.
+
+In contrast, above the critical frequency matrix el-
+ements are scattered over a wide interval, with mini-
+mum and maximal instances almost reaching minimal
+and maximal eigenvalues of NR, which are 0 and L, re-
+spectively.
+
+To check whether our results can be relevant in the
+thermodynamic limit, we perform a finite size scaling, see
+Fig. 4. In Fig. 4 (a) the scaling of the equilibrium value
+⟨NR⟩∞ is shown. One can see that for frequencies below
+the critical one it scales linearly with the system size, as
+
+
+
+4
+
+expected under the assumption of uniform particle distri-
+bution in equilibrium. In contrast, for frequencies above
+the critical one no growth is observed.
+
+In Fig. 4 (b) the Floquet ETH is tested directly. There
+we plot the maximal deviation ∆max of the diagonal ma-
+trix element ⟨Φα|NR|Φα⟩ from the uniform value NR
+
+(maximization is performed over all Floquet eigenstates),
+normalized to the system size:
+
+∆max = (2L+ 1)−1 max
+α
+
+∣∣∣⟨Φα|NR|Φα⟩ −NR
+
+∣∣∣. (10)
+
+If the Floquet ETH is valid, ∆max should decrease with
+the system size. This is indeed the case for frequencies
+below the critical one, as can be seen from 4 (b). In
+contrast, above the critical frequency this figure of merit
+stays approximately constant, indicting the breakdown
+of the Floquet ETH.
+
+We have verified that the above qualitative picture is
+robust with respect to variations of the interaction term
+Vint, as well as the periodic function ft that modulates
+the hopping amplitude in the QPC in eq. (4), provided
+it averages to zero over the period,
+
+∫ τ
+
+0
+ft dt = 0. The
+
+results for a number of exemplary models are presented
+in the Supplement [14].
+
+Discussion and outlook. To summarize, we have
+demonstrated a nonequilibrium phase transition between
+thermal and athermal phases in a periodically driven in-
+teracting disorder-free quantum many-body system. The
+system consists of two fermionic chains connected by a
+driven QPC. The transition occurs upon the variation of
+the driving frequency. For frequencies below the critical
+one the QPC is conducting, and the fermions eventually
+spread homogeneously across the chains, in accordance
+with the Floquet ETH. For frequencies exceeding the
+critical frequency, the QPC is insulating, and the initial
+particle imbalance between the chains remains forever,
+in stark contrast to the prediction based on the Floquet
+ETH.
+
+The above frequency dependence of the effect sharply
+distinguishes it from other known types of the Floquet
+thermalization breakdown. In particular, in non-generic
+Floquet systems featuring integrability, exact quantum
+many-body scars or Hilbert space fragmentation, the vi-
+olation of the Floquet ETH and the thermalization break-
+down typically take place for arbitrary driving frequen-
+cies, and athermal eigenstates often are independent on
+the frequency [17–23]. Alternatively, the breakdown or
+slowdown of thermalization can occur for a discrete set of
+frequencies in such systems [24–31]. A completely differ-
+ent frequency dependence of the Floquet ETH violation
+reported here may indicate a distinct origin of this vio-
+lation – a question left for further studies.
+
+It should be emphasized that the thermalization break-
+down reported here can not be explained by the Flo-
+quet prethermalization [32–36]. The latter phenomenon
+
+implies the thermalization slowdown at large frequen-
+cies, with the thermalization time depending exponen-
+tially on the frequency. If the system under study ex-
+hibited “mere” prethermalization, the particle imbalance
+between the chains would be eventually washed out. We
+know that this is not the case, since in finite systems
+under study we have access to arbitrary long times, as
+well as to the infinite-time averages (8). Furthermore,
+the critical frequency is not, in fact, large enough for
+the prethermalization mechanism to be effective, as we
+demonstrate in the Supplement [14].
+
+An intriguing question for further studies concerns the
+scope of the reported effect. While we have demonstrated
+its robustness in one-dimensional geometry, our numer-
+ical tests do not extend to higher dimensions. It is not
+uncommon when exotic out-of-equilibrium phenomena in
+one dimension have no counterparts in higher dimen-
+sions [37–42]. It is therefore reasonable to ask whether
+the reported type of the Floquet thermalization break-
+down extends beyond one-dimensional geometry. We
+note that this question, while challenging for numerical
+exploration, can perhaps be addressed with the state-of-
+the-art quantum simulators with planar arrangement of
+qubits [43–47].
+
+As a word of caution, we note that, in the case of non-
+interacting fermions, dissipation (caused e.g. by phonon-
+fermion interactions) destroys the phase transition and
+makes the QPC conducting at any frequency [48]. Likely
+it will have the same effect in the interacting case. This
+should be accounted for while conceiving experimental
+tests of the effect.
+
+Acknowledgments. We are grateful to Oleksandr
+Gamayun and Vincenzo Alba for extremely helpful dis-
+cussions and input at the initial stage of this study. A
+part of this work concerning numerical calculation of par-
+ticle number as a function of time (with the results pre-
+sented in Figs. 2 and 3 (a)) was supported by the Min-
+istry of Science and Higher Education of the Russian Fed-
+eration (project no. 075-15-2020-788).
+
+[1] Yuli V Nazarov and Yaroslav M Blanter, Quantum trans-
+port: introduction to nanoscience (Cambridge university
+press, 2009).
+
+[2] Gloria Platero and Ramón Aguado, “Photon-assisted
+transport in semiconductor nanostructures,” Physics Re-
+ports 395, 1–157 (2004).
+
+[3] Sigmund Kohler, Jorg Lehmann, and Peter Hanggi,
+“Driven quantum transport on the nanoscale,” Physics
+Reports 406, 379–443 (2005).
+
+[4] Dmitry A Ryndyk et al., “Theory of quantum trans-
+port at nanoscale,” Springer Series in Solid-State Sci-
+ences 184, 9 (2016).
+
+[5] Gabriel T. Landi, Dario Poletti, and Gernot Schaller,
+“Nonequilibrium boundary-driven quantum systems:
+Models, methods, and properties,” Rev. Mod. Phys. 94,
+
+http://dx.doi.org/ https://doi.org/10.1016/j.physrep.2004.01.004
+http://dx.doi.org/ https://doi.org/10.1016/j.physrep.2004.01.004
+http://dx.doi.org/ https://doi.org/10.1016/j.physrep.2004.11.002
+http://dx.doi.org/ https://doi.org/10.1016/j.physrep.2004.11.002
+http://dx.doi.org/10.1103/RevModPhys.94.045006
+
+
+5
+
+045006 (2022).
+[6] Oleksandr Gamayun, Artur Slobodeniuk, Jean-Sébastien
+
+Caux, and Oleg Lychkovskiy, “Nonequilibrium phase
+transition in transport through a driven quantum point
+contact,” Physical Review B 103, L041405 (2021).
+
+[7] Achilleas Lazarides, Arnab Das, and Roderich Moessner,
+“Equilibrium states of generic quantum systems subject
+to periodic driving,” Phys. Rev. E 90, 012110 (2014).
+
+[8] Luca D’Alessio and Marcos Rigol, “Long-time behavior of
+isolated periodically driven interacting lattice systems,”
+Phys. Rev. X 4, 041048 (2014).
+
+[9] Karthik Seetharam, Paraj Titum, Michael Kolodrubetz,
+and Gil Refael, “Absence of thermalization in finite iso-
+lated interacting floquet systems,” Phys. Rev. B 97,
+014311 (2018).
+
+[10] Bingtian Ye, Francisco Machado, Christopher David
+White, Roger S. K. Mong, and Norman Y. Yao, “Emer-
+gent hydrodynamics in nonequilibrium quantum sys-
+tems,” Phys. Rev. Lett. 125, 030601 (2020).
+
+[11] Andrea Pizzi, Daniel Malz, Giuseppe De Tomasi, Jo-
+hannes Knolle, and Andreas Nunnenkamp, “Time crys-
+tallinity and finite-size effects in clean floquet systems,”
+Phys. Rev. B 102, 214207 (2020).
+
+[12] Tatsuhiko N. Ikeda and Anatoli Polkovnikov, “Fermi’s
+golden rule for heating in strongly driven floquet sys-
+tems,” Phys. Rev. B 104, 134308 (2021).
+
+[13] Alan Morningstar, David A. Huse, and Vedika Khemani,
+“Universality classes of thermalization for mesoscopic flo-
+quet systems,” Phys. Rev. B 108, 174303 (2023).
+
+[14] See the Supplemental Material for results on various
+types of QPCs and interparticle interactions, as well as
+for an estimate of the prethermalization timescale.
+
+[15] Phillip Weinberg and Marin Bukov, “QuSpin: a Python
+package for dynamics and exact diagonalisation of quan-
+tum many body systems part I: spin chains,” SciPost
+Phys. 2, 003 (2017).
+
+[16] Phillip Weinberg and Marin Bukov, “QuSpin: a Python
+package for dynamics and exact diagonalisation of quan-
+tum many body systems. Part II: bosons, fermions and
+higher spins,” SciPost Phys. 7, 020 (2019).
+
+[17] Vladimir Gritsev and Anatoli Polkovnikov, “Integrable
+Floquet dynamics,” SciPost Phys. 2, 021 (2017).
+
+[18] Kaoru Mizuta, Kazuaki Takasan, and Norio Kawakami,
+“Exact floquet quantum many-body scars under rydberg
+blockade,” Phys. Rev. Res. 2, 033284 (2020).
+
+[19] H. Yarloo, A. Emami Kopaei, and A. Langari, “Homo-
+geneous floquet time crystal from weak ergodicity break-
+ing,” Phys. Rev. B 102, 224309 (2020).
+
+[20] Vedika Khemani, Michael Hermele, and Rahul Nandk-
+ishore, “Localization from hilbert space shattering: From
+theory to physical realizations,” Phys. Rev. B 101,
+174204 (2020).
+
+[21] Bhaskar Mukherjee, Sourav Nandy, Arnab Sen, Dip-
+timan Sen, and K. Sengupta, “Collapse and revival
+of quantum many-body scars via floquet engineering,”
+Phys. Rev. B 101, 245107 (2020).
+
+[22] Sanjay Moudgalya, B Andrei Bernevig, and Nicolas
+Regnault, “Quantum many-body scars and hilbert space
+fragmentation: a review of exact results,” Reports on
+Progress in Physics 85, 086501 (2022).
+
+[23] Alexander Teretenkov and Oleg Lychkovskiy, “Duality
+between open systems and closed bilayer systems, and
+thermofield double states as quantum many-body scars,”
+arXiv preprint arXiv:2304.03155 (2023).
+
+[24] Arnab Das, “Exotic freezing of response in a quantum
+many-body system,” Phys. Rev. B 82, 172402 (2010).
+
+[25] Sirshendu Bhattacharyya, Arnab Das, and Subinay Das-
+gupta, “Transverse ising chain under periodic instan-
+taneous quenches: Dynamical many-body freezing and
+emergence of slow solitary oscillations,” Phys. Rev. B 86,
+054410 (2012).
+
+[26] Asmi Haldar, Roderich Moessner, and Arnab Das, “On-
+set of floquet thermalization,” Phys. Rev. B 97, 245122
+(2018).
+
+[27] Asmi Haldar, Diptiman Sen, Roderich Moessner, and
+Arnab Das, “Dynamical freezing and scar points in
+strongly driven floquet matter: Resonance vs emergent
+conservation laws,” Phys. Rev. X 11, 021008 (2021).
+
+[28] Christoph Fleckenstein and Marin Bukov, “Prethermal-
+ization and thermalization in periodically driven many-
+body systems away from the high-frequency limit,” Phys.
+Rev. B 103, L140302 (2021).
+
+[29] Sho Sugiura, Tomotaka Kuwahara, and Keiji Saito,
+“Many-body scar state intrinsic to periodically driven
+system,” Phys. Rev. Res. 3, L012010 (2021).
+
+[30] Sreemayee Aditya and Diptiman Sen, “Dynamical local-
+ization and slow thermalization in a class of disorder-free
+periodically driven one-dimensional interacting systems,”
+SciPost Phys. Core 6, 083 (2023).
+
+[31] Somsubhra Ghosh, Indranil Paul, and K. Sengupta,
+“Prethermal fragmentation in a periodically driven
+fermionic chain,” Phys. Rev. Lett. 130, 120401 (2023).
+
+[32] Dmitry A. Abanin, Wojciech De Roeck, and Fran-
+cois Huveneers, “Exponentially slow heating in period-
+ically driven many-body systems,” Phys. Rev. Lett. 115,
+256803 (2015).
+
+[33] Takashi Mori, Tomotaka Kuwahara, and Keiji Saito,
+“Rigorous bound on energy absorption and generic re-
+laxation in periodically driven quantum systems,” Phys.
+Rev. Lett. 116, 120401 (2016).
+
+[34] Antonio Rubio-Abadal, Matteo Ippoliti, Simon Hollerith,
+David Wei, Jun Rui, S. L. Sondhi, Vedika Khemani,
+Christian Gross, and Immanuel Bloch, “Floquet prether-
+malization in a bose-hubbard system,” Phys. Rev. X 10,
+021044 (2020).
+
+[35] William Beatrez, Otto Janes, Amala Akkiraju, Arjun Pil-
+lai, Alexander Oddo, Paul Reshetikhin, Emanuel Druga,
+Maxwell McAllister, Mark Elo, Benjamin Gilbert, Dieter
+Suter, and Ashok Ajoy, “Floquet prethermalization with
+lifetime exceeding 90 s in a bulk hyperpolarized solid,”
+Phys. Rev. Lett. 127, 170603 (2021).
+
+[36] Wen Wei Ho, Takashi Mori, Dmitry A. Abanin, and
+Emanuele G. Dalla Torre, “Quantum and classical flo-
+quet prethermalization,” Annals of Physics 454, 169297
+(2023).
+
+[37] M. B. Zvonarev, V. V. Cheianov, and T. Giamarchi,
+“Spin dynamics in a one-dimensional ferromagnetic bose
+gas,” Phys. Rev. Lett. 99, 240404 (2007).
+
+[38] Michael Knap, Charles J. M. Mathy, Martin Ganahl,
+Mikhail B. Zvonarev, and Eugene Demler, “Quantum
+flutter: Signatures and robustness,” Phys. Rev. Lett.
+112, 015302 (2014).
+
+[39] E. Burovski, V. Cheianov, O. Gamayun, and O. Ly-
+chkovskiy, “Momentum relaxation of a mobile impurity
+in a one-dimensional quantum gas,” Phys. Rev. A 89,
+041601 (2014).
+
+[40] O. Lychkovskiy, “Perpetual motion of a mobile impurity
+in a one-dimensional quantum gas,” Phys. Rev. A 89,
+
+http://dx.doi.org/10.1103/RevModPhys.94.045006
+http://dx.doi.org/ 10.1103/PhysRevB.103.L041405
+http://dx.doi.org/10.1103/PhysRevE.90.012110
+http://dx.doi.org/10.1103/PhysRevX.4.041048
+http://dx.doi.org/10.1103/PhysRevB.97.014311
+http://dx.doi.org/10.1103/PhysRevB.97.014311
+http://dx.doi.org/10.1103/PhysRevLett.125.030601
+http://dx.doi.org/ 10.1103/PhysRevB.102.214207
+http://dx.doi.org/10.1103/PhysRevB.104.134308
+http://dx.doi.org/ 10.1103/PhysRevB.108.174303
+http://dx.doi.org/10.21468/SciPostPhys.2.1.003
+http://dx.doi.org/10.21468/SciPostPhys.2.1.003
+http://dx.doi.org/ 10.21468/SciPostPhys.7.2.020
+http://dx.doi.org/ 10.21468/SciPostPhys.2.3.021
+http://dx.doi.org/ 10.1103/PhysRevResearch.2.033284
+http://dx.doi.org/ 10.1103/PhysRevB.102.224309
+http://dx.doi.org/10.1103/PhysRevB.101.174204
+http://dx.doi.org/10.1103/PhysRevB.101.174204
+http://dx.doi.org/ 10.1103/PhysRevB.101.245107
+http://dx.doi.org/10.1088/1361-6633/ac73a0
+http://dx.doi.org/10.1088/1361-6633/ac73a0
+http://dx.doi.org/ 10.1103/PhysRevB.82.172402
+http://dx.doi.org/10.1103/PhysRevB.86.054410
+http://dx.doi.org/10.1103/PhysRevB.86.054410
+http://dx.doi.org/10.1103/PhysRevB.97.245122
+http://dx.doi.org/10.1103/PhysRevB.97.245122
+http://dx.doi.org/10.1103/PhysRevX.11.021008
+http://dx.doi.org/ 10.1103/PhysRevB.103.L140302
+http://dx.doi.org/ 10.1103/PhysRevB.103.L140302
+http://dx.doi.org/ 10.1103/PhysRevResearch.3.L012010
+http://dx.doi.org/ 10.21468/SciPostPhysCore.6.4.083
+http://dx.doi.org/10.1103/PhysRevLett.130.120401
+http://dx.doi.org/10.1103/PhysRevLett.115.256803
+http://dx.doi.org/10.1103/PhysRevLett.115.256803
+http://dx.doi.org/10.1103/PhysRevLett.116.120401
+http://dx.doi.org/10.1103/PhysRevLett.116.120401
+http://dx.doi.org/10.1103/PhysRevX.10.021044
+http://dx.doi.org/10.1103/PhysRevX.10.021044
+http://dx.doi.org/10.1103/PhysRevLett.127.170603
+http://dx.doi.org/ https://doi.org/10.1016/j.aop.2023.169297
+http://dx.doi.org/ https://doi.org/10.1016/j.aop.2023.169297
+http://dx.doi.org/ 10.1103/PhysRevLett.99.240404
+http://dx.doi.org/10.1103/PhysRevLett.112.015302
+http://dx.doi.org/10.1103/PhysRevLett.112.015302
+http://dx.doi.org/ 10.1103/PhysRevA.89.041601
+http://dx.doi.org/ 10.1103/PhysRevA.89.041601
+http://dx.doi.org/10.1103/PhysRevA.89.033619
+
+
+6
+
+033619 (2014).
+[41] O. Lychkovskiy, “Perpetual motion and driven dynamics
+
+of a mobile impurity in a quantum fluid,” Phys. Rev. A
+91, 040101(R) (2015).
+
+[42] B. Bertini, F. Heidrich-Meisner, C. Karrasch, T. Prosen,
+R. Steinigeweg, and M. Znidaric, “Finite-temperature
+transport in one-dimensional quantum lattice models,”
+Rev. Mod. Phys. 93, 025003 (2021).
+
+[43] Frank Arute, Kunal Arya, Ryan Babbush, Dave Bacon,
+Joseph C Bardin, Rami Barends, Rupak Biswas, Sergio
+Boixo, Fernando GSL Brandao, David A Buell, et al.,
+“Quantum supremacy using a programmable supercon-
+ducting processor,” Nature 574, 505–510 (2019).
+
+[44] Ming Gong, Shiyu Wang, Chen Zha, Ming-Cheng Chen,
+He-Liang Huang, Yulin Wu, Qingling Zhu, Youwei Zhao,
+Shaowei Li, Shaojun Guo, Haoran Qian, Yangsen Ye,
+Fusheng Chen, Chong Ying, Jiale Yu, Daojin Fan,
+Dachao Wu, Hong Su, Hui Deng, Hao Rong, Kaili Zhang,
+Sirui Cao, Jin Lin, Yu Xu, Lihua Sun, Cheng Guo, Na Li,
+Futian Liang, V. M. Bastidas, Kae Nemoto, W. J. Munro,
+Yong-Heng Huo, Chao-Yang Lu, Cheng-Zhi Peng, Xi-
+aobo Zhu, and Jian-Wei Pan, “Quantum walks on a
+programmable two-dimensional 62-qubit superconduct-
+ing processor,” Science 372, 948–952 (2021).
+
+[45] Sepehr Ebadi, Tout T. Wang, Harry Levine, Alexander
+Keesling, Giulia Semeghini, Ahmed Omran, Daniel Blu-
+vstein, Rhine Samajdar, Hannes Pichler, Wen Wei Ho,
+et al., “Quantum phases of matter on a 256-atom pro-
+grammable quantum simulator,” Nature 595, 227–232
+(2021).
+
+[46] Pascal Scholl, Michael Schuler, Hayden Williams, Astrid
+Eberharter, Daniel Barredo, Konrad Schymik, Vincent
+Lienhard, Louis-Paul Henry, Thomas Boulier, Robert
+Blumel, et al., “Quantum simulation of 2d ising models
+using rydberg atoms,” Nature 595, 233–238 (2021).
+
+[47] Vincent Lienhard, Sylvain de Leseleuc, Daniel Barredo,
+Thierry Lahaye, and Antoine Browaeys, “Observing a
+many-body quantum transition using a 51-atom quantum
+simulator,” Nature 573, 569–573 (2018).
+
+[48] Igor Ermakov and Oleg Lychkovskiy, “Effect of dephasing
+on the current through a periodically driven quantum
+point contact,” JETP Letters 119, 40–45 (2024).
+
+http://dx.doi.org/10.1103/PhysRevA.89.033619
+http://dx.doi.org/10.1103/PhysRevA.91.040101
+http://dx.doi.org/10.1103/PhysRevA.91.040101
+http://dx.doi.org/ 10.1103/RevModPhys.93.025003
+http://dx.doi.org/10.1038/s41586-019-1666-5
+http://dx.doi.org/ 10.1126/science.abg7812
+http://dx.doi.org/ 10.1038/s41586-021-03582-4
+http://dx.doi.org/ 10.1038/s41586-021-03582-4
+http://dx.doi.org/ 10.1038/s41586-021-03585-1
+http://dx.doi.org/10.1038/nature24622
+http://dx.doi.org/10.1134/S0021364023603299
+
+
+7
+
+Supplementary material
+to the Letter
+
+“Fermionic transport through a driven quantum point contact:
+breakdown of Floquet thermalization beyond a critical driving frequency”
+
+by Ivan V. Dudinets and Oleg Lychkovskiy.
+
+S1. Various driving protocols
+
+Here we present results for various driving protocols ft in eq. (4). The protocols under study are shown in Fig. S1.
+The results are shown in Figs. S2— S5. One can see that they are qualitatively similar to the results reported in the
+main text.
+
+FIG. S1. Plot of the driving protocols, ft, as a function of time. Here the driving frequency is set to 1.
+
+S2. A QPC with on-site potential
+
+It was found in ref. [6] that, in the noninteracting case, an alternating on-site potential within the QPC typically
+destroys the effect and ensures the current flow at any frequency. However, a notable exception was found for the
+QPC term Vt given by
+
+Vt = −1
+
+2
+
+(
+ĉ†L+1 ĉL+2
+
+)(
+gt ft
+ft −gt
+
+)(
+ĉ†L+1
+
+ĉL+2
+
+)
+. (S1)
+
+with the tunneling amplitude ft = sin(ωt) and on-site potential gt = sin(ωt). We have found the same qualitative
+picture in the interacting case. In particular, the current halts completely for the above Vt, as shown in Fig. S6.
+
+S3. Various interaction terms
+
+We have verified that the physical picture remains the same for various types of interaction terms. As an illustration,
+we show in Fig. S7 the results for
+
+Vint = U
+
+2L∑
+j=1
+
+njnj+1 + U ′
+2L−1∑
+j=1
+
+njnj+2, (S2)
+
+where U and U ′ are two interaction constants.
+
+
+
+8
+
+FIG. S2. Results for the driving protocol ft = −sign
+(
+tmod 2π
+
+ω
+− π
+
+ω
+
+)
+. The interaction strength is U = 0.5. (a) The number
+
+of particles in the right chain, ⟨NR⟩t, as a function of time for frequencies below (ω = 1.5) and above (ω = 2.5) the critical
+frequency ωc ≃ 2. Horizontal dashed lines correspond to steady state values computed according to eq. (8). The horizontal
+black line shows the value of NR corresponding to the uniform distribution of particles over the chains. (b) Diagonal matrix
+elements of the operator NR in Floquet basis for different Floquet energies ϵα. In Figs. (a) and (b) the system comprises
+2L + 1 = 15 sites and N = 8 fermions. (c) The steady state value ⟨NR⟩∞ for the system of various sizes. (d) The maximal
+deviation of the diagonal matrix element ⟨Φα|NR|Φα⟩ from the uniform value NR.
+
+
+
+9
+
+FIG. S3. The same as in Fig. S2 except for the driving protocol ft =
+2
+π
+arctan (sin 10ωt).
+
+
+
+10
+
+FIG. S4. The same as in Fig. S2 except for the driving protocol ft =
+2
+π
+arcsin (sinωt).
+
+
+
+11
+
+FIG. S5. The same as in Fig. S2 except for the driving protocol ft =
+80
+π2
+
+∑4
+j=1
+
+(−1)j+1
+
+(2j+1)2
+sinωt.
+
+
+
+12
+
+FIG. S6. The same as in Fig. S2 except for the QPC Hamiltonian Vt given by eq. (S1) with the tunneling amplitude ft = sinωt
+and on-site potential gt = sinωt.
+
+
+
+13
+
+FIG. S7. The same as in Fig. S2 except for the driving protocol ft = sinωt and the interaction term Vint given by eq. (S2)
+with U = U ′ = 0.5.
+
+.
+
+
+
+14
+
+S4. Estimate of the prethermalization time and energy scales
+
+A conservative estimate Λ of the prethermalization energy scale is obtained as the sum of operator norms of
+Hamiltonian terms with a support covering a fixed site [36]. For our system (1)-(5) this implies Λ = 1 + 2U .
+The ratio of frequency-dependent thermalization timescales τth(ω) for two different frequencies is estimated as
+
+τth(ω2)/τth(ω1) ∼ exp ((ω2 − ω1)/Λ). For ω1 = 1.5, ω2 = 2.5 and U = 0.5 this estimate reads τth(ω2)/τth(ω1) ∼√
+e ≃ 1.6. Thus the prethermalization timescales for these two frequencies should be of the same order of magnitude.
+
+However, we clearly observe thermalization at the frequency ω1, with τth(ω1) ∼ 10, while no thermalization is observed
+at the frequency ω2 up to times ∼ 1000 τth(ω1). This argument confirms that the observed lack of thermalization can
+not be explained by “mere” prethermalization.
+
+
+	 Fermionic transport through a driven quantum point contact:  breakdown of Floquet thermalization beyond a critical driving frequency. 
+	Abstract
+	Acknowledgments
+	References
+	 Supplementary material  to the Letter  ``Fermionic transport through a driven quantum point contact:  breakdown of Floquet thermalization beyond a critical driving frequency'' by Ivan V. Dudinets and Oleg Lychkovskiy. 
+	S1. Various driving protocols
+	S2. A QPC with on-site potential
+	S3. Various interaction terms
+	S4. Estimate of the prethermalization time and energy scales 
+
+

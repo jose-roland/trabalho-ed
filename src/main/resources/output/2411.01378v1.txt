@@ -1,0 +1,14274 @@
+
+Draft version November 5, 2024
+Typeset using LATEX preprint style in AASTeX631
+
+New Cold Subdwarf Discoveries from Backyard Worlds and a Metallicity Classification
+System for T Subdwarfs
+
+Adam J. Burgasser,1 Adam C. Schneider,2 Aaron M. Meisner,3 Dan Caselden,4
+Chih-Chun Hsu,5 Roman Gerasimov,6 Christian Aganze,7, 8, 9 Emma Softich,1
+
+Preethi Karpoor,1 Christopher A. Theissen,1 Hunter Brooks,10 Thomas P. Bickle,11
+
+Jonathan Gagné,12 Étienne Artigau,13 Michaël Marsset,14 Austin Rothermich,4, 15, 16
+Jacqueline K. Faherty,17 J. Davy Kirkpatrick,18 Marc J. Kuchner,19
+
+Nikolaj Stevnbak Andersen,20 Paul Beaulieu,20 Guillaume Colin,20 Jean Marc Gantier,20
+Leopold Gramaize,20 Les Hamlet,20 Ken Hinckley,20 Martin Kabatnik,20 Frank Kiwy,20
+
+David W. Martin,20 Diego H. Massat,20 William Pendrill,20 Arttu Sainio,20
+Jörg Schümann,20 Melina Thévenot,20 Jim Walla,20 Zbigniew Wędracki,20
+
+The Backyard Worlds: Planet 9 Collaboration
+
+1Department of Astronomy & Astrophysics, UC San Diego, La Jolla, CA, USA
+2US Naval Observatory, Flagstaff Station, Flagstaff, AZ, USA
+
+3NSF’s National Optical-Infrared Astronomy Research Laboratory, 950 North Cherry Avenue, Tucson, AZ 85719, USA
+4Department of Astrophysics, American Museum of Natural History, Central Park West at 79th Street, NY 10024,
+
+USA
+5Center for Interdisciplinary Exploration and Research in Astrophysics (CIERA), Northwestern University, 1800
+
+Sherman, Evanston, IL 60201, USA
+6Department of Physics & Astronomy, University of Notre Dame, Notre Dame, IN 46556, USA
+
+7Center for Astrophysics and Space Sciences, Department of Physics, UC San Diego, La Jolla, CA, USA
+8Department of Physics & Astronomy, Stanford University, Stanford, CA 94305, USA
+
+9Stanford Science Fellow and Rubin Fellow
+10Department of Astronomy and Planetary Science, Northern Arizona University, Flagstaff, AZ 86011, USA
+
+11School of Physical Sciences, The Open University, Milton Keynes, MK7 6AA, UK
+12Planétarium Rio Tinto Alcan, Espace pour la Vie, 4801 av. Pierre-de Coubertin, Montréal, Québec, Canada
+
+13Institut Trottier de recherche sur les exoplanètes, Département de Physique, Université de Montréal, Montréal,
+Québec, Canada
+
+14European Southern Observatory, Alonso de Cordova 3107, 1900 Casilla Vitacura, Santiago, Chile
+15Department of Physics, Graduate Center, City University of New York, 365 5th Ave., New York, NY 10016, USA
+
+16Department of Physics and Astronomy, Hunter College, City University of New York, 695 Park Avenue, New York,
+NY, 10065, USA
+
+17Department of Astrophysics, American Museum of Natural History, New York, NY, USA
+18IPAC, Mail Code 100-22, Caltech, 1200 East California Boulevard, Pasadena, CA 91125, USA
+
+19Exoplanets and Stellar Astrophysics Laboratory, NASA Goddard Space Flight Center, 8800 Greenbelt Road,
+Greenbelt, MD 20771, USA
+
+20Backyard Worlds: Planet 9
+
+Corresponding author: Adam Burgasser
+aburgasser@ucsd.edu
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+01
+37
+
+8v
+1 
+
+ [
+as
+
+tr
+o-
+
+ph
+.S
+
+R
+] 
+
+ 2
+ N
+
+ov
+ 2
+
+02
+4
+
+http://orcid.org/0000-0002-6523-9536
+http://orcid.org/0000-0002-6294-5937
+http://orcid.org/0000-0002-1125-7384
+http://orcid.org/0000-0001-7896-5791
+http://orcid.org/0000-0002-5370-7494
+http://orcid.org/0000-0003-0398-639X
+http://orcid.org/0000-0003-2094-9128
+http://orcid.org/0000-0002-1420-1837
+http://orcid.org/0000-0002-1480-9041
+http://orcid.org/0000-0002-9807-5435
+http://orcid.org/0000-0002-5253-0383
+http://orcid.org/0000-0003-2235-761X
+http://orcid.org/0000-0002-2592-9612
+http://orcid.org/0000-0003-3506-5667
+http://orcid.org/0000-0001-8617-2425
+http://orcid.org/0000-0003-4083-9962
+http://orcid.org/0000-0001-6251-0573
+http://orcid.org/0000-0003-4269-260X
+http://orcid.org/0000-0002-2387-5489
+http://orcid.org/0000-0003-4714-3829
+http://orcid.org/0000-0002-7630-1243
+http://orcid.org/0000-0002-1044-1112
+http://orcid.org/0000-0002-8960-4964
+http://orcid.org/0000-0002-7389-2092
+http://orcid.org/0000-0002-4733-4927
+http://orcid.org/0000-0003-4905-1370
+http://orcid.org/0000-0001-8662-1622
+http://orcid.org/0000-0003-4864-5484
+http://orcid.org/0000-0002-7587-7195
+http://orcid.org/0000-0001-5284-9231
+mailto: aburgasser@ucsd.edu
+
+
+2 Burgasser et al.
+
+(Received TBD; Revised November 5, 2024; Accepted TBD)
+
+Submitted to ApJ
+
+ABSTRACT
+We report the results of a spectroscopic survey of candidate T subdwarfs iden-
+
+tified by the Backyard Worlds: Planet 9 program. Near-infrared spectra of 31
+sources with red J − W2 colors and large J-band reduced proper motions show
+varying signatures of subsolar metallicity, including strong collision-induced H2 ab-
+sorption, obscured methane and water features, and weak K I absorption. These
+metallicity signatures are supported by spectral model fits and 3D velocities, indi-
+cating thick disk and halo population membership for several sources. We identify
+three new metal-poor T subdwarfs ([M/H] ≲ −0.5), CWISE J062316.19+071505.6,
+WISEA J152443.14−262001.8, and CWISE J211250.11-052925.2; and 19 new “mild”
+subdwarfs with modest metal deficiency ([M/H] ≲ −0.25). We also identify three
+metal-rich brown dwarfs with thick disk kinematics. We provide kinematic evidence
+that the extreme L subdwarf 2MASS J053253.46+824646.5 and the mild T subdwarf
+CWISE J113010.07+313944.7 may be part of the Thamnos population, while the T
+subdwarf CWISE J155349.96+693355.2 may be part of the Helmi stream. We de-
+fine a metallicity classification system for T dwarfs that adds mild subdwarfs (d/sdT),
+subdwarfs (sdT), and extreme subdwarfs (esdT) to the existing dwarf sequence. We
+also define a metallicity spectral index that correlates with metallicities inferred from
+spectral model fits and iron abundances from stellar primaries of benchmark T dwarf
+companions. This expansion of the T dwarf classification system supports investiga-
+tions of ancient, metal-poor brown dwarfs now being uncovered in deep imaging and
+spectroscopic surveys.
+
+Keywords: Brown dwarfs (185) — L subdwarfs (896) — Stellar classification (1589) —
+T dwarfs (1679) — T subdwarfs (1680)
+
+1. INTRODUCTION
+
+Over the past 25 years, wide-field red optical and near-infrared surveys have dramatically expanded
+our census of the lowest-mass stars, brown dwarfs, and free-floating exoplanets, uncovering thousands
+of low temperature ultracool dwarfs (UCDs) that span the late-M, L, T, and Y dwarf spectral classes
+(Kirkpatrick et al. 1999; Burgasser et al. 2006b; Cushing et al. 2011). This sequence is well-sampled
+among solar-metallicity objects down to effective temperatures Teff ≈ 300 K (Luhman 2014), providing
+a rich sample for studying the formation, evolution, atmospheres, structures, and spatial distribution
+of objects that bridge the gap between the lowest mass stars and gas giant planets.
+
+Metal-poor ultracool subdwarfs, including members of the thick disk and halo populations of the
+Milky Way, remain a very small fraction (≲0.1%) of the currently known population. The rarity of
+these sources can be directly attributed to the sparsity of metal-poor halo stars in the vicinity of the
+Sun (≈0.5%; Jurić et al. 2008), the long-term cooling of brown dwarfs that makes old metal-poor
+objects cold and faint, and the relatively small distances (≲30 pc) to which low-temperature brown
+
+
+
+T Subdwarfs 3
+
+dwarfs can be detected. Nevertheless, metallicity variety among the known brown dwarf population
+is crucial for understanding how composition influences atmospheric chemistry, thermal evolution,
+interior structure, and the hydrogen burning mass threshold (Saumon et al. 1994; Baraffe et al. 1997;
+Burrows et al. 2011; Gerasimov et al. 2020). In addition, since UCDs have either long hydrogen
+fusion lifetimes (≳1012 yr; Laughlin et al. 1997) or never fuse, these objects record the conditions
+and chemical abundances of the earliest generations of star formation in the Milky Way (Burgasser
+2009; Lodieu et al. 2015; Caiazzo et al. 2017).
+
+While metal-poor M-type subdwarfs have been known for over 75 years (Joy 1947; Mould & McElroy
+1978; Gizis 1997; Lépine et al. 2007), significantly metal-poor brown dwarfs are a recent discovery.
+The first serendipitous discoveries of metal-poor L-type subdwarfs (Burgasser et al. 2003; Scholz et al.
+2004; Sivarani et al. 2009; Lodieu et al. 2010) were made with data from the Two Micron All-Sky
+Survey (hereafter 2MASS, Skrutskie et al. 2006), the Sloan Digital Sky Survey (hereafter SDSS,
+York et al. 2000), and the UKIRT Infrared Deep Sky Survey (hereafter UKIDSS, Lawrence et al.
+2007). These sources have distinct near-infrared colors and spectra compared to solar-metallicity L
+dwarfs, shaped by enhanced collision-induced H2 absorption (Linsky 1969; Burgasser et al. 2003) and
+metallicity-induced variations in optical molecular absorption and condensate formation (Gizis &
+Harvin 2006; Burgasser et al. 2007a; Gonzales et al. 2021). However, most L subdwarfs are low-mass
+stars, since brown dwarfs at the age of the Galactic thick disk and halo (≳8 Gyr; Kilic et al. 2017)
+have temperatures ≲1500 K, within the late-L and T dwarf regime (Burrows et al. 2001; Baraffe
+et al. 2003). While several modestly metal-poor T dwarfs ([M/H] ∼ −0.5) were found early on by
+wide-field surveys (Burgasser et al. 2002b; Burningham et al. 2014; Pinfield et al. 2014; Kellogg et al.
+2018) and as companions to metal-poor stars (Murray et al. 2011; Pinfield et al. 2012; Scholz 2010a;
+Burningham et al. 2013; Mace et al. 2013a), significantly metal-poor substellar T subdwarfs with
+[M/H] ≲ −1 were initially elusive.
+
+The first examples of true T subdwarfs were uncovered through the deep infrared photometry, multi-
+epoch astrometry, and search efforts of citizen scientists deployed by the Backyward Worlds: Planet 9
+program (BYW; Kuchner et al. 2017). This project aims to build the census of low-temperature brown
+dwarfs in the Solar Neighborhood by providing multi-epoch unWISE images (Lang 2014; Meisner
+et al. 2018; Schlafly et al. 2019) to citizen scientists who visually identify faint moving sources. This
+approach is particularly well-suited for finding low-temperature, nearby thick disk and halo brown
+dwarfs, whose large velocities translate into large proper motions. Schneider et al. (2020) reported the
+discovery of WISEA J041451.67−585456.7 and WISEA J181006.18−101000.5 (hereafter J0414−5854
+and J1810−1010), whose near-infrared spectra are indicative of both low temperatures (Teff ≲ 1300 K)
+and significantly subsolar metallicities ([M/H] ≲ −1). Meisner et al. (2020, 2021) subsequently
+reported three additional T subdwarf candidates in BYW data, one (WISE J155349.96+693355.2;
+hereafter J1553+6933) that exhibits spectroscopic evidence of modest subsolar metallicity ([M/H] ≈
+−0.5). Brooks et al. (2022) reported the BYW T subdwarf candidate, CWISE J052306.42−015355.4
+(hereafter J0523−0153) whose distinct J−W2 and W1−W2 colors and large proper motion suggest
+it is a metal-poor member of the thick disk or halo. Finally, WISEA J153429.75−104303.3 (hereafter
+WISE J1534−1043; aka, “The Accident”) may be the first known metal-poor Y subdwarf (Kirkpatrick
+et al. 2021a). Candidate thick disk and halo T subdwarfs have also been identified in deep multi-band
+imaging and spectroscopic surveys conducted with JWST (Nonino et al. 2023; Glazebrook et al. 2023;
+Wang et al. 2023; Burgasser et al. 2024; Hainline et al. 2024; Holwerda et al. 2024).
+
+
+
+4 Burgasser et al.
+
+Low-temperature subdwarf candidates are exceptionally faint, and most lack the spectroscopic val-
+idation or astrometric follow-up necessary to assess physical properties. Indeed, Lodieu et al. (2022)
+used improved spectroscopy, photometry, and a parallax measurement for J1810−1010 to conclude
+that it is both colder (Teff = 800±100 K, equivalent to a T7 dwarf) and more metal-poor ([Fe/H]
+= −1.5±0.5 dex) than originally estimated. This study also found evidence that J1810−1010 lacks
+methane absorption even in the strong 3.3 µm band, a defining trait for T dwarfs, suggesting signif-
+icantly modified atmospheric chemistry. Separately, Burgasser et al. (2024) have claimed evidence
+for modified PH3/CO2 chemistry in the distant T subdwarf UNCOVER-BD-3 identified with JWST,
+drawing an analogy to variations in CaH/TiO chemistry among metal-poor M subdwarfs, although
+this claim has yet to be verified (Beiler et al. 2024).
+
+In this article, we report spectroscopic follow-up of a sample of late-L and T subdwarf candidates
+uncovered by Backyward Worlds: Planet 9. In Section 2 we describe the selection of candidate T
+subdwarfs and summarize their associated photometric and astrometric properties. We also estimate
+distances for metal-poor candidates using new empirical color-magnitude relations based on late-L
+and T subdwarfs with parallax distance measurements. In Section 3 we describe new near-infrared
+spectroscopic observations of 24 candidates and three metal-poor L and T dwarf benchmarks. We
+also define comparison samples of solar metallicity and metal-poor brown dwarf spectra from the
+literature, including sources that match our selection criteria. In Section 4 we analyze these data,
+reporting classifications from dwarf standards and spectral indices, K I equivalent widths, spectral
+model fits, and radial velocities (RVs) from forward modeling. We also use estimated distances, proper
+motions, and RVs to compute 3D velocities and assess Galactic population membership. In Section 5
+we assess the status of our candidates, identifying three new T subdwarfs, 19 new slightly metal-poor
+T dwarfs, two brown dwarfs with exceptional Galactic orbits, and three apparently metal-rich brown
+dwarfs with thick disk kinematics. In Section 6 we use our full spectral sample to define anchors
+for a two-dimensional classification scheme for T dwarfs, extending the existing dwarf sequence to
+include mild subdwarfs (d/sdT), subdwarfs (sdT), and extreme subdwarfs (esdT). We also construct a
+calibrated metallicity index that correlates with model-fit metallicities and the iron abundances of the
+stellar primaries of benchmark T dwarf companions. In Section 7 we examine metallicity dependence
+in the temperature scale of T dwarfs, continued challenges in modeling T subdwarf spectra, and
+prospects for expanding the known cold subdwarf population. In Section 8 we summarize our results.
+
+2. BYW T SUBDWARF CANDIDATES
+
+2.1. Color and Reduced Proper Motion Selection
+
+The Backyard Worlds: Planet 9 program uses multi-epoch imaging data from the WISE mission
+to find faint, infrared moving sources, which are identified by a community of over 80,000 citizen
+scientists. Objects identified as moving point sources are matched to optical and near-infrared pho-
+tometry and astrometry from 2MASS, UKIDSS, CatWISE2020 (Marocco et al. 2021), Pan-STARRS
+DR1 (Chambers et al. 2016), Gaia DR3 (Gaia Collaboration et al. 2021), the UKIRT Hemisphere
+Survey (UHS; Dye et al. 2018), and the Vista Hemisphere Survey (VHS/VIKING; McMahon et al.
+2013). There are currently over 4,000 motion-confirmed cool brown dwarf candidates in the BYW
+sample, most without existing spectroscopic data. Of these, roughly 3,400 sources have well-measured
+J-band (2MASS, UHS/UKIRT, VHS/VIKING) and W2-band (WISE) photometry, as well as proper
+motions from CatWISE2020 or Gaia.
+
+
+
+T Subdwarfs 5
+
+1 2 3 4 5 6
+J-W2
+
+16
+
+18
+
+20
+
+22
+
+24
+
+26
+
+H J
+ =
+
+ J 
++ 
+
+5 
+lo
+
+g 1
+0
+
+ +
+ 5
+
+  BD+01 2920B
+
+  GJ576B  
+  Gliese570D
+
+  LHS6176B
+
+  Wolf1130C
+
+  G204-39B
+
+  HNPegB
+
+  Ross458C
+
+  J0013
+
+  J0414
+  J0523
+
+  J0833
+
+  J0937
+
+  J1316
+  J1553
+
+  J1810
+
+  J0939
+
+  J0532  
+
+  J1158  
+
+1 2 3 4 5 6
+J-W2
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+3.0
+
+3.5
+
+4.0
+
+W
+1-
+
+W
+2
+
+  GJ576B
+
+  Gliese570D
+
+  LHS6176B
+
+  Wolf1130C
+
+  G204-39B
+
+  HNPegB
+
+  Ross458C
+
+  J0414  J0523
+
+  J0937
+  J1316
+
+  J1553
+  J1810
+
+  J0939
+
+  J0532  
+  J1158  
+
+Figure 1. (Left) Selection of candidate T subdwarfs from BYW targets (small grey dots). Semi-transparent
+circles indicate disk late-M and L dwarfs (green), T dwarfs (magenta), and Y dwarfs (red) from the com-
+pilation of Best et al. (2018); while opaque circles indicate metal-poor objects from that compilation and
+from Zhang et al. (2018a). We label previously identified late-L (green triangles) and T (magenta triangles)
+subdwarf comparison sources and some of the benchmark companions (blue stars) from our spectroscopic
+sample (Tables 2 and 3). We delineate our selection criteria of J −W2 ≥ 2.25 mag and HJ ≥ 20.5 mag with
+dashed lines. All candidates are indicated by large magenta circles, while those with spectroscopic observa-
+tions reported in this study are further highlighted by black outlines. (Right): W1 − W2 versus J − W2
+color-color diagram of the same sample. Note that sources without W1 detections are not shown in this plot.
+
+Guided by the photometric and astrometric properties of previously identified L and T subdwarfs
+compiled in Zhang et al. (2018a), Meisner et al. (2021), and Brooks et al. (2022), and “normal” field
+ultracool dwarfs compiled in Best et al. (2018), we identified a series of selection criteria to isolate
+high-probability T subdwarf candidates. We imposed a color limit of J −W2 ≥ 2.25 mag to select
+sufficiently low temperature objects, and applied a reduced proper motion (RPM) constraint
+
+HJ ≡ J + 5 log10
+µ
+
+arcsec/yr
++ 5 = MJ + 5 log10
+
+Vtan
+
+4.74 km/s
+≥ 20.5 mag (1)
+
+to select sources with large tangential velocities, indicative of thick disk and halo objects (Figure 1).
+Note that unlike Meisner et al. (2021) and Brooks et al. (2022) we do not impose a W1−W2 color
+constraint, using HJ to segregate potential T subdwarfs from contaminant field late-L and T dwarfs.
+We further required µ/σµ > 5, J ≤ 18.5 mag and declination δ ≥ −35◦ to facilitate follow-up from
+Keck Observatory. We identified 95 candidate T subdwarfs, including 19 “high-priority” sources with
+measured J −K < −0.5 mag and/or estimated Vtan > 150 km/s, the latter based on color/absolute
+magnitude relations from Kirkpatrick et al. (2021a) or measured parallaxes. These candidates in-
+clude the previously identified T subdwarfs J1810−1010 and the sdT5 CWISE J113019.19-115811.3
+(hereafter J1130-1158; Kirkpatrick et al. 2021a). Here, we investigate a subset of 31 candidates with
+infrared spectroscopy.
+
+2.2. Photometric Distance Estimation
+
+
+
+6 Burgasser et al.
+
+The majority of our sample lack trigonometric parallaxes, and assessment of physical properties
+(temperature, radius) and population membership (kinematics) requires a distance estimate. Gonza-
+les et al. (2018) derived linear relationships between spectral type and absolute 2MASS JHKs and
+WISE W1W2 magnitudes for late-M and L subdwarfs, but these do not extend into the T dwarf
+regime. Zhang et al. (2019b) derived separate linear relationships between spectral type and abso-
+lute MKO Y JHK and WISE W1W2 magnitudes for L and for mid/late T subdwarfs (the latter
+encompassing relatively modest subsolar metallicities), but were unable to connect these due to the
+lack of L/T transition subdwarfs known at the time of that study. With several more cool subdwarfs
+now known, we revisited these analyses with a sample of 18 metal-poor late-L and T dwarfs with
+measured parallactic distances, either of the source or its primary companion1 (Table 1). Figure 2
+compares absolute J , W1, and W2 magnitudes to J−W2 and W1−W2 colors for this sample, as well
+as empirical relationships for subdwarfs from Gonzales et al. (2018) and Zhang et al. (2019b), and
+for dwarfs from Dupuy & Liu (2012). There are reasonably linear trends between color and absolute
+magnitude for these combinations, and good overlap with prior empirical relations for most of the
+metal-poor T dwarfs. However, the metal-poor late L dwarfs show considerable scatter, particularly
+in absolute W1 and W2 magnitudes where empirical dwarf relations become nearly vertical (a large
+range of absolute magnitudes over nearly constant color). In addition, both the esdT J1810−1010
+and the putative Y subdwarf J1534−1043 are significantly offset from the bulk of the sample in MW1
+
+versus J −W2, while J1534−1043 and the T subdwarf companion Wolf 1130C are offset in all of the
+absolute-magnitude versus W1 −W2 color samples. We therefore chose to estimate distances from
+MJ and MW2 versus J − W2 color-magnitude trends, fitting 16 sources over 1 mag ≤ J − W2 ≤
+8.5 mag to second order polynomials by linear least squares regression:
+
+MJ = 11.4103901 + 1.55433844[J −W2]− 0.01643861[J −W2]2 (2)
+
+MW2 = 11.41790678 + 0.53871427[J −W2]− 0.01195053[J −W2]2. (3)
+Both relations have a scatter of 0.44 mag, or 22% error in distance. For our analysis, we used the
+average of both relations to estimate distances, and include in our uncertainty estimates a 0.3 mag
+scatter in addition to the photometric uncertainties. We emphasize that these relations are based
+on a limited sample and require validation with a larger parallax sample of verified low-temperature
+subdwarfs.
+
+3. SPECTROSCOPIC OBSERVATIONS
+
+3.1. Keck/NIRES
+
+We obtained moderate-resolution near-infrared spectroscopy of 20 of our T subdwarf candidates
+with the Near-Infrared Echellette Spectrometer (NIRES; Wilson et al. 2004) on the Keck II 10m
+telescope. NIRES is a cross-dispersed spectrograph providing λ/∆λ ≈ 2700 spectra spanning 0.9–
+2.45 µm over four spectral orders, with a fixed 0.′′55×18′′ slit. Data were obtained between 2019
+October and 2024 January in various conditions (Table 2). All sources were observed with individual
+
+1 We exclude three sources from this sample: the esdL6 J0616-6407 and the sdT1 J0301−2319, whose measured parallaxes
+from Faherty et al. (2012) and Best et al. (2020) were deemed too low quality for this analysis; and the subdwarf
+candidate J0055+5947, a co-moving companion to the white dwarf LSPM J0055+5948 (Meisner et al. 2020), which
+does not appear to be significantly metal-poor. We also excluded previously reported subdwarfs J0004−2604 and
+J1055+5443 as our analysis and that of Robbins et al. (2023) indicate they are not significantly metal-poor.
+
+
+
+T Subdwarfs 7
+
+Table 1. Late-L and T Subdwarf Absolute Magnitude Standards
+
+Name SpTa J J − W2 W1 − W2 π MJ MW1 MW2 Ref.
+
+(mag) (mag) (mag) (mas) (mag) (mag) (mag)
+
+2MASS J085039.11-022154.3 d/sdL6.5 15.44±0.04 2.34±0.05 0.282±0.016 28.2±1.3 12.70±0.11 10.64±0.10 10.36±0.10 [1];[2]
+2MASS J11582077+0435014 d/sdL8 15.61±0.06 2.10±0.06 0.286±0.023 37±3 13.47±0.16 11.65±0.16 11.37±0.16 [1];[2]
+2MASS J053253.46+824646.5 esdL8: 15.18±0.06 1.50±0.06 0.596±0.016 40.71±0.15 13.23±0.06 12.328±0.013 11.732±0.014 [1];[2]
+2MASS J06453153−6646120 d/sdT0 15.525±0.009 2.227±0.017 0.441±0.023 54±3 14.18±0.12 12.39±0.12 11.95±0.12 [3];[4]
+
+WISEA 181006.18−101000.5b esdT3: 17.29±0.04 4.71±0.06 1.34±0.05 112±8 17.54±0.16 14.17±0.16 12.83±0.16 [5];[5]
+
+HD 65486B d/sdT4.5 15.78±0.02 1.92±0.03 1.91±0.04 54.157±0.018c 14.45±0.02 14.44±0.04 12.531±0.017 [6];[2]
+
+WISE J044853.28−193548.6 sdT5d 16.608±0.011 2.378±0.019 2.07±0.03 58±3 15.41±0.11 15.10±0.12 13.03±0.11 [3];[4]
+
+GJ 576B d/sdT5.5 16.59±0.02 2.284±0.023 1.90±0.03 52.51±0.02c 15.192±0.016 14.81±0.03 12.908±0.017 [7];[2]
+2MASS 09373487+2931409 sdT6 14.65±0.04 2.46±0.04 2.432±0.017 169.4±1.8 15.79±0.04 15.76±0.03 13.33±0.02 [1];[8]
+WISE J030919.67−501614.3 d/sdT7.5 17.10±0.02 3.437±0.021 3.06±0.05 67±4 16.22±0.13 15.85±0.13 12.79±0.13 [3];[9]
+
+ULAS J141623.94+134836.3 sdT7 17.26±0.02 4.428±0.020 3.21±0.03 107.7±0.2c 17.421±0.018 16.21±0.03 12.993±0.012 [7];[2]
+
+LHS 6176B d/sdT7.5 18.05±0.04 3.55±0.04 3.33±0.10 51.00±0.03c 16.58±0.04 16.36±0.10 13.03±0.02 [7];[2]
+
+HD 126053B sdT7.5 18.71±0.05 3.93±0.06 3.11±0.12 57.27±0.04c 17.50±0.05 16.67±0.12 13.57±0.03 [10];[2]
+
+WISE J083641.10−185947.0 sdT8d 19.10±0.12 3.97±0.09 2.50±0.09 44.2±2.2 17.33±0.16 15.85±0.14 13.36±0.11 [3];[4]
+2MASS J09393548−2448279 d/sdT8 15.700±0.007 4.082±0.011 3.31±0.02 196±10 17.16±0.12 16.39±0.12 13.08±0.12 [1],[7];[8]
+
+Wolf 1130C sdT6: 19.64±0.09 4.50±0.09 2.01±0.04 60.30±0.03c 18.54±0.09 16.06±0.04 14.04±0.02 [11];[2]
+WISE J083337.82+005214.1 d/sdT8 20.28±0.10 5.37±0.10 · · · 83±5 19.86±0.15 · · · 14.49±0.12 [12];[13]
+
+WISEA J153429.75−104303.3 (e)sdY:e 24.5±0.3 8.4±0.3 2.04±0.21 61±5 23.4±0.3 17.1±0.3 15.09±0.19 [14],[4]
+
+Note—W1W2 photometry is from CATWISE2020 (Marocco et al. 2021) as provided by the Vizier catalog service (Ochsenbein et al. 2000), with exceptions noted.
+
+a Spectral type from this paper unless otherwise noted; see Table 10.
+
+b Using WISE photometry as reported in Lodieu et al. (2022).
+
+c Parallax from primary.
+
+d Based on Zhang et al. (2019b).
+
+e Based on Kirkpatrick et al. (2021a).
+
+References—The first reference is for J-band photometry, the second reference is for parallax; [1] 2MASS (Cutri et al. 2003); [2] Gaia EDR3 (Gaia Collaboration et al.
+2021); [3] VISTA VHS DR5 (McMahon et al. 2013); [4] Kirkpatrick et al. (2021b); [5] Lodieu et al. (2022); [6] Best et al. (2021); [7] UKIDSS DR9 (Lawrence et al. 2013); [8]
+Faherty et al. (2012); [9] Kirkpatrick et al. (2019); [10] Pinfield et al. (2012); [11] Mace et al. (2013a); [12] Pinfield et al. (2014); [13] Kirkpatrick et al. (2019); [14] Meisner
+et al. (2023)
+
+exposure times of 300 s in multiple ABBA nodding sets separated by 10′′ along the slit for background
+subtraction. One candidate, J0623+0715, resides in a crowded field, so we obtained six exposures
+at one slit position, and offset to measure the sky background at the start, middle, and end of the
+sequence. For all sources, we observed a nearby A0 V calibrator star at equivalent airmass to measure
+telluric and instrumental throughput. We also obtained calibration dome flat lamp exposures at the
+start of both nights. We observed three additional benchmarks for comparative analysis: the late L
+subdwarf 2MASS J05325346+8246465 (hereafter J0532+8246; Burgasser et al. 2003) and the metal-
+poor T dwarf benchmark companions GJ 576B (T5p, [Fe/H] = −0.37±0.09; Scholz 2010a; Arentsen
+et al. 2019) and LHS 6176B (T8p, [Fe/H] = −0.30±0.10; Burningham et al. 2013).
+
+
+
+8 Burgasser et al.
+
+2 4 6 8
+J-W2 (mag)
+
+14
+
+16
+
+18
+
+20
+
+22
+
+Ab
+so
+
+lu
+te
+
+ J 
+(m
+
+ag
+)
+
+ J1534    
+
+   J0850 
+   J1158 
+
+J0833  
+
+2 4 6 8
+J-W2 (mag)
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+17
+
+Ab
+so
+
+lu
+te
+
+ W
+1 
+
+(m
+ag
+
+)
+
+ J1534   
+
+   J1810 
+
+   J0850 
+
+   J1158 
+
+2 4 6 8
+J-W2 (mag)
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+
+Ab
+so
+
+lu
+te
+
+ W
+2 
+
+(m
+ag
+
+)
+
+ J1534   
+
+   J1810 
+
+   J0850 
+
+   J1158 
+
+J0833  
+
+0 1 2 3
+W1-W2 (mag)
+
+14
+
+16
+
+18
+
+20
+
+22
+
+Ab
+so
+
+lu
+te
+
+ J 
+(m
+
+ag
+)
+
+ J1534    
+
+   J1810   
+
+   J0532 
+
+W1130C  
+
+0 1 2 3
+W1-W2 (mag)
+
+11
+
+12
+
+13
+
+14
+
+15
+
+16
+
+17
+
+Ab
+so
+
+lu
+te
+
+ W
+1 
+
+(m
+ag
+
+)
+
+ J1534   
+
+   J0850 
+
+W1130C  
+
+0 1 2 3
+W1-W2 (mag)
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+Ab
+
+so
+lu
+
+te
+ W
+
+2 
+(m
+
+ag
+)
+
+ J1534   
+
+   J0850 
+
+W1130C  
+
+Figure 2. Absolute magnitudes in J (left, in blue), W1 (middle, in green) and W2 (right, in magenta) bands
+as a function of J −W2 (top) and W1−W2 (bottom) colors. Symbols display measurements for metal-poor
+late L and T dwarfs with parallax measurements (Table 1) compared to empirical relations for dwarfs (light
+colored shaded regions with dashed lines: Dupuy & Liu 2012) and subdwarfs (dark colored shaded regions
+with solid lines: Gonzales et al. 2018; Zhang et al. 2019b). Some individual sources are labeled. Grey shaded
+regions delineate our empirical relationships computed over the ranges 1 mag ≤ J−W2 ≤ 8.5 mag and 0 mag
+≤ W1−W2 ≤ 3.5 mag. Sources not included in each color-magnitude fit are indicated by open symbols.
+
+
+
+T Subdwarfs 9
+
+T
+ab
+
+le
+2.
+
+Sp
+ec
+
+tr
+os
+
+co
+pi
+
+c
+O
+
+bs
+er
+
+va
+ti
+
+on
+s
+
+N
+am
+
+e
+D
+
+es
+ig
+
+na
+ti
+
+on
+J
+
+In
+st
+
+ru
+m
+
+en
+t
+
+U
+T
+
+D
+at
+
+e
+E
+
+xp
+os
+
+ur
+e
+
+A
+ir
+
+m
+as
+
+s
+Se
+
+ei
+ng
+
+C
+al
+
+ib
+ra
+
+to
+r
+
+J
+SN
+
+R
+
+(J
+20
+
+00
+)
+
+(m
+ag
+
+)
+(s
+
+)
+(′
+′ )
+
+M
+et
+
+al
+lic
+
+it
+y
+
+B
+en
+
+ch
+m
+
+ar
+ks
+
+an
+d
+
+C
+om
+
+pa
+ri
+
+so
+n
+
+So
+ur
+
+ce
+s
+
+J0
+53
+
+2+
+82
+
+46
+J0
+
+53
+31
+
+0.
+53
+
++
+82
+
+46
+20
+
+.5
+15
+
+.1
+8±
+
+0.
+06
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+19
+
+24
+00
+
+2.
+67
+
+0.′
+′ 7
+
+H
+D
+
+48
+04
+
+9
+27
+
+7
+
+G
+J
+
+57
+6B
+
+J1
+50
+
+45
+7.
+
+52
++
+
+05
+37
+
+59
+.8
+
+16
+.5
+
+9±
+0.
+
+02
+K
+
+ec
+k/
+
+N
+IR
+
+E
+S
+
+20
+22
+
+Ju
+n
+
+11
+24
+
+00
+1.
+
+03
+0.′
+′ 6
+
+H
+D
+
+12
+32
+
+33
+22
+
+4
+
+L
+H
+
+S
+61
+
+76
+B
+
+J0
+95
+
+04
+7.
+
+39
++
+
+01
+17
+
+31
+.6
+
+18
+.0
+
+5±
+0.
+
+04
+K
+
+ec
+k/
+
+N
+IR
+
+E
+S
+
+20
+22
+
+Ja
+n
+
+20
+36
+
+00
+1.
+
+06
+0.′
+′ 4
+b
+
+H
+D
+
+74
+72
+
+1
+91
+
+Su
+bd
+
+w
+ar
+
+f
+C
+
+an
+di
+
+da
+te
+
+s
+
+J0
+04
+
+5+
+79
+
+58
+J0
+
+04
+55
+
+6.
+21
+
++
+79
+
+58
+47
+
+.8
+16
+
+.9
+7±
+
+0.
+21
+
+A
+P
+
+O
+/T
+
+Sp
+ec
+
+20
+18
+
+Ja
+n
+
+21
+36
+
+00
+1.
+
+53
+1.′
+′ 5
+
+H
+D
+
+96
+12
+
+5
+
+J0
+14
+
+0+
+01
+
+50
+J0
+
+14
+01
+
+6.
+91
+
++
+01
+
+50
+54
+
+.7
+a
+
+17
+.2
+
+0±
+0.
+
+02
+IR
+
+T
+F
+/S
+
+pe
+X
+
+20
+20
+
+D
+ec
+
+24
+18
+
+00
+1.
+
+25
+0.′
+′ 5
+
+H
+D
+
+11
+54
+
+23
+
+··
+·
+
+··
+·
+
+··
+·
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+21
+Ja
+
+n
+02
+
+24
+00
+
+1.
+09
+
+0.′
+′ 8
+
+H
+D
+
+18
+57
+
+1
+64
+
+J0
+41
+
+1+
+47
+
+14
+J0
+
+41
+10
+
+2.
+42
+
++
+47
+
+14
+22
+
+.6
+17
+
+.6
+7±
+
+0.
+02
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+23
+D
+
+ec
+27
+
+12
+00
+
+1.
+34
+
+0.′
+′ 5
+
+B
+D
+
++
+45
+
+98
+1
+
+90
+
+J0
+42
+
+9+
+32
+
+01
+J0
+
+42
+94
+
+1.
+12
+
++
+32
+
+01
+25
+
+.4
+18
+
+.2
+8±
+
+0.
+08
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+23
+N
+
+ov
+03
+
+24
+00
+
+1.
+02
+
+0.′
+′ 4
+b
+
+B
+D
+
++
+43
+
+10
+21
+
+37
+
+J0
+62
+
+3+
+07
+
+15
+J0
+
+62
+31
+
+6.
+20
+
++
+07
+
+15
+06
+
+.3
+17
+
+.7
+5±
+
+0.
+03
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+19
+
+18
+00
+
+1.
+46
+
+0.′
+′ 5
+
+H
+D
+
+37
+88
+
+7
+46
+
+J0
+65
+
+9+
+16
+
+15
+J0
+
+65
+91
+
+9.
+43
+
++
+16
+
+15
+52
+
+.0
+17
+
+.9
+7±
+
+0.
+06
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+24
+Ja
+
+n
+30
+
+24
+00
+
+1.
+24
+
+0.′
+′ 5
+
+H
+D
+
+47
+54
+
+0
+69
+
+J0
+84
+
+3+
+29
+
+04
+J0
+
+84
+32
+
+5.
+37
+
++
+29
+
+04
+35
+
+.8
+17
+
+.2
+1±
+
+0.
+02
+
+IR
+T
+
+F
+/S
+
+pe
+X
+
+20
+22
+
+Fe
+b
+
+22
+18
+
+00
+1.
+
+18
+0.′
+′ 8
+
+H
+D
+
+71
+90
+
+6
+15
+
+J1
+11
+
+0−
+17
+
+47
+J1
+
+11
+05
+
+5.
+13
+
+−
+17
+
+47
+38
+
+.8
+17
+
+.6
+8±
+
+0.
+02
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+19
+
+24
+00
+
+1.
+27
+
+0.′
+′ 5
+
+H
+D
+
+98
+88
+
+4
+76
+
+J1
+13
+
+0+
+31
+
+39
+J1
+
+13
+01
+
+0.
+21
+
++
+31
+
+39
+47
+
+.0
+17
+
+.7
+9±
+
+0.
+05
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+20
+
+24
+00
+
+1.
+05
+
+0.′
+′ 5
+
+H
+D
+
+98
+98
+
+9
+90
+
+J1
+13
+
+8+
+72
+
+12
+J1
+
+13
+83
+
+3.
+47
+
++
+72
+
+12
+07
+
+.8
+17
+
+.0
+8±
+
+0.
+23
+
+G
+em
+
+in
+i/
+
+G
+N
+
+IR
+S
+
+20
+13
+
+D
+ec
+
+03
+21
+
+60
+1.
+
+71
+0.′
+′ 7
+
+H
+IP
+
+57
+34
+
+8
+13
+
+J1
+20
+
+4−
+23
+
+59
+J1
+
+20
+44
+
+4.
+33
+
+−
+23
+
+59
+27
+
+.4
+17
+
+.9
+1±
+
+0.
+03
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+19
+
+24
+00
+
+1.
+40
+
+0.′
+′ 5
+
+H
+D
+
+11
+06
+
+49
+44
+
+J1
+30
+
+4+
+28
+
+19
+J1
+
+30
+44
+
+0.
+45
+
++
+28
+
+19
+27
+
+.7
+18
+
+.1
+0±
+
+0.
+04
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ju
+
+l
+11
+
+24
+00
+
+1.
+30
+
+0.′
+′ 6
+
+H
+D
+
+10
+90
+
+55
+40
+
+J1
+30
+
+8−
+03
+
+21
+J1
+
+30
+84
+
+1.
+33
+
+−
+03
+
+21
+57
+
+.8
+18
+
+.0
+7±
+
+0.
+02
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+20
+
+18
+00
+
+1.
+09
+
+0.′
+′ 5
+
+H
+D
+
+11
+43
+
+81
+72
+
+J1
+40
+
+1+
+43
+
+25
+J1
+
+40
+11
+
+8.
+31
+
++
+43
+
+25
+53
+
+.6
+18
+
+.4
+0±
+
+0.
+08
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ja
+
+n
+23
+
+18
+00
+
+1.
+09
+
+0.′
+′ 6
+
+H
+D
+
+12
+80
+
+39
+36
+
+J1
+45
+
+8+
+17
+
+34
+J1
+
+45
+83
+
+7.
+85
+
++
+17
+
+34
+50
+
+.2
+18
+
+.3
+9±
+
+0.
+07
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ju
+
+l
+11
+
+36
+00
+
+1.
+15
+
+0.′
+′ 5
+
+H
+D
+
+12
+47
+
+73
+58
+
+J1
+51
+
+5−
+21
+
+57
+J1
+
+51
+52
+
+1.
+28
+
+−
+21
+
+57
+37
+
+.3
+17
+
+.4
+8±
+
+0.
+03
+
+M
+ag
+
+el
+la
+
+n/
+F
+IR
+
+E
+20
+
+24
+M
+
+ay
+29
+
+40
+0
+
+1.
+03
+
+0.′
+′ 6
+
+H
+D
+
+13
+92
+
+73
+33
+
+J1
+52
+
+4−
+26
+
+20
+J1
+
+52
+44
+
+3.
+15
+
+−
+26
+
+20
+01
+
+.8
+18
+
+.4
+2±
+
+0.
+10
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ju
+
+n
+11
+
+24
+00
+
+1.
+45
+
+0.′
+′ 5
+
+H
+D
+
+14
+73
+
+84
+25
+
+J1
+71
+
+0+
+45
+
+37
+J1
+
+71
+00
+
+3.
+01
+
++
+45
+
+37
+56
+
+.4
+18
+
+.2
+3±
+
+0.
+06
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ju
+
+n
+11
+
+36
+00
+
+1.
+17
+
+0.′
+′ 7
+
+H
+D
+
+12
+32
+
+99
+60
+
+J1
+80
+
+1+
+47
+
+17
+J1
+
+80
+12
+
+2.
+59
+
++
+47
+
+17
+41
+
+.4
+18
+
+.4
+9±
+
+0.
+09
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+21
+A
+
+ug
+23
+
+24
+00
+
+1.
+15
+
+0.′
+′ 5
+
+H
+D
+
+16
+48
+
+99
+33
+
+J2
+01
+
+3−
+03
+
+26
+J2
+
+01
+34
+
+2.
+30
+
+−
+03
+
+26
+43
+
+.4
+18
+
+.2
+4±
+
+0.
+12
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+21
+A
+
+ug
+23
+
+24
+00
+
+1.
+10
+
+0.′
+′ 5
+
+H
+D
+
+19
+22
+
+30
+49
+
+J2
+02
+
+1+
+15
+
+24
+J2
+
+02
+13
+
+0.
+11
+
++
+15
+
+24
+18
+
+.3
+17
+
+.1
+8±
+
+0.
+02
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+23
+Ju
+
+l
+03
+
+24
+00
+
+1.
+01
+
+0.′
+′ 9
+
+H
+D
+
+33
+31
+
+45
+70
+
+J2
+11
+
+2−
+05
+
+29
+J2
+
+11
+25
+
+0.
+14
+
+−
+05
+
+29
+24
+
+.7
+17
+
+.5
+0±
+
+0.
+03
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+22
+Ju
+
+n
+11
+
+24
+00
+
+1.
+11
+
+0.′
+′ 5
+
+H
+D
+
+20
+37
+
+69
+62
+
+J2
+11
+
+2+
+30
+
+30
+J2
+
+11
+25
+
+5.
+59
+
++
+30
+
+30
+37
+
+.6
+18
+
+.1
+8±
+
+0.
+06
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+23
+Ju
+
+l
+03
+
+36
+00
+
+1.
+02
+
+0.′
+′ 9
+
+H
+D
+
+33
+31
+
+45
+42
+
+T
+ab
+
+le
+2
+
+co
+nt
+
+in
+ue
+
+d
+on
+
+ne
+xt
+
+pa
+ge
+
+
+
+10 Burgasser et al.
+T
+ab
+
+le
+2
+
+(c
+on
+
+ti
+nu
+
+ed
+)
+
+N
+am
+
+e
+D
+
+es
+ig
+
+na
+ti
+
+on
+J
+
+In
+st
+
+ru
+m
+
+en
+t
+
+U
+T
+
+D
+at
+
+e
+E
+
+xp
+os
+
+ur
+e
+
+A
+ir
+
+m
+as
+
+s
+Se
+
+ei
+ng
+
+C
+al
+
+ib
+ra
+
+to
+r
+
+J
+SN
+
+R
+
+(J
+20
+
+00
+)
+
+(m
+ag
+
+)
+(s
+
+)
+(′
+′ )
+
+J2
+25
+
+1−
+07
+
+40
+J2
+
+25
+10
+
+9.
+56
+
+−
+07
+
+40
+37
+
+.4
+18
+
+.4
+7±
+
+0.
+08
+
+K
+ec
+
+k/
+N
+
+IR
+E
+
+S
+20
+
+23
+Ju
+
+l
+10
+
+24
+00
+
+1.
+16
+
+0.′
+′ 5
+
+H
+D
+
+20
+37
+
+69
+41
+
+N
+o
+te
+
+—
+A
+
+ll
+de
+
+si
+gn
+
+at
+io
+
+ns
+ar
+
+e
+fr
+
+om
+th
+
+e
+C
+
+at
+W
+
+IS
+E
+
+20
+20
+
+ca
+ta
+
+lo
+g
+
+(M
+ar
+
+oc
+co
+
+et
+al
+
+.
+20
+
+21
+)
+
+an
+d
+
+ar
+e
+
+pr
+op
+
+er
+m
+
+ot
+io
+
+n
+co
+
+rr
+ec
+
+te
+d
+
+to
+ep
+
+oc
+h
+
+20
+15
+
+M
+ay
+
+28
+ex
+
+ce
+pt
+
+fo
+r
+
+no
+te
+
+d
+so
+
+ur
+ce
+
+s.
+
+a
+A
+
+st
+ro
+
+m
+et
+
+ry
+fr
+
+om
+U
+
+K
+ID
+
+SS
+D
+
+R
+9
+
+(L
+aw
+
+re
+nc
+
+e
+et
+
+al
+.
+20
+
+07
+)
+
+ep
+oc
+
+h
+20
+
+10
+.7
+
+16
+.
+
+b
+Se
+
+ei
+ng
+
+si
+gn
+
+ifi
+ca
+
+nt
+ly
+
+le
+ss
+
+th
+an
+
+th
+e
+
+N
+IR
+
+E
+S
+
+0.′
+′ 5
+
+5
+sl
+
+it
+w
+
+id
+th
+
+,
+he
+
+nc
+e
+
+sy
+st
+
+em
+at
+
+ic
+ra
+
+di
+al
+
+ve
+lo
+
+ci
+ty
+
+off
+se
+
+ts
+ar
+
+e
+po
+
+ss
+ib
+
+le
+(s
+
+ee
+Se
+
+ct
+io
+
+n
+4.
+
+5)
+.
+
+
+
+T Subdwarfs 11
+
+All NIRES data were reduced using a modified version of the Spextool package (Cushing et al.
+2004) with standard settings. In brief, we used the dome flat lamps to rectify the spectral orders and
+correct for pixel-to-pixel response variations, computed the wavelength calibration from OH emission
+lines in deep exposures, optimally extracted spectra from the rectified 2D traces, averaged multiple
+spectra for each source order-by-order with a sigma-clipped weighted mean (individual cosmic ray hits
+were removed by hand), and corrected the spectra for telluric absorption and instrumental response
+using the A0 V star spectra following the methodology of Vacca et al. (2003). We chose to stitch
+the individual spectral orders into a single spectrum manually to correct for slight inter-order flux
+scaling variations not accounted for in the Spextool package. The final data have median signal-to-
+noise ratios between 23 and 275 at the 1.27 µm peak at native resolution.
+
+3.2. IRTF/SpeX
+
+Two candidates, J0140+0150 and J0843+2904, were observed with the SpeX spectrograph on the
+3m NASA Infrared Telescope Facility (Rayner et al. 2003). J0140+0150 was observed on 2020 Dec
+24 (UT) in clear conditions at an average airmass of 1.25; J0843+2904 was observed on 2022 Feb
+22 (UT) in partly cloudy conditions at an average airmass of 1.18. Both sources were observed in
+prism mode with the 0.′′8×15′′ slit, providing a resolution of λ/∆λ ≈ 75 spanning 0.75–2.5 µm in
+a single order, with ten exposures of 180 s each obtained in an ABBA nodding pattern along the
+slit for background subtraction. A0 V stars were observed immediately after each source, as well
+as internal flat field and arc lamp exposures. Data were reduced using Spextool version 4.1 with
+standard settings, following the procedures described above.
+
+3.3. APO/TripleSpec
+
+One candidate, J0045+7958, was observed on 2018 January 21 (UT) with the TripleSpec spec-
+trograph (TSpec; Wilson et al. 2004) on the 3.5m Astrophysical Research Consortium Telescope at
+Apache Point Observatory (APO). Like NIRES, TSpec is a cross-dispersed spectrograph spanning
+0.95–2.46 µm at a resolution of λ/∆λ ≈ 3500 for a 1.′′1-wide slit. Conditions were clear with 1.′′5
+seeing. We acquired twelve 300 s exposures in an ABBA nod pattern at an average airmass of 1.53,
+followed by observations of the B8 IV standard HD 9612 (V = 6.57) at an airmass of 1.42. We also
+obtained quartz lamp flat field and NeAr arc lamp exposures illuminated on the dome at the start
+of the night. Data were reduced using a modified version of Spextool that incorporates instrument
+parameters for APO/TSpec (cf. Schmidt et al. 2012) following the procedures described above.
+
+3.4. Magellan/FIRE
+
+One candidate, J1515−2157, was observed on 2024 May 29 (UT) with the Folded-port InfraRed
+Echellette (FIRE; Simcoe et al. 2013) on the 6.5m Magellan Baade Telescope at Las Campanas
+Observatory. FIRE was operated in its prism-dispersed mode, providing 0.82–2.51 µm spectra at an
+average resolution of λ/∆λ ≈ 300 for the deployed 0.′′8-wide slit. We acquired eight 50 s exposures in
+an ABBA nod pattern at an average airmass of 1.03, followed by observations of the A0 V standard
+HD 139273 (V = 10.13) at the same airmass. We obtained quartz lamp flat field exposures reflected
+off the Baade flat field screen at two settings to obtain uniform illumination for pixel calibation
+at the start of the night, and NeAr arc lamp exposures after the science observation for wavelength
+calibration. Data were reduced using a custom version of the FIREHOSE package (Gagné et al. 2015),
+which is based on the MASE pipeline (Bochanski et al. 2009) and Spextool, following procedures
+described in Bickle et al. (2024).
+
+
+
+12 Burgasser et al.
+
+3.5. Gemini-North/GNIRS
+
+One candidate, J1138+7212, was observed on 2013 December 3 (UT) with the Gemini Near-Infrared
+Spectrograph (GNIRS; Elias et al. 2006) on the 8m Gemini-North telescope. Data were obtained as
+part of program GN-2013B-Q-91 in queue service mode, and were obtained through light clouds and
+seeing of 0.′′7. The cross-dispersed mode of GNIRS was used with the 0.′′675 slit, short 0.′′15 pix−1
+
+camera, and 31.7 lines/mm grating, yielding a 0.9-–2.4 µm spectrum at an average resolution of
+λ/∆λ ≈ 800. A series of 12 exposures of 180 s each were obtained in an ABBA nod pattern at an
+average airmass of 1.71, preceded by observations the A5 V star HIP 57348 (V = 10.67) at similar
+airmass. Data were reduced using the pipeline described in Delorme et al. (2008) and Albert et al.
+(2011), following similar procedures as noted above, with wavelength calibration achieved using a
+combination of Ar arc lamps and bright OH telluric emission lines.
+
+3.6. Additional Spectra
+
+In addition to these newly-observed candidates, we included in our analysis spectra of late-L and
+T dwarfs and subdwarfs previously published in the literature. A sample of 199 L7–T8 spectra were
+obtained from the SpeX Prism Library Analysis Toolkit (SPLAT; Burgasser & Splat Development
+Team 2017), which excluded known resolved and candidate binaries and young brown dwarfs (Table 15
+in Appendix A). We also included previously published spectra of T dwarf companions to primary
+stars with independent iron abundance measurements ranging over −0.64 ≤ [Fe/H] ≤ +0.25, and
+previously identified metal-poor late-L and T dwarfs (Table 3). For the late L subdwarf J0532+8246,
+we stitched our Keck/NIRES spectrum with the Keck/LRIS (Oke et al. 1995) optical spectrum
+reported in Burgasser et al. (2003) by matching in the overlapping region of 0.98–1.0 µm. For
+the T subdwarf J1810−1010, we stitched together the Palomar/TripleSpec (Wilson et al. 2004) near-
+infrared spectrum reported by Schneider et al. (2020) with the GTC/OSIRIS (Cepa et al. 2000) optical
+and GTC/EMIR (Garzón et al. 2007) Y J spectra reported by Lodieu et al. (2022) by matching in
+the overlapping region of 0.98–1.32 µm.
+
+For those sources observed with cross-dispersed spectrographs (Keck/NIRES, APO/TSpec, Palo-
+mar/TripleSpec, SOAR/ARCoIRIS) and with well-measured J , H, and K magnitudes, we re-
+evaluated the relative scaling of the spectral orders to ensure they align with photometry. We
+computed synthetic spectrophotometric J −H and J −K colors by integrating the spectra over the
+relevant filter profiles from 2MASS JHKs, UKIRT/WFCam JHK, or VISTA JHK2 using SPLAT
+tools, with inter-order gaps filled in using a BT-Settl atmosphere model (Allard et al. 2012) at an
+appropriate temperature, surface gravity, and metallicity (see Section 4.4). For the majority of our
+sources, the inter-order flux calibration is generally consistent with the photometric uncertainties.
+However, for J1810−1010 we found a 50% reduction in K-band flux is required to align the spectrum
+with its UKIDSS photometry (Schneider et al. 2020). We used the appropriately scaled spectrum of
+this source for subsequent analysis.
+
+2 Filter profiles were obtained from the Spanish Virtual Observatory (SVO) Filter Profile Service (Rodrigo et al. 2012;
+Rodrigo & Solano 2020) at http://svo2.cab.inta-csic.es/theory/fps/.
+
+http://svo2.cab.inta-csic.es/theory/fps/
+
+
+T Subdwarfs 13
+
+Table 3. Additional Spectral Data
+
+Name Designation J Lit. Instrument J SNR [Fe/H] Ref
+
+(J2000) (mag) SpT (dex)
+
+Metallicity Benchmarks
+
+HD 3651B J003918.91+211516.8a 16.31±0.03 T8 IRTF/SpeX 73 +0.14 [1]; [2]
+
+HD 65486B J07580132−2538587 16.12±0.08 T4.5 IRTF/SpeX 34 −0.28 [30]; [31],[34]d
+Ross 458C J130041.40+122114.3 16.69±0.02 T8.5p Magellan/FIRE 67 +0.25 [28]; [29]
+
+HD 126053B J142320.90+011635.3 18.71±0.05 T8p Gemini/GNIRS 24 −0.38 [25]
+
+Gliese 570D J145716.21−212216.5 15.32±0.05 T7.5 IRTF/SpeX 37 +0.05 [3]; [4]
+
+GJ 576B J150457.34+053757.0 16.59±0.02 sdT5.5 Gemini/GNIRS 56 −0.37 [5]; [6]
+
+· · · · · · · · · · · · VLT/X-Shooter 21 · · · [7]
+
+G 204-38B J175805.45+463319.8 16.15±0.09 T6.5 IRTF/SpeX 75 −0.04 [8]; [9]
+
+Wolf 1130C J200519.70+542428.5 19.64±0.09 sdT8 Keck/NIRSPEC 78 −0.70 [10]; [11]
+
+· · · · · · · · · · · · Keck/MOSFIRE · · · · · · [10]
+
+HN Peg B J214428.67+144606.0b 15.86±0.03 T2.5 IRTF/SpeX 114 −0.08 [12]; [12]
+
+Wolf 940B J214638.70−001042.3 18.02±0.06 T8 Magellan/FIRE 69 +0.08 [26]; [6]
+
+Metal-poor Comparison Sources
+
+J0004−1336 J000458.59−133655.2 16.84±0.17 T2p IRTF/SpeX 18 · · · [19]
+
+J0004−2604 J000430.67−260403.6 16.49±0.13 sdT2 IRTF/SpeX 40 · · · [19]
+
+J0013+0634 J001354.85+063445.4 19.75±0.05 T8p Gemini/GNIRS 22 · · · [18]
+
+J0021+1552 J002135.97+155226.8 17.88±0.04 T4p VLT/X-Shooter 9 · · · [7]
+
+J0055+5947c J005559.94+594744.4 17.90±0.04 T8 Keck/NIRES 13 · · · [22]
+
+J0057+2013 J005757.95+201302.8 16.32±0.10 sdL7 IRTF/SpeX 40 · · · [24]
+
+J0301−2319 J030119.47−231921.8 16.64±0.14 sdT1 IRTF/SpeX 25 · · · [19]
+
+J0309−5016 J030919.92−501614.0 17.17±0.03 T7p Magellan/FIRE 37 · · · [19]
+
+J0348−5620 J034858.85−562016.9 16.52±0.15 T3p Magellan/FIRE 22 · · · [19]
+
+J0414−5854 J041451.86−585455.3 19.63±0.11 esdT Magellan/FIRE 6 · · · [13]
+
+J0433+1009c J043309.36+100902.3 18.00±0.03 T8 Keck/NIRES 32 · · · [15]
+
+J0532+8246 J053310.53+824620.5 15.18±0.06 esdL7 Keck/LRIS · · · −1.6 [14],[16]
+
+J0616−6407 J061643.51−640719.8 16.35±0.01 esdL6 VLT/X-Shooter 26 −1.6 [16]
+
+J0645−6646 J064529.11−664550.7 15.52±0.01 sdL8 VLT/X-Shooter 47 · · · [17]
+
+J0833+0052 J083338.11+005206.2 20.28±0.10 T9p Gemini/GNIRS 15 · · · [18]
+
+J0845−3305c J084506.49−330532.1 16.85±0.01 T7 Magellan/FIRE 82 · · · [15]
+
+J0850−0221 J085038.99−022155.1 15.44±0.04 sdL7 IRTF/SpeX 83 · · · [19]
+
+J0911+2146c J091105.03+214645.4 17.75±0.03 T9 Magellan/FIRE 29 · · · [15]
+
+J0937+2931 J093735.65+293127.2 14.65±0.04 T6p IRTF/SpeX 128 · · · [8]
+
+J0939−2448 J093936.13−244844.0 15.67±0.01 T8p IRTF/SpeX 17 −0.24 [8],[35]
+
+J0953−0943c J095316.33−094318.8 17.01±0.03 T5.5 IRTF/SpeX 24 · · · [15],[34]d
+J1019−3911 J101944.47−391150.9 16.03±0.10 sdT3 SOAR/ARCoIRIS 20 · · · [19]
+
+J1035−0711 J103534.52−071148.5 16.39±0.09 sdL7 IRTF/SpeX 33 · · · [19]
+
+J1055+5443 J105512.03+544328.3 18.87±0.07 sdT8/Y0 Keck/NIRES 29 · · · [15],[20]
+
+J1130−1158 J113019.20−115811.5 17.22±0.03 sdT5 SOAR/ARCoIRIS 11 · · · [15]
+
+J1158+0435 J115821.40+043446.3 15.61±0.06 sdL7 IRTF/SpeX 103 · · · [32]
+
+J1307+1511 J130710.04+151102.4 18.14±0.04 sdL8 VLT/X-Shooter 10 · · · [17]
+
+J1316+0755 J131609.68+075553.9 19.29±0.12 sdT6.5 Gemini/GNIRS 13 · · · [5]
+
+J1338−0229 J133836.94−022912.2 17.37±0.03 sdL7 Magellan/FIRE 7 · · · [16]
+
+Table 3 continued on next page
+
+
+
+14 Burgasser et al.
+
+Table 3 (continued)
+
+Name Designation J Lit. Instrument J SNR [Fe/H] Ref
+
+(J2000) (mag) SpT (dex)
+
+J1416+1348B J141623.96+134837.3 17.26±0.02 T7.5p IRTF/SpeX 48 −0.35 [21],[35]
+
+J1553+6933 J155347.98+693400.5 19.09±0.07 sdT4 Keck/NIRES 19 · · · [22],[33]
+
+J1810−1010c J181005.99−101001.8 17.27±0.02 esdT Palomar/TripleSpec 33 −1.5 [13],[23]
+
+· · · · · · · · · · · · GTC/OSIRIS+EMIR · · · · · · [23]
+
+J2105−6235 J210529.52−623604.6 16.85±0.14 sdT1.5 Gemini/Flamingos 69 · · · [24]
+
+J2218+1146c J221859.41+114642.9 17.96±0.03 T7p Keck/NIRES 51 · · · [22]
+
+Note—All designations are from the CatWISE2020 catalog (Marocco et al. 2021) and are proper motion corrected to epoch 2015 May
+28 except for noted sources.
+
+aCoordinates from Faherty et al. (2009).
+
+b Coordinates from Pan-STARRS DR1 (Chambers et al. 2016) epoch 2011 Nov 25.
+
+c Also identified as a T subdwarf candidate by our selection criteria.
+
+dData re-reduced from the IRSA Legacy Archive.
+
+References—The first reference corresponds to the source of the spectral data; the second reference corresponds to the source of the
+metallicity (for benchmarks): [1] Burgasser (2007a); [2] Rice & Brewer (2020); [3] Burgasser et al. (2004); [4] Aguilera-Gómez et al.
+(2018); [5] Burningham et al. (2014); [6] Arentsen et al. (2019); [7] Zhang et al. (2019b); [8] Burgasser et al. (2006a); [9] Schweitzer
+et al. (2019); [10] Mace et al. (2013a); [11] Mace et al. (2018); [12] Luhman et al. (2007); [13] Schneider et al. (2020); [14] Burgasser
+et al. (2003); [15] Kirkpatrick et al. (2021b); [16] Zhang et al. (2017); [17] Zhang et al. (2018b); [18] Pinfield et al. (2014); [19] Greco
+et al. (2019); [20] Robbins et al. (2023); [21] Burgasser et al. (2010b); [22] Meisner et al. (2020); [23] Lodieu et al. (2022); [24] Luhman
+& Sheppard (2014); [25] Pinfield et al. (2012); [26] Burgasser et al. (2011); [27] Marfil et al. (2021); [28] Burgasser et al. (2010c); [29]
+Rosenthal et al. (2021); [30] Deacon et al. (2012a); [31] Soubiran et al. (2022); [32] Kirkpatrick et al. (2010); [33] Meisner et al. (2021);
+[34] This paper; [35] Line et al. (2017).
+
+4. SPECTRAL ANALYSIS
+
+4.1. Comparison to Spectral Templates
+
+Figures 3 and 4 display the reduced spectral data for our subdwarf candidates in both native
+resolution and smoothed to λ/∆λ ≈ 125. The smoothed spectra are compared to low resolution
+spectra of L and T dwarf near-infrared spectral standards from SPLAT3 as defined by Kirkpatrick
+et al. (2010) and Burgasser et al. (2006b). A best-fit standard for each source was selected based
+on comparison over the 0.9-1.4 µm range using a χ2 statistic (see Eqn. 4); these standard types
+are listed in Table 4. For most of the sources, including the companions GJ 576B and LHS 6176B,
+we see close agreement with T6–T9 standards, with minor deviations in the Y -band (1 µm) and
+K-band (2.1 µm) peaks consistent with slightly subsolar metallicities (Burgasser et al. 2006a). A
+handful of sources appear to be late-type L or early-type T dwarfs based on weak or absent 1.6 µm
+CH4 absorption, and several exhibit even more suppressed K-band peaks relative to their matched
+standards. For our higher resolution Keck/NIRES data, we also see variety in the strengths of the
+1.2436 µm and 1.2526 µm K I doublet, in many cases weaker than the corresponding NIRES dwarf
+standard (Theissen et al. 2022). We quantify these spectral deviations below.
+
+3 Spectral data for late-L and T dwarf standards are from Burgasser et al. (2004, 2006b, 2007b); Looper et al. (2007);
+and Bardalez Gagliuffi et al. (2014).
+
+
+
+T Subdwarfs 15
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+0
+
+2
+
+4
+
+6
+
+8
+
+10
+
+12
+
+14
+
+16
+No
+
+rm
+al
+
+ize
+d 
+
+F
+ +
+
+ O
+ffs
+
+et
+
+J0843+2904 (L6)
+
+J1304+2819 (L9)
+
+J2021+1524 (T0)
+
+J0045+7958 (T0)
+
+J0429+3201 (T1)
+
+J2112-0529 (T1)
+
+J1524-2620 (T1)
+
+J0659+1615 (T1)
+
+J2112+3030 (T3)
+
+J1810-1010 (T3)
+
+J0623+0715 (T3)
+
+J0140+0150 (T4)
+
+J0140+0150 (T4)
+
+J1801+4717 (T5)
+
+J1515-2157 (T6)
+
+J2013-0326 (T6)
+
+J0953-0943 (T6)
+
+1.23 1.24 1.25 1.26
+Wavelength ( m)
+
+2.0 2.1 2.2 2.3
+Wavelength ( m)
+
+Figure 3. Observed spectra of candidate late-L and T subdwarfs from Tables 2 and 3. Spectra are normalized at the
+J-band (1.25–1.28 µm) flux peak and offset by a constant (dashed lines on left and right edges). Source are ordered
+from bottom to top by increasing H-band CH4 band strength. The left panel shows the full 1–2.5 µm spectral data,
+while the middle and right panels focus on the 1.23–1.265 µm J-band and 2.0–2.3 µm K-band regions. In the left and
+right panels, the full resolution data are shown as grey lines and smoothed spectra (λ/∆λ ≈ 125) as black lines, and
+are compared to low-resolution dwarf spectral standards (magenta lines) drawn from Kirkpatrick et al. (2010) and
+Burgasser et al. (2006b), with corresponding types indicated next to each source label. The middle panel shows only
+the full resolution data compared to medium-resolution spectral standards from Theissen et al. (2022) in magenta.
+Note that IRTF/SpeX and Magellan/FIRE data J0911+2146, and J0953−0943 (the latter three are in Figure 4) are
+not smoothed as their native resolution is λ/∆λ ≈ 100–300. The K-band spectra are re-scaled to highlight structure
+in this region.
+
+
+
+16 Burgasser et al.
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+0
+
+2
+
+4
+
+6
+
+8
+
+10
+
+12
+
+14
+
+16
+
+No
+rm
+
+al
+ize
+
+d 
+F
+
+ +
+ O
+
+ffs
+et
+
+J1130+3139 (T6)
+
+J1710+4537 (T6)
+
+J0055+5947 (T6)
+
+J1401+4325 (T6)
+
+J1138+7212 (T7)
+
+J1204-2359 (T7)
+
+J2218+1146 (T7)
+
+J0845-3305 (T7)
+
+J0758+5711 (T7)
+
+J0433+1009 (T7)
+
+J0411+4714 (T7)
+
+J2251-0740 (T7)
+
+J1308-0321 (T8)
+
+J1110-1747 (T8)
+
+J0911+2146 (T8)
+
+J1458+1734 (T8)
+
+1.23 1.24 1.25 1.26
+Wavelength ( m)
+
+2.0 2.1 2.2 2.3
+Wavelength ( m)
+
+Figure 4. Continuation of Figure 3 for the latest-type sources in our spectral sample.
+
+4.2. Spectral Indices
+
+For all of our spectra, we evaluated ten near-infrared spectral indices that sample molecular features
+(H2O and CH4 bands) and overall spectral shape, defined in Burgasser et al. (2006a,b) and Bardalez
+Gagliuffi et al. (2019). Tables 4 and 15 summarize the index values for our candidates and comparison
+sources, with uncertainties determined through Monte Carlo sampling of spectral flux errors. We
+also list index-based spectral classifications based on the index versus spectral type relationships of
+Burgasser (2007b) which are defined for spectral types L0–T9. Note that these relationships are
+defined for solar-metallicity dwarfs and are inaccurate for exceptionally metal-poor sources. Indeed,
+
+
+
+T Subdwarfs 17
+
+classifications from matched standards (Figure 3) and from indices can differ by more than 3 subtypes
+(e.g., J0532+8246).
+
+
+
+18 Burgasser et al.
+
+T
+ab
+
+le
+4.
+
+In
+de
+
+x
+M
+
+ea
+su
+
+re
+m
+
+en
+ts
+
+fo
+r
+
+N
+ew
+
+an
+d
+
+Li
+te
+
+ra
+tu
+
+re
+Sp
+
+ec
+tr
+
+a
+
+Sp
+T
+a
+
+N
+am
+
+e
+[C
+
+H
+4−
+
+J]
+[C
+
+H
+4−
+
+H
+]
+
+[C
+H
+
+4−
+K
+
+]
+[H
+
+2O
+−
+
+J]
+[H
+
+2O
+−
+
+H
+]
+
+[H
+2O
+
+−
+K
+
+]
+[Y
+
+/J
+]
+
+[K
+/H
+
+]
+[K
+
+/J
+]
+
+[H
+−
+
+di
+p]
+
+St
+d
+
+In
+d
+
+(n
+um
+
+er
+at
+
+or
+)
+
+1.
+31
+
+5–
+1.
+
+33
+5
+
+1.
+63
+
+5–
+1.
+
+67
+5
+
+2.
+21
+
+5–
+2.
+
+25
+5
+
+1.
+14
+
+–1
+.1
+
+65
+1.
+
+48
+–1
+
+.5
+2
+
+1.
+97
+
+5–
+1.
+
+99
+5
+
+1.
+00
+
+5–
+1.
+
+04
+5
+
+2.
+06
+
+–2
+.1
+
+0
+2.
+
+06
+–2
+
+.1
+0
+
+1.
+61
+
+–1
+.6
+
+4
+
+(d
+en
+
+om
+in
+
+at
+or
+
+)
+1.
+
+26
+–1
+
+.2
+85
+
+1.
+56
+
+–1
+.6
+
+0
+2.
+
+08
+–2
+
+.1
+2
+
+1.
+26
+
+–1
+.2
+
+85
+1.
+
+56
+–1
+
+.6
+0
+
+2.
+08
+
+–2
+.1
+
+2
+1.
+
+25
+–1
+
+.2
+9
+
+1.
+25
+
+–1
+.2
+
+9
+1.
+
+56
+–1
+
+.6
+0
+
+1.
+56
+
+–1
+.5
+
+9,
+1.
+
+66
+–1
+
+.6
+9
+
+B
+en
+
+ch
+m
+
+ar
+k
+
+C
+om
+
+pa
+ni
+
+on
+s
+
+H
+D
+
+36
+51
+
+B
+0.
+
+25
+±
+
+0.
+01
+
+0.
+14
+
+±
+0.
+
+01
+0.
+
+04
+±
+
+0.
+02
+
+0.
+04
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+0.
+32
+
+±
+0.
+
+02
+0.
+
+42
+±
+
+0.
+01
+
+0.
+29
+
+±
+0.
+
+01
+0.
+
+14
+±
+
+0.
+01
+
+0.
+25
+
+±
+0.
+
+02
+T
+
+8
+T
+
+7.
+7
+
+H
+D
+
+65
+48
+
+6B
+0.
+
+64
+±
+
+0.
+02
+
+0.
+50
+
+±
+0.
+
+02
+0.
+
+26
+±
+
+0.
+07
+
+0.
+32
+
+±
+0.
+
+01
+0.
+
+37
+±
+
+0.
+02
+
+0.
+56
+
+±
+0.
+
+09
+0.
+
+64
+±
+
+0.
+02
+
+0.
+30
+
+±
+0.
+
+02
+0.
+
+14
+±
+
+0.
+01
+
+0.
+59
+
+±
+0.
+
+03
+T
+
+4.
+5
+
+L
+H
+
+S
+61
+
+76
+B
+
+0.
+26
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+01
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+06
+±
+
+0.
+01
+
+0.
+16
+
+±
+0.
+
+01
+0.
+
+39
+±
+
+0.
+02
+
+0.
+52
+
+±
+0.
+
+01
+0.
+
+22
+±
+
+0.
+01
+
+0.
+11
+
+±
+0.
+
+01
+0.
+
+31
+±
+
+0.
+01
+
+T
+8
+
+T
+7.
+
+5
+
+R
+os
+
+s
+45
+
+8C
+0.
+
+19
+±
+
+0.
+01
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+07
+±
+
+0.
+01
+
+0.
+05
+
+±
+0.
+
+01
+0.
+
+19
+±
+
+0.
+01
+
+0.
+36
+
+±
+0.
+
+01
+0.
+
+35
+±
+
+0.
+01
+
+0.
+45
+
+±
+0.
+
+01
+0.
+
+26
+±
+
+0.
+01
+
+0.
+23
+
+±
+0.
+
+01
+T
+
+8
+T
+
+8.
+1
+
+H
+D
+
+12
+60
+
+53
+B
+
+0.
+27
+
+±
+0.
+
+02
+0.
+
+14
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+05
+0.
+
+05
+±
+
+0.
+01
+
+0.
+22
+
+±
+0.
+
+02
+0.
+
+37
+±
+
+0.
+05
+
+0.
+54
+
+±
+0.
+
+03
+0.
+
+11
+±
+
+0.
+01
+
+0.
+05
+
+±
+0.
+
+01
+0.
+
+40
+±
+
+0.
+03
+
+T
+7
+
+T
+7.
+
+5
+
+G
+J
+
+57
+0D
+
+0.
+28
+
+±
+0.
+
+01
+0.
+
+13
+±
+
+0.
+01
+
+0.
+11
+
+±
+0.
+
+02
+0.
+
+06
+±
+
+0.
+01
+
+0.
+20
+
+±
+0.
+
+01
+0.
+
+34
+±
+
+0.
+02
+
+0.
+41
+
+±
+0.
+
+01
+0.
+
+24
+±
+
+0.
+01
+
+0.
+11
+
+±
+0.
+
+01
+0.
+
+34
+±
+
+0.
+02
+
+T
+8
+
+T
+7.
+
+5
+
+G
+J
+
+57
+6B
+
+(G
+N
+
+IR
+S)
+
+0.
+43
+
+±
+0.
+
+01
+0.
+
+37
+±
+
+0.
+01
+
+0.
+21
+
+±
+0.
+
+05
+0.
+
+16
+±
+
+0.
+01
+
+0.
+30
+
+±
+0.
+
+02
+0.
+
+47
+±
+
+0.
+04
+
+0.
+52
+
+±
+0.
+
+01
+0.
+
+22
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+67
+±
+
+0.
+03
+
+T
+6
+
+T
+5.
+
+6
+
+··
+·
+
+(X
+S)
+
+0.
+43
+
+±
+0.
+
+02
+0.
+
+40
+±
+
+0.
+02
+
+0.
+13
+
+±
+0.
+
+15
+0.
+
+15
+±
+
+0.
+02
+
+0.
+29
+
+±
+0.
+
+02
+0.
+
+50
+±
+
+0.
+09
+
+0.
+54
+
+±
+0.
+
+04
+0.
+
+19
+±
+
+0.
+03
+
+0.
+08
+
+±
+0.
+
+01
+0.
+
+64
+±
+
+0.
+02
+
+T
+6
+
+T
+5.
+
+5
+
+··
+·
+
+(N
+IR
+
+E
+S)
+
+0.
+44
+
+±
+0.
+
+01
+0.
+
+40
+±
+
+0.
+01
+
+0.
+25
+
+±
+0.
+
+01
+0.
+
+15
+±
+
+0.
+01
+
+0.
+28
+
+±
+0.
+
+01
+0.
+
+49
+±
+
+0.
+01
+
+0.
+45
+
+±
+0.
+
+01
+0.
+
+25
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+61
+±
+
+0.
+01
+
+T
+6
+
+T
+5.
+
+5
+
+G
+20
+
+4−
+39
+
+B
+0.
+
+41
+±
+
+0.
+01
+
+0.
+25
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+24
+±
+
+0.
+01
+
+0.
+40
+
+±
+0.
+
+01
+0.
+
+41
+±
+
+0.
+01
+
+0.
+40
+
+±
+0.
+
+01
+0.
+
+20
+±
+
+0.
+01
+
+0.
+44
+
+±
+0.
+
+01
+T
+
+6
+T
+
+6.
+4
+
+W
+ol
+
+f
+11
+
+30
+C
+
+0.
+82
+
+±
+0.
+
+03
+0.
+
+42
+±
+
+0.
+01
+
+··
+·
+b
+
+0.
+01
+
+±
+0.
+
+01
+0.
+
+39
+±
+
+0.
+01
+
+··
+·
+b
+
+0.
+74
+
+±
+0.
+
+11
+··
+·
+b
+
+··
+·
+b
+
+0.
+75
+
+±
+0.
+
+01
+T
+
+6
+T
+
+5.
+4
+
+H
+N
+
+P
+eg
+
+B
+0.
+
+63
+±
+
+0.
+01
+
+0.
+84
+
+±
+0.
+
+01
+0.
+
+53
+±
+
+0.
+01
+
+0.
+38
+
+±
+0.
+
+01
+0.
+
+43
+±
+
+0.
+01
+
+0.
+54
+
+±
+0.
+
+01
+0.
+
+55
+±
+
+0.
+01
+
+0.
+46
+
+±
+0.
+
+01
+0.
+
+31
+±
+
+0.
+01
+
+0.
+98
+
+±
+0.
+
+01
+T
+
+3
+T
+
+2.
+4
+
+W
+ol
+
+f
+94
+
+0B
+0.
+
+12
+±
+
+0.
+02
+
+0.
+08
+
+±
+0.
+
+03
+−
+
+0.
+03
+
+±
+0.
+
+09
+0.
+
+03
+±
+
+0.
+02
+
+0.
+14
+
+±
+0.
+
+04
+0.
+
+29
+±
+
+0.
+08
+
+··
+·
+b
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+13
+±
+
+0.
+01
+
+0.
+15
+
+±
+0.
+
+06
+T
+
+8
+T
+
+8.
+6
+
+Su
+bd
+
+w
+ar
+
+f
+C
+
+an
+di
+
+da
+te
+
+s
+
+J0
+04
+
+5+
+79
+
+58
+0.
+
+82
+±
+
+0.
+09
+
+1.
+12
+
+±
+0.
+
+06
+0.
+
+90
+±
+
+0.
+05
+
+0.
+67
+
+±
+0.
+
+11
+0.
+
+60
+±
+
+0.
+06
+
+0.
+62
+
+±
+0.
+
+04
+0.
+
+57
+±
+
+0.
+17
+
+0.
+63
+
+±
+0.
+
+03
+0.
+
+50
+±
+
+0.
+04
+
+1.
+02
+
+±
+0.
+
+05
+T
+
+0
+L
+8.
+
+6:
+
+J0
+05
+
+5+
+59
+
+47
+0.
+
+35
+±
+
+0.
+02
+
+0.
+27
+
+±
+0.
+
+02
+0.
+
+16
+±
+
+0.
+05
+
+0.
+11
+
+±
+0.
+
+03
+0.
+
+25
+±
+
+0.
+04
+
+0.
+36
+
+±
+0.
+
+08
+0.
+
+60
+±
+
+0.
+06
+
+0.
+23
+
+±
+0.
+
+01
+0.
+
+11
+±
+
+0.
+01
+
+0.
+46
+
+±
+0.
+
+03
+T
+
+6
+T
+
+6.
+4
+
+J0
+14
+
+0+
+01
+
+50
+(S
+
+pe
+X
+
+)
+0.
+
+59
+±
+
+0.
+02
+
+0.
+58
+
+±
+0.
+
+03
+0.
+
+27
+±
+
+0.
+05
+
+0.
+28
+
+±
+0.
+
+02
+0.
+
+34
+±
+
+0.
+03
+
+0.
+47
+
+±
+0.
+
+05
+0.
+
+45
+±
+
+0.
+02
+
+0.
+44
+
+±
+0.
+
+02
+0.
+
+25
+±
+
+0.
+01
+
+0.
+82
+
+±
+0.
+
+04
+T
+
+4
+T
+
+4.
+2
+
+··
+·
+
+(N
+IR
+
+E
+S)
+
+0.
+59
+
+±
+0.
+
+01
+0.
+
+56
+±
+
+0.
+01
+
+0.
+26
+
+±
+0.
+
+01
+0.
+
+24
+±
+
+0.
+01
+
+0.
+32
+
+±
+0.
+
+01
+0.
+
+47
+±
+
+0.
+01
+
+0.
+44
+
+±
+0.
+
+01
+0.
+
+44
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+78
+±
+
+0.
+01
+
+T
+4
+
+T
+4.
+
+5
+
+J0
+41
+
+1+
+47
+
+14
+0.
+
+27
+±
+
+0.
+01
+
+0.
+16
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+08
+
+±
+0.
+
+01
+0.
+
+21
+±
+
+0.
+01
+
+0.
+46
+
+±
+0.
+
+01
+0.
+
+46
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+33
+
+±
+0.
+
+01
+T
+
+7
+T
+
+7.
+4
+
+J0
+42
+
+9+
+32
+
+01
+0.
+
+85
+±
+
+0.
+02
+
+0.
+96
+
+±
+0.
+
+01
+0.
+
+77
+±
+
+0.
+01
+
+0.
+56
+
+±
+0.
+
+01
+0.
+
+55
+±
+
+0.
+01
+
+0.
+59
+
+±
+0.
+
+01
+0.
+
+90
+±
+
+0.
+03
+
+0.
+56
+
+±
+0.
+
+01
+0.
+
+45
+±
+
+0.
+01
+
+1.
+03
+
+±
+0.
+
+01
+T
+
+1
+T
+
+1.
+1
+
+J0
+43
+
+3+
+10
+
+09
+0.
+
+22
+±
+
+0.
+01
+
+0.
+16
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+02
+
+0.
+09
+
+±
+0.
+
+01
+0.
+
+22
+±
+
+0.
+01
+
+0.
+34
+
+±
+0.
+
+02
+0.
+
+40
+±
+
+0.
+03
+
+0.
+34
+
+±
+0.
+
+01
+0.
+
+19
+±
+
+0.
+01
+
+0.
+31
+
+±
+0.
+
+02
+T
+
+8
+T
+
+7.
+3
+
+J0
+62
+
+3+
+07
+
+15
+0.
+
+82
+±
+
+0.
+02
+
+0.
+64
+
+±
+0.
+
+01
+0.
+
+58
+±
+
+0.
+01
+
+0.
+50
+
+±
+0.
+
+01
+0.
+
+60
+±
+
+0.
+02
+
+0.
+77
+
+±
+0.
+
+02
+0.
+
+72
+±
+
+0.
+03
+
+0.
+34
+
+±
+0.
+
+01
+0.
+
+25
+±
+
+0.
+01
+
+0.
+89
+
+±
+0.
+
+01
+T
+
+3
+T
+
+3.
+4
+
+J0
+65
+
+9+
+16
+
+15
+0.
+
+87
+±
+
+0.
+01
+
+0.
+95
+
+±
+0.
+
+01
+0.
+
+76
+±
+
+0.
+01
+
+0.
+62
+
+±
+0.
+
+01
+0.
+
+58
+±
+
+0.
+01
+
+0.
+61
+
+±
+0.
+
+01
+0.
+
+65
+±
+
+0.
+02
+
+0.
+54
+
+±
+0.
+
+01
+0.
+
+44
+±
+
+0.
+01
+
+1.
+03
+
+±
+0.
+
+01
+T
+
+1
+T
+
+1.
+0
+
+J0
+75
+
+8+
+57
+
+11
+0.
+
+35
+±
+
+0.
+01
+
+0.
+26
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+23
+±
+
+0.
+01
+
+0.
+45
+
+±
+0.
+
+02
+0.
+
+56
+±
+
+0.
+02
+
+0.
+27
+
+±
+0.
+
+01
+0.
+
+14
+±
+
+0.
+01
+
+0.
+47
+
+±
+0.
+
+01
+T
+
+7
+T
+
+6.
+4
+
+J0
+84
+
+3+
+29
+
+04
+0.
+
+93
+±
+
+0.
+03
+
+1.
+07
+
+±
+0.
+
+04
+0.
+
+90
+±
+
+0.
+03
+
+0.
+83
+
+±
+0.
+
+04
+0.
+
+72
+±
+
+0.
+04
+
+0.
+75
+
+±
+0.
+
+03
+0.
+
+66
+±
+
+0.
+03
+
+0.
+74
+
+±
+0.
+
+03
+0.
+
+67
+±
+
+0.
+03
+
+1.
+00
+
+±
+0.
+
+03
+L
+6
+
+L
+5.
+
+9
+
+J0
+84
+
+5−
+33
+
+05
+0.
+
+38
+±
+
+0.
+01
+
+0.
+27
+
+±
+0.
+
+01
+0.
+
+22
+±
+
+0.
+02
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+28
+±
+
+0.
+01
+
+0.
+42
+
+±
+0.
+
+01
+0.
+
+46
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+12
+±
+
+0.
+01
+
+0.
+46
+
+±
+0.
+
+01
+T
+
+7
+T
+
+6.
+2
+
+T
+ab
+
+le
+4
+
+co
+nt
+
+in
+ue
+
+d
+on
+
+ne
+xt
+
+pa
+ge
+
+
+
+T Subdwarfs 19
+T
+ab
+
+le
+4
+
+(c
+on
+
+ti
+nu
+
+ed
+)
+
+Sp
+T
+a
+
+N
+am
+
+e
+[C
+
+H
+4−
+
+J]
+[C
+
+H
+4−
+
+H
+]
+
+[C
+H
+
+4−
+K
+
+]
+[H
+
+2O
+−
+
+J]
+[H
+
+2O
+−
+
+H
+]
+
+[H
+2O
+
+−
+K
+
+]
+[Y
+
+/J
+]
+
+[K
+/H
+
+]
+[K
+
+/J
+]
+
+[H
+−
+
+di
+p]
+
+St
+d
+
+In
+d
+
+(n
+um
+
+er
+at
+
+or
+)
+
+1.
+31
+
+5–
+1.
+
+33
+5
+
+1.
+63
+
+5–
+1.
+
+67
+5
+
+2.
+21
+
+5–
+2.
+
+25
+5
+
+1.
+14
+
+–1
+.1
+
+65
+1.
+
+48
+–1
+
+.5
+2
+
+1.
+97
+
+5–
+1.
+
+99
+5
+
+1.
+00
+
+5–
+1.
+
+04
+5
+
+2.
+06
+
+–2
+.1
+
+0
+2.
+
+06
+–2
+
+.1
+0
+
+1.
+61
+
+–1
+.6
+
+4
+
+(d
+en
+
+om
+in
+
+at
+or
+
+)
+1.
+
+26
+–1
+
+.2
+85
+
+1.
+56
+
+–1
+.6
+
+0
+2.
+
+08
+–2
+
+.1
+2
+
+1.
+26
+
+–1
+.2
+
+85
+1.
+
+56
+–1
+
+.6
+0
+
+2.
+08
+
+–2
+.1
+
+2
+1.
+
+25
+–1
+
+.2
+9
+
+1.
+25
+
+–1
+.2
+
+9
+1.
+
+56
+–1
+
+.6
+0
+
+1.
+56
+
+–1
+.5
+
+9,
+1.
+
+66
+–1
+
+.6
+9
+
+J0
+91
+
+1+
+21
+
+46
+0.
+
+19
+±
+
+0.
+01
+
+0.
+13
+
+±
+0.
+
+01
+··
+·
+b
+
+0.
+04
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+0.
+56
+
+±
+0.
+
+05
+0.
+
+37
+±
+
+0.
+02
+
+0.
+19
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+29
+
+±
+0.
+
+02
+T
+
+8
+T
+
+8.
+2
+
+J1
+11
+
+0−
+17
+
+47
+0.
+
+20
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+04
+±
+
+0.
+01
+
+0.
+05
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+0.
+32
+
+±
+0.
+
+01
+0.
+
+46
+±
+
+0.
+01
+
+0.
+32
+
+±
+0.
+
+01
+0.
+
+19
+±
+
+0.
+01
+
+0.
+22
+
+±
+0.
+
+01
+T
+
+8
+T
+
+8.
+2
+
+J1
+13
+
+0+
+31
+
+39
+0.
+
+45
+±
+
+0.
+01
+
+0.
+38
+
+±
+0.
+
+01
+0.
+
+26
+±
+
+0.
+01
+
+0.
+14
+
+±
+0.
+
+01
+0.
+
+26
+±
+
+0.
+01
+
+0.
+47
+
+±
+0.
+
+02
+0.
+
+58
+±
+
+0.
+01
+
+0.
+27
+
+±
+0.
+
+01
+0.
+
+11
+±
+
+0.
+01
+
+0.
+63
+
+±
+0.
+
+01
+T
+
+6
+T
+
+5.
+6
+
+J1
+13
+
+8+
+72
+
+12
+0.
+
+31
+±
+
+0.
+02
+
+0.
+23
+
+±
+0.
+
+03
+0.
+
+18
+±
+
+0.
+08
+
+0.
+13
+
+±
+0.
+
+03
+0.
+
+26
+±
+
+0.
+04
+
+0.
+58
+
+±
+0.
+
+10
+0.
+
+56
+±
+
+0.
+04
+
+0.
+21
+
+±
+0.
+
+01
+0.
+
+09
+±
+
+0.
+01
+
+0.
+40
+
+±
+0.
+
+05
+T
+
+7
+T
+
+6.
+5
+
+J1
+20
+
+4−
+23
+
+59
+0.
+
+31
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+02
+
+0.
+09
+
+±
+0.
+
+01
+0.
+
+21
+±
+
+0.
+02
+
+0.
+33
+
+±
+0.
+
+02
+0.
+
+50
+±
+
+0.
+03
+
+0.
+25
+
+±
+0.
+
+01
+0.
+
+13
+±
+
+0.
+01
+
+0.
+42
+
+±
+0.
+
+02
+T
+
+7
+T
+
+6.
+8
+
+J1
+30
+
+4+
+28
+
+19
+0.
+
+92
+±
+
+0.
+02
+
+1.
+02
+
+±
+0.
+
+01
+0.
+
+90
+±
+
+0.
+01
+
+0.
+75
+
+±
+0.
+
+02
+0.
+
+68
+±
+
+0.
+01
+
+0.
+69
+
+±
+0.
+
+01
+0.
+
+56
+±
+
+0.
+02
+
+0.
+63
+
+±
+0.
+
+01
+0.
+
+44
+±
+
+0.
+01
+
+0.
+98
+
+±
+0.
+
+01
+L
+9
+
+L
+7.
+
+4
+
+J1
+30
+
+8−
+03
+
+21
+0.
+
+22
+±
+
+0.
+01
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+12
+±
+
+0.
+01
+
+0.
+03
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+01
+
+0.
+36
+
+±
+0.
+
+01
+0.
+
+50
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+11
+±
+
+0.
+01
+
+0.
+25
+
+±
+0.
+
+01
+T
+
+8
+T
+
+7.
+9
+
+J1
+40
+
+1+
+43
+
+25
+0.
+
+42
+±
+
+0.
+02
+
+0.
+36
+
+±
+0.
+
+01
+0.
+
+27
+±
+
+0.
+03
+
+0.
+09
+
+±
+0.
+
+01
+0.
+
+27
+±
+
+0.
+02
+
+0.
+62
+
+±
+0.
+
+04
+0.
+
+38
+±
+
+0.
+02
+
+0.
+29
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+60
+
+±
+0.
+
+02
+T
+
+7
+T
+
+5.
+6
+
+J1
+45
+
+8+
+17
+
+34
+0.
+
+21
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+05
+±
+
+0.
+01
+
+0.
+01
+
+±
+0.
+
+01
+0.
+
+18
+±
+
+0.
+01
+
+0.
+36
+
+±
+0.
+
+01
+0.
+
+40
+±
+
+0.
+02
+
+0.
+30
+
+±
+0.
+
+01
+0.
+
+15
+±
+
+0.
+01
+
+0.
+23
+
+±
+0.
+
+01
+T
+
+8
+T
+
+8.
+2
+
+J1
+51
+
+5−
+21
+
+57
+0.
+
+43
+±
+
+0.
+01
+
+0.
+28
+
+±
+0.
+
+01
+0.
+
+23
+±
+
+0.
+02
+
+0.
+12
+
+±
+0.
+
+01
+0.
+
+18
+±
+
+0.
+01
+
+0.
+39
+
+±
+0.
+
+02
+0.
+
+51
+±
+
+0.
+03
+
+0.
+23
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+50
+
+±
+0.
+
+02
+T
+
+6
+T
+
+6.
+1
+
+J1
+52
+
+4−
+26
+
+20
+0.
+
+87
+±
+
+0.
+02
+
+0.
+94
+
+±
+0.
+
+01
+0.
+
+77
+±
+
+0.
+01
+
+0.
+67
+
+±
+0.
+
+02
+0.
+
+72
+±
+
+0.
+02
+
+0.
+72
+
+±
+0.
+
+01
+0.
+
+48
+±
+
+0.
+03
+
+0.
+48
+
+±
+0.
+
+01
+0.
+
+36
+±
+
+0.
+01
+
+1.
+01
+
+±
+0.
+
+01
+L
+9
+
+L
+9.
+
+3
+
+J1
+71
+
+0+
+45
+
+37
+0.
+
+40
+±
+
+0.
+01
+
+0.
+31
+
+±
+0.
+
+01
+0.
+
+26
+±
+
+0.
+02
+
+0.
+14
+
+±
+0.
+
+01
+0.
+
+26
+±
+
+0.
+01
+
+0.
+44
+
+±
+0.
+
+02
+0.
+
+41
+±
+
+0.
+02
+
+0.
+30
+
+±
+0.
+
+01
+0.
+
+15
+±
+
+0.
+01
+
+0.
+51
+
+±
+0.
+
+01
+T
+
+6
+T
+
+5.
+9
+
+J1
+80
+
+1+
+47
+
+17
+0.
+
+44
+±
+
+0.
+01
+
+0.
+43
+
+±
+0.
+
+01
+0.
+
+28
+±
+
+0.
+03
+
+0.
+18
+
+±
+0.
+
+01
+0.
+
+33
+±
+
+0.
+02
+
+0.
+37
+
+±
+0.
+
+03
+0.
+
+65
+±
+
+0.
+03
+
+0.
+34
+
+±
+0.
+
+01
+0.
+
+13
+±
+
+0.
+01
+
+0.
+70
+
+±
+0.
+
+02
+T
+
+5
+T
+
+5.
+1
+
+J2
+01
+
+3−
+03
+
+26
+0.
+
+40
+±
+
+0.
+01
+
+0.
+34
+
+±
+0.
+
+01
+0.
+
+22
+±
+
+0.
+02
+
+0.
+13
+
+±
+0.
+
+01
+0.
+
+30
+±
+
+0.
+01
+
+0.
+60
+
+±
+0.
+
+03
+0.
+
+58
+±
+
+0.
+02
+
+0.
+25
+
+±
+0.
+
+01
+0.
+
+12
+±
+
+0.
+01
+
+0.
+57
+
+±
+0.
+
+02
+T
+
+6
+T
+
+5.
+8
+
+J2
+02
+
+1+
+15
+
+24
+0.
+
+86
+±
+
+0.
+01
+
+1.
+04
+
+±
+0.
+
+01
+0.
+
+91
+±
+
+0.
+01
+
+0.
+62
+
+±
+0.
+
+01
+0.
+
+56
+±
+
+0.
+01
+
+0.
+59
+
+±
+0.
+
+01
+0.
+
+53
+±
+
+0.
+01
+
+0.
+56
+
+±
+0.
+
+01
+0.
+
+39
+±
+
+0.
+01
+
+1.
+03
+
+±
+0.
+
+01
+T
+
+0
+L
+9.
+
+8
+
+J2
+11
+
+2−
+05
+
+29
+0.
+
+82
+±
+
+0.
+01
+
+0.
+88
+
+±
+0.
+
+01
+0.
+
+77
+±
+
+0.
+01
+
+0.
+61
+
+±
+0.
+
+01
+0.
+
+60
+±
+
+0.
+01
+
+0.
+68
+
+±
+0.
+
+01
+0.
+
+58
+±
+
+0.
+02
+
+0.
+42
+
+±
+0.
+
+01
+0.
+
+25
+±
+
+0.
+01
+
+1.
+01
+
+±
+0.
+
+01
+T
+
+1
+T
+
+1.
+4
+
+J2
+11
+
+2+
+30
+
+30
+0.
+
+78
+±
+
+0.
+01
+
+0.
+74
+
+±
+0.
+
+01
+0.
+
+51
+±
+
+0.
+01
+
+0.
+53
+
+±
+0.
+
+01
+0.
+
+50
+±
+
+0.
+01
+
+0.
+61
+
+±
+0.
+
+01
+0.
+
+93
+±
+
+0.
+03
+
+0.
+39
+
+±
+0.
+
+01
+0.
+
+28
+±
+
+0.
+01
+
+0.
+93
+
+±
+0.
+
+01
+T
+
+3
+T
+
+2.
+6
+
+J2
+21
+
+8+
+11
+
+46
+0.
+
+37
+±
+
+0.
+01
+
+0.
+24
+
+±
+0.
+
+01
+0.
+
+14
+±
+
+0.
+02
+
+0.
+11
+
+±
+0.
+
+01
+0.
+
+30
+±
+
+0.
+01
+
+0.
+51
+
+±
+0.
+
+03
+0.
+
+41
+±
+
+0.
+02
+
+0.
+26
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+01
+
+0.
+46
+
+±
+0.
+
+02
+T
+
+7
+T
+
+6.
+4
+
+J2
+25
+
+1−
+07
+
+40
+0.
+
+28
+±
+
+0.
+01
+
+0.
+19
+
+±
+0.
+
+01
+0.
+
+14
+±
+
+0.
+02
+
+0.
+06
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+01
+
+0.
+34
+
+±
+0.
+
+03
+0.
+
+69
+±
+
+0.
+03
+
+0.
+26
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+01
+
+0.
+39
+
+±
+0.
+
+02
+T
+
+7
+T
+
+7.
+1
+
+M
+et
+
+al
+-p
+
+oo
+r
+
+C
+om
+
+pa
+ri
+
+so
+n
+
+So
+ur
+
+ce
+s
+
+J0
+00
+
+4−
+13
+
+36
+0.
+
+76
+±
+
+0.
+02
+
+0.
+95
+
+±
+0.
+
+03
+0.
+
+85
+±
+
+0.
+05
+
+0.
+57
+
+±
+0.
+
+02
+0.
+
+59
+±
+
+0.
+04
+
+0.
+63
+
+±
+0.
+
+04
+0.
+
+55
+±
+
+0.
+02
+
+0.
+44
+
+±
+0.
+
+02
+0.
+
+26
+±
+
+0.
+01
+
+0.
+96
+
+±
+0.
+
+03
+T
+
+1
+T
+
+0.
+6
+
+J0
+00
+
+4−
+26
+
+04
+0.
+
+70
+±
+
+0.
+01
+
+0.
+75
+
+±
+0.
+
+01
+0.
+
+57
+±
+
+0.
+02
+
+0.
+47
+
+±
+0.
+
+01
+0.
+
+52
+±
+
+0.
+02
+
+0.
+59
+
+±
+0.
+
+02
+0.
+
+57
+±
+
+0.
+01
+
+0.
+41
+
+±
+0.
+
+01
+0.
+
+27
+±
+
+0.
+01
+
+0.
+90
+
+±
+0.
+
+02
+T
+
+3
+T
+
+2.
+5
+
+J0
+01
+
+3+
+06
+
+34
+0.
+
+26
+±
+
+0.
+02
+
+0.
+32
+
+±
+0.
+
+04
+0.
+
+21
+±
+
+0.
+09
+
+0.
+09
+
+±
+0.
+
+05
+0.
+
+17
+±
+
+0.
+02
+
+··
+·
+b
+
+0.
+50
+
+±
+0.
+
+04
+0.
+
+09
+±
+
+0.
+01
+
+0.
+04
+
+±
+0.
+
+01
+0.
+
+38
+±
+
+0.
+06
+
+T
+7
+
+T
+6.
+
+2
+
+J0
+02
+
+1+
+15
+
+52
+0.
+
+67
+±
+
+0.
+04
+
+0.
+57
+
+±
+0.
+
+03
+0.
+
+26
+±
+
+0.
+17
+
+0.
+39
+
+±
+0.
+
+05
+0.
+
+46
+±
+
+0.
+04
+
+0.
+67
+
+±
+0.
+
+14
+0.
+
+52
+±
+
+0.
+11
+
+0.
+27
+
+±
+0.
+
+04
+0.
+
+17
+±
+
+0.
+03
+
+0.
+83
+
+±
+0.
+
+05
+T
+
+4
+T
+
+4.
+0
+
+J0
+05
+
+7+
+20
+
+13
+0.
+
+84
+±
+
+0.
+01
+
+1.
+02
+
+±
+0.
+
+01
+0.
+
+95
+±
+
+0.
+02
+
+0.
+66
+
+±
+0.
+
+01
+0.
+
+59
+±
+
+0.
+01
+
+0.
+70
+
+±
+0.
+
+01
+0.
+
+57
+±
+
+0.
+01
+
+0.
+53
+
+±
+0.
+
+01
+0.
+
+38
+±
+
+0.
+01
+
+0.
+97
+
+±
+0.
+
+01
+T
+
+0
+L
+8.
+
+7
+
+J0
+30
+
+1−
+23
+
+19
+0.
+
+82
+±
+
+0.
+02
+
+0.
+98
+
+±
+0.
+
+02
+0.
+
+73
+±
+
+0.
+02
+
+0.
+67
+
+±
+0.
+
+02
+0.
+
+67
+±
+
+0.
+02
+
+0.
+63
+
+±
+0.
+
+02
+0.
+
+74
+±
+
+0.
+02
+
+0.
+49
+
+±
+0.
+
+01
+0.
+
+33
+±
+
+0.
+01
+
+1.
+01
+
+±
+0.
+
+02
+T
+
+1
+L
+9.
+
+6
+
+J0
+30
+
+9−
+50
+
+16
+0.
+
+20
+±
+
+0.
+01
+
+0.
+16
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+08
+
+0.
+05
+
+±
+0.
+
+01
+0.
+
+23
+±
+
+0.
+01
+
+0.
+51
+
+±
+0.
+
+05
+0.
+
+56
+±
+
+0.
+02
+
+0.
+14
+
+±
+0.
+
+01
+0.
+
+06
+±
+
+0.
+01
+
+0.
+30
+
+±
+0.
+
+02
+T
+
+7
+T
+
+7.
+7
+
+J0
+34
+
+8−
+56
+
+20
+0.
+
+54
+±
+
+0.
+02
+
+0.
+59
+
+±
+0.
+
+02
+0.
+
+30
+±
+
+0.
+04
+
+0.
+39
+
+±
+0.
+
+02
+0.
+
+47
+±
+
+0.
+02
+
+0.
+61
+
+±
+0.
+
+04
+0.
+
+50
+±
+
+0.
+02
+
+0.
+34
+
+±
+0.
+
+02
+0.
+
+20
+±
+
+0.
+01
+
+0.
+79
+
+±
+0.
+
+03
+T
+
+4
+T
+
+4.
+1
+
+J0
+41
+
+4−
+58
+
+54
+0.
+
+90
+±
+
+0.
+06
+
+0.
+58
+
+±
+0.
+
+07
+··
+·
+b
+
+0.
+22
+
+±
+0.
+
+07
+0.
+
+81
+±
+
+0.
+09
+
+··
+·
+b
+
+0.
+91
+
+±
+0.
+
+09
+0.
+
+04
+±
+
+0.
+04
+
+0.
+02
+
+±
+0.
+
+02
+0.
+
+89
+±
+
+0.
+09
+
+T
+4
+
+T
+3.
+
+9
+
+T
+ab
+
+le
+4
+
+co
+nt
+
+in
+ue
+
+d
+on
+
+ne
+xt
+
+pa
+ge
+
+
+
+20 Burgasser et al.
+T
+ab
+
+le
+4
+
+(c
+on
+
+ti
+nu
+
+ed
+)
+
+Sp
+T
+a
+
+N
+am
+
+e
+[C
+
+H
+4−
+
+J]
+[C
+
+H
+4−
+
+H
+]
+
+[C
+H
+
+4−
+K
+
+]
+[H
+
+2O
+−
+
+J]
+[H
+
+2O
+−
+
+H
+]
+
+[H
+2O
+
+−
+K
+
+]
+[Y
+
+/J
+]
+
+[K
+/H
+
+]
+[K
+
+/J
+]
+
+[H
+−
+
+di
+p]
+
+St
+d
+
+In
+d
+
+(n
+um
+
+er
+at
+
+or
+)
+
+1.
+31
+
+5–
+1.
+
+33
+5
+
+1.
+63
+
+5–
+1.
+
+67
+5
+
+2.
+21
+
+5–
+2.
+
+25
+5
+
+1.
+14
+
+–1
+.1
+
+65
+1.
+
+48
+–1
+
+.5
+2
+
+1.
+97
+
+5–
+1.
+
+99
+5
+
+1.
+00
+
+5–
+1.
+
+04
+5
+
+2.
+06
+
+–2
+.1
+
+0
+2.
+
+06
+–2
+
+.1
+0
+
+1.
+61
+
+–1
+.6
+
+4
+
+(d
+en
+
+om
+in
+
+at
+or
+
+)
+1.
+
+26
+–1
+
+.2
+85
+
+1.
+56
+
+–1
+.6
+
+0
+2.
+
+08
+–2
+
+.1
+2
+
+1.
+26
+
+–1
+.2
+
+85
+1.
+
+56
+–1
+
+.6
+0
+
+2.
+08
+
+–2
+.1
+
+2
+1.
+
+25
+–1
+
+.2
+9
+
+1.
+25
+
+–1
+.2
+
+9
+1.
+
+56
+–1
+
+.6
+0
+
+1.
+56
+
+–1
+.5
+
+9,
+1.
+
+66
+–1
+
+.6
+9
+
+J0
+53
+
+2+
+82
+
+46
+0.
+
+85
+±
+
+0.
+01
+
+0.
+83
+
+±
+0.
+
+01
+0.
+
+81
+±
+
+0.
+01
+
+0.
+83
+
+±
+0.
+
+01
+0.
+
+86
+±
+
+0.
+01
+
+0.
+88
+
+±
+0.
+
+01
+0.
+
+56
+±
+
+0.
+01
+
+0.
+35
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+1.
+00
+
+±
+0.
+
+01
+L
+8
+
+L
+4.
+
+6
+
+J0
+61
+
+6−
+64
+
+07
+0.
+
+86
+±
+
+0.
+03
+
+0.
+82
+
+±
+0.
+
+02
+0.
+
+95
+±
+
+0.
+08
+
+0.
+89
+
+±
+0.
+
+03
+0.
+
+92
+±
+
+0.
+03
+
+0.
+84
+
+±
+0.
+
+06
+0.
+
+59
+±
+
+0.
+03
+
+0.
+31
+
+±
+0.
+
+02
+0.
+
+15
+±
+
+0.
+01
+
+0.
+97
+
+±
+0.
+
+02
+T
+
+0
+T
+
+1.
+1
+
+J0
+64
+
+5−
+66
+
+46
+0.
+
+85
+±
+
+0.
+01
+
+1.
+01
+
+±
+0.
+
+01
+0.
+
+87
+±
+
+0.
+02
+
+0.
+68
+
+±
+0.
+
+01
+0.
+
+63
+±
+
+0.
+01
+
+0.
+66
+
+±
+0.
+
+01
+0.
+
+52
+±
+
+0.
+02
+
+0.
+48
+
+±
+0.
+
+01
+0.
+
+34
+±
+
+0.
+01
+
+1.
+03
+
+±
+0.
+
+01
+T
+
+0
+L
+9.
+
+0
+
+J0
+85
+
+0−
+02
+
+21
+0.
+
+89
+±
+
+0.
+01
+
+1.
+06
+
+±
+0.
+
+01
+0.
+
+95
+±
+
+0.
+01
+
+0.
+77
+
+±
+0.
+
+01
+0.
+
+70
+±
+
+0.
+01
+
+0.
+71
+
+±
+0.
+
+01
+0.
+
+48
+±
+
+0.
+01
+
+0.
+55
+
+±
+0.
+
+01
+0.
+
+40
+±
+
+0.
+01
+
+0.
+98
+
+±
+0.
+
+01
+L
+6
+
+L
+6.
+
+5
+
+J0
+83
+
+3+
+00
+
+52
+0.
+
+09
+±
+
+0.
+02
+
+0.
+12
+
+±
+0.
+
+03
+··
+·
+b
+
+−
+0.
+
+04
+±
+
+0.
+04
+
+0.
+07
+
+±
+0.
+
+04
+0.
+
+29
+±
+
+0.
+09
+
+0.
+51
+
+±
+0.
+
+05
+0.
+
+17
+±
+
+0.
+02
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+30
+±
+
+0.
+05
+
+T
+8
+
+··
+·
+
+J0
+93
+
+7+
+29
+
+31
+0.
+
+43
+±
+
+0.
+01
+
+0.
+31
+
+±
+0.
+
+01
+0.
+
+18
+±
+
+0.
+01
+
+0.
+15
+
+±
+0.
+
+01
+0.
+
+31
+±
+
+0.
+01
+
+0.
+53
+
+±
+0.
+
+02
+0.
+
+53
+±
+
+0.
+01
+
+0.
+17
+
+±
+0.
+
+01
+0.
+
+07
+±
+
+0.
+01
+
+0.
+53
+
+±
+0.
+
+01
+T
+
+6
+T
+
+5.
+8
+
+J0
+93
+
+9−
+24
+
+48
+0.
+
+30
+±
+
+0.
+01
+
+0.
+14
+
+±
+0.
+
+01
+0.
+
+10
+±
+
+0.
+04
+
+0.
+03
+
+±
+0.
+
+01
+0.
+
+17
+±
+
+0.
+01
+
+0.
+52
+
+±
+0.
+
+05
+0.
+
+51
+±
+
+0.
+02
+
+0.
+13
+
+±
+0.
+
+01
+0.
+
+06
+±
+
+0.
+01
+
+0.
+33
+
+±
+0.
+
+02
+T
+
+8
+T
+
+7.
+7
+
+J0
+95
+
+3−
+09
+
+43
+0.
+
+50
+±
+
+0.
+02
+
+0.
+37
+
+±
+0.
+
+03
+0.
+
+21
+±
+
+0.
+10
+
+0.
+21
+
+±
+0.
+
+02
+−
+
+0.
+18
+
+±
+0.
+
+05
+0.
+
+58
+±
+
+0.
+13
+
+0.
+45
+
+±
+0.
+
+02
+0.
+
+25
+±
+
+0.
+03
+
+0.
+10
+
+±
+0.
+
+01
+0.
+
+50
+±
+
+0.
+06
+
+T
+6
+
+T
+5.
+
+1
+
+J1
+01
+
+9−
+39
+
+11
+0.
+
+66
+±
+
+0.
+01
+
+0.
+55
+
+±
+0.
+
+01
+0.
+
+29
+±
+
+0.
+01
+
+0.
+44
+
+±
+0.
+
+01
+0.
+
+40
+±
+
+0.
+01
+
+0.
+50
+
+±
+0.
+
+01
+0.
+
+48
+±
+
+0.
+01
+
+0.
+36
+
+±
+0.
+
+01
+0.
+
+20
+±
+
+0.
+01
+
+0.
+77
+
+±
+0.
+
+01
+T
+
+4
+T
+
+4.
+0
+
+J1
+03
+
+5−
+07
+
+11
+0.
+
+89
+±
+
+0.
+02
+
+1.
+07
+
+±
+0.
+
+02
+0.
+
+94
+±
+
+0.
+02
+
+0.
+72
+
+±
+0.
+
+01
+0.
+
+63
+±
+
+0.
+02
+
+0.
+66
+
+±
+0.
+
+02
+0.
+
+58
+±
+
+0.
+01
+
+0.
+56
+
+±
+0.
+
+01
+0.
+
+38
+±
+
+0.
+01
+
+1.
+04
+
+±
+0.
+
+02
+L
+9
+
+L
+7.
+
+7
+
+J1
+05
+
+5+
+54
+
+43
+0.
+
+05
+±
+
+0.
+01
+
+0.
+06
+
+±
+0.
+
+01
+0.
+
+05
+±
+
+0.
+03
+
+0.
+02
+
+±
+0.
+
+02
+0.
+
+11
+±
+
+0.
+02
+
+0.
+27
+
+±
+0.
+
+03
+0.
+
+79
+±
+
+0.
+05
+
+0.
+31
+
+±
+0.
+
+01
+0.
+
+23
+±
+
+0.
+01
+
+0.
+10
+
+±
+0.
+
+03
+T
+
+9
+··
+·
+
+J1
+13
+
+0−
+11
+
+58
+0.
+
+49
+±
+
+0.
+03
+
+0.
+33
+
+±
+0.
+
+03
+0.
+
+69
+±
+
+0.
+46
+
+0.
+21
+
+±
+0.
+
+06
+0.
+
+38
+±
+
+0.
+05
+
+1.
+11
+
+±
+0.
+
+27
+0.
+
+49
+±
+
+0.
+05
+
+0.
+13
+
+±
+0.
+
+02
+0.
+
+06
+±
+
+0.
+01
+
+0.
+62
+
+±
+0.
+
+06
+T
+
+6
+T
+
+5.
+4
+
+J1
+15
+
+8+
+04
+
+35
+0.
+
+86
+±
+
+0.
+01
+
+1.
+04
+
+±
+0.
+
+01
+0.
+
+89
+±
+
+0.
+01
+
+0.
+71
+
+±
+0.
+
+01
+0.
+
+64
+±
+
+0.
+01
+
+0.
+69
+
+±
+0.
+
+01
+0.
+
+47
+±
+
+0.
+01
+
+0.
+50
+
+±
+0.
+
+01
+0.
+
+32
+±
+
+0.
+01
+
+1.
+01
+
+±
+0.
+
+01
+L
+7
+
+L
+8.
+
+0
+
+J1
+30
+
+7+
+15
+
+10
+0.
+
+79
+±
+
+0.
+05
+
+1.
+03
+
+±
+0.
+
+04
+0.
+
+95
+±
+
+0.
+12
+
+0.
+66
+
+±
+0.
+
+06
+0.
+
+58
+±
+
+0.
+03
+
+0.
+65
+
+±
+0.
+
+06
+0.
+
+49
+±
+
+0.
+07
+
+0.
+52
+
+±
+0.
+
+04
+0.
+
+35
+±
+
+0.
+03
+
+1.
+04
+
+±
+0.
+
+03
+T
+
+1
+T
+
+1.
+1
+
+J1
+31
+
+6+
+07
+
+55
+0.
+
+40
+±
+
+0.
+02
+
+0.
+35
+
+±
+0.
+
+03
+··
+·
+b
+
+0.
+13
+
+±
+0.
+
+02
+0.
+
+26
+±
+
+0.
+04
+
+··
+·
+b
+
+0.
+69
+
+±
+0.
+
+05
+0.
+
+10
+±
+
+0.
+01
+
+0.
+05
+
+±
+0.
+
+01
+0.
+
+51
+±
+
+0.
+05
+
+T
+7
+
+T
+5.
+
+7
+
+J1
+33
+
+8−
+02
+
+29
+0.
+
+86
+±
+
+0.
+06
+
+1.
+06
+
+±
+0.
+
+08
+0.
+
+83
+±
+
+0.
+07
+
+0.
+68
+
+±
+0.
+
+05
+0.
+
+62
+±
+
+0.
+05
+
+0.
+70
+
+±
+0.
+
+07
+0.
+
+44
+±
+
+0.
+04
+
+0.
+43
+
+±
+0.
+
+03
+0.
+
+28
+±
+
+0.
+02
+
+1.
+12
+
+±
+0.
+
+07
+T
+
+0
+L
+9.
+
+2:
+
+J1
+41
+
+6+
+13
+
+48
+B
+
+0.
+30
+
+±
+0.
+
+01
+0.
+
+21
+±
+
+0.
+01
+
+0.
+00
+
+±
+0.
+
+18
+0.
+
+04
+±
+
+0.
+01
+
+0.
+17
+
+±
+0.
+
+01
+0.
+
+35
+±
+
+0.
+15
+
+0.
+60
+
+±
+0.
+
+01
+0.
+
+07
+±
+
+0.
+01
+
+0.
+04
+
+±
+0.
+
+01
+0.
+
+42
+±
+
+0.
+02
+
+T
+7
+
+T
+7.
+
+0
+
+J1
+55
+
+3+
+69
+
+34
+0.
+
+86
+±
+
+0.
+03
+
+0.
+63
+
+±
+0.
+
+02
+0.
+
+65
+±
+
+0.
+04
+
+0.
+42
+
+±
+0.
+
+03
+0.
+
+66
+±
+
+0.
+03
+
+0.
+86
+
+±
+0.
+
+07
+0.
+
+56
+±
+
+0.
+05
+
+0.
+27
+
+±
+0.
+
+01
+0.
+
+16
+±
+
+0.
+01
+
+0.
+89
+
+±
+0.
+
+02
+T
+
+4
+T
+
+3.
+6
+
+J1
+81
+
+0−
+10
+
+10
+0.
+
+98
+±
+
+0.
+05
+
+0.
+75
+
+±
+0.
+
+05
+··
+·
+b
+
+0.
+53
+
+±
+0.
+
+02
+1.
+
+06
+±
+
+0.
+07
+
+··
+·
+b
+
+0.
+74
+
+±
+0.
+
+01
+0.
+
+37
+±
+
+0.
+05
+
+0.
+32
+
+±
+0.
+
+04
+0.
+
+95
+±
+
+0.
+05
+
+T
+3
+
+T
+2.
+
+2
+
+J2
+10
+
+5−
+62
+
+35
+0.
+
+80
+±
+
+0.
+01
+
+0.
+85
+
+±
+0.
+
+01
+··
+·
+b
+
+0.
+55
+
+±
+0.
+
+01
+0.
+
+60
+±
+
+0.
+01
+
+··
+·
+b
+
+0.
+53
+
+±
+0.
+
+01
+··
+·
+b
+
+··
+·
+b
+
+0.
+98
+
+±
+0.
+
+01
+T
+
+2
+T
+
+1.
+8
+
+N
+o
+te
+
+—
+Sp
+
+ec
+tr
+
+al
+in
+
+di
+ce
+
+s
+ar
+
+e
+de
+
+fin
+ed
+
+as
+flu
+
+x
+ra
+
+ti
+os
+
+,
+co
+
+m
+pu
+
+te
+d
+
+as
+th
+
+e
+in
+
+te
+gr
+
+al
+of
+
+th
+e
+
+sp
+ec
+
+tr
+um
+
+ov
+er
+
+th
+e
+
+de
+fin
+
+ed
+w
+
+av
+el
+
+en
+gt
+
+h
+ra
+
+ng
+es
+
+in
+µ
+m
+
+.
+Fo
+
+r
+th
+
+e
+[H
+
+-d
+ip
+
+]
+in
+
+de
+x,
+
+th
+e
+
+de
+no
+
+m
+in
+
+at
+or
+
+is
+th
+
+e
+m
+
+ed
+ia
+
+n
+of
+
+th
+e
+
+flu
+xe
+
+s
+co
+
+m
+pu
+
+te
+d
+
+in
+th
+
+e
+tw
+
+o
+sp
+
+ec
+ifi
+
+ed
+ra
+
+ng
+es
+
+.
+Fu
+
+rt
+he
+
+r
+de
+
+ta
+ils
+
+ar
+e
+
+pr
+ov
+
+id
+ed
+
+in
+B
+
+ur
+ga
+
+ss
+er
+
+et
+al
+
+.
+(2
+
+00
+6a
+
+,b
+)
+
+an
+d
+
+B
+ar
+
+da
+le
+
+z
+G
+
+ag
+liu
+
+ffi
+et
+
+al
+.
+(2
+
+01
+9)
+
+.
+
+a
+Sp
+
+ec
+tr
+
+al
+ty
+
+pe
+as
+
+in
+fe
+
+rr
+ed
+
+fr
+om
+
+di
+re
+
+ct
+co
+
+m
+pa
+
+ri
+so
+
+n
+to
+
+sp
+ec
+
+tr
+al
+
+st
+an
+
+da
+rd
+
+s
+(“
+
+St
+d”
+
+)
+an
+
+d
+in
+
+di
+ce
+
+s
+(“
+
+In
+d”
+
+).
+
+b
+M
+
+is
+si
+
+ng
+sp
+
+ec
+tr
+
+al
+da
+
+ta
+or
+
+sk
+ew
+
+ed
+by
+
+ex
+ce
+
+ss
+no
+
+is
+e.
+
+
+
+T Subdwarfs 21
+
+4.3. K I Equivalent Widths
+
+The moderate resolution of a subset of our spectra facilitates measurement of line equivalent widths
+(EWs) of the K I doublets at 1.1692/1.1778 µm and 1.2436/1.2526 µm (Figure 3). We measured
+these lines by integrating the unsmoothed spectral flux density relative to a linear fit of the local
+continuum over ±0.02 µm windows outside the line regions, and sampled both flux uncertainties and
+small variations in the integration window through Monte Carlo methods. Table 5 lists the measured
+EWs. In cases where measurements were less than three times their uncertainties, we report 3σ upper
+limits.
+
+Table 5. Equivalent Widths
+
+Name SpTa Instrument 1.1692 µm 1.1778 µm 1.2436 µm 1.2526 µm
+
+(Å) (Å) (Å) (Å)
+
+Metallicity Benchmarks
+
+LHS 6176B d/sdT7.5 NIRES 16.0±2.4 < 9 < 1.0 < 1.2
+
+HD 126053B sdT7.5 GNIRS < 63 < 93 < 2.5 < 2.0
+
+GJ 576B d/sdT5.5 XS < 7 13.3±2.2 < 1.3 < 1.5
+
+· · · · · · NIRES 14.7±2.2 10.2±1.5 1.6±0.2 1.8±0.2
+
+Wolf 1130C (e)sdT6: Keck < 19 < 14 < 1.7 < 1.6
+
+Subdwarf Candidates
+
+J0045+7958 d/sdL9 TSpec < 25 6.3±1.1 6.9±1.2 7.8±1.0
+
+J0055+5947 d/sdT6.5 NIRES < 35 < 26 < 2.1 < 1.7
+
+J0140+0150 rT4.5 NIRES 12.8±1.4 13.0±1.5 7.1±0.5 8.9±0.5
+
+J0411+4714 d/sdT7.5 NIRES 14.8±2.5 < 8 < 1.0 < 1.1
+
+J0429+3201 T1 NIRES 8.3±0.9 8.5±0.8 < 1.7 3.6±0.5
+
+J0433+1009 T8 NIRES < 41 < 65 < 1.6 3.3±0.4
+
+J0623+0715 sdT3 NIRES 6.7±1.2 5.5±0.8 < 1.1 < 1.2
+
+J0659+1615 T1 NIRES 5.4±0.6 7.3±0.5 2.2±0.3 4.6±0.3
+
+J0758+5711 T6.5 NIRES 12.4±1.9 7.7±1.5 2.0±0.3 2.1±0.3
+
+J1110−1747 rT8 NIRES < 12 < 22 < 1.0 < 1.7
+
+J1130+3139 d/sdT5.5 NIRES 13.9±2.0 8.9±1.5 2.0±0.3 < 0.8
+
+J1138+7212 d/sdT7 GNIRS < 67 < 50 < 1.3 < 1.2
+
+J1204−2359 d/sdT7 NIRES 16±3 15±3 3.2±0.4 < 1.6
+
+J1304+2819 d/sdL9: NIRES 4.8±0.6 9.5±0.6 6.5±0.6 5.3±0.7
+
+J1308−0321 d/sdT8 NIRES < 51 · · · b < 1.1 < 1.8
+
+J1401+4325 d/sdT5.5 NIRES < 18 < 9 < 1.6 < 1.8
+
+J1458+1734 T8 NIRES < 47 · · · b < 1.4 < 1.5
+
+J1524−2620 sdT0 NIRES 8.9±1.1 9.4±0.9 5.0±0.7 3.7±0.7
+
+J1710+4537 T6 NIRES 14±3 11.1±1.9 < 1.0 < 1.0
+
+J1801+4717 d/sdT5 NIRES 17±3 9.8±1.7 < 1.4 < 1.7
+
+J2013−0326 d/sdT6 NIRES < 10 12.6±2.3 < 1.2 < 1.1
+
+J2021+1524 d/sdL9 NIRES 9.7±0.7 12.4±0.7 6.3±0.6 8.0±0.5
+
+J2112−0529 sdT1 NIRES 7.9±0.8 10.4±0.6 5.3±0.5 5.9±0.4
+
+J2112+3030 d/sdT2.5 NIRES 5.8±0.9 7.0±0.8 < 1.1 3.0±0.4
+
+J2218+1146 d/sdT6.5 NIRES < 12 < 8 3.2±0.4 < 1.4
+
+J2251−0740 d/sdT7 NIRES < 47 · · · b < 1.7 < 1.8
+
+Metal-poor Comparison Sources
+
+Table 5 continued on next page
+
+
+
+22 Burgasser et al.
+
+Table 5 (continued)
+
+Name SpTa Instrument 1.1692 µm 1.1778 µm 1.2436 µm 1.2526 µm
+
+(Å) (Å) (Å) (Å)
+
+J0021+1552 d/sdT4 XS < 76 < 6 < 2.3 < 1.9
+
+J0532+8246 esdL8: NIRES 10.1±0.7 13.4±0.7 7.0±0.7 6.3±0.4
+
+J0616−6407 esdT0: XS 7.3±0.7 10.9±0.8 7.8±0.8 7.2±0.4
+
+J0645−6646 d/sdT0 XS 10.6±0.6 12.2±0.5 6.8±0.5 8.3±0.3
+
+J0833+0052 d/sdT9 GNIRS < 54 < 65 < 8 < 5
+
+J1019-3911 T4 ARCoIRIS2 9.0±1.1 6.3±0.9 3.0±0.4 < 0.9
+
+J1055+5443 Y0 NIRES · · · b · · · b < 4 < 3
+
+J1130−1158 sdT5.5 ARC < 57 < 12 < 3 < 3
+
+J1307+1510 T1 XS < 9 < 10 8.1±1.0 8.7±1.0
+
+J1316+0755 sdT6.5 GNIRS < 62 < 11 < 2.5 < 2.5
+
+J1553+6933 sdT4 NIRES < 5 < 4 < 4 < 3
+
+J1810−1010 esdT3: TSpec < 5 < 4 < 3 < 4
+
+aFinal spectral type as discussed in Section 6.
+
+b Affected by excess noise in local continuum.
+
+In Figure 5, we compare these measurements to a compilation of local L and T dwarf spectra
+from Martin et al. (2017), which is based on λ/∆λ ≈ 2000 data from the Keck Near-InfraRed
+SPECtrometer (NIRSPEC; McLean et al. 1998). The dwarf data follow previously-identified trends
+for K I absorption, with 1.1692 µm and 1.1778 µm EWs rising from late-L to late-T (largely driven
+by the drop in continuum as H2O absorption increases), 1.2436 µm EWs falling over the same range,
+and 1.2526 µm EWs rising from late-L to mid-T then dropping to zero for the latest T dwarfs. In
+contrast, many of the previously-observed T subdwarfs and metal-poor T benchmarks, and several of
+our candidates, are either well below these trends or lack detectable K I absorption to limits of 1–2 Å.
+This is particularly clear for the 1.2526 µm line, which sits near the J-band flux peak and shows
+the greatest dichotomy between dwarfs and subdwarfs for types T1–T7. One notable exception in
+our candidate sample is J0140+0150, which has exceptionally strong absorption at 1.2436 µm for its
+T4.5 classification.
+
+4.4. Spectral Model Fits
+
+To obtain initial estimates of the physical properties of our sources, we compared low-resolution
+versions of our spectra to eight sets of spectral models from Burrows et al. (2006, hereafter B06),
+Allard et al. (2012, hereafter Settl and Dusty), Phillips et al. (2020, hereafter ATMO), Marley et al.
+(2021, hereafter Sonora), Meisner et al. (2021, hereafter LOWZ), Mukherjee et al. (2024, hereafter
+ElfOwl), and Alvarado et al. (2024, hereafter SAND). The parameters and parameter ranges explored
+for these models are summarized in Table 6. These models were chosen as they span both low
+temperatures and solar and subsolar metallicities, with the LOWZ models currently providing the
+best metallicity coverage for T subdwarf atmospheres. The observed (O[λ]) and model (M [λ]) spectra
+were resampled onto a common wavelength scale with a constant resolution of λ/∆λ = 150 over the
+
+
+
+T Subdwarfs 23
+
+L8 T0 T2 T4 T6 T8
+Spectral Type
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+20.0
+K 
+
+I 1
+.1
+
+69
+2 
+
+EW
+ (A
+
+ng
+st
+
+ro
+m
+
+s)
+
+L8 T0 T2 T4 T6 T8
+Spectral Type
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+K 
+I 1
+
+.1
+77
+
+8 
+EW
+
+ (A
+ng
+
+st
+ro
+
+m
+s)
+
+L8 T0 T2 T4 T6 T8
+Spectral Type
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+K 
+I 1
+
+.2
+43
+
+6 
+EW
+
+ (A
+ng
+
+st
+ro
+
+m
+s)
+
+J0140
+
+L8 T0 T2 T4 T6 T8
+Spectral Type
+
+0
+
+2
+
+4
+
+6
+
+8
+
+10
+
+K 
+I 1
+
+.2
+52
+
+6 
+EW
+
+ (A
+ng
+
+st
+ro
+
+m
+s) J0140
+
+Figure 5. Equivalent width measurements of the 1.1692 µm (top left), 1.1178 µm (top right), 1.2436 µm
+(bottom left) and 1.2526 µm (bottom right) K I lines based on medium-resolution data in our spectral sample.
+Subdwarf candidates are indicated by magenta circles, metal-poor comparison sources by blue circles, and
+benchmark companions by blue stars. Smaller symbols with downward arrows indicate 3σ upper limits. A
+comparison sample of measurements for local L and T dwarfs with significant detections reported in Martin
+et al. (2017) are indicated as grey circles. The typical measurement uncertainties for sources with significant
+detections are indicated by the black error bar in the corners of each panel. Each source is given a small
+random offset in spectral type to help differentiate overlapping data points. The unusually red high velocity
+T dwarf J0140+0150 is specifically labeled in the bottom two panels.
+
+range 0.9–2.45 µm using a median filter,4 and noisy data at the edge of the observed spectral range
+and in the 1.35–1.45 µm and 1.8–1.95 µm telluric bands were masked from the fit. To identify the
+
+4 Smoothed uncertainties were computed as median({σ})/
+√
+N − 1 for the N uncertainty values {σ} within the sampling
+
+region.
+
+
+
+24 Burgasser et al.
+
+Table 6. Atmosphere Model Parameters
+
+Model Teff log g [M/H] C/O log κzz Other Parameters Ref
+
+(K) (cm/s2) (dex) (cm2/s)
+
+LOWZ 500–1600 4.5–5.25 −2.5 to +1.0 0.10–0.85 −1 to +10 [1]
+B06 700–2200 4.5–5.5 −0.5 to +0.5 · · · · · · Cloud model f100 [2]
+Settl 500–2200 4.5–5.5 −0.5 to +0.5 · · · · · · [α/Fe] = 0 to +0.2 [3]
+Dusty 1000–2200 4.5–5.5 −2.5 to +0.0 · · · · · · [α/Fe] = 0 to +0.6 [3]
+
+ATMOa 600–2000 4.5–5.5 0.0 · · · 4–8, CEb log10 Pmin = −8–0; γ = 1.0–1.1 [4]
+Sonora 500–2200 4.5–5.5 −0.5 to +0.5 0.22–0.83 · · · [5]
+ElfOwl 525–2200 4.5–5.5 −1.0 to +1.0 0.22–0.83 2–8 [6]
+SAND 700–2200 4.5–6.0 −2.4 to +0.3 · · · · · · [α/Fe] = 0 to +0.4 [7]
+
+References— [1] Meisner et al. (2021); [2] Burrows et al. (2006); [3] Allard et al. (2012); [4] Phillips et al. (2020); [5]
+Marley et al. (2021); [6] Mukherjee et al. (2024); [7] Alvarado et al. (2024).
+
+aATMO models are further constrained to the K I broadening profile from Allard et al. (2016) and the condensate
+rainout prescription described by Goyal et al. (2019); see Phillips et al. (2020).
+
+b Chemical Equilibrium (no mixing).
+
+best-fitting model, we used a χ2 goodness-of-fit statistic,
+
+χ2 =
+N∑
+i=1
+
+(O[λi]− βM [λi])
+2
+
+σ[λi]2
+(4)
+
+where N is the number of unmasked flux values, σ[λi] is the observed uncertainty spectrum, and the
+optimal scale factor β is computed as
+
+β =
+
+∑N
+i=1
+
+O[λi]M [λi]
+σ[λi]2∑N
+
+i=1
+M [λi]2
+
+σ[λi]2
+
+(5)
+
+(cf. Cushing et al. 2008). We report here the reduced chi-square, χ2
+r ≡ χ2/(N − 1), as a normalized
+
+quality of fit. For sources with measured parallaxes, we scaled the observed spectra to absolute fluxes
+using their MJ magnitudes, which allows us to estimate the source radius from the scale factor
+
+Rβ = 10
+√
+
+β pc = 2.256× 10−9
+√
+β R⊙. (6)
+
+All other spectra are scaled to apparent J magnitudes. No attempt was made to adjust for relative
+velocity shifts between the observed and model spectra, which are expected to be minimal at this
+low resolution.
+
+For each model set, an initial fit was made to the individual grid models, and the best-fit (lowest
+χ2
+r) model was used as an initial estimate of the atmosphere parameters. We employed a simple
+
+Metropolis-Hastings Markov Chain Monte Carlo (MCMC) algorithm (Metropolis et al. 1953; Hastings
+1970) to explore the proximate parameter space. We used a single chain of 2,000 steps for each
+spectrum and model set comparison, varying the continuous variables of effective temperature (Teff),
+surface gravity (log g), and solar-scaled metallicity ([M/H]) for all models, as well as carbon/oxygen
+
+
+
+T Subdwarfs 25
+
+abundance ratio (C/O) for LOWZ, Sonora, and ElfOwl models; alpha element enrichment ([α/Fe]) for
+Settl, Dusty, and SAND models; and adiabatic coefficient γ = (1− ∂ log T/∂ logP )−1 (Tremblin et al.
+2019) and minimum cloud deck pressure Pmin for ATMO models. We also varied the disequilibrium
+mixing diffusion rate log κzz for the LOWZ, ATMO, and ElfOwl models as a discrete value. Models
+were linearly interpolated in logarithmic flux units on a logarithmic parameter grid (i.e,. Teff ⇒
+logTeff). In each iteration, we drew new parameters for the continuous variables using a normal
+distribution centered on the last parameter values in the chain with pre-defined standard deviations.5
+
+The discrete variable log κzz was randomly drawn from the available values. Sequential fits (i ⇒ i+ 1)
+were compared using the criterion
+
+χ2(i+ 1)− χ2(i)
+
+MIN[χ2]
+< U(0, 0.5) (7)
+
+where MIN is the minimum of all χ2 values in the chain and U(0, 0.5) is a number drawn from a
+uniform distribution between 0 and 0.5. If the new fit satisfied this criterion, these parameters were
+added to the chain; otherwise the previous parameters were added. We also enforced a limit on χ2
+
+values exceeding 2×MIN[χ2], at which point the chain reverted to the minimum χ2 parameter set. We
+verified that all fits converged using the convergence diagnostic defined by Geweke (1992), requiring
+that the means of the variable parameters in the first 10% and last 50% of each chain differ by less
+than three times their combined variance. We also visually confirmed convergence, and examined
+each fit to ensure it provided an accurate reproduction of the data.
+
+Table 7. Spectral Model Fit Parameters
+
+Name SpT Instrument Teff log g [M/H] C/O log kzz R MIN Model
+
+(K) (cm/s2) (dex) (cm2/s) (R⊙) χ2
+r
+
+Metallicity Benchmarks
+
+HD 3651B T8 SpeX 856+23
+−20 4.56+0.17
+
+−0.06 0.01+0.12
+−0.10 0.48+0.11
+
+−0.05 −1 0.070+0.004
+−0.004 21 LOWZ
+
+· · · · · · · · · 834+20
+−31 4.53+0.15
+
+−0.03 0.00+0.11
+−0.05 0.67+0.19
+
+−0.04 4 0.077+0.006
+−0.004 15 ElfOwl
+
+HD 65486B d/sdT4.5 SpeX 993+44
+−47 4.98+0.20
+
+−0.24 −0.53+0.13
+−0.17 0.38+0.15
+
+−0.10 −1 0.099+0.013
+−0.010 5 LOWZ
+
+LHS 6176B d/sdT7.5 NIRES 846+19
+−6 4.52+0.10
+
+−0.01 −0.21+0.05
+−0.03 0.49+0.04
+
+−0.02 −1 0.061+0.001
+−0.004 15 LOWZ
+
+Ross 458C rT8.5 FIRE 790+63
+−10 4.61+0.13
+
+−0.04 0.95+0.05
+−0.08 0.38+0.06
+
+−0.00 −1 0.080+0.000
+−0.016 319 LOWZ
+
+· · · · · · · · · 812+38
+−28 4.61+0.18
+
+−0.09 0.78+0.09
+−0.21 1.11+0.08
+
+−0.15 2 0.075+0.005
+−0.007 298 ElfOwl
+
+HD 126053B sdT7.5 GNIRS 654+52
+−39 4.98+0.27
+
+−0.36 −0.35+0.11
+−0.15 0.56+0.16
+
+−0.08 2 0.076+0.016
+−0.015 40 LOWZ
+
+· · · · · · · · · 746+36
+−28 4.23+0.40
+
+−0.15 −0.53+0.10
+−0.04 1.20+0.18
+
+−0.15 2 0.055+0.006
+−0.007 33 ElfOwl
+
+GJ 570D T7.5 SpeX 837+20
+−17 4.62+0.18
+
+−0.08 −0.11+0.07
+−0.06 0.54+0.16
+
+−0.07 −1 0.061+0.004
+−0.003 10 LOWZ
+
+GJ 576B sdT5.5 GNIRS 912+20
+−36 4.71+0.24
+
+−0.12 −0.47+0.09
+−0.10 0.37+0.07
+
+−0.06 −1 0.096+0.010
+−0.006 6 LOWZ
+
+· · · · · · XS 912+32
+−16 4.74+0.33
+
+−0.18 −0.53+0.15
+−0.11 0.32+0.05
+
+−0.05 −1 0.098+0.005
+−0.010 4 LOWZ
+
+· · · · · · NIRES 966+5
+−36 5.25+0.02
+
+−0.06 −0.24+0.06
+−0.01 0.39+0.02
+
+−0.03 -1 0.080+0.007
+−0.002 62 LOWZ
+
+· · · · · · · · · 995+19
+−21 5.19+0.11
+
+−0.22 −0.21+0.04
+−0.07 0.86+0.05
+
+−0.06 · · · 0.078+0.004
+−0.004 29 Sonora
+
+G 204−39B T6.5 SpeX 984+25
+−16 4.76+0.16
+
+−0.12 0.43+0.15
+−0.07 0.46+0.08
+
+−0.03 −1 0.069+0.003
+−0.005 26 LOWZ
+
+Wolf 1130C (e)sdT6: Multiple 978+22
+−44 5.03+0.22
+
+−0.29 −0.29+0.09
+−0.22 0.60+0.05
+
+−0.08 10 0.018+0.003
+−0.003 97 LOWZ
+
+· · · · · · · · · 700+15
+−0
+
+a 5.57+0.21
+−0.11 −0.65+0.10
+
+−0.07 0.21+0.03
+−0.04
+
+b · · · 0.056+0.002
+−0.003 76 SAND
+
+HN PegB T2.5 SpeX 1284+42
+−23 4.76+0.24
+
+−0.14 −0.11+0.23
+−0.12 0.32+0.08
+
+−0.04 −1 0.074+0.004
+−0.005 90 LOWZ
+
+Wolf 940B T8.5 FIRE 636+32
+−29 5.20+0.05
+
+−0.28 0.33+0.13
+−0.07 0.81+0.04
+
+−0.12 10 0.069+0.007
+−0.010 6 LOWZ
+
+Subdwarf Candidates
+
+Table 7 continued on next page
+
+5 These standard deviations were σTeff = 30 K, σlog g = 0.1 dex, σ[M/H] = 0.05 dex, σC/O = 0.05 dex, σ[α/Fe] = 0.05
+dex, and σγ = 0.01.
+
+
+
+26 Burgasser et al.
+
+Table 7 (continued)
+
+Name SpT Instrument Teff log g [M/H] C/O log kzz R MIN Model
+
+(K) (cm/s2) (dex) (cm2/s) (R⊙) χ2
+r
+
+J0045+7958 d/sdL9 TSpec 1600+0
+−6
+
+a 4.73+0.12
+−0.11 0.79+0.10
+
+−0.06 0.64+0.01
+−0.02 −1 · · · 6 LOWZ
+
+· · · · · · · · · 1637+13
+−14 5.47+0.03
+
+−0.08 −0.05+0.09
+−0.08 0.21+0.03
+
+−0.06
+b · · · · · · 4 SAND
+
+J0055+5947 d/sdT6.5 NIRES 641+82
+−52 5.00+0.25
+
+−0.32 −0.11+0.31
+−0.25 0.73+0.11
+
+−0.19 −1 0.143+0.048
+−0.045 30 LOWZ
+
+· · · · · · · · · 738+35
+−46 5.07+0.29
+
+−0.39 0.04+0.19
+−0.20 0.73+0.07
+
+−0.12 4 0.094+0.017
+−0.011 18 ElfOwl
+
+J0140+0150 rT4.5 SpeX 1149+33
+−27 4.77+0.34
+
+−0.21 0.21+0.25
+−0.22 0.49+0.06
+
+−0.07 −1 · · · 4 LOWZ
+
+· · · · · · NIRES 1148+19
+−35 5.06+0.11
+
+−0.30 0.40+0.11
+−0.19 0.48+0.04
+
+−0.06 −1 · · · 9 LOWZ
+
+J0411+4714 d/sdT7.5 NIRES 860+25
+−21 4.63+0.19
+
+−0.08 −0.20+0.08
+−0.06 0.59+0.09
+
+−0.06 −1 · · · 10 LOWZ
+
+· · · · · · · · · 843+15
+−21 4.54+0.10
+
+−0.36 −0.12+0.04
+−0.05 0.68+0.05
+
+−0.07 4 · · · 4 ElfOwl
+
+J0429+3201 T1 NIRES 1598+2
+−23
+
+a 4.74+0.33
+−0.16 0.28+0.24
+
+−0.19 0.59+0.03
+−0.07 -1 · · · 12 LOWZ
+
+· · · · · · · · · 1648+74
+−47 5.36+0.14
+
+−0.31 −0.08+0.08
+−0.14 · · · · · · · · · 11 B06
+
+J0433+1009 T8 NIRES 953+47
+−39 4.80+0.27
+
+−0.20 0.12+0.22
+−0.14 0.60+0.09
+
+−0.10 −1 · · · 4 LOWZ
+
+J0623+0715 sdT3 NIRES 1277+31
+−40 4.81+0.26
+
+−0.19 −0.68+0.12
+−0.11 0.49+0.06
+
+−0.07 −1 · · · 6 LOWZ
+
+J0659+1615 T1 NIRES 1600+0
+−28
+
+a 5.20+0.05
+−0.31 0.03+0.11
+
+−0.09 0.48+0.07
+−0.04 2 · · · 21 LOWZ
+
+· · · · · · · · · 1536+25
+−46 5.72+0.05
+
+−0.05 −0.03+0.10
+−0.07 0.08+0.02
+
+−0.01
+b · · · · · · 6 SAND
+
+J0758+5711 T6.5 NIRES 953+12
+−20 4.66+0.23
+
+−0.13 −0.17+0.11
+−0.09 0.47+0.03
+
+−0.04 −1 · · · 6 LOWZ
+
+J0843+2904 L6: SpeX 1600+0
+−19
+
+a 4.69+0.25
+−0.13 0.79+0.09
+
+−0.22 0.66+0.04
+−0.04 −1 · · · 12 LOWZ
+
+· · · · · · · · · 1663+37
+−22 5.47+0.05
+
+−0.03 0.01+0.11
+−0.09 0.08+0.01
+
+−0.02
+b · · · · · · 2 SAND
+
+J0845−3305 d/sdT6.5 FIRE 933+4
+−24 4.51+0.17
+
+−0.00 −0.23+0.03
+−0.05 0.43+0.01
+
+−0.03 −1 · · · 173 LOWZ
+
+· · · · · · · · · 952+3
+−18 4.50+0.10
+
+−0.01 −0.35+0.08
+−0.01 0.53+0.04
+
+−0.01 2 · · · 121 ElfOwl
+
+J0911+2146 d/sdT8 FIRE 746+71
+−93 4.70+0.31
+
+−0.16 −0.18+0.38
+−0.20 0.67+0.13
+
+−0.22 −1 · · · 68 LOWZ
+
+· · · · · · · · · 750+29
+−10 4.55+0.13
+
+−0.05 0.00+0.11
+−0.08 0.56+0.09
+
+−0.03 4 · · · 34 ElfOwl
+
+J1110−1747 rT8 NIRES 909+40
+−26 4.74+0.32
+
+−0.21 0.20+0.16
+−0.20 0.67+0.12
+
+−0.11 −1 · · · 26 LOWZ
+
+J1130+3139 d/sdT5.5 NIRES 948+31
+−36 5.20+0.05
+
+−0.38 −0.21+0.09
+−0.10 0.37+0.04
+
+−0.05 −1 · · · 12 LOWZ
+
+· · · · · · · · · 1033+20
+−33 4.72+0.09
+
+−0.12 −0.17+0.09
+−0.09 0.53+0.06
+
+−0.07 4 · · · 7 ElfOwl
+
+J1138+7212 d/sdT7 GNIRS 854+34
+−20 4.62+0.16
+
+−0.10 −0.37+0.07
+−0.06 0.54+0.11
+
+−0.08 −1 0.113+0.006
+−0.011 9 LOWZ
+
+· · · · · · · · · 900+13
+−10 4.54+0.12
+
+−0.04 −0.36+0.07
+−0.04 1.05+0.11
+
+−0.10 2 0.102+0.002
+−0.004 5 ElfOwl
+
+J1204−2359 d/sdT7 NIRES 930+29
+−32 4.73+0.31
+
+−0.17 −0.15+0.09
+−0.11 0.47+0.09
+
+−0.06 −1 · · · 3 LOWZ
+
+J1304+2819 d/sdL9: NIRES 1600+0
+−20
+
+a 4.63+0.17
+−0.08 0.89+0.08
+
+−0.10 0.63+0.01
+−0.03 −1 · · · 33 LOWZ
+
+· · · · · · · · · 1803+47
+−99 5.57+0.07
+
+−0.06 0.20+0.06
+−0.11 0.06+0.02
+
+−0.06
+b · · · · · · 8 SAND
+
+J1308−0321 d/sdT8 NIRES 827+8
+−33 4.55+0.15
+
+−0.04 −0.11+0.09
+−0.04 0.50+0.13
+
+−0.01 −1 · · · 10 LOWZ
+
+J1401+4325 d/sdT5.5 NIRES 896+34
+−38 5.19+0.06
+
+−0.19 −0.13+0.12
+−0.14 0.39+0.07
+
+−0.06 −1 · · · 4 LOWZ
+
+J1458+1734 T8 NIRES 854+34
+−21 4.61+0.26
+
+−0.08 0.06+0.16
+−0.10 0.72+0.09
+
+−0.16 −1 · · · 8 LOWZ
+
+· · · · · · · · · 790+20
+−16 4.14+0.09
+
+−0.09 0.13+0.07
+−0.05 0.75+0.04
+
+−0.06 4 · · · 3 ElfOwl
+
+J1515−2157 d/sdT6 FIRE 832+40
+−22 4.66+0.35
+
+−0.16 0.06+0.08
+−0.13 0.57+0.05
+
+−0.06 10 · · · 62 LOWZ
+
+· · · · · · · · · 952+43
+−49 4.68+0.10
+
+−0.08 −0.08+0.07
+−0.07 0.87+0.10
+
+−0.09 4 · · · 36 ElfOwl
+
+J1524−2620 sdT0 NIRES 1600+0
+−9
+
+a 4.81+0.37
+−0.14 −0.38+0.09
+
+−0.09 0.44+0.07
+−0.08 −1 · · · 63 LOWZ
+
+· · · · · · · · · 1565+26
+−37 5.35+0.09
+
+−0.09 −0.69+0.09
+−0.14 0.20+0.04
+
+−0.03
+b · · · · · · 9 SAND
+
+J1710+4537 T6 NIRES 984+22
+−29 5.17+0.08
+
+−0.19 0.02+0.09
+−0.10 0.45+0.04
+
+−0.04 −1 · · · 3 LOWZ
+
+J1801+4717 d/sdT5 NIRES 973+33
+−47 5.13+0.12
+
+−0.48 −0.09+0.20
+−0.14 0.36+0.06
+
+−0.06 −1 · · · 3 LOWZ
+
+J2013−0326 d/sdT6 NIRES 956+37
+−21 4.86+0.33
+
+−0.26 −0.21+0.12
+−0.12 0.42+0.05
+
+−0.05 −1 · · · 3 LOWZ
+
+J2021+1524 d/sdL9 NIRES 1600+0
+−12
+
+a 4.66+0.25
+−0.12 0.14+0.17
+
+−0.08 0.46+0.06
+−0.07 −1 · · · 61 LOWZ
+
+· · · · · · · · · 1611+22
+−20 5.59+0.05
+
+−0.06 −0.35+0.07
+−0.06 0.34+0.04
+
+−0.01
+b · · · · · · 8 SAND
+
+J2112−0529 sdT1 NIRES 1594+6
+−59
+
+a 4.63+0.27
+−0.09 −0.92+0.17
+
+−0.10 0.15+0.10
+−0.05 −1 · · · 27 LOWZ
+
+· · · · · · · · · 1520+20
+−17 5.63+0.05
+
+−0.08 −0.74+0.10
+−0.03 0.38+0.01
+
+−0.01
+b · · · · · · 4 SAND
+
+J2112+3030 d/sdT2.5 NIRES 1325+38
+−35 5.00+0.20
+
+−0.26 −0.43+0.12
+−0.09 0.40+0.04
+
+−0.06 −1 · · · 6 LOWZ
+
+J2218+1146 d/sdT6.5 NIRES 890+19
+−27 5.22+0.03
+
+−0.16 −0.10+0.06
+−0.11 0.55+0.06
+
+−0.06 −1 · · · 3 LOWZ
+
+J2251−0740 d/sdT7 NIRES 930+36
+−34 4.71+0.23
+
+−0.16 −0.00+0.09
+−0.09 0.48+0.11
+
+−0.07 −1 · · · 5 LOWZ
+
+Metal-poor Comparison Sources
+
+J0004−1336 d/sdT2: SpeX 1567+33
+−76
+
+a 4.63+0.24
+−0.12 −0.83+0.13
+
+−0.08 0.14+0.10
+−0.04 −1 · · · 9 LOWZ
+
+· · · · · · · · · 2011+111
+−92 4.80+0.21
+
+−0.17 −0.56+0.15
+−0.22 0.20+0.10
+
+−0.11
+b · · · · · · 7 SAND
+
+J0004−2604 T3 SpeX 1325+23
+−24 4.83+0.15
+
+−0.10 −0.40+0.05
+−0.07 0.36+0.05
+
+−0.05 2 0.087+0.003
+−0.003 19 LOWZ
+
+Table 7 continued on next page
+
+
+
+T Subdwarfs 27
+Table 7 (continued)
+
+Name SpT Instrument Teff log g [M/H] C/O log kzz R MIN Model
+
+(K) (cm/s2) (dex) (cm2/s) (R⊙) χ2
+r
+
+J0013+0634 sdT7.5 GNIRS 658+97
+−34 4.91+0.19
+
+−0.23 0.00+0.15
+−0.10 0.23+0.16
+
+−0.13 10 · · · 105 LOWZ
+
+· · · · · · · · · 727+31
+−30 5.03+0.09
+
+−0.15 −0.61+0.90
+−0.88 0.18+0.18
+
+−0.13
+b · · · · · · 80 Settl
+
+J0021+1552 d/sdT4 XS 1149+18
+−20 4.88+0.33
+
+−0.29 −0.49+0.11
+−0.08 0.37+0.05
+
+−0.04 −1 · · · 2 LOWZ
+
+J0057+2013 d/sdL9 SpeX 1590+10
+−45
+
+a 4.73+0.33
+−0.17 −0.24+0.19
+
+−0.09 0.49+0.10
+−0.11 10 · · · 30 LOWZ
+
+· · · · · · · · · 1859+62
+−31 4.80+0.16
+
+−0.16 −0.15+0.21
+−0.15 0.10+0.04
+
+−0.07
+b · · · · · · 14 Settl
+
+J0301−2319 d/sdT1 SpeX 1550+38
+−72
+
+a 4.79+0.40
+−0.27 −0.65+0.16
+
+−0.07 0.26+0.07
+−0.10 −1 0.056+0.006
+
+−0.003 18 LOWZ
+
+· · · · · · · · · 1488+77
+−73 5.65+0.09
+
+−0.11 −0.44+0.09
+−0.14 0.18+0.11
+
+−0.10
+b · · · 0.063+0.007
+
+−0.008 12 SAND
+
+J0309−5016 d/sdT7.5 FIRE 747+33
+−28 4.61+0.21
+
+−0.08 −0.30+0.11
+−0.07 0.57+0.13
+
+−0.10 2 0.087+0.009
+−0.009 48 LOWZ
+
+· · · · · · · · · 795+55
+−27 4.13+0.09
+
+−0.09 −0.36+0.08
+−0.08 0.70+0.07
+
+−0.10 2 0.077+0.008
+−0.012 38 ElfOwl
+
+J0348−5620 d/sdT4 FIRE 1195+9
+−22 5.25+0.02
+
+−0.01 0.00+0.04
+−0.03 0.54+0.02
+
+−0.05 2 · · · 15 LOWZ
+
+J0414−5854 esdT6: FIRE 699+66
+−49 4.88+0.29
+
+−0.25 −1.34+0.17
+−0.15 0.21+0.13
+
+−0.10 −1 · · · 4 LOWZ
+
+J0532+8246 esdL8: Multiple 1600+0
+−35
+
+a 4.56+0.20
+−0.05 −1.56+0.17
+
+−0.02 0.11+0.13
+−0.01 -1 0.088+0.004
+
+−0.001 57 LOWZ
+
+· · · · · · · · · 1718+30
+−38 5.05+0.11
+
+−0.10 −1.53+0.06
+−0.03 0.33+0.01
+
+−0.01
+b · · · 0.077+0.005
+
+−0.003 9 SAND
+
+J0616−6407 esdT0: XS 1598+2
+−38
+
+a 4.58+0.18
+−0.06 −1.77+0.07
+
+−0.05 0.11+0.11
+−0.01 2 0.106+0.005
+
+−0.003 21 LOWZ
+
+· · · · · · · · · 2181+14
+−26 5.20+0.20
+
+−0.15 −1.13+0.08
+−0.07 0.07+0.05
+
+−0.06
+b · · · 0.056+0.003
+
+−0.003 6 Dusty
+
+J0645−6646 d/sdT0 XS 1595+5
+−22
+
+a 4.54+0.23
+−0.02 −0.63+0.16
+
+−0.02 0.33+0.04
+−0.03 −1 0.033+0.003
+
+−0.003 73 LOWZ
+
+· · · · · · · · · 1594+25
+−20 5.49+0.04
+
+−0.05 −0.46+0.07
+−0.05 0.29+0.02
+
+−0.04
+b · · · 0.063+0.001
+
+−0.003 65 SAND
+
+J0833+0052 d/sdT9 GNIRS 528+129
+−28 5.03+0.22
+
+−0.34 −0.08+0.15
+−0.16 0.42+0.24
+
+−0.16 2 0.050+0.010
+−0.025 13 LOWZ
+
+J0850−0221 d/sdL6 SpeX 1600+0
+−19
+
+a 4.57+0.45
+−0.07 −0.24+0.08
+
+−0.07 0.64+0.00
+−0.13 10 0.131+0.003
+
+−0.003 175 LOWZ
+
+· · · · · · · · · 1852+48
+−81 5.53+0.11
+
+−0.09 0.17+0.08
+−0.27 0.05+0.02
+
+−0.06
+b · · · 0.099+0.008
+
+−0.007 46 SAND
+
+J0937+2931 sdT6 SpeX 859+28
+−15 4.70+0.14
+
+−0.11 −0.59+0.06
+−0.07 0.49+0.04
+
+−0.06 −1 0.088+0.004
+−0.007 33 LOWZ
+
+J0939−2448 d/sdT8 SpeX 682+51
+−40 4.75+0.32
+
+−0.16 −0.35+0.12
+−0.09 0.73+0.10
+
+−0.17 −1 0.080+0.015
+−0.016 6 LOWZ
+
+J0953−0943 d/sdT6 SpeX 881+48
+−62 4.81+0.36
+
+−0.21 −0.43+0.16
+−0.13 0.52+0.21
+
+−0.15 −1 · · · 7 LOWZ
+
+J1019−3911 T4 ARC 1200+2
+−19 5.25+0.00
+
+−0.00 0.00+0.06
+−0.00 0.55+0.01
+
+−0.05 −1 · · · 58 LOWZ
+
+J1035−0711 d/sdL9 SpeX 1600+0
+−34
+
+a 4.65+0.29
+−0.10 −0.35+0.10
+
+−0.05 0.37+0.05
+−0.08 10 · · · 29 LOWZ
+
+· · · · · · · · · 1695+3
+−28 5.59+0.02
+
+−0.07 0.01+0.04
+−0.16 0.17+0.06
+
+−0.01
+b · · · · · · 10 SAND
+
+J1055+5443 Y0 NIRES 670+105
+−79 4.77+0.29
+
+−0.19 0.70+0.21
+−0.17 0.34+0.29
+
+−0.15 2 0.021+0.008
+−0.006 8 LOWZ
+
+J1130−1158 sdT5.5 ARC 918+31
+−33 4.86+0.26
+
+−0.24 −0.56+0.15
+−0.13 0.44+0.09
+
+−0.07 −1 · · · 25 LOWZ
+
+J1158+0435 d/sdL8 SpeX 1600+0
+−33
+
+a 4.66+0.27
+−0.13 −0.56+0.17
+
+−0.08 0.25+0.08
+−0.08 −1 0.085+0.003
+
+−0.003 112 LOWZ
+
+· · · · · · · · · 1870+40
+−64 5.50+0.09
+
+−0.04 −0.19+0.08
+−0.02 0.09+0.01
+
+−0.02
+b · · · 0.062+0.004
+
+−0.002 30 SAND
+
+J1307+1510 T1 XS 1549+51
+−76
+
+a 4.79+0.31
+−0.18 −0.14+0.27
+
+−0.23 0.39+0.08
+−0.09 2 · · · 3 LOWZ
+
+· · · · · · · · · 1633+14
+−53 5.45+0.12
+
+−0.08 −0.42+0.05
+−0.07 0.35+0.03
+
+−0.03
+b · · · · · · 1 SAND
+
+J1316+0755 sdT6.5 GNIRS 765+55
+−50 4.69+0.29
+
+−0.14 −0.65+0.11
+−0.09 0.29+0.11
+
+−0.11 −1 · · · 24 LOWZ
+
+J1338−0229 sdL9 FIRE 1592+8
+−39
+
+a 4.60+0.18
+−0.07 −0.71+0.06
+
+−0.05 0.25+0.05
+−0.07 −1 · · · 2 LOWZ
+
+· · · · · · · · · 1639+26
+−26 5.51+0.07
+
+−0.10 −0.50+0.10
+−0.08 0.22+0.06
+
+−0.04
+b · · · · · · 1 SAND
+
+J1416+1348B sdT7 SpeX 635+68
+−42 4.62+0.29
+
+−0.10 −0.67+0.14
+−0.09 0.38+0.20
+
+−0.11 −1 0.102+0.026
+−0.029 11 LOWZ
+
+J1553+6933 sdT4 NIRES 1225+70
+−75 4.78+0.35
+
+−0.20 −0.96+0.21
+−0.26 0.42+0.13
+
+−0.17 −1 · · · 2 LOWZ
+
+J1810−1010 esdT3: Multiple 1300+116
+−99 5.00+0.23
+
+−0.31 −0.91+0.34
+−0.27 0.34+0.32
+
+−0.20 -1 0.020+0.004
+−0.003 32 LOWZ
+
+· · · · · · · · · 869+5
+−13 5.87+0.08
+
+−0.11 −1.27+0.01
+−0.04 0.34+0.01
+
+−0.01
+b · · · 0.081+0.005
+
+−0.004 9 SAND
+
+J2105−6235 d/sdT2: Flamingos 1282+22
+−14 4.72+0.23
+
+−0.15 −0.32+0.18
+−0.09 0.66+0.05
+
+−0.05 10 · · · 65 LOWZ
+
+Note—Model parameters are listed for best-fit LOWZ models by default (Meisner et al. 2021), Sources that reached the LOWZ Teff parameter limit
+or had a significantly better fits (|∆χ2
+
+r| > 5) to an alternate model are also listed with the alternative model parameters. Model names are given
+in shorthand notation as B06 (Burrows et al. 2006, assuming cloud model f100), Settl and Dusty (Allard et al. 2012), ATMO (Phillips et al. 2020),
+Sonora (Marley et al. 2021), ElfOwl (Mukherjee et al. 2024), or or SAND (Alvarado et al. 2024). Instrument names are given in shorthand notation
+as ARC = SOAR/ARCoIRIS, TSpec = APO/TripleSpec or Palomar/TripleSpec, and XS = VLT/X-Shooter. Multiple instruments contribute to
+spectra used for Wolf 1130C (Keck/NIRSPEC and Keck/MOSFIRE), J0532+8246 (Keck/LRIS and Keck/NIRES), and J1810−1010 (GTC/OSIRIS,
+GTC/EMIR, and Palomar/TripleSpec)
+
+a Reaches Teff parameter limit for given model set.
+
+b Alpha element enrichment [α/Fe] relative to the Sun for Settl and Dusty models.
+
+
+
+28 Burgasser et al.
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+Ab
+
+so
+lu
+
+te
+  F
+
+ (e
+rg
+
+/c
+m
+
+2 /s
+/
+
+m
+)
+
+1e 12
+
+LHS6176B (d/sdT7.5)
+Best LOWZ model: 2
+
+r =15
+T=844K logg=4.51 [M/H]=-0.21
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+2.5
+0.0
+2.5
+
+O-
+C
+
+1e 13
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+Ab
+so
+
+lu
+te
+
+  F
+ (e
+
+rg
+/c
+
+m
+2 /s
+
+/
+m
+
+)
+
+1e 12
+
+GJ576B (d/sdT5.5)
+Best LOWZ model: 2
+
+r =62
+T=966K logg=5.25 [M/H]=-0.24
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+0
+5
+
+O-
+C
+
+1e 13
+
+co = 0.49+0.04
+0.02
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+lo
+gg
+
+logg = 4.52+0.10
+0.01
+
+81
+0
+
+84
+0
+
+87
+0
+
+90
+0
+
+93
+0
+
+te
+ff
+
+teff = 845.91+18.70
+6.03
+
+0.3
+0
+
+0.1
+5
+
+0.0
+0
+
+z
+
+z = 0.21+0.05
+0.03
+
+0.4 0.5 0.6 0.7
+
+co
+
+0.0
+50
+
+0.0
+55
+
+0.0
+60
+
+0.0
+65
+
+ra
+di
+
+us
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+logg
+81
+
+0
+84
+
+0
+87
+
+0
+90
+
+0
+93
+
+0
+
+teff
+0.3
+
+0
+0.1
+
+5
+0.0
+
+0
+
+z
+0.0
+
+50
+0.0
+
+55
+0.0
+
+60
+0.0
+
+65
+
+radius
+
+radius = 0.06+0.00
+0.00
+
+co = 0.39+0.02
+0.03
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+lo
+gg
+
+logg = 5.25+0.00
+0.06
+
+87
+0
+
+90
+0
+
+93
+0
+
+96
+0
+
+99
+0
+
+te
+ff
+
+teff = 965.55+0.86
+35.95
+
+0.4
+0
+
+0.3
+2
+
+0.2
+4
+
+0.1
+6
+
+0.0
+8
+
+z
+
+z = 0.24+0.06
+0.01
+
+0.3
+0
+
+0.3
+6
+
+0.4
+2
+
+0.4
+8
+
+co
+0.0
+
+72
+0.0
+
+80
+0.0
+
+88
+0.0
+
+96
+0.1
+
+04
+
+ra
+di
+
+us
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+logg
+87
+
+0
+90
+
+0
+93
+
+0
+96
+
+0
+99
+
+0
+
+teff
+0.4
+
+0
+0.3
+
+2
+0.2
+
+4
+0.1
+
+6
+0.0
+
+8
+
+z
+0.0
+
+72
+0.0
+
+80
+0.0
+
+88
+0.0
+
+96
+0.1
+
+04
+
+radius
+
+radius = 0.08+0.01
+0.00
+
+Figure 6. Best-fit LOWZ models and model parameter distributions for Keck/NIRES data for the metal-
+licity benchmarks LHS 6176B (left) and GJ 576B (right). The top panels compare the observed spectra in
+absolute flux density (black lines) to the best-fit model (magenta line). The bottom panels show parameter
+distributions for Teff , log g, [M/H], C/O, and radius. Plots along the diagonal axis show the marginalized
+posterior distributions for each parameter, with 16%, 50%, and 84% quantiles indicated as vertical dashed
+lines (see Table 7). The remaining contour plots display two-dimensional distributions of parameter pairs in
+the posterior solutions, highlighting parameter correlations. Note that parameter distributions are weighted
+by their χ2 value following Equation 10.
+
+Table 7 lists the best-fit model parameters for each of the spectra in our sample, while Figures 6
+through 9 display model fits for representative sources. We find excellent agreement with the LOWZ
+models for most of our spectra, with temperatures appropriate for their spectral classifications. In
+particular, we find good agreement between the metallicities inferred for our benchmark companions
+and the metallicities reported for their primaries (Figure 6). Nearly all of the sources with measured
+parallaxes also have inferred radii consistent with evolved brown dwarfs, with a few cases where
+radii are either too large (e.g., J0055+5947) or too small (e.g., J1316+0755 and J1810−1010), likely
+reflecting inferred temperatures that are too low or too high, respectively. Fits to three sources
+
+
+
+T Subdwarfs 29
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+Ab
+
+so
+lu
+
+te
+  F
+
+ (e
+rg
+
+/c
+m
+
+2 /s
+/
+
+m
+)
+
+1e 11
+
+J0532+8246 (esdL8:)
+Best LOWZ model: 2
+
+r =57
+T=1600K logg=4.50 [M/H]=-1.58
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+0
+5
+
+O-
+C
+
+1e 12
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+Ab
+so
+
+lu
+te
+
+  F
+ (e
+
+rg
+/c
+
+m
+2 /s
+
+/
+m
+
+)
+
+1e 11
+
+J0532+8246 (esdL8:)
+Best SAND model: 2
+
+r =9
+T=1718K logg=5.05 [M/H]=-1.53
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+2.5
+0.0
+2.5
+
+O-
+C
+
+1e 12
+
+Teff (K) = 1600.00+0.00
+31.32
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+lo
+gg
+
+ (c
+m
+
+/s
+2 )
+
+log g (cm/s2) = 4.54+0.19
+0.04
+
+1.8
+0
+
+1.6
+5
+
+1.5
+0
+
+1.3
+5
+
+1.2
+0
+
+[M
+/H
+
+]
+
+[M/H] = 1.57+0.11
+0.02
+
+0.2
+0.3
+0.4
+0.5
+
+C/
+O
+
+C/O = 0.10+0.09
+0.00
+
+14
+40
+
+14
+80
+
+15
+20
+
+15
+60
+
+16
+00
+
+Teff (K)
+0.0
+
+84
+0.0
+
+90
+0.0
+
+96
+0.1
+
+02
+0.1
+
+08
+
+R 
+(R
+
+)
+
+4.6
+5
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+log g (cm/s2)
+1.8
+
+0
+1.6
+
+5
+1.5
+
+0
+1.3
+
+5
+1.2
+
+0
+
+[M/H]
+0.2 0.3 0.4 0.5
+
+C/O
+0.0
+
+84
+0.0
+
+90
+0.0
+
+96
+0.1
+
+02
+0.1
+
+08
+
+R (R )
+
+R (R ) = 0.09+0.00
+0.00
+
+enrich = 0.33+0.00
+0.01
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+lo
+gg
+
+logg = 5.05+0.11
+0.10
+
+16
+20
+
+16
+80
+
+17
+40
+
+18
+00
+
+18
+60
+
+te
+ff
+
+teff = 1717.51+29.50
+38.04
+
+1.6
+5
+
+1.5
+0
+
+1.3
+5
+
+1.2
+0
+
+z
+
+z = 1.53+0.06
+0.03
+
+0.2
+1
+
+0.2
+4
+
+0.2
+7
+
+0.3
+0
+
+0.3
+3
+
+enrich
+0.0
+
+64
+0.0
+
+72
+0.0
+
+80
+0.0
+
+88
+
+ra
+di
+
+us
+
+4.8
+0
+
+4.9
+5
+
+5.1
+0
+
+5.2
+5
+
+logg
+16
+
+20
+16
+
+80
+17
+
+40
+18
+
+00
+18
+
+60
+
+teff
+1.6
+
+5
+1.5
+
+0
+1.3
+
+5
+1.2
+
+0
+
+z
+0.0
+
+64
+0.0
+
+72
+0.0
+
+80
+0.0
+
+88
+
+radius
+
+radius = 0.08+0.00
+0.00
+
+Figure 7. Same as Figure 6 comparing LOWZ (left) and SAND (right) model fits for J0532+8246. The
+former converges to the Teff upper limit of the LOWZ grid, while the latter provides a significantly better fit
+at a higher Teff , higher surface gravity, and comparable metallicity.
+
+(GJ 576B, J0414−5854, and J1316+0755) yield unusually small C/O ratios, which likely offset low
+temperatures since low C/O reduces the relative strength of CH4 absorption. The poorest fits for
+the LOWZ models occur for the late-L and early-T dwarfs in our sample, a consequence of the Teff
+
+= 1600 K maximum for this model set.
+For sources that hit the parameter limits for the LOWZ models or have better fits among the
+
+other seven model sets (|∆χ2
+r| > 5), we also report in Table 7 the parameters inferred for the best
+
+fits among all models. For the highest-temperature sources, these are typically from the SAND
+models which yield higher temperatures outside the LOWZ parameter range, and generally higher
+surface gravities and lower metallicities. An illustrative case is the extreme L subdwarf J0532+8246
+(Figure 7) for which the SAND models provide an excellent fit to strong FeH absorption at 1 µm
+and the smooth near-infrared continuum, while inferring a radius (R = 0.077+0.005
+
+−0.003 R⊙) in line with
+theoretical models. On the other, other SAND model fits to sources with parallax measurements
+
+
+
+30 Burgasser et al.
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+Ab
+
+so
+lu
+
+te
+  F
+
+ (e
+rg
+
+/c
+m
+
+2 /s
+/
+
+m
+)
+
+1e 13
+
+J1810-1010 (esdT3:)
+Best SAND model: 2
+
+r =9
+T=869K logg=5.87 [M/H]=-1.27
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+5
+0
+5
+
+O-
+C
+
+1e 14
+
+0.0
+
+0.5
+
+1.0
+
+1.5
+
+Sc
+al
+
+ed
+  F
+
+ (e
+rg
+
+/c
+m
+
+2 /s
+/
+
+m
+)
+
+1e 13
+
+J1524-2620 (sdT0)
+Best SAND model: 2
+
+r =9
+T=1565K logg=5.40 [M/H]=-0.66
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+2
+0
+
+O-
+C
+
+1e 14
+
+enrich = 0.34+0.00
+0.01
+
+5.6
+0
+
+5.6
+8
+
+5.7
+6
+
+5.8
+4
+
+5.9
+2
+
+lo
+gg
+
+logg = 5.87+0.08
+0.11
+
+80
+0
+
+82
+0
+
+84
+0
+
+86
+0
+
+88
+0
+
+te
+ff
+
+teff = 868.95+0.60
+12.51
+
+1.3
+0
+
+1.2
+5
+
+1.2
+0
+
+1.1
+5
+
+z
+
+z = 1.27+0.01
+0.04
+
+0.3
+1
+
+0.3
+2
+
+0.3
+3
+
+0.3
+4
+
+enrich
+
+0.0
+72
+
+0.0
+80
+
+0.0
+88
+
+0.0
+96
+
+ra
+di
+
+us
+
+5.6
+0
+
+5.6
+8
+
+5.7
+6
+
+5.8
+4
+
+5.9
+2
+
+logg
+80
+
+0
+82
+
+0
+84
+
+0
+86
+
+0
+88
+
+0
+
+teff
+1.3
+
+0
+1.2
+
+5
+1.2
+
+0
+1.1
+
+5
+
+z
+0.0
+
+72
+0.0
+
+80
+0.0
+
+88
+0.0
+
+96
+
+radius
+
+radius = 0.08+0.00
+0.00
+
+enrich = 0.20+0.04
+0.03
+
+5.1
+
+5.2
+
+5.3
+
+5.4
+
+5.5
+
+lo
+gg
+
+logg = 5.35+0.09
+0.09
+
+14
+80
+
+15
+20
+
+15
+60
+
+16
+00
+
+te
+ff
+
+teff = 1564.96+26.48
+37.14
+
+1.0
+5
+
+0.9
+0
+
+0.7
+5
+
+0.6
+0
+
+z
+
+z = 0.69+0.09
+0.14
+
+0.1
+2
+
+0.1
+8
+
+0.2
+4
+
+0.3
+0
+
+enrich
+
+0.0
+09
+
+00.0
+09
+
+60.0
+10
+
+20.0
+10
+
+8
+
+ra
+di
+
+us
+
+5.1 5.2 5.3 5.4 5.5
+
+logg
+14
+
+80
+15
+
+20
+15
+
+60
+16
+
+00
+
+teff
+1.0
+
+5
+0.9
+
+0
+0.7
+
+5
+0.6
+
+0
+
+z 0.0
+09
+
+0
+0.0
+
+09
+6
+
+0.0
+10
+
+2
+0.0
+
+10
+8
+
+radius
+
+radius = 0.01+0.00
+0.00
+
+Figure 8. Same as Figure 6, showing best-fit SAND model and parameter distributions for the extreme T
+subdwarf J1810−0010 (left) and the T subdwarf candidate J1524−2620 (right).
+
+(e.g., J1158+0435) yield radii too small to be physical, suggesting that the inferred temperatures are
+too high in these cases. SAND models also provide improved fits for some of the lower-temperature
+metal-poor sources, including Wolf 1130C for which the inferred metallicity ([M/H] = −0.65+0.10
+
+−0.07) is
+consistent with the metallicity of the system’s M dwarf primary ([Fe/H] = −0.70±0.12; Mace et al.
+2018); and the extreme T subdwarf J1810−1010 (Figure 8), for which the inferred temperature (Teff
+
+= 869+5
+−13 K) and radius (0.081+0.005
+
+−0.04 R⊙) are consistent with luminosity-based estimates from Lodieu
+et al. (2022). The better agreement in near-infrared spectral morphology and inferred parameters
+for these sources suggest that the SAND models are well-suited for metal-poor L and T subdwarfs.
+Other low-temperature T dwarfs with solar/near-solar metallicities are better fit by the ElfOwl
+models, which have up-to-date opacities for key molecules such as CH4 and thus better reproduce the
+strong absorption features present in late-type T dwarf spectra. Nevertheless, these fits yield similar
+atmosphere parameters as LOWZ (|∆Teff | ≲ 100 K, |∆ log g| ≲ 0.5, |∆[M/H]| ≲ 0.2).
+
+
+
+T Subdwarfs 31
+
+0
+
+1
+
+2
+
+3
+Sc
+
+al
+ed
+
+  F
+ (e
+
+rg
+/c
+
+m
+2 /s
+
+/
+m
+
+)
+
+1e 13
+
+J0623+0715 (sdT3)
+Best LOWZ model: 2
+
+r =6
+T=1293K logg=4.75 [M/H]=-0.68
+
+1.0 1.2 1.4 1.6 1.8 2.0 2.2 2.4
+Wavelength ( m)
+
+0
+
+1
+
+O-
+C
+
+1e 13
+
+0
+
+1
+
+2
+
+3
+
+4
+
+Sc
+al
+
+ed
+  F
+
+ (e
+rg
+
+/c
+m
+
+2 /s
+/
+
+m
+)
+
+1e 13
+
+J2112-0529 (sdT1)
+Best SAND model: 2
+
+r =

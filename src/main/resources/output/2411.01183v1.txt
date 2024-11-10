@@ -1,0 +1,1959 @@
+
+Draft version November 5, 2024
+Typeset using LATEX default style in AASTeX63
+
+Stellar Pulsation and Evolution: a Combined Theoretical Renewal and Updated Models (SPECTRUM) - I: Updating
+radiative opacities for pulsation models of Classical Cepheid and RR-Lyrae.
+
+Giulia De Somma,1, 2, 3 MarcellaMarconi,1 Santi Cassisi,2, 4 and RobertoMolinaro1
+
+1 INAF-Osservatorio astronomico di Capodimonte
+Via Moiariello 16
+80131 Napoli, Italy
+
+2INAF-Osservatorio Astronomico d’Abruzzo
+Via Maggini sn
+
+64100 Teramo, Italy
+3Istituto Nazionale di Fisica Nucleare (INFN) - Sez. di Napoli
+
+Compl. Univ.di Monte S. Angelo, Edificio G, Via Cinthia
+I-80126, Napoli, Italy
+
+4Istituto Nazionale di Fisica Nucleare (INFN) - Sezione di Pisa
+Universitá di Pisa, Largo Pontecorvo 3
+
+56127 Pisa, Italy
+
+(Received 24 Oct 2024; Revised 29 Oct 2024; Accepted 1 Nov 2024)
+
+Submitted to ApJ
+
+ABSTRACT
+
+Pulsating stars are universally recognized as precise distance indicators and tracers of stellar populations. Their
+variability, combined with well-defined relationships between pulsation properties and intrinsic evolutionary
+parameters such as luminosity, mass, and age, makes them essential for understanding galactic evolution and
+retrieving star formation histories. Therefore, accurate modeling of pulsating stars is crucial for using them as
+standard candles and stellar population tracers. This is the first paper in the ”Stellar Pulsation and Evolution: a
+Combined Theoretical Renewal and Updated Models” (SPECTRUM) project, which aims to present an update
+of Stellingwerf’s hydrodynamical pulsation code, by adopting the latest radiative opacity tables commonly
+used in stellar evolution community. We assess the impact of this update on pulsation properties, such as
+periods, instability strip topology, and light curve shapes, as well as on Period Wesenheit and Period-Luminosity
+relations for Classical Cepheids and RR Lyrae stars, comparing the results with those derived using older opacity
+data. Our results indicate that the opacity update introduces only minor changes: instability strip boundary
+locations shift by no more than 100K in effective temperature, and pulsation periods vary within 1σ compared
+to previous evaluations. Light curves exhibit slight differences in shape and amplitude. Consequently, the
+theoretical calibration of the Cepheid or RRL-based extragalactic distance scale remains largely unaffected by
+the opacity changes. However, achieving consistency in opacity tables between stellar evolution and pulsation
+codes is a significant step toward a homogeneous and self-consistent stellar evolution and pulsation framework.
+
+Keywords: stars: evolution — stars: variables: Cepheids — stars: oscillations — stars: distances
+
+1. INTRODUCTION
+
+Pulsating stars exhibit periodic variations in their luminosity and radius. The relation connecting their mean density to the
+pulsation period enables the link between an observed pulsation property and the intrinsic stellar parameters, reflecting the
+evolutionary stage of the investigated pulsator. An accurate formulation of this relationship is currently derived through the
+development of hydrodynamical models of the pulsation phenomenon. The connection between pulsation and evolutionary
+
+Corresponding author: Giulia De Somma
+giulia.desomma@inaf.it , gdesomma@na.infn.it
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+01
+18
+
+3v
+1 
+
+ [
+as
+
+tr
+o-
+
+ph
+.S
+
+R
+] 
+
+ 2
+ N
+
+ov
+ 2
+
+02
+4
+
+mailto: giulia.desomma@inaf.it , gdesomma@na.infn.it
+
+
+2 G. De Somma et al.
+
+properties is the basis for using pulsating stars as stellar population tracers. Furthermore, the possibility to relate the pulsation
+period to intrinsic luminosity and color makes these objects excellent standard candles. This holds for several classes of pulsating
+stars including Classical, Type II, and Anomalous Cepheids, as well as RR Lyrae stars.
+
+The reliability of stellar pulsation models strongly relies on the accuracy of the physical ingredients adopted in their computa-
+tion, such as radiative opacity and thermodynamic properties, notably the equation of state.
+
+In particular, the stellar opacity plays a key role in driving pulsation mechanisms. Dating back to S.A.Zhevakin (1963) it is
+well known that the stellar oscillation phenomenon is essentially a ’Valve effect’ (Zhevakin 1963), with the κ and γ mechanisms,
+related to the variation of the opacity and the adiabatic exponents, respectively, in the regions where ionization of the most
+abundant elements of a stellar envelope (H, He and He+) occurs. Indeed the opacity is higher (and the adiabatic exponents
+are smaller) in partially ionized regions than in completely ionized ones, thus producing energy trapping during the contraction
+phase, released as excess energy during the subsequent expansion phase which is converted into pulsation work.
+
+According to these mechanisms, the origin of the instability lies in the external layers of the star, where partial ionization
+occurs, and the ’Valve effect’ only activates in a specific temperature range.
+
+Historical evidence of the importance of updating opacity tables has been highlighted in the context of the well-known Cepheid
+mass discrepancy problem. This issue arises because the masses calculated using the three main techniques, evolutionary models,
+pulsation models, and binary systems, do not always agree. Specifically, the masses derived from pulsation models used to be
+consistently lower (by about 20-40%) than those derived from evolutionary models (see e.g. Cogan 1970; Rodgers 1970; Stobie
+1969). This discrepancy has posed a significant challenge for both evolution and pulsation theory. In the early ’90s, the availability
+of updated Livermore OPAL radiative opacities (Rogers & Iglesias 1992) helped to significantly reduce the mass discrepancy to
+10-15% (see e.g. Moskalik et al. 1992; Keller & Wood 2002). However, as further improvements in stellar opacity evaluations
+do not seem to offer a viable solution to the residual discrepancy, additional physical processes, such as the inclusion of mass
+loss and core convective overshooting, are required to fully resolve the mismatch between pulsation and evolutionary Classical
+Cepheid (CC) masses (Bono et al. 2006; Cassisi & Salaris 2011; Keller 2008; Marconi et al. 2013, 2017). Nonetheless, it remains
+evident that accurate and reliable prescriptions about the opacity behavior of stellar matter are crucial ingredients for modeling
+both stellar pulsation and evolutionary properties.
+
+On the other hand, over the last decade, significant advancements have been made in updating and refining predictions about
+both the thermodynamic and opacitive properties of stellar matter in thermal regimes suitable for low- and intermediate-mass
+pulsating stars. However, these improvements have not yet been fully incorporated into pulsation models. Therefore, it is crucial
+to test how this updated physical framework impacts the properties of various classes of pulsating stars.
+
+At the same time, most work on modeling pulsating stars has relied on the building of grids of models whose initial parameters
+- in terms of luminosity and effective temperature - have been obtained from evolutionary stellar models, but without taking
+into account how they change along an evolutionary track as a consequence of the change in the structural properties along the
+evolution of the star. The work presented by Paxton et al. (2019) is the only available exception to this approach which was
+traditionally due to the extremely demanding computational time required by the facilities available in the past. Nowadays, the
+availability of high-performance computers and more efficient computing algorithms has led to a paradigm shift, enabling the
+simultaneous modeling of both stellar evolutionary and pulsational properties. This can be achieved by computing the pulsational
+properties of a stellar model on the fly as it evolves through the pulsational instability strip (IS).
+
+Given the aforementioned achievements and the significant impact expected from several ongoing observational surveys, such
+as Gaia, APOGEE, and TESS (Gaia Collaboration et al. 2018; Majewski et al. 2017; Garcı́a Pérez et al. 2016; Ricker et al. 2015;
+Stassun et al. 2018), it is evident that a revolutionized and more accurate theoretical scenario is necessary. This need led us to
+develop a new project, named SPECTRUM (The Stellar Pulsation and Evolution: a Combined Theoretical Renewal and Updated
+Models).
+
+One of the main aims of the SPECTRUM project is to update the physics in our pulsation code. While changes to the equation
+of state are not expected to produce significant variations, as a preliminary study by Petroni et al. (2003) suggested, updating
+stellar opacity is a crucial step. The latest opacity release needs to be evaluated through the computation of extensive sets of
+pulsating models for both CC and RRL stars. The goal is to assess how the updated physical framework could affect the predicted
+properties of these stars and to develop an updated, self-consistent theoretical framework suitable for analyzing and interpreting
+data from observational surveys such as Gaia DR4, JWST, and the Vera Rubin LSST survey (LSST Science Collaboration et al.
+2009; Gaia Collaboration et al. 2016a, 2018, 2021; Gardner et al. 2006; Ivezić et al. 2019; Gaia Collaboration et al. 2016b; Rigby
+et al. 2023) .
+
+
+
+SPECTRUM-I 3
+
+At the same time, this project will explore the possibility of simultaneously computing the evolutionary and pulsational prop-
+erties of variable stars, by integrating pulsation computations into an updated evolutionary code. This integration will enable the
+self-consistent modeling of variable stars without separate computations for evolutionary and pulsational properties.
+
+This paper is devoted to presenting the project and discussing the effect of implementing more updated opacity tables into the
+adopted pulsation code on model predictions of the pulsation properties of both CCs and RRLs, which are taken as representative
+examples of intermediate- and low-mass pulsating stars.
+
+In the present work, we have built a new dataset of 1D pulsation models for various types of variable stars. However, another
+potential avenue for advancing pulsation hydrodynamic models is through multi-dimensional (2D-3D) calculations (Geroux &
+Deupree 2011). These models hold promise for future research, given the theoretical challenge of accurately modeling convec-
+tion—a fundamentally 3D phenomenon—in both pulsation and evolutionary models. Several authors, including Mundprecht
+et al. (2013, 2015), have embarked on the first 2D and 3D simulations of convection, which are essential for more realistic mod-
+eling of the convection–pulsation interaction in stars and provide valuable guidelines for improving the convective-turbulence
+treatment also in 1D hydrodynamical codes.
+
+The paper is organized as follows: Section 2 provides an overview of the updated model datasets and discusses the adopted
+opacity tables, along with their effects on linear pulsation models for both CC and RRL stars. Section 3 investigates the impact
+of the adopted opacity tables on nonlinear pulsation models, including the topology of the instability strip and the shape and
+amplitude of bolometric light curves. It also analyzes the effect on inferred model parameters such as periods, mean magnitudes,
+and amplitudes, derived by transferring model predictions into the Johnson-Cousins photometric system, and explores how the
+Period-Wesenheit (PW) relations for CCs are affected by these updated opacity tabulations. Final remarks and conclusions close
+the paper.
+
+2. RADIATIVE ROSSELAND OPACITY AND PULSATION CODE
+
+The calculation of pulsation models using the Stellingwerf code (see Bono & Stellingwerf 1994; Bono et al. 1999; Stelling-
+werf 1982, for details) is carried out in two steps. First, a linear hydrodynamic code is used to compute the stability of linear
+nonadiabatic pulsation models while neglecting convection.
+
+The static envelope structure provided by the linear nonadiabatic code is then perturbed with a surface velocity modulated
+within the envelope layers, according to the radial eigenfunction corresponding to each selected mode. The full-amplitude
+pulsation behavior is then investigated using a nonlinear hydrodynamic code, which includes a non-local and time-dependent
+treatment of convection and its coupling with pulsation. In this approach, a mixing length parameter is adopted only to close the
+nonlinear system of hydrodynamical and convective equations. For details on the adopted convective model, the interested reader
+is referred to Bono & Stellingwerf (1994); Bono et al. (1999).
+
+Once a stable full-amplitude limit cycle is reached, the nonlinear code provides accurate predictions for the variation of all the
+stellar properties, such as luminosity, radius, radial velocity, temperature, and gravity, across the pulsation cycle. Additionally,
+the investigation of the pulsation behavior at the stable limit cycle enables predictions of the blue and red edges of the IS for each
+selected pulsation mode and any given assumptions about the mass, luminosity, and chemical composition of the pulsator.
+
+This study investigates the effect of updating the opacity tables in both the linear and nonlinear pulsation codes on the predicted
+pulsation properties and stability of CC and RR Lyrae models.
+
+In a previous study, Bono et al. (1996) incorporated OPAL opacity tables (Rogers & Iglesias 1992; Iglesias & Rogers 1992) and
+opacities by Alexander & Ferguson (1994) for temperatures lower than 10000K into our pulsation code, along with the traditional
+Stellingwerf Analytical Approximation, to analyze the effects of metallicity on RR Lyrae variables. By enhancing the resolution
+of opacity tables and accurately evaluating the derivatives, the authors ensured precise modeling of pulsational properties.
+
+Both the OPAL and low-T opacities implemented in the code by Bono et al. (1996) were based on the solar heavy element
+distribution provided by Grevesse et al. (1991).
+
+The pulsation models by De Somma et al. (2020, 2022, hereinafter DS20, DS22) for CCs and by Marconi et al. (2015,
+hereinafter M15) for RRLs were calculated using an updated version of the OPAL radiative opacities (Iglesias & Rogers 1996)
+and the molecular opacities by Alexander & Ferguson (1994). These models will be compared with the models computed in the
+present work.
+
+The sources for the radiative Rosseland opacity adopted in the present analysis are the same as those adopted in the evolutionary
+stellar model computations provided by the BaSTI1 group Hidalgo et al. (2018). Specifically, opacities are from the latest release
+of the OPAL calculations Iglesias & Rogers (1996) for temperatures greater than log(T) = 4.0, while calculations by Ferguson
+
+1 The BaSTI stellar model repository can be found at: http://basti-iac.oa-abruzzo.inaf.it
+
+
+
+4 G. De Somma et al.
+
+Table 1. Intrinsic stellar parameters for F and FO mode Classical Cepheid models for the selected chemical compositions. The whole table is
+accessible in a machine-readable form.
+
+Z Y Pulsation Mode M/M⊙ log (L/L⊙) Te f f [K] P[d] log(R/R⊙)
+
+Classical Cepheids
+0.004 0.25 F 4.0 3.11 5400 5.44902 1.611
+0.004 0.25 F 4.0 3.11 5500 5.13436 1.599
+0.004 0.25 F 4.0 3.11 5600 4.84289 1.586
+
+...
+0.004 0.25 FO 4.0 3.11 5900 2.91818 1.543
+0.004 0.25 FO 4.0 3.11 6100 2.58571 1.514
+0.004 0.25 FO 4.0 3.11 6200 2.45770 1.499
+
+...
+0.02 0.28 F 4.0 2.94 5300 4.32575 1.546
+0.02 0.28 F 4.0 2.94 5400 4.06813 1.531
+0.02 0.28 F 4.0 2.94 5500 3.82069 1.516
+
+...
+
+et al. (2005) - which include contributions from molecules and grains – have been adopted for lower temperatures. Both high-
+and low-temperature opacity tables have been computed for the solar-scaled heavy element distribution provided by Caffau et al.
+(2011), supplemented where necessary by the abundances given byLodders (2010).
+
+To investigate the impact of updating the radiative opacity tables on CC and RRL pulsation predictions, we computed mod-
+els covering different masses, luminosities, and chemical composition exploring in detail the range of effective temperatures
+where these stars are expected to be pulsationally unstable. From these computations, we derived pulsation observables such as
+periods, the topology of the IS, and light curves, along with the corresponding amplitudes, mean magnitudes, and colors. We
+then compared these results with those based on the same pulsation code but using older opacity tabulations (see the previous
+discussion).
+
+For the CC computations, the luminosity for each model was fixed according to the mass-luminosity (ML) relation predicted
+by the evolutionary models presented by Bono et al. (2000a). Specifically, we adopted the luminosity levels obtained by in-
+creasing, for each fixed stellar mass, the luminosity predicted by canonical stellar models, i.e. those not accounting for core
+convective overshooting during the central H-burning phase (we refer the reader to the quoted paper and DS20 for more details)
+by ∆ log(L/L⊙) = 0.2 dex. In the case of RRLs, the faintest luminosity value was selected for each given metallicity, correspond-
+ing to the Zero-Age Horizontal Branch (ZAHB) luminosity (see M15, for details). For both variables, a unique mixing length
+value, αml = l/HP =1.5 2, was adopted to close the system of nonlinear equations.
+
+Two distinct chemical compositions were selected for each class of pulsating stars: Z=0.004; Y=0.25 and Z=0.02; Y=0.28 for
+CCs and Z=0.001; Y=0.245 and Z=0.02; Y=0.28 for RRLs. We assessed the modal stability of both the fundamental (F) and
+first-overtone (FO) pulsation modes for the various combinations of mass, luminosity and effective temperature. More details
+about the model calculation can be found in the aforementioned papers.
+
+Tables 1 and 2 present the parameters for the computed pulsation models for CCs and RRLs, respectively. The columns in
+these tables report the chemical abundances (Z and Y), the pulsation mode, the adopted stellar mass (in solar units), luminosity
+(in solar units), effective temperature (in Kelvin), the obtained period (in days), and logarithmic radius (in solar units).
+
+Figure 1 shows the trend of opacity, the temperature derivatives ((dlogκ)T = dlogκ/dlogT ) and the volume derivatives ((dlogκ)V
+
+= dlogκ/dlogV) of opacity as a function of temperature, as derived from linear pulsation models of CCs for the adopted solar
+chemical composition. The figure presents the behavior of these physical quantities from the current computations and from
+those performed by DS22, using the same assumptions about stellar mass, luminosity, and effective temperature. For the selected
+luminosity, three distinct Te f f values have been chosen, corresponding to a position close to the blue boundary, the middle region,
+and close to the red boundary of the IS, respectively.
+
+From the data shown in this figure, one can notice that the differences in the opacity profiles of the two pulsational models,
+computed under different assumptions regarding radiative opacities, are quite small. On average, the differences are below or of
+
+2 l is the length of the path covered by the convective elements before releasing heat, and HP is the local pressure scale height.
+
+
+
+SPECTRUM-I 5
+
+Table 2. As Table 1 but for the computed RR Lyrae pulsation models.
+
+Z Y Pulsation Mode M/M⊙ log (L/L⊙) Te f f [K] P[d] log(R/R⊙)
+
+RR Lyrae
+0.001 0.245 F 0.58 1.87 5700 1.43834 0.935
+0.001 0.245 F 0.58 1.87 5800 1.36031 0.924
+0.001 0.245 F 0.58 1.87 5900 1.28939 0.915
+
+...
+0.001 0.245 FO 0.58 1.87 6400 0.70827 0.856
+0.001 0.245 FO 0.58 1.87 6500 0.67410 0.843
+0.001 0.245 FO 0.58 1.87 6600 0.64034 0.829
+
+...
+0.02 0.28 F 0.51 1.69 5600 1.23075 0.870
+0.02 0.28 F 0.51 1.69 5700 1.16263 0.857
+0.02 0.28 F 0.51 1.69 5800 1.09190 0.842
+
+the order of 5% along the whole stellar envelope, reaching a maximum value of the order of 10% at the location of the opacity
+peak at log T ∼ 4.0. Consequently, it is not surprising that a similar pattern is found in the derivatives of opacity with respect
+to temperature and volume. The most significant differences occur in the correspondence of the temperature regime near the
+opacity profile peak, around the H ionization region. A similar trend, shown in Figure 2 has been observed for the CC models at
+metallicity Z=0.004.
+
+Figure 3 shows the same comparison as Fig. 1, but for RR Lyrae pulsation models with Z = 0.001. In this case, the differences
+in the opacity profile are slightly larger than those for CC, being around ∼ 15 − 20% for temperatures below log T ≈ 5.0 and at
+the peak of the opacity profile at log T ≈ 4.0. This impacts, the opacity derivatives, particularly the derivative with respect to
+volume at constant temperature. A similar behavior is found for the solar metallicity RRL models.
+
+Previous comparisons reveal that the change of the adopted radiative opacity tabulations does not lead to significant variations
+in the predictions from linear, radiative pulsation computations.”
+
+
+
+6 G. De Somma et al.
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5900[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5600[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5300[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+Figure 1. The trend of the logarithmic opacity (top panels), the derivatives of opacity with respect to temperature (middle panels), and with
+respect to volume (bottom panels) derived from linear and radiative models of a 4M⊙ CC with a luminosity of log(L/L⊙) = 2.94, Z = 0.02 and
+Y = 0.28, as obtained using various opacity sets. The dashed lines represent results from the models presented in DS22, while the solid lines
+represent results from the present computations. The left panels show the results corresponding to a pulsation model near the blue edge of the
+instability strip (IS) in the H-R diagram, the central panels correspond to a model at the midpoint of the IS temperature range, and the right
+panels show the behavior near the red edge of the IS (see labels)).
+
+
+
+SPECTRUM-I 7
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5900[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5600[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+Classical Cepheid Models
+Z=0.02 Y=0.28
+
+Teff = 5300[K]
+
+DS 20
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+Figure 2. As in Fig 1, but for CC pulsation models for the chemical composition: Z = 0.004 Y = 0.25.
+
+3. UPDATED OPACITY TABLES AND NON-LINEAR PULSATION MODELS
+
+This section analyzes the impact of using updated opacity tables on pulsation non-linear model predictions. Specifically, we
+discuss the effects on the topology of the IS, bolometric light curves, and periods.
+
+3.1. The topology of the instability strip
+
+The present theoretical framework enables us to predict the approach to nonlinear limit cycle stability of various pulsation
+modes, allowing us to constrain the IS topology, that is the region in the H-R diagram where radial modes reach a stable nonlinear
+limit cycle. A radial mode is considered to approach a stable nonlinear limit cycle when period and amplitudes over consecutive
+cycles achieve their asymptotic behavior.
+
+To determine the boundaries of the IS, we adopted a step size of 100 K in effective temperature for each given chemical
+composition and luminosity level. The temperature sampling becomes slightly coarser across the IS. The effective temperatures
+of the IS edges for F and FO CC and RRL pulsators, along with the adopted chemical compositions, are listed in Table 3. The
+blue (red) edges are defined as 50 K hotter (cooler) than the first (last) pulsating model in the specific pulsation mode.
+
+Figure 4 shows the predicted instability strips for CCs(upper panels) and RRL (bottom panels) compared to those derived by
+DS20; DS22 and by M15, respectively. The newly computed IS boundaries are in very good agreement, within ±100 K.
+
+Interestingly, the present computations provide plain support to the previously discussed trend of the IS getting redder as
+metallicity increases, both for CCs (DS22, De Somma et al. 2021) and RRLs (M15), which has relevant implications for the
+behavior of the period-luminosity (PL) relations (Marconi et al. 2005).
+
+
+
+8 G. De Somma et al.
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+RR-Lyrae Models
+Z=0.001 Y=0.245
+
+Teff = 6700[K]
+
+M 15
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+RR-Lyrae Models
+Z=0.001 Y=0.245
+
+Teff = 6400[K]
+
+M 15
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+3
+
+2
+
+1
+
+0
+
+1
+
+2
+
+Lo
+g(
+
+k)
+
+RR-Lyrae Models
+Z=0.001 Y=0.245
+
+Teff = 6000[K]
+
+M 15
+This Work
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+5.0
+
+2.5
+
+0.0
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+dL
+og
+
+(
+) T
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+3.54.04.55.05.56.06.5
+Log(T)
+
+1.2
+
+1.0
+
+0.8
+
+0.6
+
+0.4
+
+0.2
+
+dL
+og
+
+(
+) V
+
+Figure 3. As in Fig 1, but for RR Lyrae pulsation models for the chemical composition: Z = 0.001 Y = 0.245.
+
+
+
+SPECTRUM-I 9
+
+Table 3. Predicted IS boundaries: first overtone blue edge (FOBE), fundamental blue edge (FBE), first overtone red edge (FORE), and
+fundamental red edge (FRE), for Classical Cepheids and RR Lyrae stars, for the labeled assumptions about the chemical composition. Due to
+the Te f f step adopted for our model grid, the uncertainty in the location of the IS boundaries ∆Te f f = ± 50 K.
+
+Z Y M/M⊙ log (L/L⊙) FOBE FBE FORE FRE
+
+Classical Cepheids
+0.004 0.25 4.0 3.11 6350 6150 5850 5350
+0.004 0.25 5.0 3.44 6050 6050 5850 5050
+0.004 0.25 6.0 3.7 5950 4850
+0.004 0.25 7.0 3.93 5950 4550
+0.004 0.25 8.0 4.12 5650 4250
+0.004 0.25 9.0 4.29 5550 4250
+0.004 0.25 10.0 4.45 5450 4250
+0.004 0.25 11.0 4.59 5450 4250
+0.02 0.28 4.0 2.94 6050 5250
+0.02 0.28 5.0 3.27 5750 4850
+0.02 0.28 6.0 3.53 5550 4650
+0.02 0.28 7.0 3.76 5250 4350
+0.02 0.28 8.0 3.95 5150 4150
+0.02 0.28 9.0 4.12 5050 3950
+0.02 0.28 10.0 4.28 4850 3850
+0.02 0.28 11.0 4.41 4850 3950
+
+RR Lyrae
+0.001 0.245 0.58 1.87 6850 6950 6350 5650
+0.001 0.245 0.64 1.67 7250 6950 6750 5950
+0.02 0.28 0.51 1.69 6850 5550
+0.02 0.28 0.54 1.49 6750 5850
+
+
+
+10 G. De Somma et al.
+
+Figure 4. Upper panels: The CC F and FO instability strips for Z = 0.004, Y = 0.25 (left panel) and Z = 0.02, Y = 0.28 (right panel).
+Solid and long-dashed lines represent the results of the present work for F and FO pulsators, respectively, while short-dashed and dotted lines
+represent the IS results for F and FO pulsators, respectively, from DS20 and DS22. Bottom panels: Same as the upper panels but for RRL
+pulsators with Z = 0.001, Y = 0.245 (left panel) and Z = 0.02, Y = 0.28 (right panel). Solid and long-dashed lines represent the results of the
+present work for F and FO pulsators, respectively; while short-dashed and dotted lines represent results for F and FO pulsators, respectively,
+from M15. Please note that different scales are used in the upper and lower panels due to the substantial difference in the temperature ranges
+covered by CCs and RR Lyrae stars.
+
+3.2. Bolometric light curves
+
+We present a theoretical atlas of bolometric light curves for both F and FO modes, derived from the nonlinear computation of
+full amplitude models. Figure 6 shows a sub-sample3 of the predicted light curves (solid lines) compared to previously computed
+ones (dashed lines) for CC model sequences close to the IS blue and red edge (left and right panels, respectively) and in the
+middle of the IS (middle panel). For the case of RR Lyrae pulsators, a sub-sample of these light curves is shown in Fig.7. The
+light curves, plotted over two consecutive pulsation cycles, are presented as a function of the pulsation phase.
+
+For CC pulsators, there is excellent agreement between previous results and the present ones for fundamental (F) mode pul-
+sators. However, some differences emerge for FO variables. Specifically, the present light curves exhibit a more symmetric
+behavior and a slightly smaller amplitude - by about ∼ 0.1 mag at maximum - compared to previous models. The differences
+significantly reduce when moving from the the blue edge to the red edge of the IS. A similar trend is observed for RRL pulsators,
+although in this case, the differences are on the order of just a few hundredths of a magnitude.
+
+3 The complete set of bolometric light-curves for CC and RRL models covering the various chemical compositions included in this analysis, is available upon
+request.
+
+
+
+SPECTRUM-I 11
+
+Additionally, we conducted a detailed morphological analysis of these bolometric light curves within the period range of
+Bump Cepheids. These Cepheids are characterized by the presence of a secondary feature, or ”bump,” in their light and radial
+velocity curves, whose position in phase varies with the pulsation period according to a phenomenon known as the Hertzsprung
+progression (HP) (see e.g. Bono et al. 2000b, and references therein). The position of the bump appears on the descending branch
+of the curves for periods up to about 9 days, close to the main light/radial velocity maximum for periods between about 9 and 12
+days, and at earlier phases for longer periods (see Marconi et al. 2024, after this M24, and references therein for a comprehensive
+discussion on this phenomenon). The origin of the progression is debated. The most probable explanation involves a resonance
+between the fundamental mode and the second overtone (M24, Bono et al. 2000a; Buchler & Kovacs 1986; Buchler et al. 1990).
+
+From our analysis of the evolution of light curve morphology across the HP, for a fixed mass and luminosity, we find that for
+the lower metallicity adopted in the present analysis (see upper panels of Figure 5, the HP center remains consistent with previous
+investigations based on older opacity tables, as presented in M24. Specifically, the period corresponding to the HP center, where
+the bump is nearly at the same magnitude level as the maximum, remains almost unchanged with the new opacity tables shifting
+slightly from PHP = 12.15 days in M24 to PHP = 12.19 days in the present work. However, at solar metallicity, (see lower panels
+of Figure 5), the HP center shifts towards longer periods compared to previous findings, specifically changing from PHP = 7.92
+days in the M24 models to about PHP = 8.5 days in the present work. This small variation results from the impact of the opacity
+update on the morphology of solar metallicity light curves, particularly for models in the middle of the instability strip (see middle
+panels of Fig.1.
+
+Additionally, we note that, with the new opacity tables, the difference in the HP central period between solar and metal-poor
+models is reduced compared to M24 findings.
+
+Figure 5. Theoretical CC F-mode bolometric light curves, as derived by M24 (dashed lines) and in the present work (solid lines), along the
+HP, for Z = 0.004 (upper panels) and Z = 0.02 (lower panels). The adopted stellar mass (in solar units), effective temperature (in kelvin), and
+inferred pulsation period (in days) are labeled in each panel.
+
+3.3. Pulsation properties: periods, mean magnitudes, and amplitudes
+
+In the upper panels of Figure 8, we show the relative variation of the pulsation periods obtained from the present models
+compared to those from DS20 and DS22 for CCs at the two metallicities considered in this work, as a function of the logarithm of
+the pulsation period obtained in the current work when changing the opacity tables. We observe that the variations are all within
+a few percent and do not show any significant trend with the pulsation period. A similar result is observed for F-mode RR Lyrae
+pulsators, as shown in the lower panels of Figure 8. This variation estimation was also extended to FO-mode CC and RR Lyrae
+pulsators with Z = 0.004 and Z = 0.001.
+
+The bolometric light curves4 were transformed into the optical UBVRI and NIR JHK Johnson-Cousin photometric bands using
+the bolometric correction tables by Chen et al. (2019). A subset of these light curves for both CC and RRL stars is shown in
+fig. 9. This transformation allowed us to derive intensity-weighted mean magnitudes, pulsation amplitudes, and color for all
+stable pulsation models, in the various photometric bands. We chose to evaluate intensity-weighted mean magnitudes because
+
+4 The complete set of light curves in various photometric systems is available from the authors upon request.
+
+
+
+12 G. De Somma et al.
+
+( / )
+
+( / )
+
+Figure 6. Bolometric light curves for FO (upper panels) and F (lower panels) CC pulsators with Z = 0.004 and Y = 0.25, plotted as a function
+of the pulsation phase. These light curves correspond to selected pulsation models (see labels for the chosen mass and luminosity level) located
+close to the blue edge (left column), red edge (right column), and central temperature (central column) of the IS. Dashed lines represent results
+obtained with the older opacity tables, while solid lines show results with the updated opacity tables. Nonlinear periods (in days) and static
+effective temperatures (in Kelvin) are labeled for each individual model.
+
+( / )
+
+( / )
+
+Figure 7. As in Fig:6 but for RRL pulsators with Z=0.001 and Y=0.245.
+
+
+
+SPECTRUM-I 13
+
+they are most consistent with static values, which represent the magnitudes and colors the stars would have if they were not
+pulsating (Bono et al. 1995; Caputo et al. 1999). 5
+
+0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0
+LogP(days)
+
+0.20
+
+0.15
+
+0.10
+
+0.05
+
+0.00
+
+0.05
+
+0.10
+
+0.15
+
+0.20
+
+ P
+/ P
+
+ 
+CC F-mode Z=0.004
+
+0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0
+LogP(days)
+
+0.20
+
+0.15
+
+0.10
+
+0.05
+
+0.00
+
+0.05
+
+0.10
+
+0.15
+
+0.20
+
+ P
+/ P
+
+CC F-mode Z=0.02
+
+0.35 0.30 0.25 0.20 0.15 0.10 0.05 0.00 0.05
+LogP(days)
+
+0.20
+
+0.15
+
+0.10
+
+0.05
+
+0.00
+
+0.05
+
+0.10
+
+0.15
+
+0.20
+
+ P
+/ P
+
+RRL F-mode Z=0.001
+
+0.35 0.30 0.25 0.20 0.15 0.10 0.05 0.00 0.05
+LogP(days)
+
+0.20
+
+0.15
+
+0.10
+
+0.05
+
+0.00
+
+0.05
+
+0.10
+
+0.15
+
+0.20
+
+ P
+/ P
+
+RRL F-mode Z=0.02
+
+Figure 8. Upper panels: Relative variations of the pulsation periods obtained from the present models compared to those from DS22 for CCs
+with Z = 0.004 and DS20 for CCs with Z = 0.02. The dashed horizontal line represents the equation y=0. Lower panels: Same as the upper
+panels but for RR Lyrae pulsators; in this case, the comparison is performed with the estimates provided by M15.
+
+3.4. On the predicted CC Period-Wesenheit relation
+
+The most widely used relation for calibrating the CC-based extragalactic distance scale is the Period-Wesenheit (PW) relation
+(Madore 1982). Unlike the PL relation, which is a statistical relation influenced by the finite width of the instability strip without
+accounting for position in color within the strip, and unlike the Period-Luminosity-Color (PLC) relation, which includes a color
+term to reduce the effects of the IS width but is still affected by reddening, the PW relation including a color term, partially
+correcting for the position of pulsators within the strip, is reddening-free by construction.
+
+The PW relation is expressed as a linear relationship between the logarithm of a star’s pulsation period and a Wesenheit func-
+tion, which combines magnitudes from different photometric bands. The coefficient of the color term in this relation represents
+the exact ratio between total and selective absorption, ensuring that it is unaffected by reddening.
+
+Using the intensity-weighted mean magnitudes obtained from the bolometric light curves transformed into the various photo-
+metric bands, we derived the CC-PW relations for two band combinations: I, (V − I) and K, (V − K). 6 The coefficients of the
+relations are listed in Table 4.
+
+Figure 10 compares present PW relations with those from DS22 for Z=0.004 and Z=0.02. The colored shaded areas represent
+the 1σ errors on these relations. It is evident that the relations are consistent within the errors across the investigated period range
+and predict a similar metallicity effect, which agrees with most empirical and theoretical evaluations (DS22, Anderson et al.
+
+5 The intensity-weighted mean magnitudes and amplitudes in the Johnson-Cousins photometric bands for the full grid of F and FO models for CC and RRL stars
+are available upon request from the authors.
+
+6 The general formulation of the PW relation is: W(λ1, λ2 − λ1) = a + b × log(P). For the two adopted band combinations, I, (V − I) and K, (V − K), we used the
+following formulas: W(I,V − I) = I − 1.38 · (V − I) (left panels) and W(K,V − K) = K − 0.13 · (V − K), respectively.
+
+
+
+14 G. De Somma et al.
+
+( / )
+
+( / )
+
+( / )
+
+( / ) 4
+
+Figure 9. Left panels: Theoretical light curves in various Johnson-Cousins passbands for a CC F-mode model (bottom panel) and FO-
+mode model (upper panel), both located at the center of the IS. The metallicity, mass (in solar units), luminosity (in solar units), and effective
+temperature (in Kelvin) for the selected model are labeled. Right panels: Same as the left panels but for RRL models.
+
+Table 4. PW coefficients in selected optical and near-infrared Johnson-Cousin filters for F-mode CC models.
+
+Z Y Photometric band a b σa σb σ R2
+
+0.004 0.25 I, V−I −2.690 −3.247 0.048 0.032 0.127 0.991
+0.004 0.25 K, V−K −2.623 −3.276 0.044 0.030 0.116 0.992
+0.02 0.28 I, V−I −2.737 −3.216 0.037 0.026 0.100 0.995
+0.02 0.28 K, V−K −2.592 −3.262 0.033 0.023 0.089 0.996
+
+2016; Bhardwaj et al. 2023; Breuval et al. 2022; Ripepi et al. 2021). This finding indicates that the adopted update in radiative
+opacity does not significantly impact the theoretical calibration of the distance scale and, consequently, the estimate of the Hubble
+constant derived from this theoretical approach.
+
+As well known, RRL stars exhibit tight metal-dependent Period-Luminosity (PL) relations in the near-infrared (NIR) bands
+(see Bono et al. 2003, and references therein). We also converted our bolometric light curves in the Rubinf-LSST photometric
+system7 and derived the PL relations in the i, z, and y bands of the Rubin LSST for the 2 adopted metal abundances and compared
+them with those from (Marconi et al. 2022). As shown in Fig. 11, the relations derived in the current paper are consistent within
+the errors with the Marconi et al. (2022) ones, confirming that, even for RRL stars, the adopted update in radiative opacity does
+not significantly impact the theoretical calibration of the distance scale.
+
+4. CONCLUSIONS AND FUTURE DEVELOPMENTS
+
+In this study, we have integrated the latest opacity tables into the Stellingwerf pulsation code and examined their impact on
+the theoretical models of Classical Cepheids and RR Lyrae stars. Our results indicate that the updated opacities lead to minor
+differences in predicted pulsation properties such as instability strip topology, light curves, and periods. A detailed morphological
+
+7 The bolometric light curves, as well as the intensity-weighted mean magnitudes and amplitudes in the Rubin-LSST bands for the full grid of F and FO models
+for CC and RRL stars, are available upon request from the authors.
+
+
+
+SPECTRUM-I 15
+
+0.50 0.75 1.00 1.25 1.50 1.75 2.00
+LogP
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+W
+(I,
+
+V-
+I)
+
+CC F-mode Z=0.004
+
+PW This work
+PW DS 22
+
+0.50 0.75 1.00 1.25 1.50 1.75 2.00
+LogP
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+W
+(K
+
+,V
+-K
+
+) CC F-mode Z=0.004
+
+PW This work
+PW DS 22
+
+0.50 0.75 1.00 1.25 1.50 1.75 2.00
+LogP
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+W
+(I,
+
+V-
+I)
+
+CC F-mode Z=0.02
+
+PW This work
+PW DS 22
+
+0.50 0.75 1.00 1.25 1.50 1.75 2.00
+LogP
+
+10
+
+9
+
+8
+
+7
+
+6
+
+5
+
+4
+
+W
+(I,
+
+V-
+I)
+
+CC F-mode Z=0.02
+
+PW This work
+PW DS 22
+
+Figure 10. The Wesenheit function, W(I, V−I) (left panels) and W(K, V−K) (right panels), plotted as a function of the logarithmic period for
+F-mode CCs with Z = 0.004 (upper panels) and Z = 0.02 (bottom panels).
+
+analysis of bolometric light curves in the period range of Bump Cepheids confirms the dependence of the phenomenon on
+metallicity but suggests a reduced effect on the period at the HP center whit the updated opacity tables.
+
+We also derived PW relations for CCs using various band combinations, compared them with previously established relations
+(De Somma et al. 2022), and found that the new opacity tables do not significantly alter the coefficients. Additionally, we derived
+near-infrared PL relations for RRL in the Rubin-LSST filters and compared them with previous relations derived by Marconi
+et al. (2022), finding consistent results within the errors. These findings suggest that no significant effect is expected on our
+theoretical calibration of the distance scale based on these pulsating stars.
+
+Although the changes are minor, using the most accurate physical inputs for stellar modeling is an important step toward the
+development of a unified tool for stellar evolution and pulsation. In future work, we plan to extend this analysis to a broader range
+of stellar models and incorporate additional physical processes as they become available in stellar evolution and pulsation mod-
+eling. We also aim to integrate pulsation computations into updated evolutionary codes adopting the same physical ingredients
+to enable real-time modeling of both stellar evolution and pulsation properties. This approach promises a more self-consistent
+framework for understanding variable stars and paves the way for more accurate insights into the physics of pulsating stars and
+their role as standard candles.
+
+ACKNOWLEDGEMENTS
+
+We thank the Referee for their insightful and constructive feedback on this paper. This project has received funding through the
+INAF-ASTROFIT fellowship and the PRIN MUR 2022 project (code 2022ARWP9C) ’Early Formation and Evolution of Bulge
+and Halo (EFEBHO),’ PI: Marconi, M., funded by the European Union – Next Generation EU, Large Grant INAF 2023 MOVIE.
+
+
+
+16 G. De Somma et al.
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+i(m
+
+ag
+)
+
+PL F mode This work      RRL  Z=0.001
+PL F mode M22
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+z(m
+
+ag
+)
+
+PL F mode This work      RRL  Z=0.001
+PL F mode M22
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+y(m
+
+ag
+)
+
+PL F mode This work      RRL  Z=0.001
+PL F mode M22
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+i(m
+
+ag
+)
+
+PL F mode This work      RRL   Z=0.02
+PL F mode M22
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+z(m
+
+ag
+)
+
+PL F mode This work      RRL   Z=0.02
+PL F mode M22
+
+0.3 0.2 0.1 0.0 0.1
+
+Log(P) (days)
+
+0.6
+
+0.4
+
+0.2
+
+0.0
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1.0
+
+M
+y(m
+
+ag
+)
+
+PL F mode This Work      RRL   Z=0.02
+PL F mode M22
+
+Figure 11. Upper panels: Comparison between multifilter PL relations in the Rubin-LSST i, z, and y bands for RR Lyrae stars with Z = 0.001
+derived in the present work and those from Marconi et al. (2022). Lower panels: Same as the upper panels but for RR Lyrae stars with Z = 0.02.
+
+G.D.S. and M.M. thank the ISSI International Team project SHoT: The Stellar Path to the H0 Tension in the Gaia, TESS,
+LSST, and JWST Era (PI: G. Clementini). G.D.S. also thanks the Istituto Nazionale di Fisica Nucleare (INFN), Naples section,
+for specific initiatives QGSKY and Moonlight2, as well as Gaia DPAC funds from the Istituto Nazionale di Astrofisica (INAF)
+and the Agenzia Spaziale Italiana (ASI) (PI: M.G. Lattanzi).
+
+This paper is based on work supported by COST Action CA21136, Addressing Observational Tensions in Cosmology with
+Systematics and Fundamental Physics (CosmoVerse), funded by COST (European Cooperation in Science and Technology).
+
+REFERENCES
+
+Alexander, D. R., & Ferguson, J. W. 1994, ApJ, 437, 879,
+doi: 10.1086/175039
+
+Anderson, R. I., Saio, H., Ekström, S., Georgy, C., & Meynet, G.
+2016, A&A, 591, A8, doi: 10.1051/0004-6361/201528031
+
+Bhardwaj, A., Riess, A. G., Catanzaro, G., et al. 2023, ApJL, 955,
+L13, doi: 10.3847/2041-8213/acf710
+
+Bono, G., Caputo, F., Cassisi, S., et al. 2000a, ApJ, 543, 955,
+doi: 10.1086/317156
+
+Bono, G., Caputo, F., & Castellani, V. 2006,
+Mem. Soc. Astron. Italiana, 77, 207
+
+Bono, G., Caputo, F., Castellani, V., & Marconi, M. 1999, ApJ,
+512, 711, doi: 10.1086/306815
+
+Bono, G., Caputo, F., Castellani, V., et al. 2003, MNRAS, 344,
+1097, doi: 10.1046/j.1365-8711.2003.06878.x
+
+Bono, G., Caputo, F., & Stellingwerf, R. F. 1995, ApJS, 99, 263,
+doi: 10.1086/192186
+
+Bono, G., Incerpi, R., & Marconi, M. 1996, ApJL, 467, L97,
+doi: 10.1086/310207
+
+Bono, G., Marconi, M., & Stellingwerf, R. F. 2000b, A&A, 360,
+245, doi: 10.48550/arXiv.astro-ph/0006229
+
+Bono, G., & Stellingwerf, R. F. 1994, ApJS, 93, 233,
+doi: 10.1086/192054
+
+Breuval, L., Riess, A. G., Kervella, P., Anderson, R. I., &
+Romaniello, M. 2022, ApJ, 939, 89,
+doi: 10.3847/1538-4357/ac97e2
+
+Buchler, J. R., & Kovacs, G. 1986, ApJ, 303, 749,
+doi: 10.1086/164122
+
+Buchler, J. R., Moskalik, P., & Kovacs, G. 1990, ApJ, 351, 617,
+doi: 10.1086/168500
+
+Caffau, E., Ludwig, H. G., Steffen, M., Freytag, B., & Bonifacio, P.
+2011, SoPh, 268, 255, doi: 10.1007/s11207-010-9541-4
+
+Caputo, F., Marconi, M., & Ripepi, V. 1999, ApJ, 525, 784,
+doi: 10.1086/307923
+
+Cassisi, S., & Salaris, M. 2011, ApJL, 728, L43,
+doi: 10.1088/2041-8205/728/2/L43
+
+Chen, Y., Girardi, L., Fu, X., et al. 2019, A&A, 632, A105,
+doi: 10.1051/0004-6361/201936612
+
+http://doi.org/10.1086/175039
+http://doi.org/10.1051/0004-6361/201528031
+http://doi.org/10.3847/2041-8213/acf710
+http://doi.org/10.1086/317156
+http://doi.org/10.1086/306815
+http://doi.org/10.1046/j.1365-8711.2003.06878.x
+http://doi.org/10.1086/192186
+http://doi.org/10.1086/310207
+http://doi.org/10.48550/arXiv.astro-ph/0006229
+http://doi.org/10.1086/192054
+http://doi.org/10.3847/1538-4357/ac97e2
+http://doi.org/10.1086/164122
+http://doi.org/10.1086/168500
+http://doi.org/10.1007/s11207-010-9541-4
+http://doi.org/10.1086/307923
+http://doi.org/10.1088/2041-8205/728/2/L43
+http://doi.org/10.1051/0004-6361/201936612
+
+
+SPECTRUM-I 17
+
+Cogan, B. C. 1970, ApJ, 162, 139, doi: 10.1086/150639
+
+De Somma, G., Marconi, M., Cassisi, S., et al. 2021, MNRAS,
+508, 1473, doi: 10.1093/mnras/stab2611
+
+De Somma, G., Marconi, M., Molinaro, R., et al. 2020, ApJS, 247,
+30, doi: 10.3847/1538-4365/ab7204
+
+—. 2022, ApJS, 262, 25, doi: 10.3847/1538-4365/ac7f3b
+
+Ferguson, J. W., Alexander, D. R., Allard, F., et al. 2005, ApJ, 623,
+585, doi: 10.1086/428642
+
+Gaia Collaboration, Brown, & Vallenari. 2016a, aap, 595, A2,
+doi: 10.1051/0004-6361/201629512
+
+Gaia Collaboration, Prusti, & de Bruijne. 2016b, aap, 595, A1,
+doi: 10.1051/0004-6361/201629272
+
+Gaia Collaboration, Brown, A. G. A., Vallenari, A., et al. 2018,
+A&A, 616, A1, doi: 10.1051/0004-6361/201833051
+
+—. 2021, A&A, 650, C3, doi: 10.1051/0004-6361/202039657e
+
+Garcı́a Pérez, A. E., Allende Prieto, C., Holtzman, J. A., et al.
+2016, AJ, 151, 144, doi: 10.3847/0004-6256/151/6/144
+
+Gardner, J. P., Mather, J. C., Clampin, M., et al. 2006, SSRv, 123,
+485, doi: 10.1007/s11214-006-8315-7
+
+Geroux, C. M., & Deupree, R. G. 2011, ApJ, 731, 18,
+doi: 10.1088/0004-637X/731/1/18
+
+Grevesse, N., Lambert, D. L., Sauval, A. J., et al. 1991, A&A, 242,
+488
+
+Hidalgo, S. L., Pietrinferni, A., Cassisi, S., et al. 2018, ApJ, 856,
+125, doi: 10.3847/1538-4357/aab158
+
+Iglesias, C. A., & Rogers, F. J. 1992, RMxAA, 23, 161
+
+—. 1996, ApJ, 464, 943, doi: 10.1086/177381
+
+Ivezić, Ž., Kahn, S. M., Tyson, J. A., et al. 2019, ApJ, 873, 111,
+doi: 10.3847/1538-4357/ab042c
+
+Keller, S. C. 2008, ApJ, 677, 483, doi: 10.1086/529366
+
+Keller, S. C., & Wood, P. R. 2002, ApJ, 578, 144,
+doi: 10.1086/342315
+
+Lodders, K. 2010, in Astrophysics and Space Science Proceedings,
+Vol. 16, Principles and Perspectives in Cosmochemistry, ed.
+A. Goswami & B. E. Reddy, 379,
+doi: 10.1007/978-3-642-10352-0 8
+
+LSST Science Collaboration, Abell, P. A., Allison, J., et al. 2009,
+arXiv e-prints, arXiv:0912.0201, doi: 10.48550/arXiv.0912.0201
+
+Madore, B. F. 1982, ApJ, 253, 575, doi: 10.1086/159659
+
+Majewski, S. R., Schiavon, R. P., Frinchaboy, P. M., et al. 2017,
+AJ, 154, 94, doi: 10.3847/1538-3881/aa784d
+
+Marconi, M., Musella, I., & Fiorentino, G. 2005, ApJ, 632, 590,
+doi: 10.1086/432790
+
+Marconi, M., Molinaro, R., Bono, G., et al. 2013, ApJL, 768, L6,
+doi: 10.1088/2041-8205/768/1/L6
+
+Marconi, M., Coppola, G., Bono, G., et al. 2015, ApJ, 808, 50,
+doi: 10.1088/0004-637X/808/1/50
+
+Marconi, M., Molinaro, R., Ripepi, V., et al. 2017, MNRAS, 466,
+3206, doi: 10.1093/mnras/stw3289
+
+Marconi, M., Molinaro, R., Dall’Ora, M., et al. 2022, ApJ, 934, 29,
+doi: 10.3847/1538-4357/ac78ee
+
+Marconi, M., De Somma, G., Molinaro, R., et al. 2024, MNRAS,
+529, 4210, doi: 10.1093/mnras/stae734
+
+Moskalik, P., Buchler, J. R., & Marom, A. 1992, ApJ, 385, 685,
+doi: 10.1086/170975
+
+Mundprecht, E., Muthsam, H. J., & Kupka, F. 2013, MNRAS, 435,
+3191, doi: 10.1093/mnras/stt1511
+
+—. 2015, MNRAS, 449, 2539, doi: 10.1093/mnras/stv434
+Paxton, B., Smolec, R., Schwab, J., et al. 2019, ApJS, 243, 10,
+
+doi: 10.3847/1538-4365/ab2241
+Petroni, S., Bono, G., Marconi, M., & Stellingwerf, R. F. 2003,
+
+ApJ, 599, 522, doi: 10.1086/379279
+Ricker, G. R., Winn, J. N., Vanderspek, R., et al. 2015, Journal of
+
+Astronomical Telescopes, Instruments, and Systems, 1, 014003,
+doi: 10.1117/1.JATIS.1.1.014003
+
+Rigby, J., Perrin, M., McElwain, M., et al. 2023, PASP, 135,
+048001, doi: 10.1088/1538-3873/acb293
+
+Ripepi, V., Catanzaro, G., Molinaro, R., et al. 2021, MNRAS, 508,
+4047, doi: 10.1093/mnras/stab2460
+
+Rodgers, A. W. 1970, MNRAS, 151, 133,
+doi: 10.1093/mnras/151.1.133
+
+Rogers, F. J., & Iglesias, C. A. 1992, ApJS, 79, 507,
+doi: 10.1086/191659
+
+Stassun, K. G., Oelkers, R. J., Pepper, J., et al. 2018, AJ, 156, 102,
+doi: 10.3847/1538-3881/aad050
+
+Stellingwerf, R. t. F. 1982, apj, 262, 330, doi: 10.1086/160425
+Stobie, R. S. 1969, MNRAS, 144, 485,
+
+doi: 10.1093/mnras/144.4.485
+Zhevakin, S. A. 1963, ARA&A, 1, 367,
+
+doi: 10.1146/annurev.aa.01.090163.002055
+
+http://doi.org/10.1086/150639
+http://doi.org/10.1093/mnras/stab2611
+http://doi.org/10.3847/1538-4365/ab7204
+http://doi.org/10.3847/1538-4365/ac7f3b
+http://doi.org/10.1086/428642
+http://doi.org/10.1051/0004-6361/201629512
+http://doi.org/10.1051/0004-6361/201629272
+http://doi.org/10.1051/0004-6361/201833051
+http://doi.org/10.1051/0004-6361/202039657e
+http://doi.org/10.3847/0004-6256/151/6/144
+http://doi.org/10.1007/s11214-006-8315-7
+http://doi.org/10.1088/0004-637X/731/1/18
+http://doi.org/10.3847/1538-4357/aab158
+http://doi.org/10.1086/177381
+http://doi.org/10.3847/1538-4357/ab042c
+http://doi.org/10.1086/529366
+http://doi.org/10.1086/342315
+http://doi.org/10.1007/978-3-642-10352-0_8
+http://doi.org/10.48550/arXiv.0912.0201
+http://doi.org/10.1086/159659
+http://doi.org/10.3847/1538-3881/aa784d
+http://doi.org/10.1086/432790
+http://doi.org/10.1088/2041-8205/768/1/L6
+http://doi.org/10.1088/0004-637X/808/1/50
+http://doi.org/10.1093/mnras/stw3289
+http://doi.org/10.3847/1538-4357/ac78ee
+http://doi.org/10.1093/mnras/stae734
+http://doi.org/10.1086/170975
+http://doi.org/10.1093/mnras/stt1511
+http://doi.org/10.1093/mnras/stv434
+http://doi.org/10.3847/1538-4365/ab2241
+http://doi.org/10.1086/379279
+http://doi.org/10.1117/1.JATIS.1.1.014003
+http://doi.org/10.1088/1538-3873/acb293
+http://doi.org/10.1093/mnras/stab2460
+http://doi.org/10.1093/mnras/151.1.133
+http://doi.org/10.1086/191659
+http://doi.org/10.3847/1538-3881/aad050
+http://doi.org/10.1086/160425
+http://doi.org/10.1093/mnras/144.4.485
+http://doi.org/10.1146/annurev.aa.01.090163.002055
+
+	Introduction
+	Radiative Rosseland opacity and pulsation code
+	Updated opacity tables and non-linear pulsation models
+	The topology of the instability strip
+	Bolometric light curves
+	Pulsation properties: periods, mean magnitudes, and amplitudes
+	On the predicted CC Period-Wesenheit relation
+
+	Conclusions and Future Developments
+

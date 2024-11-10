@@ -1,0 +1,1302 @@
+
+Internal Solitary Wave Generation Using A
+
+Jet-Array Wavemaker
+
+Jen-Ping Chu1*, Patrick Lynett2 and Mitul Luhar1
+
+1*Department of Aerospace and Mechanical Engineering, University of
+Southern California, Los Angeles, 90010, CA, USA.
+
+2Department of Civil Engineering, University of Southern California,
+Los Angeles, 90010, CA, USA.
+
+*Corresponding author(s). E-mail(s): jenpingc@usc.edu;
+Contributing authors: lynett@usc.edu; luhar@usc.edu;
+
+Abstract
+
+This paper evaluates the experimental generation of internal solitary waves
+(ISWs) in a miscible two-layer system with a free surface using a jet-array
+wavemaker (JAW). Unlike traditional gate-release experiments, the JAW system
+generates ISWs by forcing a prescribed vertical distribution of mass flux. Experi-
+ments examine three different layer-depth ratios, with ISW amplitudes up to the
+maximum allowed by the extended Korteweg-de Vries (eKdV) solution.
+Phase speeds and wave profiles are captured via planar laser-induced fluorescence
+and the velocity field is measured synchronously using particle imaging velocime-
+try. Measured properties are directly compared with the eKdV predictions. As
+expected, small- and intermediate-amplitude waves match well with the corre-
+sponding eKdV solutions, with errors in amplitude and phase speed below 10%.
+For large waves with amplitudes approaching the maximum allowed by the eKdV
+solution, the phase speed and the velocity profiles resemble the eKdV solution
+while the wave profiles are distorted following the trough. This can potentially
+be attributed to Kelvin-Helmholtz instabilities forming at the pycnocline. Larger
+errors are generally observed when the local Richardson number at the JAW inlet
+exceeds the threshold for instability.
+
+Keywords: internal waves, internal shear, two-layer system
+
+1ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+94
+
+1v
+1 
+
+ [
+ph
+
+ys
+ic
+
+s.
+fl
+
+u-
+dy
+
+n]
+  7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+
+
+1 Introduction
+
+Internal solitary waves (ISWs) are observed in stratified ocean environments with
+amplitudes greater than 100 m and wavelengths spanning several kilometers (Duda
+et al. [1]). They can be excited by shear from tidal flows moving in opposite directions
+or from interactions with underwater topography. The transport and breaking of ISWs
+trigger vertical mixing of sediments, nutrients, and energy in the deep ocean. Trains of
+ISWs have been captured by synthetic aperture radar (SAR) since the 1980s (Helfrich
+and Melville [2]). With the development of in-situ thermistor arrays, the first time
+series of ISWs were recorded in the early 2000’s (Duda et al. [1]).
+
+ISWs propagate with permanent profiles as a result of the balance between non-
+linear amplitude steepening and dispersive flattening (Cavaliere et al. [3]). As such,
+ISWs have traditionally been described with nonlinear and dispersive wave equations,
+most notably the Korteweg–de Vries (KdV) equation. Among earlier developments,
+KdV equations for ISWs under infinite depth were proposed by Benjamin [4] and
+Ono [5]. The canonical model equations are derived from the complete Navier-Stokes
+equations under the assumption of inviscid, incompressible, and density-stratified con-
+ditions. However, the applicability of the KdV model is found to be restricted to
+small-amplitude waves traveling in a system with a relatively small upper layer, as
+demonstrated by Koop and Butler [6], Kao et al. [7] and Grue et al. [8]. For large-
+amplitude waves, the KdV wave speed prediction is too fast and the wavelength is
+too narrow compared with physical observations (Cavaliere et al. [3], Grue et al.
+[8], Kodaira et al. [9]). A more suitable model for describing ISWs of larger ampli-
+tudes is the extended Korteweg-de Vries (eKdV) equation, also known as the Gardner
+equation (Djordjevic and Redekopp [10], Ostrovsky and Stepanyants [11]), wherein
+the incorporation of a cubic nonlinearity better describes nonlinear broadening effects.
+Derived in a similar manner, the modified Korteweg-de Vrie (mKdV) solution exam-
+ines large-amplitude waves in a two-layer system; additional details of the derivation
+will be given in Appendix A.
+
+Experimental findings in the work of Michallet and Barthélemy [12] suggest that
+while the mKdV solution can accurately describe large-amplitude waves in an immis-
+cible two-layer system, its applicability to other general scenarios may be limited. In
+order to address the nonlinear dynamics beyond the scope of the eKdV model, Choi
+and Camasa [13] proposed an unsteady generalization of the steady long-wave model
+of Miyata [14], known as the MCC model. This model assumes the wave amplitude
+is comparable to the total depth and ISW wavelength is much greater than the total
+depth. To assess the validity of the MCC model, ISW experiments were performed
+in both miscible and immiscible systems. Kodaira et al. [9] has shown that the MCC
+model with a free surface successfully predicts large-amplitude waves in an immiscible
+two-layer system. Nevertheless, the eKdV solution is demonstrated to be more accu-
+rate in a miscible two-layer system under small- to intermediate-amplitude waves by
+Cavaliere et al. [3].
+
+The generation of ISWs in two-layer systems has been investigated extensively over
+the past five decades. Early efforts include a displacement-type mechanism, proposed
+by Koop and Butler [6]. Subsequent work by Segur and Hammack [15] suggested a
+plunger mechanism which prevented direct perturbation at the interface. Kao et al.
+
+2
+
+
+
+[7] introduced the gate-type mechanism, which enabled the successful generation of
+a single soliton with a minimal trailing wave train. The invention of this gate-type
+mechanism has enabled the comparison of the existing ISW theories (Kodaira et al.
+[9], H. Michallet [16]) and the examination of wave-structure interactions (Chen et al.
+[17], Cui et al. [18]).
+
+However, the generation of ISWs using a gate-type mechanism has some inherent
+limitations. First, since the primary control is the step-like volume of fluid behind the
+gate, there is a degree of empiricism involved in the generation of waves of desired
+amplitude. In fact, to the best of our knowledge, all comparisons between experimental
+ISW measurements and theoretical predictions have thus far been made based on the
+measured ISW amplitude, i.e., without a priori amplitude prediction. Second, the
+extreme aspect ratio of the step-like initial volume behind the gate can cause the ISW
+to break into multiple wave trains (Kao et al. [7]). Third, gate release experiments do
+not allow for the evaluation of wave-wave interactions within a single release. Fourth,
+the gate release can generate significant disturbances and mixing, leading to longer
+lived transient effects.
+
+To address these limitations, in this study, we extend the Jet-Array Wavemaker
+(JAW) concept from Ko and Lynett [19] to ISW generation. The JAW system allows
+for precise time-varying control of volumetric inputs and outputs at different depths.
+This enables the generation of ISWs with prescribed velocity profiles. Moreover, it is
+possible to generate multiple waves at desired intervals. This paper serves as proof-
+of-concept for the generation of ISWs using the JAW system, evaluates best practices
+for wave generation, and identifies potential sources of uncertainty and error.
+
+All experiments are conducted in a miscible two-layer system comprising a fresh-
+water layer on top of a salt solution layer. The eKdV solution is employed as the
+reference function for driving the JAW system. Characteristics of the ISWs are cap-
+tured by using a synchronized planar laser-induced fluorescence (PLIF) and particle
+imaging velocimetry (PIV) system. The measured wave profiles and velocity profiles
+are compared with eKdV predictions to assess the performance of the JAW on ISW
+generation. Appendix A shows the results obtained using the mKdV solution to force
+the JAW system. The observed ISW displacements and velocity profiles show better
+agreement with theory when using the eKdV solution.
+
+The paper is organized as follows. The eKdV solution for generating the ISWs is
+described in §2. The experimental set-up and the measurement systems are described
+in §3. Potential sources of error for the jet-array wavemaker are discussed in §4. Mea-
+sured wave profiles, phase speed, and velocity profiles are compared against theoretical
+predictions in §5. Conclusions are presented in §6.
+
+2 Theory
+
+2.1 Extended Korteweg-de Vries Solution
+
+Building upon the classical Korteweg-de Vries (KdV) equation, the extended
+Korteweg-de Vries (eKdV) equation, or Gardner equation, incorporates a cubic non-
+linear term in the governing equation that captures the dynamics of large-amplitude
+
+3
+
+
+
+ISWs:
+ζt + c0ζx + c1ζζx + c2ζζxxx + c3ζ
+
+2ζx = 0. (1)
+
+Here ζ(x, t) is the isopycnal interfacial displacement in the vertical direction, c0 is the
+phase speed of a linear long wave, and the coefficients c1 and c2 lead the nonlinear and
+dispersive terms, respectively, assuming two-layer stratification with no mean flow.
+The constants appearing in Equation (1) are given by:
+
+c0
+2 =
+
+gh1h2(ρ2 − ρ1)
+
+ρ1h2 + ρ2h1
+, (2)
+
+c1 =
+−3c0(ρ1h2
+
+2 − ρ2h1
+2)
+
+2(ρ1h1h2
+2 + ρ2h2h1
+
+2)
+, c2 =
+
+c0(ρ2h1h2
+2 + ρ1h2h1
+
+2)
+
+6(ρ1h2 + ρ2h1)
+, (3)
+
+and
+
+c3 =
+3c0
+
+h1
+2h2
+
+2
+
+[
+7
+
+8
+
+(
+ρ1h2
+
+2 − ρ2h1
+2
+
+ρ1h2 + ρ2h1
+
+)2
+
+−
+(
+ρ1h2
+
+3 + ρ2h1
+3
+
+ρ1h2 + ρ2h1
+
+)]
+. (4)
+
+Here g is the gravitational acceleration, ρ and h are the density and depth of each
+layer with the subscript 1 (2) indicating the upper (lower) layer. Under the assumption
+of weak two-layer stratification, ∆ρ = (ρ2 − ρ1) ≪ ρ1 (Helfrich and Melville [2]), the
+pycnocline displacement has a solution of the form
+
+ζ(x, t) =
+a
+
+b+ (1− b) cosh2[(x− ct)/λ]
+, (5)
+
+in which a is the amplitude of the ISW, c and λ are the characteristic phase speed
+and wavelength, and b is the wave parameter. These parameters are given by:
+
+c = c0 +
+a
+
+3
+
+(
+c1 + c3
+
+a
+
+2
+
+)
+, λ =
+
+√
+12c2
+
+(c1 + c3
+a
+2 )a
+
+, b =
+−c3a
+
+2c1 + c3a
+. (6)
+
+The eKdV theory yields a mathematical limitation on the ISW amplitude, reached as
+the characteristic phase speed turns imaginary:
+
+alim =
+4h1h2(h1 − h2)
+
+h1
+2 + h2
+
+2 + 6h1h2
+
+. (7)
+
+The horizontal components of the layer-averaged velocities are given as:
+
+ui(x, t) = c
+
+[
+±ζi(x, t)
+
+hi ± ζi(x, t)
+
+]
+, (8)
+
+where the subscript i refers to layer 1 or 2. The positive sign corresponds to layer-
+averaged velocity for the upper layer while the negative sign for the lower layer.
+
+4
+
+
+
+Fig. 1: Experimental setup for internal wave generation in a discrete miscible two-layer
+system with a free surface. The JAW system is connected to a wave flume.
+
+3 Experimental Facility and Techniques
+
+3.1 Jet-Array Wavemaker
+
+The method to generate ISWs was adapted from the Jet-Array Wavemaker (JAW)
+configuration used by Ko and Lynett [19] to create single-fluid, free surface waves. The
+layout of the system is given in Figure 1. Our system comprised two vertically-stacked
+chambers, or baffles, at the inflow end of a wave flume. Each baffle was connected to an
+independent fluid reservoir. The dimensions of the cylindrical reservoirs were 12 cm in
+radius and 25 cm in height. Each reservoir was capped by a piston, which when moved
+pushed fluid out or pulled fluid into the reservoir. The lower channel was connected
+to the saltwater reservoir, and the upper channel to the freshwater. The flow from the
+reservoirs, and thus the shape of the ISW, were controlled by the displacements of the
+pistons, which were driven by Kollmorgen AKM44J servo motors. The servo motors
+were controlled via a National Instruments USB 6009 data acquisition (DAQ) system
+capable of multiple digital and analog inputs and outputs. The rotational speed and
+direction of the motor were controlled by a temporal signal generated via MATLAB
+in an open-loop control scheme.
+
+The JAW system was connected to a wave flume of length 2.2 m, width 0.2 m, and
+total height 0.45 m. The flume was constructed from clear acrylic sheets to allow for
+optical access. There was a 1:7 slope with a height of 5 cm at the end of the flume to
+force ISW breaking and dissipation with minimal reflection.
+
+The layer volume flux was calculated by multiplying the targeted layer-averaged
+velocity in Equation (8) by the cross-sectional area of the baffle. The servo motors
+moved the pistons to match this volumetric flow rate. This is effectively a simple
+conservation of mass, control-volume problem. To reduce the turbulence generated at
+the inlet, two 5 cm-thick honeycomb structures were installed at the inlet in both
+channels. Downstream of the honeycomb structure, a 5 cm long adjustable ramp was
+hinged to the boundary separating the lower and the upper layers. The angle of the
+ramp with respect to the horizontal was adjusted such that the downstream elevation
+of the ramp matched the layer interface elevation.
+
+5
+
+
+
+α β ∆ Miscibility Mechanism
+
+Present Study -0.091 ∼ -0.227 0.100∼0.375 0.018∼0.021 miscible JAW
+Grue et al. [8] -0.043 ∼ -0.263 0.242 0.023 miscible Gate-type
+Cavaliere et al. [3] -0.089 ∼ -0.264 0.047∼0.207 0.027 ∼ 0.032 miscible Gate-type
+H. Michallet [16] -0.005 ∼ -0.230 0.099 0.220 immiscible Gate-type
+Kodaira et al. [9] -0.040 ∼ -0.201 0.200 0.141 immiscible Gate-type
+
+Table 1: Experimental parameters in the present and previous ISW studies.
+
+Fig. 2: Dimensionless depth ratio versus dimensionless amplitude for present and prior
+experimental studies. The red line represents the solution limit of the eKdV model;
+solutions do not exist below the line.
+
+3.2 Two-layer System
+
+A miscible two-layer system was set up in the wave flume. The flume was first filled
+with a salt solution to a depth of h2 with a uniform density of ρ2. The density of
+the lower layer, ρ2, was set to be 1018±2 kg/m3. This was confirmed via multiple
+measurements using a salinity probe. Freshwater with density of ρ1 = 998 kg/m3
+
+(ρ1 < ρ2) was then introduced into the flume through two sponges floating on the free
+surface of the saline lower layer until the total depth H = h1+h2 reached 11 cm. The
+floating-sponge method minimized mixing between two layers, leading to a stratified
+two-layer system with a small pycnocline ∆ζ.
+
+For comparison purposes, Table 1 lists the wave parameters and generation mech-
+anisms of ISWs in the present and previous studies. In this table, α = a/(h1 + h2) is
+
+6
+
+
+
+the dimensionless amplitude relative to the total depth, β = h1/h2 is the dimension-
+less depth ratio, and ∆ = (ρ2 − ρ1)/ρ1 is the dimensionless density difference. While
+most of the earlier studies were performed under a fixed depth ratio to investigate the
+characteristics of ISWs, this study aims to test the efficacy of the JAW system across
+a range of conditions. Thus, three nominal depth ratios, β = 1/10, 2/9, 3/8, were
+chosen to examine a broader depth range than found in the previous works. For each
+depth ratio, wave amplitudes starting from -1 cm (α = a/(h1 + h2) ≈ −0.091) up to
+the amplitude limit predicted by eKdV theory were considered.
+
+The constraints of the eKdV solution resulted in a smaller maximum α value in this
+study than in previous research. The α and β values presented in Table 1 are plotted in
+the parameter map shown in Figure 2. Black symbols denote the ten experimental runs
+conducted in the present study. Gray symbols mark all the previous experimental cases
+utilizing the gate-type mechanism. The red curve outlines the amplitude limitation of
+eKdV solution, below which no eKdV ISW solution exists. The three black symbols
+above α = −0.1 are referred to as small-amplitude cases, while the three black symbols
+adjacent to the red curve are identified as large-amplitude cases. The cases positioned
+in between are classified as intermediate-amplitude cases. As all ISWs in the present
+study were generated based on eKdV theory, none of the black symbols fall below
+the red curve. However, some cases in previous work did exceed the eKdV limitation
+boundary. Their wave profiles either exhibited significant deviations from theoretical
+predictions at the trailing edge (Cavaliere et al. [3], Grue et al. [8]) in miscible systems
+or were potentially maintained by immiscibility (H. Michallet [16]).
+
+3.3 Measurement Techniques
+
+The generated ISWs were characterized by synchronizing planar laser-induced flu-
+orescence (PLIF) and two-dimensional two-component particle imaging velocimetry
+(2D-2C PIV), as shown in Figure 3. The PLIF and 2D-2C PIV systems were composed
+of a 5W 532nm continuous laser and two CMOS Mako-U-130B 8-bit monochrome
+cameras with 1024 × 1280 pixel resolution operated at 30Hz for 40s. The cameras
+had an overlapping field-of-view of size 16 cm × 20 cm, positioned at least one wave-
+length downstream from the inlet. This location minimized the impact of any initial
+transients as well as wave reflection from the downstream end of the flume.
+
+To separate the upper freshwater layer from the lower layer in PLIF, Rhodamine
+6G dye with a peak excitation wavelength of 525nm and a peak emission wavelength
+of 548nm was premixed with the freshwater to form a homogeneous mixture. The
+fluorescent region was illuminated vertically by a laser sheet casting from the bottom
+of the flume. The excited fluorescent region was then imaged using an optical filter
+with a passband between 536 nm to 564 nm. Assuming single-pixel resolution for the
+PLIF measurements, the dye field is resolved to approximately 0.16 mm.
+
+Figure 4(a) shows a snapshot of the initial condition in the flume from a typical
+configuration. A vertical slice of the brightness profile is normalized by its maximum
+value as shown in Figure 4(b). Although the fluorescent fresh layer and the salt solution
+exhibit homogeneity, the brightness within each layer does not remain uniform. There
+are slight variations within the upper layer due to obstruction from PIV particles. In
+the lower layer, light diffusion from above causes a descending brightness trend.
+
+7
+
+
+
+Fig. 3: PLIF, PIV measurement system and data acquisition system
+
+Fig. 4: (a) PLIF visualization of an example initial condition, (b) Normalized
+brightness profile: upper pycnocline(--), lower pycnocline(-.), hyperbolic-tangent
+approximation (red line)
+
+8
+
+
+
+To estimate the pycnocline thickness, a hyperbolic tangent approximation proposed
+by Benney [20] was fitted to the brightness profile:
+
+B′(z) = B0 +B1 tanh
+
+[
+2
+
+∆ζ
+(z − ζ)
+
+]
+, (9)
+
+where B0 is the normalized brightness at the pycnocline, B1 is a constant representing
+the variation, and ∆ζ is the pycnocline thickness. To characterize the time-varying
+wave profile, the vertical position corresponding to B′(z) = B0 was defined as the
+pycnocline, or interface, across all frames. The upper and lower pycnocline boundaries
+were assumed to be ζ ±∆ζ/2. The normalized brightness levels corresponding to the
+upper and lower bounds of the pycnocline from the initial condition were used to
+characterize pycnocline thickening. Measured pycnocline thicknesses varied between
+0.1 to 0.8 cm (see Table 2 below). To characterize the deviation from the nominal
+depth ratios, layer depths were measured for the initial condition using this brightness
+profile. The measured layer depths h1,m and h2,m, were defined, respectively, from the
+free surface to the interface (the location at which B′ = B0), and the interface to the
+bottom of the flume.
+
+To have PIV particles uniformly distributed across the entire two-layer system,
+polyamide particles with a diameter of 55 µm were premixed into the fluorescent
+fresh water solution. The seeding particles were introduced into the flume at the
+time of the two-layer system creation. Particle-laden fluid was added through floating
+sponges placed within and upstream of the region of interest to ensure the highest
+seeding density for observation before and after ISW propagation. The salt solution
+was also filtered through a 1 µm polypropylene cartridge filter to minimize the presence
+of additional debris. The MATLAB PIVLab package was used to post-process the
+images using a multi-pass algorithm. The initial pass involved a 64 pixel × 64 pixel
+interrogation window. Two subsequent passes with 32 pixel × 32pixel interrogation
+windows with 50% overlap yielded 69 × 44 velocity vectors per snapshot. Thus, the
+PIV measurements have a spatial resolution of approximately 3 mm. Assuming an
+uncertainty of 1 pixel per frame, the PIV measurements are resolved to roughly 4.8
+mm/s. This estimate is conservative since the PIV algorithm resolves displacement
+fields between image pairs at sub-pixel resolution.
+
+4 Error Sources
+
+4.1 Depth Ratio Mismatch
+
+Creation of the layer depths in our two-layer system has a precision limit. Even with
+very gradual injection rates, mixing between layers during the filling process and
+subsequent sponge removal prevented layer depth precision below 3 mm. As a result,
+the trials had a small mismatch between the actual layer depths and the nominal layer
+depths. Since the nominal depths were used to drive the JAW and set the elevation of
+the ramp at the upstream end of the flume, this depth mismatch could lead to wave
+generation errors.
+
+9
+
+
+
+Fig. 5: Sensitivity contours showing volumetric differences due to discrepancies in
+upper and lower layer depths for nominal depth values (h1, h2) = (2, 9) cm. The pan-
+els show predictions for three different ISW amplitudes: (a) a = −1 cm, (b) a = −2
+cm, (c) a = −2.5 cm. Panel (d) shows wave profiles for a = −2 cm. In (a-c), the square
+markers represent the actual layer depths based on Table 2. In (d), the solid line shows
+wave profiles for the ideal case (h1,m/h1, h2,m/h2) = (1, 1), the dashed line corre-
+sponds to marker A in (b), with (h1,m/h1, h2,m/h2, ∆V/V0) = (0.86, 1.05,−0.15). The
+dash-dotted line corresponds to marker B in (b) with (h1,m/h1, h2,m/h2, ∆V/V0) =
+(1.13, 0.94, 0.21).
+
+The impact of the depth ratio mismatch is characterized in the normalized volu-
+metric difference contours, ∆V/V0 presented in Figure 5. Per the eKdV solution, the
+velocities in each layer (and hence the fluid volume needed to produce ISWs of desired
+amplitude) depend on the layer depths. As a result, there is a difference between the
+volumetric flux used to drive the JAW system, which is calculated from the eKdV
+solution for the nominal layer depths and desired amplitudes, and the volumetric flux
+needed for the actual layer depths. This difference is defined as ∆V and normalized
+by the nominal volumetric flux V0.
+
+10
+
+
+
+Fig. 6: Dye visualization of large amplitude wave generation at the inlet. The red solid
+line shows flow direction of the upper layer fluid. The red dashed line shows entrained
+upper layer fluid below the ramp.
+
+Panels (a)-(c) in Figure 5 show the normalized volumetric difference for the nominal
+depth ratio (h1, h2) = cm for small, intermediate, and large amplitude ISWs. These
+volumetric differences are plotted as a function of the ratio between measured and
+nominal layer depths h1,m/h1 and h2,m/h2. The red squares mark the measured values
+in our experimental work. Brighter regions in the volumetric contours suggest smaller
+variations in terms of the total volume required to form the wave, while the darker
+region suggests larger variations.
+
+For the small amplitude case shown in Figure 5(a), the vertical alignment of the
+contours suggests that the volumetric differences are primarily driven by the variations
+in the upper layer depth; the lower layer has a negligible effect. For the intermediate
+amplitude case in Figure 5(b), variations in both layers have comparable impacts. For
+the large-amplitude case shown in Figure 5(c), the contours are primarily oriented in
+the horizontal direction, which implies that the volumetric differences are sensitive to
+the lower layer discrepancies. The blank region in the lower half of Figure 5(c) shows
+the area where no solutions exist according to the eKdV theory.
+
+Figure 5(d) shows wave profiles corresponding to the conditions marked in Figure
+5(b). The black solid line depicts the profile with no discrepancies in either layer,
+while the other profiles represent points with volumetric differences larger than 10%.
+Thus, the depth ratio mismatch can lead to either broadening or narrowing of the
+wave profiles.
+
+For all the experimental results shown in this paper, the mismatch between nominal
+and actual layer depths resulted in volumetric differences below 10%. As a result, a 10%
+amplitude error is adopted as a quantitative criterion for successful ISW generation.
+
+4.2 Wave Generation Errors
+
+Figure 6 captures the inlet condition as the main depression wave of an ISW departs
+from the adjustable ramp through dye visualization. For the intermediate and large
+amplitude cases, there are stronger descending motions of the pycnocline and stronger
+suction forces from the lower channel. Some upper layer fluid is therefore entrained
+into the lower layer just below the ramp as shown in Figure 6. This leads to an upper
+
+11
+
+
+
+Fig. 7: Dye visualization of small amplitude (a) and large amplitude (b) wave gener-
+ation at the inlet. PLIF visualizations for case 5 with a sharp pycnocline (c) and case
+7 with a diffuse tail due to mixing (d). Wave propagation is from left to right.
+
+12
+
+
+
+Case h1(cm) h2(cm) h1,m(cm) h2,m(cm) ρ2(kg/m3) a(cm) am(cm) ∆ζm(cm)
+
+1 1.00 10.00 0.85 10.18 1017.3 -1.00 -0.95 0.13
+2 1.00 10.00 0.89 10.23 1017.3 -1.50 -1.41 0.34
+3 1.00 10.00 1.12 10.02 1017.3 -2.00 -1.78 0.86
+4 2.00 9.00 2.23 8.87 1019.3 -1.00 -0.93 0.44
+5 2.00 9.00 2.16 9.16 1019.3 -1.50 -1.53 0.47
+6 2.00 9.00 2.21 9.02 1019.3 -2.00 -2.12 0.46
+7 2.00 9.00 2.21 9.05 1016.1 -2.50 -2.89 0.76
+8 3.00 8.00 3.25 7.91 1018.2 -1.00 -1.08 0.57
+9 3.00 8.00 3.17 8.08 1020.0 -1.50 -1.71 0.64
+10 3.00 8.00 3.18 8.11 1019.2 -2.00 -2.20 0.81
+
+Table 2: Comparison between measured and nominal values. A subscript m denotes the
+measured values derived from PLIF.
+
+layer volume deficit in the measured trough of the ISW, which is balanced by an upper
+layer volume excess on the trailing side of the ISW and in the oscillatory tail (i.e., in
+any trailing waves). Throughout this manuscript, the term leading side is used to refer
+to the wave front ahead of the trough (i.e., point of maximum depression). Trailing
+side is used to refer to the back side of the wave, i.e., after the passage of the trough.
+
+Figure 7(a) shows dye visualization at the inlet for a small amplitude ISW. An
+interfacial instability can be observed at the end of the adjustable ramp due to the
+interaction between the jets and the geometry. However, the mixing due to this insta-
+bility is confined to the inlet region and does not propagate with the ISW. Hence, a
+sharp pycnocline is observed on the trailing side of the ISW, as illustrated in Figure
+7(c).
+
+Figure 7(b) shows dye visualization of the inlet condition for a large amplitude ISW.
+In this case, the larger velocity gradient across the pycnocline leads to a sustained shear
+driven Kelvin-Helmholtz (KH) type instability at the pycnocline. This KH instability
+triggers mixing between the lower and upper layers on the trailing side of the wave
+leading to a thickened pycnocline as shown in Figure 7(d). A similar trend was observed
+in the two-layer system studied by Kodaira et al. [9], though the interface remained
+distinct due to immiscibility.
+
+5 Results
+
+5.1 Wave Profiles
+
+Table 2 summarizes the parameters for the ten ISW experiments conducted. In this
+table, h1, h2, and a are the nominal values used to generate the eKdV solution for
+the JAW, while h1,m, h2,m and am are the values measured using PLIF. The mea-
+sured amplitude, am, is determined by calculating the difference between the mean
+stationary pycnocline position before wave arrival and the maximum displacement of
+the pycnocline under the wave trough. Corresponding time series of the wave profiles
+are provided in Figure 8. The shaded red envelopes surrounding the measured profiles
+mark the pycnocline thicknesses as defined in Section 3.3.
+
+13
+
+
+
+Fig. 8: Comparison between experimental and theoretical wave profiles for nominal
+depth ratios h1/h2 = 1/10 (a-c), h1/h2 = 2/9 (d-g), and h1/h2 = 3/8 (h-j). Red
+lines show the interfacial displacement and red shaded regions show the pycnocline
+thickness. Black dashed lines show eKdV predictions based on nominal (prescribed)
+values for depth and amplitude. Black solid lines show eKdV predictions based on
+measured values. 14
+
+
+
+The pycnocline thickness at t = −10 s characterizes the initial condition for each
+trial. Subsequent variation in pycnocline thickness captures the mixing dynamics as the
+ISW propagates. The measured profiles are generally composed of a main depression
+wave and an oscillatory tail caused by the mismatch between the theory and nature.
+The wave front appearing before t = 0 s is termed the leading side. The portion
+appearing after the passage of the trough at t = 0 s is termed the trailing side of the
+wave.
+
+In all cases, small-scale (< 1mm) disturbances can be observed in Figure 8 prior
+to the main depression wave due to small-amplitude and short-wavelength free surface
+gravity waves created during ISW generation. Similar disturbances can be found in the
+experiments of Kodaira et al. [9] and H. Michallet [16], but caused by the gate-lifting
+motion and wave reflection from the end wall. In the small and intermediate amplitude
+cases shown in Figure 8 (a,d-f,h), the measured wave profiles are closely aligned with
+the eKdV solutions. The amplitude of the oscillatory tail after the main depression
+waves is generally within 1 mm. Furthermore, there is negligible temporal variation in
+pycnocline thickness, suggesting minimal entrainment across the pycnocline.
+
+However, for large amplitude cases shown in Figure 8 (c,g,i-j), the measured wave
+profiles significantly deviate from the dashed black curve predicted based on the nom-
+inal values, and instead follow the solid black curve predicted using measured values.
+This can potentially be attributed to the depth ratio mismatch discussed in Section
+4.1; for the large amplitude cases, the wave amplitude and volumetric flux are sensi-
+tive to minor variations in layer depths. Note that no solid curves are shown in Figure
+8(g,j) as the measured amplitudes exceed the eKdV solution limits. The measured
+profiles for these two cases show reasonable agreement with the black dashed curves
+predicted using nominal values, except in the vicinity of the wave trough where the
+measured amplitude is greater. This suggests that the eKdV solution captures ISW
+physics in miscible two-layer systems reasonably well near the amplitude limit.
+
+The interfacial instability shown in Figure 7(b) for large amplitude waves causes
+the amplitude of the oscillatory tail in Figure 8 (c,g,i-j) to increase to approximately
+5 mm. Additionally, the pycnocline thickening illustrated in Figure 7(d) is evident on
+the trailing side of the ISW. Similar mixing processes starting from the trailing side
+of the ISW were shown in the miscible two-layer systems of Grue et al. [8].
+
+In Figure 8 (b,c), the measured wave profiles exhibit a slow return to the initial
+interface elevation after the wave has passed. The upper layer fluid volume required
+to form ISWs for the (h1, h2) = (1cm, 10cm) depth ratio is relatively small, i.e., the
+small upper layer depth translates into lower volumetric requirements for the JAW.
+As a result, any entrainment at the inlet, as shown in Figure 6, can alter the wave
+profiles significantly. For the large amplitude case shown in Figure 8(c), the effect of
+this trapped volume couples with KH instability, leading to a significant dispersion on
+the trailing side of the ISW. This is the only large amplitude case with a measured
+amplitude under the nominal value.
+
+5.2 Amplitude and Phase Speed Errors
+
+The amplitude error is quantified as the relative difference between the measured and
+the nominal amplitude values: ϵa = (am − a)/a. Table 3 shows that for small and
+
+15
+
+
+
+Case ϵa (%) ∂u/∂z (1/s) Ri c (cm/s) cm (cm/s) ϵc (%)
+
+1 -5.00 6.83 3.06 5.6 5.1 -8.9
+2 -6.00 9.31 0.63 6.0 5.9 -1.7
+3 -11.00 11.35 0.17 6.2 6.4 3.2
+4 -7.00 6.19 1.22 6.8 6.8 0.0
+5 2.00 8.85 0.56 7.0 6.6 -5.7
+6 6.00 11.35 0.35 7.2 7.2 0.0
+7 15.60 12.65 0.21 6.7 6.9 3.0
+8 8.00 5.57 1.10 7.1 6.8 -4.2
+9 14.00 8.51 0.46 7.5 7.3 -2.7
+10 10.00 11.13 0.21 7.5 7.6 2.7
+
+Table 3: Amplitude and phase speed errors and Richardson num-
+ber estimates. Here, ϵa is the amplitude error measured at the ISW
+trough, ∂u/∂z is the nominal shear at the inlet, Ri is the corre-
+sponding Richardson number estimate, c is the phase speeds of the
+ISWs calculated based on the nominal eKdV solution, cm is the
+measured phase speed, and ϵc is the phase speed error.
+
+intermediate amplitudes, cases 1, 2, 4-6, and 8, amplitude errors are maintained below
+10%. Higher errors are primarily observed for the large amplitude cases (3, 7, 9, 10).
+As noted earlier, these cases exhibited a KH type instability startinf from the inlet.
+
+Since the instability occurs when the destabilizing effect of the interfacial shear
+outweighs the stabilizing effect of the density gradient at the pycnocline, we can use
+a Richardson number evaluated near the inlet to indicate its likelihood:
+
+Ri =
+(−g/ρ2)(∂ρ/∂z)
+
+(∂u/∂z)2
+=
+
+(−g/ρ2) [(ρ2 − ρ1)/∆ζ]
+
+[(u1 − u2)/d]
+2 . (10)
+
+Here u1 and u2 are the theoretical layer-averaged horizontal velocity components cal-
+culated from Equation (8) based on the nominal values, and d = 0.5 cm is the thickness
+of the inclined ramp separating the two inlet channels. The pycnocline thickness, ∆ζ,
+and the layer densities, ρ1 and ρ2, can be obtained from Table 2. According to Grue
+et al. [8], the stability criteria for a stratified parallel flow is that the Richardson
+number should be greater than 0.25.
+
+The small and intermediate amplitude cases with low amplitude errors have inlet
+Richardson numbers above 0.25 due to relatively small ∂u/∂z values, as shown in
+Table 3. Conversely, for large amplitudes, cases 3, 7, and 10, the Richardson number
+falls below 0.25 and the amplitude error exceeds 10%. In case 9, the amplitude error is
+above 10% despite its Richardson number above 0.25, suggesting that the depth ratio
+mismatch could also be a contributing factor.
+
+The phase speed error is quantified as the relative difference between the measured
+phase speed and the predicted phase speed calculated from Equation (6) based on the
+nominal values: ϵc = (cm − c)/c. The measured phase speed, cm, is determined by
+measuring trough arrival time between two different locations spaced 12.5 cm apart
+in the PLIF field of view. For a frame rate of 30 Hz and the spatial resolution of the
+images, the uncertainty in the measured phase speed is estimated to be roughly 5
+
+16
+
+
+
+mm/s. As shown in Table 3, the phase speed errors remain within the margin of this
+uncertainty across all amplitude conditions. Notably, positive phase speed errors are
+observed only in the large amplitude cases when the Richardson number drops below
+0.25. The phase speed for the large amplitude ISWs may increase due to additional
+volume entrainment causing an increase in wave amplitude. Indeed cases 7 and 10 both
+show an increase in wave amplitude relative to the nominal value and a corresponding
+increase in wave speed. However, for case 3, the measured wave amplitude is lower
+than the nominal value yet the phase speed is higher.
+
+5.3 Velocity Profiles
+
+The horizontal velocity profiles shown in Figure 9 are extracted from PIV data at the
+ISW trough. Since the PLIF and PIV are captured synchronously, the PIV-derived
+velocity profiles are extracted at the time of maximum displacement determined using
+the PLIF measurement. The red dots in Figure 9 show the horizontal velocity averaged
+across a window 6 cm wide in the horizontal direction. The red shaded regions show
+one standard deviation.
+
+Despite implementing the floating sponge method to uniformly distribute PIV par-
+ticles, the uppermost layer remained insufficiently seeded in some of the cases. During
+the establishment of the two-layer system, the sponges submerged roughly 1 cm as
+they absorb water, causing the release of particles only beneath a certain depth. These
+low-seeding regions are shown using gray shading, where the PIV measurements either
+go to zero or show significantly larger variability. Note that the impact of low seeding
+is most pronounced for the cases with thin upper layers or for large amplitude waves
+which lead to a larger downward displacement of the interface. Indeed, for the depth
+ratio of h1/h2 = 1cm/10cm, the entire upper layer experiences insufficient seeding.
+This low seeding region is displaced downwards by the ISWs, yielding unreliable PIV
+measurements in the entire upper layer as observed in Figure 9(a-c).
+
+As expected, the observed horizontal velocities align with the direction of the wave
+propagation above the pycnocline and move in the opposite direction below the pycn-
+ocline. Moreover, since the lower layer is thicker in all cases, the horizontal velocity in
+the lower layer is always smaller than that in the upper layer. The measured horizon-
+tal velocity profiles are compared with the layer-averaged velocity profiles predicted
+by the eKdV model, considering both nominal and measured values.
+
+The measured velocity profiled generally show good agreement with the eKdV
+predictions in both the lower and upper layers (except for the cases with h1 = 1 cm
+where the entire upper layer has insufficient seeding). Differences in predicted velocities
+using nominal or measured parameters are not significant.
+
+In all cases, the measured horizontal velocity in the lower layer are nearly uniform.
+As expected, some of the the profiles show the emergence of a thin viscous boundary
+layer at the bottom wall. Moreover, the standard deviation in the velocity measure-
+ments is small, indicating spatial uniformity. For the small and intermediate amplitude
+cases, the high-shear region between the (nearly uniform) upper and lower layers has
+a vertical extent of ∼ 1 cm, as shown in Figure 9(d-f),(h). For the large amplitude
+cases, however, the vertical transition distance expands to ∼1.5-2 cm as illustrated in
+Figure 9(g),(j). This expansion is consistent with the observed pycnocline thickening,
+
+17
+
+
+
+Fig. 9: continued. For description see page 19.
+
+18
+
+
+
+Fig. 9: Comparison between measured and predicted velocity profiles at the wave
+trough, together with the measured mean shear. The panels correspond to the depth
+ratios h1/h2 = 1cm/10cm (a-c), h1/h2 = 2cm/9cm (d-g) and h1/h2 = 3cm/8cm (h-j).
+Red markers and shading show the PIV measurements and one standard deviation.
+The gray shaded region shows the region without sufficient particles for PIV. Black
+dashed lines show eKdV predictions based on nominal values. Black solid lines show
+eKdV predictions based on measured values. Blue sold lines show the shear derived
+from PIV measurements.
+
+and can potentially be attributed to the mixing induced by KH vortices. Moreover,
+the upper layer velocities exceed the theoretical prediction by approximately 0.5 cm/s.
+This is consistent with the observed increase in wave amplitude. However, it must be
+noted that these small differences in velocity are of the same order of magnitude as
+the observed variability and the expected PIV uncertainty. Despite the presence of KH
+instabilities in large amplitude cases, the structure of ISWs in the lower layer remains
+intact. This is evidenced by the consistent matching of velocity profiles in the lower
+layer.
+
+6 Conclusions
+
+Internal solitary waves generated by the jet-array wave maker have been experimen-
+tally investigated in miscible two-layer systems. Prior work by Cavaliere et al. [3]
+suggests that, for a miscible two-layer system, the weakly nonlinear eKdV solution
+yields good agreement with measurements. Thus, the eKdV solution is selected as the
+reference for wave generation in the JAW system.
+
+The results presented in this study show that the JAW system can predictably
+generate ISWs in miscible two-layer systems with varying depth ratios and wave ampli-
+tudes up to the eKdV solution limit. Moreover, the generated waves show displacement
+profiles consistent with theoretical predictions within roughly one wavelength of the
+inlet. Given that minimal mixing is inevitable during the construction process of the
+two-layer system, discrepancies in depth ratios are identified as potential sources of
+error. Volumetric sensitivity tests reveal that small amplitude cases are more sensitive
+
+19
+
+
+
+to the mismatch in the upper layer depth, while large amplitude cases are more sen-
+sitive to the mismatch in the lower layer depth. The absolute volumetric differences
+were kept below 10% in all cases to minimize the impact of layer depth mismatch. This
+effect coupled with pycnocline thickening due to mixing generally led to amplitude
+errors less than 10%.
+
+Dye visualization revealed the possibility of wave-generation errors taking place
+around inlets. For the ISWs with narrow profiles (i.e., the waves with the largest
+temporal gradients in velocity and pressure at the inlet), the wave can be altered
+significantly because of flow short-circuiting around the inlet ramp. Due to a suction
+force in the lower channel, some upper-layer fluid is entrained into the lower layer
+just below the ramp. In small- and intermediate amplitude cases, instabilities are
+formed during generation by the interaction between the flow and the geometry in
+the JAW system. This generational instability is confined near the inlet with minimal
+influence on the wave formation. Sharpness at the leading side is preserved as the ISW
+propagates downstream. The measured time series agrees with the analytic solution
+with minimal oscillation after the main depression wave.
+
+As the velocity gradient increases with ISW amplitude a sustained KH-type insta-
+bility is observed at the interface as the wave propagates. KH instabilities overcome the
+stability provided by density gradients in the large-amplitude cases, triggering mix-
+ing across the pycnocline on the trailing side. This additional mixing is thought to be
+responsible for errors larger than 10% observed in certain cases. For these cases, larger
+oscillatory motions left behind by the KH instability and a thickened pycnocline are
+observed after the main depression wave. Similar instabilities have been documented
+in prior studies on miscible two-layer ISWs experiments (Kao et al. [7], Grue et al.
+[8]). Local Richardson numbers were estimated around the inlet, where the instabil-
+ity initiates. Increasing amplitude errors and the positive phase speed errors roughly
+agree with the stability threshold of Ri = 0.25 for stratified parallel flows. Despite the
+varying amplitude errors, the measured phase speed errors are kept within the margin
+of uncertainty for all cases.
+
+Through PIV data, we find that the horizontal velocity profiles at the wave trough
+show strong agreement with the layer-averaged velocity profiles derived from the eKdV
+solution for small- and intermediate-amplitude cases. Within each layer, the horizontal
+velocity components remain nearly constant over depth.
+
+For large-amplitude cases, the shear layer between layers broadens as the pycno-
+cline thickness increases due to the aforementioned KH instability. ISWs with larger
+amplitude errors induced by KH instabilities result in measured velocities in the upper
+layer that are at least 0.5 cm/s higher than the eKdV predictions. Conversely, the
+measured velocities in the lower layer remain well-aligned with the eKdV predic-
+tions, suggesting that the deeper lower layers are potentially less impacted by the
+instabilities.
+
+The strengths and limitations of the JAW system are studied in this work. Previous
+experimental work has primarily relied on gate release mechanisms to generate ISWs
+(Cavaliere et al. [3], Kao et al. [7], Grue et al. [8], Kodaira et al. [9], H. Michallet [16]).
+
+Yet, it is unclear which of the eKdV, mKdV, or MCC solutions best captures the
+measurements. By enabling the generation of ISWs with the theoretically-predicted
+
+20
+
+
+
+excitation, the JAW system allows for a direct comparison between theory and exper-
+iment. Indeed, the results presented in Appendix A show that the use of the mKdV
+solution leads to greater discrepancies between the measured profiles and theoretical
+predictions.
+
+The quality of the ISWs generated by JAW is shown to be comparable with those
+observed in gate release experiments. Additionally, the JAW system allows for a pri-
+ori amplitude and wave profile selection as well as the generation of multiple solitary
+waves, periodic internal waves, and surface waves (Ko and Lynett [19]). Moving for-
+ward, this could enable novel wave-structure (Chen et al. [17], Cui et al. [18], Michallet
+and Ivey [21]) and wave-wave interaction experiments.
+
+Acknowledgement
+
+This material is based upon work supported by the National Science Foundation under
+Grant No. OCE-1830056. Any opinions, findings, and conclusions or recommendations
+expressed in this material are those of the authors and do not necessarily reflect the
+views of the National Science Foundation.
+
+Appendix A The Internal Solitary Waves in
+mKdV Solutions
+
+The modified Korteweg deVries (mKdV) solution relies on the same governing
+equations as the eKdV solution of Equation (1) but uses the transformation of ζ
+
+′
+=
+
+ζ − 2c1/c2 and the assumption of c1 → 0 (Michallet and Barthélemy [12], H. Michal-
+let [16], Cui et al. [18], Funakoshi and Oikawa [22], Apel et al. [23]). This potentially
+allows for larger density differences, wave amplitudes, and critical depth ratios. The
+mKdV solution is expressed by
+
+ζ(x, t) = a
+sech2 [(x− ct)/λ]
+
+1− µ · tanh2 [(x− ct)/λ]
+. (A1)
+
+The phase speed of the internal solitary waves based on the mKdV solution is
+
+c = c0
+
+[
+1− 1
+
+2
+
+(
+h+ a
+
+(h1 + h2)− hc
+
+)2
+]
+, (A2)
+
+where h = h2 − hc marks the distance of the stationary pycnocline position with
+respect to the critical layer depth, and c0 is the corresponding linear phase speed:
+
+c0
+2 =
+
+g(h1 + h2)
+
+2
+
+{
+1−
+
+[
+1− h1h2(ρ2 − ρ1)
+
+ρ2(h1 + h2)2
+
+]1/2}
+. (A3)
+
+21
+
+
+
+Fig. A1: Comparison between experimental and theoretical wave profiles in time for
+mKdV profiles at the depth ratio of h1/h2 = 2cm/9cm for amplitudes a = −1 cm (a)
+and a = −1.5 cm (b). Red lines show PLIF interfacial displacement and shaded regions
+represent pycnocline thickness. Black dashed lines show the mKdV prediction based
+on nominal values. Black solid lines show the mKdV prediction based on measured
+values.
+
+The characteristic length of the ISW is
+
+λ = 2(h1 + h2 − hc)
+
+√
+(h1 + h2 − hc)3 + h3
+
+c
+
+3(h1 + h2)h
+′h′′ , (A4)
+
+with the critical level defined as
+
+hc =
+h1 + h2
+
+1 +
+√
+
+ρ1/ρ2
+. (A5)
+
+The polarity coefficient
+
+µ =
+
+{
+h
+
+′′
+/h
+
+′
+, h > 0,
+
+h
+′′
+/h
+
+′
+, h < 0,
+
+(A6)
+
+is depends on the polarized distances
+
+h
+′
+= −h−
+
+∣∣h+ a
+∣∣ , h
+
+′′
+= −h+
+
+∣∣h+ a
+∣∣ . (A7)
+
+Two cases with the mKdV profiles — for depth ratio h1/h2 = 2cm/9cm and ampli-
+tudes a = −1 cm and a = −1.5 cm — are investigated to verify the applicability of
+mKdV solution in the JAW system (see Section 3). Because of the assumptions of a
+negligible c1 term, the dispersion is solely balanced by linear and cubic nonlinearities,
+resulting in broader wave profiles in the mKdV solution compared to the eKdV solu-
+tion. In the small-amplitude case as shown in Figure A1(a), while the amplitude error
+remains below 10%, which is comparable to that for the eKdV solutions. However,
+the phase speed error exceeds 10%. Moreover, the excessive volume predicted by the
+mKdV solution develops into an asymmetric trailing edge after the trough.
+
+22
+
+
+
+Fig. A2: Comparison between experimental and theoretical velocity profiles at the
+troughs and the measured shear for mKdV profiles at the depth ratio of h1/h2 =
+2cm/9cm for amplitudes a = −1 cm (a) and a = −1.5 cm (b). Red shaded regions
+show measurements within one standard deviation. Gray shading represents regions
+without sufficient particles for PIV. Black dashed lines show mKdV predictions based
+on nominal values. Black solid lines show mKdV predictions based on measured values.
+Blue sold lines show shear derived from PIV measurements.
+
+As the amplitude increases to a = 1.5cm, the larger excessive volume leads to
+further broadening of the wave profile as observed in Figure A1(b) along with a 14
+% amplitude growth. The approximately 20% increase in the phase speed leads to
+stronger shear, triggering instabilities and oscillatory tail. The wave profiles of the
+eKdV solution under the same layer depths and amplitudes are presented in Figure
+8(d, e). Both profiles closely align with the predictions derived from the eKdV solution.
+
+The corresponding horizontal velocity profiles at the troughs are presented in
+Figure A2. The velocity profiles match the mKdV solution in the lower layer, whereas
+the excessive volumetric forcing leads to enhanced velocity profiles in the upper layer.
+The mKdV solution also leads to less uniform velocity profiles in the upper layer dur-
+ing wave propagation compared to the almost-constant profiles shown in Figure 9 for
+the eKdV solution.
+
+As noted in Michallet and Barthélemy [12], the applicability range of the mKdV
+solution is limited. The assumption of vanishing c1 term confines its existence only to
+critical depth ratios of h1/h2 ≈ 1 in miscible two-layer systems or more reasonable
+depth ratios in immiscible systems with larger density differences. This study exam-
+ines two preliminary cases of mKdV solution, each sharing identical depth ratios and
+amplitudes as the eKdV solution detailed in Section 5. Subsequent analysis demon-
+strates that the eKdV model has a better representation of the ISWs within miscible
+two-layer systems than does the mKdV model.
+
+23
+
+
+
+References
+
+[1] Duda, T., Lynch, J.F., Irish, J., Beardsley, R., Ramp, S., Chiu, C.-S., Tang, T.,
+Yang, Y.-J.: Internal tide and nonlinear internal wave behavior at the continental
+slope in the northern south china sea. IEEE Journal of Oceanic Engineering 29
+(2004) https://doi.org/10.1109/JOE.2004.836998
+
+[2] Helfrich, K.R., Melville, W.K.: Long nonlinear internal waves. Annual Review
+of Fluid Mechanics 38(1), 395–425 (2006) https://doi.org/10.1146/annurev.fluid.
+38.050304.092129
+
+[3] Cavaliere, D., la Forgia, G., Adduce, C., Alpers, W., Martorelli, E., Falcini, F.:
+Breaking Location of Internal Solitary Waves Over a Sloping Seabed. Journal of
+Geophysical Research (Oceans) 126(2), 2020–016669 (2021) https://doi.org/10.
+1029/2020JC016669
+
+[4] Benjamin, T.B.: Internal waves of finite amplitude and permanent form.
+Journal of Fluid Mechanics 25(2), 241–270 (1966) https://doi.org/10.1017/
+S0022112066001630
+
+[5] Ono, H.: Algebraic solitary waves in stratified fluids. Journal of the Physical
+Society of Japan 39, 1082–1091 (1975)
+
+[6] Koop, C.G., Butler, G.: An investigation of internal solitary waves in a two-fluid
+system. Journal of Fluid Mechanics 112, 225–251 (1981) https://doi.org/10.1017/
+S0022112081000372
+
+[7] Kao, T.W., Pan, F.-S., Renouard, D.: Internal solitons on the pycnocline: gen-
+eration, propagation, and shoaling and breaking over a slope. Journal of Fluid
+Mechanics 159, 19–53 (1985) https://doi.org/10.1017/S0022112085003081
+
+[8] Grue, J., Jensen, A., Rus̊as, P.-O., Sveen, J.K.: Properties of large-amplitude
+internal waves. Journal of Fluid Mechanics 380, 257–278 (1999) https://doi.org/
+10.1017/S0022112098003528
+
+[9] Kodaira, T., Waseda, T., Miyata, M., Choi, W.: Internal solitary waves in a two-
+fluid system with a free surface. Journal of Fluid Mechanics 804, 201–223 (2016)
+https://doi.org/10.1017/jfm.2016.510
+
+[10] Djordjevic, V.D., Redekopp, L.G.: The fission and disintegration of internal
+solitary waves moving over two-dimensional topography. Journal of Physical
+Oceanography 8(6), 1016–1024 (1978) https://doi.org/10.1175/1520-0485(1978)
+008⟨1016:TFADOI⟩2.0.CO;2
+
+[11] Ostrovsky, L.A., Stepanyants, Y.A.: Do internal solitions exist in the
+ocean? Reviews of Geophysics 27(3), 293–310 (1989) https://doi.org/10.1029/
+RG027i003p00293
+
+24
+
+https://doi.org/10.1109/JOE.2004.836998
+https://doi.org/10.1146/annurev.fluid.38.050304.092129
+https://doi.org/10.1146/annurev.fluid.38.050304.092129
+https://doi.org/10.1029/2020JC016669
+https://doi.org/10.1029/2020JC016669
+https://doi.org/10.1017/S0022112066001630
+https://doi.org/10.1017/S0022112066001630
+https://doi.org/10.1017/S0022112081000372
+https://doi.org/10.1017/S0022112081000372
+https://doi.org/10.1017/S0022112085003081
+https://doi.org/10.1017/S0022112098003528
+https://doi.org/10.1017/S0022112098003528
+https://doi.org/10.1017/jfm.2016.510
+https://doi.org/10.1175/1520-0485(1978)008<1016:TFADOI>2.0.CO;2
+https://doi.org/10.1175/1520-0485(1978)008<1016:TFADOI>2.0.CO;2
+https://doi.org/10.1029/RG027i003p00293
+https://doi.org/10.1029/RG027i003p00293
+
+
+[12] Michallet, H., Barthélemy, E.: Ultrasonic probes and data processing to study
+interfacial solitary waves. Experiments in Fluids 22(5), 380 (1997) https://doi.
+org/10.1007/s003480050064
+
+[13] Choi, W., Camasa, R.: Fully nonlinear internal waves in a two-fluid sys-
+tem. Journal of Fluid Mechanics 396, 1–36 (1999) https://doi.org/10.1017/
+S0022112099005820
+
+[14] Miyata, M.: An internal solitary wave of large amplitude, 1985. mer, tokyo,
+23(2):43–48. Deep Sea Research Part B. Oceanographic Literature Review 33(3),
+210 (1986) https://doi.org/10.1016/0198-0254(86)90999-4
+
+[15] Segur, H., Hammack, J.L.: Soliton models of long internal waves. Journal of Fluid
+Mechanics 118, 285–304 (1982) https://doi.org/10.1017/S0022112082001086
+
+[16] H. Michallet, E.B.: Experimental study of interfacial solitary waves. Jour-
+nal of Fluid Mechanics 366, 159–177 (1998) https://doi.org/10.1017/
+S002211209800127X
+
+[17] Chen, C.-Y., Hsu, J.R.-C., Cheng, M.-H., Chen, H.-H., Kuo, C.-F.: An investi-
+gation on internal solitary waves in a two-layer fluid: Propagation and reflection
+from steep slopes. Ocean Engineering 34(1), 171–184 (2007) https://doi.org/10.
+1016/j.oceaneng.2005.11.020
+
+[18] Cui, J., Dong, S., Wang, Z., Han, X., Yu, M.: Experimental research on internal
+solitary waves interacting with moored floating structures. Marine Structures 67,
+102641 (2019) https://doi.org/10.1016/j.marstruc.2019.102641
+
+[19] Ko, H.S., Lynett, P.: Development of a hydraulic-control wave-maker (hcw) for
+the study of combined waves and flows. Coastal Engineering Proceedings 1, 53
+(2014) https://doi.org/10.9753/icce.v34.waves.53
+
+[20] Benney, D.J.: Long non-linear waves in fluid flows. Journal of Mathemat-
+ics and Physics 45(1-4), 52–63 (1966) https://doi.org/10.1002/sapm196645152
+https://onlinelibrary.wiley.com/doi/pdf/10.1002/sapm196645152
+
+[21] Michallet, H., Ivey, G.N.: Experiments on mixing due to internal solitary waves
+breaking on uniform slopes. Journal of Geophysical Research: Oceans 104(C6),
+13467–13477 (1999) https://doi.org/10.1029/1999JC900037
+
+[22] Funakoshi, M., Oikawa, M.: Long internal waves of large amplitude in a two-
+layer fluid. Journal of the Physical Society of Japan 55(1), 128–144 (1986) https:
+//doi.org/10.1143/JPSJ.55.128 https://doi.org/10.1143/JPSJ.55.128
+
+[23] Apel, J.R., Ostrovsky, L.A., Stepanyants, Y.A., Lynch, J.F.: Internal solitons
+in the ocean. Woods Hole Oceanographic Institution (2006) https://doi.org/10.
+1575/1912/1070
+
+25
+
+https://doi.org/10.1007/s003480050064
+https://doi.org/10.1007/s003480050064
+https://doi.org/10.1017/S0022112099005820
+https://doi.org/10.1017/S0022112099005820
+https://doi.org/10.1016/0198-0254(86)90999-4
+https://doi.org/10.1017/S0022112082001086
+https://doi.org/10.1017/S002211209800127X
+https://doi.org/10.1017/S002211209800127X
+https://doi.org/10.1016/j.oceaneng.2005.11.020
+https://doi.org/10.1016/j.oceaneng.2005.11.020
+https://doi.org/10.1016/j.marstruc.2019.102641
+https://doi.org/10.9753/icce.v34.waves.53
+https://doi.org/10.1002/sapm196645152
+https://arxiv.org/abs/https://onlinelibrary.wiley.com/doi/pdf/10.1002/sapm196645152
+https://doi.org/10.1029/1999JC900037
+https://doi.org/10.1143/JPSJ.55.128
+https://doi.org/10.1143/JPSJ.55.128
+https://arxiv.org/abs/https://doi.org/10.1143/JPSJ.55.128
+https://doi.org/10.1575/1912/1070
+https://doi.org/10.1575/1912/1070
+
+	Introduction
+	Theory
+	Extended Korteweg-de Vries Solution
+
+	Experimental Facility and Techniques
+	Jet-Array Wavemaker
+	Two-layer System
+	Measurement Techniques
+
+	Error Sources
+	Depth Ratio Mismatch
+	Wave Generation Errors
+
+	Results
+	Wave Profiles
+	Amplitude and Phase Speed Errors
+	Velocity Profiles
+
+	Conclusions
+	The Internal Solitary Waves in mKdV Solutions
+

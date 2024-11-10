@@ -1,0 +1,977 @@
+
+BAPULM: Binding Affinity Prediction using
+
+Language Models
+
+Radheesh Sharma Meda† and Amir Barati Farimani∗,‡,¶,†,§
+
+†Department of Chemical Engineering, Carnegie Mellon University, 15213, USA
+
+‡Department of Mechanical Engineering, Carnegie Mellon University, 15213, USA
+
+¶Department of Biomedical Engineering, Carnegie Mellon University, 15213, USA
+
+§Machine Learning Department, Carnegie Mellon University, 15213, USA
+
+E-mail: barati@cmu.edu
+
+Abstract
+
+Identifying drug-target interactions is essential for developing effective therapeutics.
+
+Binding affinity quantifies these interactions, and traditional approaches rely on com-
+
+putationally intensive 3D structural data. In contrast, language models can efficiently
+
+process sequential data, offering an alternative approach to molecular representation.
+
+In the current study, we introduce BAPULM, an innovative sequence-based framework
+
+that leverages the chemical latent representations of proteins via ProtT5-XL-U50 and
+
+ligands through MolFormer, eliminating reliance on complex 3D configurations. Our
+
+approach was validated extensively on benchmark datasets, achieving scoring power
+
+(R) values of 0.925 ± 0.043, 0.914 ± 0.004, and 0.8132 ± 0.001 on benchmark1k2101,
+
+Test2016 290, and CSAR-HiQ 36, respectively. These findings indicate the robust-
+
+ness and accuracy of BAPULM across diverse datasets and underscore the potential
+
+of sequence-based models in-silico drug discovery, offering a scalable alternative to
+
+3D-centric methods for screening potential ligands.
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+15
+
+0v
+1 
+
+ [
+q-
+
+bi
+o.
+
+Q
+M
+
+] 
+ 6
+
+ N
+ov
+
+ 2
+02
+
+4
+
+barati@cmu.edu
+
+
+Introduction
+
+Developing novel therapeutics is essential for addressing extant diseases, newly emerging or
+
+untreated diseases, and future potential disorders that have yet to be identified.1 The recent
+
+COVID-19 pandemic has underscored the critical importance of rapid and innovative drug
+
+development to combat these unforeseen global challenges.2,3 In this pursuit, drugs, typically
+
+organic molecules composed of carbon-catenated structures (ligands), are stereoselectively
+
+designed to interact with specific amino acid motifs of their target proteins.4,5 These inter-
+
+actions are often mediated by non-covalent forces such as hydrogen bonds, van der Waals
+
+interactions, and electrostatic forces.6 Understanding the strength of these protein-ligand
+
+interactions, often represented by the equilibrium dissociation constant (Kd), is crucial to
+
+advance therapeutic development.7 Spectroscopic techniques, including FTIR, NMR, UV-
+
+visible spectroscopy, and fluorescence, are employed to test potential ligands for specific
+
+proteins.8–11 These methods capture conformational transitions within the secondary struc-
+
+ture through vibrational bands, structural modifications through chemical changes, changes
+
+in absorbance due to the electronic environment, and alterations in fluorescence intensity
+
+upon protein-ligand binding, respectively.12,13
+
+In addition to these experimental approaches, computational methods such as molecular
+
+docking and molecular dynamics (MD) simulations have revolutionized affinity prediction
+
+by offering physical interpretability.14,15 While MD simulations accurately estimate binding
+
+affinities at the expense of higher compute power, molecular docking enables the exploration
+
+of large libraries of potential ligands, offering rapid virtual screening capabilities albeit re-
+
+duced accuracy. Despite their limitations, these techniques laid the foundation for in silico
+
+methods in drug discovery, paving the way for the adoption of deep learning models, which
+
+have achieved considerably higher predictive accuracy.
+
+Alongside molecular docking and simulations, 3D structure-based deep learning models
+
+adeptly capture the complex spatial features of protein-ligand interactions; however, they
+
+are inherently constrained by the dependence on high-resolution crystallographic data. In
+
+2
+
+
+
+contrast, the emergence of large-scale datasets featuring sequential 1D representations of
+
+proteins and ligands enables the examination of the sequential molecular latent space for the
+
+screening of potential ligands.15–17 With the availability of large-scale sequential datasets,
+
+researchers have developed advanced models such as transformers to leverage these data to
+
+produce more accurate affinity predictions. The transformer architecture inherently relies
+
+on the attention mechanism, which excels at comprehending sequential data. Language
+
+models leverage this architecture, using unsupervised pretraining to capture nuanced and
+
+comprehensive relationships within the data while encoding the sequences.17–19 Elnaggar et
+
+al. pioneered the development of protein sequence-based language models such as ProtBERT,
+
+ProtAlbert, ProtElectra, and ProtT5, trained on expansive datasets UniRef, BFD comprising
+
+up to 393 billion amino acids. Interestingly, these models excel at attending to sequences that
+
+are spatially proximal, highlighting the importance of nearby amino acids over more distant
+
+ones.20 Subsequently, ligand-specific encoder models such as ChemBerta and Molformer were
+
+engineered to encode the SMILES representation of organic molecules.
+
+Building on these advancements, PLAPT successfully integrates BERT-based encoders
+
+for protein and ligand sequences to improve affinity predictions.21 However, the multimodal
+
+framework designed by Xu et al. demonstrates superior performance by incorporating ad-
+
+ditional binding pocket information through a residue graph network and employing cross-
+
+attention between the sequential and structural modalities. Yet, there remains an essential
+
+requirement for configurations that can achieve better predictive capabilities without the
+
+complications associated with the extensive data and computational demands of the MFE
+
+framework. The current study aims to address this research gap by exploring the syner-
+
+gistic utilization of pre-trained language models as a compelling alternative in the realm of
+
+protein-ligand binding affinity prediction. We present binding affinity prediction using lan-
+
+guage models (BAPULM), a framework that capitalizes on the integrated strengths of the
+
+ProtT5-XL-U5018 and Molformer22 encoder models to effectively estimate binding affinity
+
+with a predictive feedforward network. By utilizing these unsupervised pre-trained language
+
+3
+
+
+
+models, BAPULM achieves high accuracy in binding affinity prediction while maintaining
+
+computational efficiency. BAPULM captures stereochemical molecular space and efficiently
+
+screens potential ligands, achieving state-of-the-art performance in predicting the binding
+
+affinity.
+
+Methods
+
+BAPULM was developed to utilize the functionality of encoder-based language models, which
+
+require simple 1D string expressions as input, such as protein amino acid sequences and ligand
+
+SMILES representation, to predict affinity as shown in Figure 1.
+
+Figure 1: The overview of the BAPULM framework, which integrates the ProtT5-XL-U50
+for protein sequnces and Molformer for ligand SMILES for feature extraction module while
+encoding the sequnces. These embeddings are aligned through projection layers and fed into
+a feed-forward predictive network to predict binding affinity.
+
+Datasets
+
+The dataset employed to train BAPULM is the Binding Affinity Dataset23 from the Hugging
+
+Face platform, which includes the curated pair of 1.9M unique set of protein-ligand complexes
+
+with the experimentally determined binding affinity pKd. BAPULM operates on the subset
+
+4
+
+
+
+of the first 100k aminoacid sequences, canonical smiles, and binding affinity (pKd). Figure 2.
+
+illustrates the distribution of (a) protein sequence length with only a tiny portion ( 0.2%) of
+
+the sequences with a length greater than 3200 and (b) ligand SMILES with a small fraction
+
+( 0.3%) greater than 278.
+
+A dataset of protein-ligand feature embeddings, pKd, and normalized binding affinity was
+
+generated before model training using the encoder models described in Section 2.3. A split ra-
+
+tio of 90:10 was used to build training and validation sets, similar to the percentage employed
+
+in the previous work.21 Furthermore, the following benchmark datasets were acquired from
+
+the various works of literature: Benchmark1k2101,21 Test2016 290,24 and CSAR-HiQ 3625
+
+to evaluate BAPULM. Every benchmark dataset was meticulously examined to ensure no
+
+overlapping with the training dataset.21
+
+Figure 2: Distribution of (a) Protein sequence lengths range from 13 to 7073 amino acids,
+showing a skewed distribution with most sequences concentrated under 1000 amino acids.
+(b) Ligand SMILES string lengths range from 4 to 547 characters, also displaying a skewed
+distribution with the majority of strings being shorter than 100 characters.
+
+PreProcessing
+
+Macromolecules built from the same set of 20 amino acid repeating units to form unique
+
+sequences are proteins. As a part of preprocessing, the protein sequences were separated
+
+by spaces into single characters (A-Z) describing the monomeric residuals and to standard-
+
+ize the input sequences, the non-essential amino acids Asparagine (B), Selenocysteine (U),
+
+Glutamic acid (Z), and Pyrrolysine (O) were replaced by employing the substitution code
+
+5
+
+
+
+’X’.18,21 The canonical SMILES captures the structural stereochemistry of the organic mi-
+
+cro/macro molecules, ensuring a unique expression for every individual molecule, enabling a
+
+standardized representation.
+
+Model Architecture
+
+BAPULM’s architecture consists of two robust components that are synergistically utilized
+
+to predict pKd. Primarily, the feature encoding module harnessed the potency of ProtT5-XL-
+
+U50 for protein sequence and Molformer for ligand SMILES to generate consolidated vectors
+
+in latent space that constitute all the characteristic information about the proteins and
+
+ligands known as feature embeddings, which were subsequently utilized in the forthcoming
+
+module.
+
+Protein-ligand feature embedding
+
+The BAPULM model integrates the ProtT5-XL-U50 model, which is founded on the T5
+
+model,26 and differentiates itself from BERT by employing a unified transformer architec-
+
+ture (both encoder and decoder) while capturing the biophysical features of amino acids and
+
+the language of life.18,26 The preprocessed sequences are transformed into tokens following a
+
+comprehensive tokenization procedure, as mentioned in ProtTrans.18 This method involves
+
+padding and truncating the sequence to a maximum length of 3200, also a norm followed by
+
+previous work,21 generating a list of token IDs and their attending attention mask. Subse-
+
+quently, the tokens were passed to the encoder, and a mean pooling operation was performed
+
+on the last layer to generate fixed 1024-dimensional feature embeddings, enabling a compre-
+
+hensive understanding of the protein sequences with variable lengths. BAPULM further
+
+leverages Molformer, a state-of-the-art transformer-based encoder model, which effectively
+
+captures the spatial connection between the atoms in the SMILES sequence.22 The canonical
+
+SMILES of ligands were tokenized while processed through padding and truncating to an
+
+utmost length of 278, including micro and macromolecule ligands. The mean pooler output
+
+6
+
+
+
+from the encoder was a 768-dimensional embedding vector containing the stereochemical
+
+features of the ligand molecule. A detailed breakdown of the lengths of the protein-ligand
+
+sequences is available in Supporting Information Table 3 and 4.
+
+Therefore, the protein sequence was encoded into a 1024-dimensional embedding space
+
+while the ligand smiles to a 768-dimensional vector. To hereafter utilize these in the pre-
+
+diction module, both sets of feature vectors were then separately projected onto a lower-
+
+dimensional (512) latent space through a linear transformation employing ReLU (rectified
+
+linear unit) activation. These consolidated 512-dimensional feature vectors were concate-
+
+nated to form a 1024-dimensional input vector to the feed-forward network.
+
+Feed-Forward Predictive Network
+
+The concatenated 1024-dimensional combined feature vector was passed through four ReLU-
+
+activated linear layers, as shown in Figure 1. Before passing through the linear layers, the
+
+mini-batches of combined feature embeddings underwent batch normalization to improve
+
+training stability by reducing the internal covariance shift.27 Dropout was also applied to
+
+avert overfitting and create a robust model. The last layer output of the model yielded a
+
+normalized scalar value of the binding affinity(pKd).
+
+Training and Evaluation Metrics
+
+The previously generated feature dataset was utilized to train BAPULM, employing Mean
+
+Squared Error(MSE) as a loss function, which estimates the average squared difference be-
+
+tween the actual pKd and predicted affinity as shown below:
+
+MSE =
+1
+
+n
+
+n∑
+i=1
+
+(
+pKd,true,i − pKd,pred,i
+
+)2
+(1)
+
+This loss function was optimized utilizing the Adam optimizer to update the model’s
+
+weights. The training process was executed on an Nvidia RTX 2080 Ti with 11GB of memory
+
+7
+
+
+
+and completed in approximately four minutes. Additionally, the training hyperparameters
+
+are provided in the Supporting Information Table 5.
+
+To estimate the efficacy of BAPULM in predicting the negative log of the binding affin-
+
+ity dissociation constant (pKd) between protein-ligand complexes, we used the following
+
+evaluation metrics: Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and
+
+Pearson correlation coefficient (R) as shown in the equations 2, 3, 4, where pKdtrue , pKdpred
+
+correspond to the experimental and predicted affinities.
+
+MAE =
+1
+
+n
+
+n∑
+i=1
+
+∣∣pKd,true,i − pKd,pred,i
+
+∣∣ (2)
+
+RMSE =
+
+√√√√ 1
+
+n
+
+n∑
+i=1
+
+(
+pKd,true,i − pKd,pred,i
+
+)2
+(3)
+
+R =
+
+∑n
+i=1
+
+(
+pKd,true,i − µpKd,true
+
+)(
+pKd,pred,i − µpKd,pred
+
+)
+√∑n
+
+i=1
+
+(
+pKd,true,i − µpKd,true
+
+)2∑n
+i=1
+
+(
+pKd,pred,i − µpKd,pred
+
+)2
+(4)
+
+These metrics are widely adopted in regression studies and were established in published
+
+literature.12,15,24,28 In particular, the person correlation coefficient (R) was considered as
+
+one of the scoring power metrics in evaluating the performance.15 Again, both RMSE and
+
+MAE were employed to provide a comprehensive understanding of performance, as RMSE
+
+is optimal for errors with a normal distribution. In contrast, MAE is better suited for errors
+
+with a Laplacian distribution.29 Since these metrics evaluate predicted and experimental
+
+pKd values, the model’s output was denormalized onto the same scale as the experimental
+
+affinity to assess the performance.
+
+8
+
+
+
+Results and Discussion
+
+BAPULM’s unique ability to predict binding affinity originates from the inherent nature of its
+
+architecture, which effectively captures the intricate features of protein sequences and ligand
+
+molecular structures. As shown in Table 1, BAPULM constantly displayed an improvement
+
+in each metric compared to PLAPT,21 demonstrating its exceptional performance. Notably,
+
+BAPULM achieved a higher person correlation coefficient (R) with an increase of 9.6%
+
+(0.970) and 40.7% (0.960) on training and validation datasets, respectively, indicating a
+
+robust correlation between predicted and experimental pKd values. Also, the consolidated
+
+clustering of points along the identity line in the parity plots, as displayed in Figure 3(a,b),
+
+corroborates with the higher correlation coefficient.
+
+Table 1: Evaluation Metrics for BAPULM and PLAPT on Training and Validation Datasets
+
+Dataset Model R ↑ MSE ↓ RMSE ↓ MAE ↓
+
+Train
+BAPULM (this study) 0.970 0.157 0.397 0.245
+
+PLAPT 0.886 0.586 0.765 0.756
+
+Validation
+BAPULM (this study) 0.960 0.177 0.421 0.248
+
+PLAPT 0.683 1.466 1.211 0.949
+
+Furthermore, BAPULM exhibited remarkably lower error metrics, with a drop of 73.2%,
+
+48.1%, and 67.6% in MSE (0.157), RMSE (0.397), and MAE (0.245), respectively, on the
+
+training data Similarly, on the validation data, the model showed a decline of 87.9% in
+
+MSE (0.177), 65.3% in RMSE (0.421), and 73.9% in MAE (0.248), underscoring its predic-
+
+tive capability. This significant improvement across both training and validation datasets
+
+demonstrated the ability of the model to comprehensively capture the underlying interactions
+
+between the proteins and ligands, facilitating accurate predictions.
+
+Moreover, BAPULM’s predictive ability was further validated on three distinct bench-
+
+mark datasets, where it was compared to current state-of-the-art models, as shown in Table
+
+2. The evaluation metrics in Table 2 are computed as the mean and standard deviation,
+
+estimated using different seed values (2102, 256, 42), to accurately reflect the model’s per-
+
+9
+
+
+
+Figure 3: Evaluation of BAPULM on multiple datasets where the scatter plots depict the
+correlation between predicted and experimental pKd values. The datasets represented in-
+clude the (a) Training ,(b) Validation (c) Benchmark1k2101,(d) Test2016 290, and (e)CSAR-
+HiQ 36.
+
+formance during inference on test datasets with the trained model weights. Accordingly, on
+
+the benchmark2k1k dataset, BAPULM demonstrates improved evaluated values compared
+
+to PLAPT, with an increase in the R-value of 4.76% and a drop in RMSE, MAE by 19.1%
+
+and 37.2%.
+
+Table 2: Model Performance on Various Benchmark Datasets
+
+Dataset Model Data Representation Feature extraction R ↑ RMSE ↓ MAE ↓
+
+benchmark1k2101
+BAPULM (this study) seq + smiles canonical ProtT5-XL-U50 + Molformer 0.925 ± 0.043 0.745 ± 0.236 0.432 ± 0.013
+
+PLAPT seq + smiles canonical ProtBert + ChemBerta 0.883 0.922 0.688
+
+Test2016 290
+
+BAPULM (this study) seq + smiles canonical ProtT5-XL-U50 + Molformer 0.914 ± 0.004 0.898 ± 0.0172 0.645 ± 0.0166
+MFE Protein seq, 3D structure + ligand graph Multimodal between seq, structure + ligand graph 0.851 1.151 0.882
+
+PLAPT seq + smiles canonical ProtBert + ChemBerta 0.845 1.196 0.906
+CAPLA protein seq, ligand smiles + binding pocket 1D convolution block + Cross attention (pocket/ligand) 0.843 1.200 0.966
+
+DeepDTAF Protein seq, ligand smiles + binding pocket 1D Conv, 1D Conv + 3 Conv layers for binding pocket 0.789 1.355 1.073
+OnionNet Protein-ligand 3D grid 3D Conv + Neural Attention 0.816 1.278 0.984
+
+CSAR-HiQ 36
+
+BAPULM (this study) seq + smiles canonical ProtT5-XL-U50 + Molformer 0.8132 ± 0.012 1.328 ± 0.020 1.029 ± 0.022
+affinity pred - - 0.774 1.484 1.176
+PLAPT seq + smiles canonical ProtBert + ChemBerta 0.731 1.349 1.157
+CAPLA seq, smiles + binding pocket 1D convolution block + Cross attention (pocket/ligand) 0.704 1.454 1.160
+
+DeepDTAF seq + smiles 1D CNN on seq and smiles 0.543 2.765 2.318
+
+Xu et al.28 developed a multimodal feature extraction (MFE) framework that employed
+
+the following feature extraction module involving 1D protein sequence, binding pocket surface
+
+through point cloud, 3D structural features, and the ligand molecular graph. It slightly out-
+
+10
+
+
+
+performed PLAPT on the Test 2016 dataset by 0.6% improvement in correlation coefficient
+
+(R) while reducing the RMSE and MAE by 3.8% and 2.6%, becoming the current state-
+
+of-the-art affinity prediction model. However, BAPULM leveraging ProtT5-XL-U50, Mol-
+
+former substantially outperformed MFE’s performance by 7.4%, 21.8%,26.7% in R (0.914)
+
+, RMSE(0.898) and MAE (0.642), respectively. Additionally, BAPULM surpassed both se-
+
+quence and structure-based models on every metric. It outperformed CAPLA24 by 8.4% in
+
+R, 25.2% in RMSE, and 32.2% in MAE. Against DeepDTAF,7 BAPULM showed a higher
+
+linear correlation value with an increase of 15.9%, reduced RMSE by 33.7%, and decreased
+
+MAE by 39.9%. Furthermore, compared to OnionNet,15 it achieved a 12% higher R-value,
+
+a lower RMSE, and an MAE of 29.7% and 34.5%, respectively. This implies that BAPULM
+
+was successfully able to capture the linear relationship between pKd (experimental) and pKd
+
+(predicted), alongside being more accurate by achieving lower RMSE and MAE values.
+
+Finally, on the CSAR-HiQ 36 dataset, BAPULM yet again proved its exceptional predic-
+
+tive ability. Unlike PLAPT, BAPULM was able to capture the identity relationship between
+
+predicted and actual binding affinity, besides being accurate.21 BAPULM achieved a no-
+
+table scoring power value of 0.813, denoting an 11.2% improvement over PLAPT and 5.1 %
+
+against affinity pred.2 Similarly, the percentage improvement on the other two metrics was
+
+greater (MAE: 12.5%, RMSE: 10.5%) than PLAPT’s advancement over affinity pred (MAE:
+
+1.62%, RMSE:9.10%). Additionally, BAPULM outperforms other sequence-based models
+
+on R, RMSE, and MAE against CAPLA by 15.25%,8.67%,11.29%, and over DeepDTAF by
+
+48.7%, 51.96%, 55.59%, respectively.
+
+Furthermore, to gain insights into BAPULM’s excellent correlation capabilities, features
+
+from the penultimate layer were extracted and utilized to generate t-distributed Stochas-
+
+tic Neighbor Embedding (t-SNE) visualizations. t-SNE is a statistical method that maps
+
+high-dimensional data to a lower-dimensional space, conserving the local structure and en-
+
+abling the visualization in a lower dimension.30 To understand the influence of encoder-based
+
+language models in predicting binding affinity, we employed the combination of transformer
+
+11
+
+
+
+Figure 4: Embedding visualizations of protein-ligand binding affinity mapped onto features
+extracted from (a) BAPULM, (b) ProtBert & Molformer, and (c) ProtBert & ChemBerta,
+illustrating the latent space representations of each configuration on train dataset.
+
+encoders, such as protBERT, ChemBERTa, and Molformer, within the same model architec-
+
+ture, assessing their ability to capture the binding affinity between protein-ligand complexes
+
+effectively. BAPULM demonstrates a clear and distinct gradient transition in the t-SNE visu-
+
+alization, indicating a strong correlation between the latent representations of protein-ligand
+
+complexes and their binding affinities. In contrast, the distribution for the ProtBERT and
+
+MolFormer models is more dispersed, with less noticeable separation of embeddings based
+
+on pKd values. Similarly, the t-SNE visualization for ProtBERT and ChemBERTa shows
+
+a partial gradient transition but with some overlap between high-affinity and low-affinity
+
+complexes. Although both ProtBERT & MolFormer and ProtBERT & ChemBERTa exhibit
+
+some clustering of complexes according to pKd, the clustering is much more prominent in
+
+BAPULM. This is attributed to using rotary positional embeddings in Molformer during
+
+pretraining, enabling it to learn spatial relationships within the ligand. The synergistic com-
+
+bination of Molformer with ProtT5-XL-U50 in BAPULM effectively captured the binding
+
+affinity correlation, resulting in a clear and distinct separation of protein-ligand complexes
+
+in the t-SNE visualization. This separation is characterized by a smooth color gradient, indi-
+
+cating BAPULM’s ability to distinguish between complexes with varying binding affinities.
+
+12
+
+
+
+Conclusion
+
+This study introduces a sequence-based machine-learning model, BAPULM, that lever-
+
+ages transformer-based language models ProtT5-XL-U-50 and Molformer to predict protein-
+
+ligand binding affinity. BAPULM effectively captures the latent features of protein-ligand
+
+complexes without relying on structural data, enabling a robust representation by harness-
+
+ing the inherent information in biochemical sequences. This approach significantly enhances
+
+predictive accuracy while reducing computational complexity. The integration of Molformer
+
+with rotary positional encoding enhanced BAPULM’s ability to comprehend the stereo-
+
+chemistry of ligands without requiring detailed 3D configurations to demonstrate superior
+
+performance across diverse benchmarks. Our t-SNE visualizations reveal that synergistic
+
+integration of these encoders displayed a distinct clustering of complexes according to bind-
+
+ing affinity, substantiating BAPULM’s predictive capability. This framework presents an
+
+efficient alternative to conventional structure-based models, demonstrating the potential of
+
+using sequence-based models for rapid virtual screening.
+
+Data and Software Availability
+
+The necessary code and data used in this study can be accessed here: https://github.
+
+com/radh55sh/BAPULM.git
+
+Acknowledgement
+
+We acknowledge the contributions of various individuals and organizations that have made
+
+this study possible. This includes the providers of the datasets used in our research, the
+
+developers of PyTorch, and the teams behind ProtT5-XL-U50 and Molformer.
+
+13
+
+https://github.com/radh55sh/BAPULM.git
+https://github.com/radh55sh/BAPULM.git
+
+
+References
+
+(1) Mollaei, P.; Guntuboina, C.; Sadasivam, D.; Farimani, A. B. IDP-Bert: Predicting
+
+Properties of Intrinsically Disordered Proteins (IDP) Using Large Language Models.
+
+2024,
+
+(2) Blanchard, A. E.; Gounley, J.; Bhowmik, D.; Chandra Shekar, M.; Lyngaas, I.; Gao, S.;
+
+Yin, J.; Tsaris, A.; Wang, F.; Glaser, J. Language models for the prediction of SARS-
+
+CoV-2 inhibitors. International Journal of High Performance Computing Applications
+
+2022, 36, 587–602.
+
+(3) Patil, S.; Mollaei, P.; farimani, A. B. Forecasting COVID-19 New Cases Using Trans-
+
+former Deep Learning Model. medRxiv 2023, 2023.11.02.23297976.
+
+(4) Mollaei, P.; Barati Farimani, A. Unveiling Switching Function of Amino Acids in Pro-
+
+teins Using a Machine Learning Approach. Journal of Chemical Theory and Computa-
+
+tion 2023, 19, 8472–8480.
+
+(5) Du, X.; Li, Y.; Xia, Y. L.; Ai, S. M.; Liang, J.; Sang, P.; Ji, X. L.; Liu, S. Q. Insights
+
+into Protein–Ligand Interactions: Mechanisms, Models, and Methods. International
+
+Journal of Molecular Sciences 2016, 17 .
+
+(6) Adhav, V. A.; Saikrishnan, K. The Realm of Unconventional Noncovalent Interactions
+
+in Proteins: Their Significance in Structure and Function. 2024, 14, 22.
+
+(7) Wang, K.; Zhou, R.; Li, Y.; Li, M. DeepDTAF: a deep learning method to predict
+
+protein-ligand binding affinity. Briefings in Bioinformatics 22, 1–15.
+
+(8) Kötting, C.; Gerwert, K. Monitoring protein-ligand interactions by time-resolved FTIR
+
+difference spectroscopy. Methods in Molecular Biology 2013, 1008, 299–323.
+
+(9) Dalvit, C.; Gmür, I.; Rößler, P.; Gossert, A. D. Affinity measurement of strong ligands
+
+14
+
+
+
+with NMR spectroscopy: Limitations and ways to overcome them. Progress in Nuclear
+
+Magnetic Resonance Spectroscopy 2023, 138-139, 52–69.
+
+(10) Nienhaus, K.; Nienhaus, G. U. Probing Heme Protein-Ligand Interactions by
+
+UV/Visible Absorption Spectroscopy. Methods in Molecular Biology 2005, 305, 215–
+
+241.
+
+(11) Rossi, A. M.; Taylor, C. W. Analysis of protein-ligand interactions by fluorescence
+
+polarization. Nature Protocols 2011 6:3 2011, 6, 365–387.
+
+(12) Zhang, X.; Gu, Y.; Xu, G.; Li, Y.; Wang, J.; Yang, Z. HaPPy: Harnessing the Wisdom
+
+from Multi-Perspective Graphs for Protein-Ligand Binding Affinity Prediction (Student
+
+Abstract). Proceedings of the AAAI Conference on Artificial Intelligence 2023, 37,
+
+16384–16385.
+
+(13) Qi, C.; Mankinen, O.; Telkki, V. V.; Hilty, C. Measuring Protein-Ligand Binding by
+
+Hyperpolarized Ultrafast NMR. Journal of the American Chemical Society 2024, 146,
+
+5063–5066.
+
+(14) Zhao, J.; Cao, Y.; Zhang, L. Exploring the computational methods for protein-ligand
+
+binding site prediction. Computational and Structural Biotechnology Journal 2020, 18,
+
+417.
+
+(15) Zheng, L.; Fan, J.; Mu, Y. OnionNet: A Multiple-Layer Intermolecular-Contact-Based
+
+Convolutional Neural Network for Protein-Ligand Binding Affinity Prediction. ACS
+
+Omega 2019, 4, 15956–15965.
+
+(16) Wang, H.; Liu, H.; Ning, S.; Zeng, C.; Zhao, Y. DLSSAffinity: protein–ligand binding
+
+affinity prediction via a deep learning model. Physical Chemistry Chemical Physics
+
+2022, 24, 10124–10133.
+
+15
+
+
+
+(17) Guntuboina, C.; Das, A.; Mollaei, P.; Kim, S.; Barati Farimani, A. PeptideBERT: A
+
+Language Model Based on Transformers for Peptide Property Prediction. Journal of
+
+Physical Chemistry Letters 2023, 14, 10427–10434.
+
+(18) Elnaggar, A.; Heinzinger, M.; Dallago, C.; Rehawi, G.; Wang, Y.; Jones, L.; Gibbs, T.;
+
+Feher, T.; Angerer, C.; Steinegger, M.; Bhowmik, D.; Rost, B. ProtTrans: Towards
+
+Cracking the Language of Life’s Code Through Self-Supervised Learning. IEEE TRANS
+
+PATTERN ANALYSIS & MACHINE INTELLIGENCE 2021, 14 .
+
+(19) Kuan, D.; Farimani, A. B. AbGPT: De Novo Antibody Design via Generative Language
+
+Modeling. 2024,
+
+(20) Vig, J.; Madani, A.; Varshney, L. R.; Xiong, C.; Socher, R.; Rajani, N. F. BERTOL-
+
+OGY MEETS BIOLOGY: INTERPRETING ATTENTION IN PROTEIN LAN-
+
+GUAGE MODELS.
+
+(21) Rose, T.; Anand, N.; Shen, T. PLAPT: PROTEIN-LIGAND BINDING AFFINITY
+
+PREDICTION USING PRE-TRAINED TRANSFORMERS.
+
+(22) Ross, J.; Belgodere, B.; Chenthamarakshan, V.; Padhi, I.; Mroueh, Y.; Das, P. Large-
+
+Scale Chemical Language Representations Capture Molecular Structure and Properties.
+
+Nature Machine Intelligence 2021, 4, 1256–1264.
+
+(23) Glaser, J. Binding Affinity Dataset. https://huggingface.co/datasets/jglaser/binding affinity,
+
+2022.
+
+(24) Jin, Z.; Wu, T.; Chen, T.; Pan, D.; Wang, X.; Xie, J.; Quan, L.; Lyu, Q. CAPLA:
+
+improved prediction of protein-ligand binding affinity by a deep learning approach based
+
+on a cross-attention mechanism. Bioinformatics (Oxford, England) 2023, 39 .
+
+(25) Dunbar, J. B.; Smith, R. D.; Yang, C. Y.; Ung, P. M. U.; Lexa, K. W.; Khazanov, N. A.;
+
+Stuckey, J. A.; Wang, S.; Carlson, H. A. CSAR benchmark exercise of 2010: selection
+
+16
+
+
+
+of the protein-ligand complexes. Journal of chemical information and modeling 2011,
+
+51, 2036–2046.
+
+(26) Raffel, C.; Shazeer, N.; Roberts, A.; Lee, K.; Narang, S.; Matena, M.; Zhou, Y.; Li, W.;
+
+Liu, P. J. Exploring the Limits of Transfer Learning with a Unified Text-to-Text Trans-
+
+former. Journal of Machine Learning Research 2020, 21, 1–67.
+
+(27) Ioffe, S.; Szegedy, C. Batch Normalization: Accelerating Deep Network Training by
+
+Reducing Internal Covariate Shift. 2015,
+
+(28) Xu, S.; Shen, L.; Zhang, M.; Jiang, C.; Zhang, X.; Xu, Y.; Liu, J.; Liu, X. Surface-based
+
+multimodal protein–ligand binding affinity prediction. Bioinformatics 2024, 40 .
+
+(29) Hodson, T. O. Root-mean-square error (RMSE) or mean absolute error (MAE): when
+
+to use them or not. Geoscientific Model Development 2022, 15, 5481–5487.
+
+(30) Badrinarayanan, S.; Guntuboina, C.; Mollaei, P.; Farimani, A. B. Multi-Peptide: Mul-
+
+timodality Leveraged Language-Graph Learning of Peptide Properties. 2024,
+
+17
+
+
+
+Supporting Information
+
+Sequence Distributions
+
+Table 3, 4 present the detailed length distributions of protein sequences and ligand molecules
+
+in our dataset.
+
+Table 3: Distribution of Protein Sequences by Length Range
+
+Length Range Number of Protein Sequences
+
+1–1000 88,485
+1001–2000 10,598
+2001–3200 706
+3201–4000 123
+4001–7073 88
+
+Table 4: Distribution of Ligand Molecules by Length Range
+
+Length Range Number of Ligand Molecules
+
+1–100 94,831
+101–200 4,085
+201–278 753
+279–478 330
+479–547 1
+
+18
+
+
+
+Hyperparameters
+
+Table 5 summarizes the key hyperparameters, detailing essential configurations utilized for
+
+training the model.
+
+Table 5: BAPULM model hyperparameters
+
+Hyperparameters Value
+
+Seed 2102
+Loss Function MSE
+Optimizer Adam
+Learning Rate 1e-3
+Batch size 256
+Epochs 60
+Scheduler ReduceLROnPlateau
+Scheduler Patience 5
+Scheduler Factor 0.2
+
+19
+
+

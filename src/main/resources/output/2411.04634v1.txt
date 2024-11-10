@@ -1,0 +1,2621 @@
+
+More variable circadian rhythms in epilepsy: a retrospective
+
+cross-sectional study using long-term heart rate recordings
+
+from wearable sensors
+
+Billy C. Smith1∗, Christopher Thornton1, Rachel E. Stirling4,
+
+Guillermo M. Besné1, Nathan Evans1, Peter N. Taylor1,2,3,
+
+Philippa J. Karoly4, Yujiang Wang1,2,3∗
+
+November 8, 2024
+
+1. CNNP Lab (www.cnnp-lab.com), Newcastle University, Newcastle upon Tyne, United King-
+
+dom
+
+2. Faculty of Medical Sciences, Newcastle University, Newcastle upon Tyne, United Kingdom
+
+3. UCL Queen Square Institute of Neurology, Queen Square, London, United Kingdom
+
+4. Graeme Clark Institute and Department of Biomedical Engineering, The University of Mel-
+
+bourne, Australia
+
+* b.smith16@ncl.ac.uk or Yujiang.Wang@ncl.ac.uk
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+63
+
+4v
+1 
+
+ [
+q-
+
+bi
+o.
+
+N
+C
+
+] 
+ 7
+
+ N
+ov
+
+ 2
+02
+
+4
+
+
+
+Abstract
+
+Background: The circadian rhythm aligns physiology and behaviour with the 24-hour light-dark
+
+cycle, and its disruption is linked to neurological disorders such as epilepsy. However, how to best
+
+quantify circadian disruption remains unclear, as it can manifest across various properties and
+
+timescales. A promising but under-explored approach is to assess the intra-individual variability
+
+in circadian rhythms over timescales of weeks to years. This is yet to be studied in epilepsy.
+
+Methods: We retrospectively used wearable smartwatch data (Fitbit) from 143 people with
+
+epilepsy (PWE) and 31 controls. For each participant, we extracted the circadian oscillation un-
+
+derlying their heart rate time series and analysed the intra-individual variability of three circadian
+
+properties: period, acrophase, and amplitude.
+
+Findings: We found increased intra-individual variability in period (77 min vs. 62 min,
+
+z = 3.32, p < 0.001) and acrophase (68 min vs. 54 min, z = 2.97, p = 0.003) for PWE compared
+
+to controls, but not in amplitude (1.98 bpm vs. 2.05 bpm, z = −0.66, p = 0.51). For PWE, we did
+
+not find any correlations between seizure frequency and intra-individual variability in circadian
+
+properties, or any difference between weeks with and without seizures.
+
+Interpretation: This finding indicates that the circadian rhythm of heart rate is more variable
+
+for people with epilepsy and that this can be detected using a wearable device. However, we were
+
+unable to find any associations with seizure frequency or occurrence, suggesting intra-individual
+
+variability could be another manifestation of epilepsy aetiology. Future work should investigate the
+
+combined role of anti-seizure medications, demographics, co-morbidities, and health behaviours in
+
+driving the increased intra-individual variability of circadian properties in epilepsy.
+
+Funding:
+
+Data collection for the study was supported by the Australian Government National Health
+
+and Medical Research Council (Grant #1178220). P.N.T. and Y.W. are both supported by UKRI
+
+Future Leaders Fellowships (MR/T04294X/1, MR/V026569/1).
+
+2
+
+
+
+1 Introduction
+
+The circadian rhythm aligns our physiology and behaviour to the 24-hour environmental light-dark
+
+cycle. A stable circadian rhythm is thought to be important for overall health, and disruptions
+
+to the circadian rhythm have been associated with various conditions, including sleep disorders
+
+(Burgess et al., 2017; Fishbein et al., 2021), psychiatric disorders (Ali et al., 2023; Carr, 2018; Song
+
+et al., 2024), and neurological disorders (Logan and McClung, 2019). However, it remains unclear
+
+how circadian disruption should be assessed over the long term, with different suggestions across
+
+different contexts (Asgari-Targhi and Klerman, 2019; Vetter, 2018).
+
+One promising and easy-to-interpret approach is to assess the intra-individual variability of
+
+some circadian rhythm properties, such as amplitude, measured across multiple days. This ap-
+
+proach has also been referred to as ‘day-to-day variability’ (Fossion et al., 2017; Garćıa-Iglesias
+
+et al., 2023) or ‘circadian variability’ Carr (2018). Intra-individual variability is designed to de-
+
+tect persistent irregularities in circadian rhythms over long-term physiological recordings. Such
+
+data are most easily obtained from peripheral measures using wearable devices (such as heart
+
+rate, physical activity, and skin temperature), making this approach a cost-effective and scalable
+
+methodology to study circadian disruption, complementary with existing methods.
+
+Epilepsy is a neurological disorder characterized by recurrent seizures (Devinsky et al., 2018),
+
+which are influenced by sleep patterns (Bazil, 2003; Degen, 1980; Dell’Aquila and Soti, 2022; Derry
+
+and Duncan, 2013; Grayson and DeWolfe, 2018) and the circadian rhythm (Bazhanova, 2022; Gas-
+
+coigne et al., 2023; Hofstra and de Weerd, 2009; Karoly et al., 2021; Stirling et al., 2023; Thornton
+
+et al., 2024). However, the impact of persistent, long-term circadian disruption on epilepsy remains
+
+unstudied. We propose using an intra-individual variability assessment on data from people with
+
+epilepsy (PWE), which could provide valuable insights for clinical applications, such as enhancing
+
+wearable seizure prediction and guiding chronotherapeutic treatments (Bazhanova, 2022), includ-
+
+ing ASM alert systems. Additionally, demonstrating the effectiveness of variability in circadian
+
+patterns as a measure of disruption in epilepsy could support its broader use as a clinical biomarker
+
+in wearable devices.
+
+Here, we measure the intra-individual variability of three descriptive properties of the circadian
+
+3
+
+
+
+rhythm of heart rate (CRHR) using long-term wearable-derived heart rate recordings from 143
+
+PWE and 31 controls. We seek to establish whether variability is greater in epilepsy and, if so,
+
+whether a relationship exists between variability and seizure frequency and occurrence.
+
+2 Methods
+
+2.1 Participant Data
+
+Wearable smartwatch data from people with epilepsy (PWE) and controls were used retrospec-
+
+tively, sourced from the observational “Tracking Seizure Cycles” study (Karoly et al., 2021). Adults
+
+with epilepsy were recruited to this study by referral from collaborating epilepsy specialists in
+
+tertiary referral epilepsy clinics. Inclusion criteria were diagnosis of epilepsy from a specialised
+
+epileptologist, uncontrolled/partially controlled seizures as determined by their neurologist, and
+
+that they were deemed capable of keeping a reliable seizure diary. Additionally, Karoly et al. (2021)
+
+recruited control participants without epilepsy from their colleagues, friends and relatives, with
+
+no randomisation or blinding performed. Their study was approved by the St Vincent’s Hospital
+
+Human Research Ethics Committee (HREC 009.19). All participants provided written informed
+
+consent.
+
+For both PWE and controls, data were collected via a wearable smartwatch (Fitbit), continu-
+
+ously measuring heart rate via photoplethysmography (PPG) at 5 s resolution. PWE participating
+
+also used a mobile device to manually report clinically-apparent seizures using the freely-available
+
+Seer App for either the entirety, or a subset of, the study period.
+
+Before processing, data was available for n=164 PWE and n=36 controls.
+
+Our retrospective analysis of this data was approved by the Newcastle University Ethics Com-
+
+mittee (40679/2023).
+
+4
+
+
+
+Time of Day
+2a
+
+m
+4a
+
+m
+6a
+
+m
+8a
+
+m
+10
+
+am
+12
+
+pm 2p
+m
+
+4p
+m
+
+6p
+m
+
+8p
+m
+
+10
+pm 12
+
+am
+
+150
+
+140
+
+130
+
+120
+
+110
+
+100
+
+90
+
+80
+
+70
+
+60
+
+50
+
+Be
+at
+
+s 
+Pe
+
+r M
+in
+
+ut
+e 
+
+(B
+PM
+
+)
+Amplitude
+
+Period
+
+Acrophase
+>
+
+>
+
+>
+
+Period: 
+Acrophase:
+Amplitude:
+
+~24h
+2pm
+
+~65bpm
+
+Figure 1: An illustrative schematic of one ‘cycle’ of the circadian rhythm of heart rate (CRHR) with
+the 3 descriptive properties used in this study labelled. Period reflects the duration of one cycle of
+the modelled CRHR (approximately 24 hours). Acrophase is defined as the time-of-day at peak cycle
+magnitude, reflecting rhythm ‘timing’. Amplitude is a measure of circadian ‘strength’, defined as the
+difference in magnitude between cycle peak and previous trough.
+
+2.2 Measuring circadian disruption using physiological time-series: the
+
+‘intra-individual variability’ approach
+
+Capturing the intra-individual variability of the circadian rhythm involves the daily measurement
+
+of three descriptive circadian properties, which are illustrated in Figure 1. For each participant,
+
+the circadian rhythm of heart rate (CRHR) was extracted from their wearable recording. Three
+
+circadian properties were then computed for each daily cycle in the CRHR. Finally, estimates of
+
+the average (statistical mean) and variability (statistical standard deviation) of each property over
+
+the recording were produced. Figure 2 provides an overview of this process, and further details
+
+are provided below and in Supplementary S1.
+
+2.2.1 Accounting for gaps in recording
+
+To calculate the circadian properties of the heart rate, a continuous signal was required. Any
+
+gaps shorter than 8 hours were linearly interpolated, and the signal was split up into ‘runs’ of data
+
+5
+
+
+
+between remaining gaps (Figure 2B). 26 participants (21 PWE, 5 control) without any ‘runs’ longer
+
+than 7 days were excluded from further analysis. A more detailed explanation and justification for
+
+this approach is provided in Supplementary S1.3.
+
+2.2.2 Extracting the circadian rhythm
+
+For each ‘run’ of data, singular spectrum analysis (SSA) was applied to decompose the continu-
+
+ous raw heart-rate time series into components of distinct frequency (Figure 2C-E(i)). SSA was
+
+found to be the best-performing algorithm from a set of similar methods (see Supplementary S1.1).
+
+To determine which component represented the CRHR, Fourier analysis was performed on each
+
+component to determine its central frequency. The component with period (inverse of frequency)
+
+closest to 24 hours was selected as the circadian component (Figure 2E(i)).
+
+2.2.3 Computing circadian properties
+
+The extracted CRHR was then split-up into the individual (approximately daily) circadian cycles
+
+(Figure 2E), and the period, acrophase and amplitude were computed for each cycle (Figure 2G).
+
+To achieve this, the Hilbert transform was applied to the extracted CRHR, producing a complex-
+
+valued analytic signal, from which the circadian “phase series” (Supplementary S1.2), a measure
+
+of circadian cycle progression, was derived (Figure 2E(ii)). The rhythm was then split into daily
+
+cycles at each trough in the phase-series. For each individual cycle, period was computed from the
+
+duration between the first and last time point of the cycle, acrophase as the time of day at zero
+
+cycle phase, and amplitude as the difference between magnitude at acrophase and trough (Figure 1).
+
+2.2.4 Calculating the intra-individual variability of circadian properties
+
+Circadian properties for each cycle were grouped into consecutive, non-overlapping segments of
+
+seven days. The standard deviation was calculated across all seven days in each segment and
+
+property (Figure 2G), and the summary intra-individual variability was calculated from the average
+
+6
+
+
+
+of the standard deviations across all segments. The intra-individual average of circadian properties,
+
+only used for reference later, was calculated in the same way from the average of the means across
+
+segments. The fixed segment size of seven days prevents any bias introduced by varying recording
+
+duration and ‘run’ length between participants when calculating the mean and standard deviation
+
+(see Supplementary S1.3 for more detail).
+
+2.3 Statistical Analysis
+
+We calculate p-values for reference only, and all reported values are raw, uncorrected by FDR. A
+
+two-sided Wilcoxon rank-sum test was used to compare the intra-individual average and variability
+
+of each circadian property between PWE and controls. To account for the imbalance between PWE
+
+and control sample sizes, a random sub-sampling test was performed over 10,000 iterations where
+
+the whole control sample was compared to a random sub-sample of 28 PWE using the same
+
+statistical method as above. Sampling was without replacement within an iteration, but with
+
+replacement across iterations.
+
+Pearson’s correlation was used to test whether an individual’s seizure frequency was correlated
+
+with their intra-individual variability calculated over segments occurring between the start and end
+
+of their seizure diary. Seizure frequency was defined in terms of the average number of seizures per
+
+week of recording data post-segmenting. The distribution of seizure frequency was highly skewed,
+
+so a log10 transformation was applied for the correlation analysis.
+
+To test whether having one or more seizures in a seven-day period was associated with greater
+
+intra-individual variability, we classified each 7-day segment as either seizure-containing or seizure-
+
+free according to the seizure diary. We then calculated the Area Under the Curve (AUC) from the
+
+receiver operator characteristic (ROC) curve to compare the variability distributions in seizure-
+
+containing versus seizure-free segments for each individual. The AUC score indicates the separa-
+
+bility of these two distributions: a value of 0.5 shows no difference in variability between seizure-
+
+containing and seizure-free weeks, values from 0.5 to 1.0 suggest higher variability in seizure-
+
+containing weeks, and values from 0 to 0.5 indicate greater variability in seizure-free weeks. Thus,
+
+each circadian property yields a single AUC value, representing its association with seizure activity.
+
+7
+
+
+
+2023-10-17 2023-10-21 2023-10-25 2023-10-29
+
+2023-10-17 2023-10-21 2023-10-25 2023-10-29
+
+π
+-π
+
+Mon Tue Wed Thu Fri Sat Sun Mon Tue Wed Thu Fri Sat Sun Mon Tue
+
+Mon Tue Wed Thu Fri Sat Sun Mon Tue Wed Thu Fri Sat Sun Mon Tue
+
+Extract Circadian Rhythm using SSA
+
+Calculate Circadian Properties for Each Cycle
+Period (h)
+
+Acrophase (h:mm, pm)
+
+Amplitude (bpm)
+
+Split Rhythm into Cycles using Hilbert-derived Phase Minima
+
+Original Heart Rate Data (~ 6 years)
+
+MEAN, STD 
+
+20.3 24.2 23.3 23.0 23.7 24.7 24.8 23.3 22.2 23.3 25.2 24.7 24.2 22.8 23.2 23.4 1.5
+Mon Tue Wed Thu Fri Sat Sun Mon Tue Wed Thu Fri Sat Sun Mon
+
+2:54 3:35 3:48 2:54 2:11 2:48 3:54 4:23 3:05 3:35 2:11 3:54 4:06 3:54 3:05 3:09 34
+Mon Tue Wed Thu Fri Sat Sun Mon Tue Wed Thu Fri Sat Sun Mon
+
+10.0 11.6 9.3 8.0 6.8 9.2 9.6 8.2 7.0 9.9 10.7 8.8 6.6 7.8 7.5 9.2 1.5Mon Tue Wed Thu Fri Sat Sun Mon Tue Wed Thu Fri Sat Sun Mon
+
+h h
+
+h:mm m
+
+bpm bpm
+
+Split Into Runs
+No Missing Data Gaps < 8h
+Min Length = 3 days, Max Length = 1 year
+
+For each run ...
+
+For each property, compute mean of MEAN and mean of STD across all runs/segments.
+
+MEAN, STD 
+
+23.6 1.1
+
+3:19 59
+
+8.4 1.5
+
+h h
+
+h:mm m
+
+bpm bpm
+
+Run 156 (~ 16 days) 
+
+Run 0 (~ 60 days) 
+
+Run 1 (~ 88 days) 
+
+Run 155 (~ 10 days) 
+
+...
+
+...
+
+...
+
+Run 156 (Raw)
+
+Run 156 (Circadian Rhythm)
+
+...
+
+Segment 1 Segment 2
+
+Segment 1 Segment 2
+
+Discarded
+
+bp
+m
+
+bp
+m
+
+A
+
+B
+
+C
+
+D
+
+E(i)
+
+E(ii)
+
+G
+
+Figure 2: Participant heart rate data (A) was split into runs between >8h gaps of missing data (B).
+SSA extracted the CRHR from each run (C to E(i)). Troughs in the circadian phase (E(ii)) were used
+as reference points for splitting the extracted CRHR into individual cycles. Circadian properties were
+calculated for each cycle and grouped into segments of seven days (G). The mean and standard deviation
+of each property was then calculated within each 7-day segment. The mean across all segments in a
+subject produces the final intra-individual average and variability values. The intra-individual variability
+of acrophase across the two example segments would be (34 + 59)/2 = 46.5 minutes.
+
+8
+
+
+
+3 Results
+
+143 people with epilepsy (PWE) and 31 controls remained after processing. Table 1 lists the
+
+demographics and other metadata of this cohort. An average of 163 hours (sd = 183) were discarded
+
+for each subject, resulting in an average recording duration of 443.9 days (sd = 530.9) for PWE
+
+and 221.7 days (sd = 257.0) for controls. There was no relationship between (post-segmenting)
+
+recording duration and intra-individual variability in any circadian property (Supplementary S2).
+
+There were no age (t = −0.215, p = 0.84) or sex (χ2 = 2.777, p = 0.427) differences between PWE
+
+and controls, and there was no association between intra-individual variability in any circadian
+
+property and age or sex (see Supplementary S4).
+
+Controls Epilepsy Statistic p-value
+N 31 143
+Age mean (years) 37.0 38.6
+
+-0.215 0.84Age sd (years) 16.9 13.3
+Age unavailable 26 39
+Sex female 15 87
+
+2.777 0.427
+Sex male 13 39
+Sex other 0 1
+Sex unavailable 3 16
+Recording Duration mean (days) 221.7 443.9
+
+1685 0.037
+Recording Duration sd (days) 257.0 530.9
+Focal 41
+Generalised 13
+Mixed 3
+Total Number of Seizures 6110
+Average Number of Seizures 42.7
+
+Table 1: Demographic and clinical characteristics of the cohort. The distribution of age was com-
+pared between PWE and controls using the independent two-sided Welch’s t-Test. Sex comparison was
+performed using the Chi-square test of independence. Duration comparison was performed using the
+two-sided Mann-Whitney U test.
+
+3.1 The circadian rhythm of heart rate is more variable for people
+
+with epilepsy
+
+The intra-individual variability in period (77min vs. 62 min, z = 3.32, p < 0.001) and acrophase
+
+(68 min vs. 54 min, z = 2.97, p < 0.001) was increased for PWE compared to controls (Figure 3).
+
+9
+
+
+
+However, there was no difference in intra-individual variability of amplitude between PWE and
+
+controls (∼2bpm, z = −0.66, p = 0.51).
+
+For reference, we also present the results for intra-individual average in Figure 3, but found
+
+no substantial difference between PWE and controls (period: z = 0.36, p = 0.72; acrophase:
+
+z = 0.95, p = 0.34; amplitude: z = −1.52, p = 0.13).
+
+All results held after applying random sub-sampling to equal numbers of PWE and controls
+
+(see Supplementary S3).
+
+3.2 Intra-individual variability of circadian properties does not corre-
+
+late with increased seizure frequency
+
+Next, the correlation between seizure frequency and intra-individual variability was investigated.
+
+PWE without seizures recorded, or with outlying intra-individual variability (absolute z-score >
+
+3) in any property were removed. We found that intra-individual variability was not correlated
+
+with seizure frequency (R2 << 0.1).
+
+3.3 The intra-individual variability of circadian properties does not
+
+differ between weeks with and without seizures
+
+Finally, we investigated whether either seizure-containing or seizure-free weeks contributed more to
+
+intra-individual variability of circadian properties. An AUC was calculated between variability in
+
+seizure-containing and seizure-free weeks for each property, resulting in three AUC values (period,
+
+acrophase, amplitude) for each participant. Figure 5A shows the AUCs and the distributions
+
+they were calculated from for an example participant. Figure 5B shows the AUC values for each
+
+property across all participants. The distributions are centered around 0.5 indicating that, at the
+
+population level, the circadian period, acrophase and amplitude variability does not differ in weeks
+
+where seizures occur.
+
+10
+
+
+
+Period Mean
+z=-0.36, p=0.719
+
+Period Std
+z=3.317, p<0.001
+
+23.0
+
+23.5
+
+24.0
+
+24.5
+
+25.0
+
+H
+o
+u
+rs
+
+ 
+(h
+)
+
+Controls (n=31)
+
+PWE (n=143)
+
+Acrophase Mean
+z=0.954, p=0.34
+
+Acrophase Std
+z=2.967, p=0.003
+
+5:00
+
+10:00
+
+15:00
+
+20:00
+
+T
+im
+e
+
+ 
+o
+f 
+D
+a
+y
+ 
+(h
+h
+:m
+m
+)
+
+Amplitude Mean
+z=-1.52, p=0.128
+
+Amplitude Std
+z=-0.663, p=0.508
+
+5
+
+10
+
+15
+
+20
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+(b
+p
+m
+)
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+H
+o
+u
+rs
+
+ 
+(h
+)
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+H
+o
+u
+rs
+
+ 
+(h
+)
+
+1
+
+2
+
+3
+
+4
+
+5
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+(b
+p
+m
+)
+
+Figure 3: Comparison of the distribution of the intra-individual average and variability of
+circadian properties between PWE and controls. Period, acrophase and amplitude are defined in
+Figure 1. The two-sided Wilcoxon rank-sum test was used for comparison between PWE and Controls.
+
+11
+
+
+
+0.5 1.0 1.5 2.0 2.5
+
+Period Std (h)
+
+0.1
+
+1.0
+
+10.0
+S
+e
+iz
+u
+re
+
+ 
+F
+re
+q
+u
+e
+n
+c
+y
+ 
+(s
+e
+iz
+u
+re
+s
+/w
+e
+e
+k
+) R2 = 0.001, r = − 0.024,  p = 0.793
+
+PWE (n=117)
+
+0.5 1.0 1.5 2.0
+
+Acrophase Std (h)
+
+0.1
+
+1.0
+
+10.0
+
+S
+e
+iz
+u
+re
+
+ 
+F
+re
+q
+u
+e
+n
+c
+y
+ 
+(s
+e
+iz
+u
+re
+s
+/w
+e
+e
+k
+) R2 = 0.0, r = 0.0,  p = 0.997
+
+1.0 1.5 2.0 2.5 3.0 3.5
+
+Amplitude Std (bpm)
+
+0.1
+
+1.0
+
+10.0
+
+S
+e
+iz
+u
+re
+
+ 
+F
+re
+q
+u
+e
+n
+c
+y
+ 
+(s
+e
+iz
+u
+re
+s
+/w
+e
+e
+k
+) R2 = 0.01, r = − 0.101,  p = 0.279
+
+Figure 4: Scatter plots between intra-individual variability of circadian properties and
+seizure frequency. Seizure frequency is in units of seizures per week on log10 scale.
+
+12
+
+
+
+Period Std Acrophase Std Amplitude Std
+0.00
+
+0.25
+
+0.50
+
+0.75
+
+1.00
+
+PWE (n=57)
+
+0.5
+
+1.0
+
+1.5
+
+Pe
+rio
+
+d
+St
+
+d
+
+AUC = 0.67
+
+0.5
+
+1.0
+Ac
+
+ro
+ph
+
+as
+e
+
+St
+d
+
+AUC = 0.69
+
+1
+
+2
+
+3
+
+4
+
+Am
+pl
+
+itu
+de
+
+St
+d
+
+AUC = 0.62
+
+MelbourneEpilepsy148
+Weeks without Seizures (n=20)
+Weeks with Seizures (n=17)
+
+AU
+C
+
+A
+
+B
+Variability
+
+greater
+in weeks with
+
+seizures
+
+Variability
+lower
+
+in weeks with
+seizures
+
+Figure 5: Comparison of the variability in each circadian property in seizure-containing
+weeks vs. seizure-free weeks. (A): Box and scatter plots comparing the distribution of variability in
+each circadian property in seizure-containing segments (turquoise) vs. seizure-free segments (pink), for one
+example participant. Each segment corresponds to 1-week of data (Figure 2). The AUC was calculated
+between the distributions of variability in each circadian property. (B): The distribution of AUC values
+across all participants for each circadian property. For visual clarity, a dotted line joins the AUC of one
+comparison (acrophase variability) for one participant in (A) to its approximate corresponding position
+in (B).
+
+13
+
+
+
+4 Discussion
+
+This study analysed the intra-individual variability in three properties of the circadian rhythm
+
+using long-term wearable heart rate data from 143 PWE and 31 controls. We found an increased
+
+variability in circadian period and acrophase for PWE, providing initial evidence of circadian
+
+disruption in epilepsy. However, we found no evidence of an association between intra-individual
+
+variability and seizure frequency, or occurrence at the population level.
+
+Circadian disruption has a bi-directional relationship with health (Abbott et al., 2020) and
+
+is associated with mortality over the long term (Zuurbier et al., 2014). It is therefore likely to
+
+have compounding health implications for PWE, so the results presented here should motivate the
+
+development of interventions to reduce the co-morbidities associated with circadian disruption in
+
+PWE (Latreille et al., 2018).
+
+We found no evidence of any link with seizures but consider a link with epilepsy aetiology
+
+possible. Evidence from ex vivo tissue (Wu et al., 2021), and intracranial EEG (Thornton et al.,
+
+2024) indicates that tissue associated with epilepsy pathology may have an impaired circadian
+
+‘clock’, which could also have downstream effects on the expression of the circadian rhythm in
+
+heart rate. Co-morbidities of epilepsy such as anxiety and depression (Keezer et al., 2016; Leidy
+
+et al., 1999) are also themselves associated with circadian disruption (Walker et al., 2020), and
+
+so also may contribute to the observed difference. Within the epilepsy cohort we found that
+
+intra-individual variability has a wide range and considerable overlap with the control distribution.
+
+Future work should investigate the extent to which the co-morbidities mentioned above can explain
+
+these findings.
+
+Our approach has some key limitations. Firstly, while heart rate follows a strong circadian
+
+cycle (Vandewalle et al., 2007), bouts of activity such as exercise or stress can cause ‘behavioural
+
+masking’, interfering with measurement of the circadian state (Cui et al., 2023). Secondly, our
+
+analysis does not include some key variables that may play a role in the intra-individual variability
+
+we observe. Anti-seizure medications (ASMs) have been reported to both stabilise and disrupt
+
+sleep (Bazil, 2003; Derry and Duncan, 2013), and so could explain the increased intra-individual
+
+variability we see in PWE as well as variability between subjects. Demographics such as age and
+
+14
+
+
+
+sex are also known to associate with circadian parameters (Logan and McClung, 2019; Natarajan
+
+et al., 2020). We did observe a correlation between age and intra-individual averages of acrophase
+
+and amplitude as expected based on previous literature, but not with variability in any property.
+
+We did not find any sex differences with respect to circadian average or variability. Despite
+
+the noise- and accuracy-associated problems of wearable measures (such as PPG-derived heart
+
+rate), their clinical ubiquity and relative convenience arguably justifies their usage in this context.
+
+Future work should take advantage of multi-modal wearables, integrating heart rate with activity
+
+and temperature for circadian state estimation, for example.
+
+y, the role of sleep disruption in epilepsy is well noted (Bazhanova, 2022; Daley and DeWolfe,
+
+2018; Derry and Duncan, 2013; Foldvary-Schaefer and Grigg-Damberger, 2006; Grayson and De-
+
+Wolfe, 2018; Hofstra and de Weerd, 2009; Touchon et al., 1991), and while a distinct process
+
+physiologically (Hofstra and de Weerd, 2009; Meyer et al., 2022; Vetter, 2018), it is intrinsically
+
+tied to the circadian rhythm. As the circadian behaviour of heart rate is tied to sleep, its variability
+
+may primarily driven by sleep disruptions. Future studies should incorporate sleep quality ques-
+
+tionnaires and wearable sleep tracking to distinguish between sleep-related variability vs. more
+
+broad intra-individual variability of the circadian rhythm.
+
+In conclusion, we found increased variability of the circadian rhythm of heart rate in epilepsy,
+
+which may be indicative of a pathological circadian rhythm disruption in epilepsy as detected using
+
+a commercial wearable device. The driving effect of this remains unclear; we were unable to detect
+
+any relationship with seizures, so we instead propose that co-morbidities, ASMs, sleep disruption
+
+or some other confounds may be involved, or that it is an additional effect - alongside seizures - of
+
+the cellular dysfunction underlying the aetiology found in some epilepsies. We hope our findings
+
+encourage further research of this phenomenon and whether it has application in seizure prediction
+
+and chronotherapy in epilepsy, and further encourage use of intra-individual variability of circadian
+
+properties as a wearable biomarker for disruption in other conditions.
+
+15
+
+
+
+5 Data Availability
+
+All wearable heart rate recordings and seizure metadata are available upon request to PK (karoly.
+
+p@unimelb.edu.au). A subset of this data is already publicly available on Figshare (DOI10.26188/
+
+15109896) from a previous publication (Karoly et al., 2021). We would like to acknowledge and
+
+thank the participants of this study.
+
+References
+
+Sabra M. Abbott, Roneil G. Malkani, and Phyllis C. Zee. Circadian disruption and human health:
+
+A bidirectional relationship. European Journal of Neuroscience, 51:567–583, 1 2020. ISSN 1460-
+
+9568. doi: 10.1111/EJN.14298. URL https://onlinelibrary.wiley.com/doi/10.1111/ejn.
+
+14298.
+
+Farzana Z. Ali, Ramin V. Parsey, Shan Lin, Joseph Schwartz, and Christine DeLorenzo. Cir-
+
+cadian rhythm biomarker from wearable device data is related to concurrent antidepressant
+
+treatment response. npj Digital Medicine, 6(1):1–11, April 2023. ISSN 2398-6352. doi: 10.1038/
+
+s41746-023-00827-6. URL https://www.nature.com/articles/s41746-023-00827-6.
+
+Ameneh Asgari-Targhi and Elizabeth B Klerman. Mathematical modeling of circadian rhythms.
+
+Wiley interdisciplinary reviews. Systems biology and medicine, 11(2):e1439, March 2019. ISSN
+
+1939-5094. doi: 10.1002/wsbm.1439. URL https://www.ncbi.nlm.nih.gov/pmc/articles/
+
+PMC6375788/.
+
+Elena D. Bazhanova. Desynchronosis: Types, Main Mechanisms, Role in the Pathogenesis of
+
+Epilepsy and Other Diseases: A Literature Review. Life (Basel, Switzerland), 12(8):1218, August
+
+2022. ISSN 2075-1729. doi: 10.3390/life12081218.
+
+Carl W. Bazil. Epilepsy and sleep disturbance. Epilepsy & Behavior, 4:39–45, October 2003.
+
+ISSN 1525-5050. doi: 10.1016/j.yebeh.2003.07.005. URL https://www.sciencedirect.com/
+
+science/article/pii/S1525505003001999.
+
+16
+
+karoly.p@unimelb.edu.au
+karoly.p@unimelb.edu.au
+DOI 10.26188/15109896
+DOI 10.26188/15109896
+https://onlinelibrary.wiley.com/doi/10.1111/ejn.14298
+https://onlinelibrary.wiley.com/doi/10.1111/ejn.14298
+https://www.nature.com/articles/s41746-023-00827-6
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6375788/
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6375788/
+https://www.sciencedirect.com/science/article/pii/S1525505003001999
+https://www.sciencedirect.com/science/article/pii/S1525505003001999
+
+
+Helen J. Burgess, Margaret Park, James K. Wyatt, Muneer Rizvydeen, and Louis F. Fogg. Sleep
+
+and circadian variability in people with delayed sleep-wake phase disorder versus healthy con-
+
+trols. Sleep Medicine, 34:33–39, June 2017. ISSN 1878-5506. doi: 10.1016/j.sleep.2017.02.019.
+
+O Carr. The relationship between circadian rhythms and mood symptoms in bipolar disorder and
+
+borderline personality disorder. PhD thesis, University of Oxford, 2018.
+
+Shuya Cui, Qingmin Lin, Yuanyuan Gui, Yunting Zhang, Hui Lu, Hongyu Zhao, Xiaolei Wang,
+
+Xinyue Li, and Fan Jiang. CARE as a wearable derived feature linking circadian amplitude to
+
+human cognitive functions. npj Digital Medicine, 6(1):1–11, July 2023. ISSN 2398-6352. doi: 10.
+
+1038/s41746-023-00865-0. URL https://www.nature.com/articles/s41746-023-00865-0.
+
+Joseph T. Daley and Jennifer L. DeWolfe. Sleep, circadian rhythms, and epilepsy. Current Treat-
+
+ment Options in Neurology, 20(11):47, 2018. ISSN 1534-3138. doi: 10.1007/s11940-018-0534-1.
+
+URL https://doi.org/10.1007/s11940-018-0534-1.
+
+R. Degen. A study of the diagnostic value of waking and sleep eegs after sleep deprivation in epilep-
+
+tic patients on anticonvulsive therapy. Electroencephalography and Clinical Neurophysiology, 49:
+
+577–584, 9 1980. ISSN 0013-4694.
+
+Jason Tyler Dell’Aquila and Varun Soti. Sleep deprivation: a risk for epileptic seizures. Sleep
+
+Science, 15(2):245, June 2022. doi: 10.5935/1984-0063.20220046. URL https://pmc.ncbi.
+
+nlm.nih.gov/articles/PMC9210558/.
+
+Christopher P. Derry and Susan Duncan. Sleep and epilepsy. Epilepsy & Behavior, 26(3):394–
+
+404, March 2013. ISSN 1525-5050. doi: 10.1016/j.yebeh.2012.10.033. URL https://www.
+
+sciencedirect.com/science/article/pii/S1525505012006828.
+
+Orrin Devinsky, Annamaria Vezzani, Terence J. O’Brien, Nathalie Jette, Ingrid E. Scheffer, Marco
+
+de Curtis, and Piero Perucca. Epilepsy. Nature Reviews Disease Primers, 4(1):1–24, May
+
+2018. ISSN 2056-676X. doi: 10.1038/nrdp.2018.24. URL https://www.nature.com/articles/
+
+nrdp201824.
+
+17
+
+https://www.nature.com/articles/s41746-023-00865-0
+https://doi.org/10.1007/s11940-018-0534-1
+https://pmc.ncbi.nlm.nih.gov/articles/PMC9210558/
+https://pmc.ncbi.nlm.nih.gov/articles/PMC9210558/
+https://www.sciencedirect.com/science/article/pii/S1525505012006828
+https://www.sciencedirect.com/science/article/pii/S1525505012006828
+https://www.nature.com/articles/nrdp201824
+https://www.nature.com/articles/nrdp201824
+
+
+Thomas Eriksen and Naveed ur Rehman. Data-driven nonstationary signal decomposition
+
+approaches: a comparative analysis. Scientific Reports, 13(1):1798, January 2023. ISSN
+
+2045-2322. doi: 10.1038/s41598-023-28390-w. URL https://www.nature.com/articles/
+
+s41598-023-28390-w.
+
+Anna B. Fishbein, Kristen L. Knutson, and Phyllis C. Zee. Circadian disruption and human
+
+health. The Journal of Clinical Investigation, 131(19):e148286, October 2021. ISSN 1558-8238.
+
+doi: 10.1172/JCI148286.
+
+Nancy Foldvary-Schaefer and Madeleine Grigg-Damberger. Sleep and Epilepsy: What
+
+We Know, Don’t Know, and Need to Know. Journal of Clinical Neurophysiol-
+
+ogy, 23(1):4, February 2006. ISSN 0736-0258. doi: 10.1097/01.wnp.0000206877.90232.
+
+cb. URL https://journals.lww.com/clinicalneurophys/abstract/2006/02000/sleep_
+
+and_epilepsy__what_we_know,_don_t_know,_and.2.aspx.
+
+Ruben Fossion, Ana Leonor Rivera, Juan C. Toledo-Roy, Jason Ellis, and Maia Angelova. Multi-
+
+scale adaptive analysis of circadian rhythms and intradaily variability: Application to actigraphy
+
+time series in acute insomnia subjects. PLOS ONE, 12(7):e0181762, July 2017. ISSN 1932-6203.
+
+doi: 10.1371/journal.pone.0181762. URL https://journals.plos.org/plosone/article?id=
+
+10.1371/journal.pone.0181762.
+
+Lorena Garćıa-Iglesias, Ana Leonor Rivera, and Rubén Fossion. Circadian cycles: A time-series
+
+approach. Revista Mexicana de F́ısica, 69, September 2023. doi: 10.31349/RevMexFis.69.051101.
+
+Sarah J. Gascoigne, Leonard Waldmann, Gabrielle M. Schroeder, Mariella Panagiotopoulou, Jess
+
+Blickwedel, Fahmida Chowdhury, Alison Cronie, Beate Diehl, John S. Duncan, Jennifer Falconer,
+
+Ryan Faulder, Yu Guan, Veronica Leach, Shona Livingstone, Christoforos Papasavvas, Rhys H.
+
+Thomas, Kevin Wilson, Peter N. Taylor, and Yujiang Wang. A library of quantitative markers
+
+of seizure severity. Epilepsia, 64(4):1074–1086, 2023. doi: https://doi.org/10.1111/epi.17525.
+
+URL https://onlinelibrary.wiley.com/doi/abs/10.1111/epi.17525.
+
+Leslie P. Grayson and Jennifer L. DeWolfe. Sleep Disorders in Epilepsy: Current Trends and Future
+
+18
+
+https://www.nature.com/articles/s41598-023-28390-w
+https://www.nature.com/articles/s41598-023-28390-w
+https://journals.lww.com/clinicalneurophys/abstract/2006/02000/sleep_and_epilepsy__what_we_know,_don_t_know,_and.2.aspx
+https://journals.lww.com/clinicalneurophys/abstract/2006/02000/sleep_and_epilepsy__what_we_know,_don_t_know,_and.2.aspx
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0181762
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0181762
+https://onlinelibrary.wiley.com/doi/abs/10.1111/epi.17525
+
+
+Perspectives. Current Sleep Medicine Reports, 4(2):125–133, June 2018. ISSN 2198-6401. doi:
+
+10.1007/s40675-018-0110-y. URL https://doi.org/10.1007/s40675-018-0110-y.
+
+Wytske Aelig Hofstra and Al Wytze de Weerd. The circadian rhythm and its interaction with
+
+human epilepsy: a review of literature. Sleep Medicine Reviews, 13(6):413–420, December 2009.
+
+ISSN 1532-2955. doi: 10.1016/j.smrv.2009.01.002.
+
+Philippa J. Karoly, Rachel E. Stirling, Dean R. Freestone, Ewan S. Nurse, Matias I. Maturana,
+
+Amy J. Halliday, Andrew Neal, Nicholas M. Gregg, Benjamin H. Brinkmann, Mark P. Richard-
+
+son, Andre La Gerche, David B. Grayden, Wendyl D’Souza, and Mark J. Cook. Multiday
+
+cycles of heart rate are associated with seizure likelihood: An observational cohort study.
+
+eBioMedicine, 72:103619, October 2021. ISSN 2352-3964. doi: 10.1016/j.ebiom.2021.103619.
+
+URL https://www.sciencedirect.com/science/article/pii/S2352396421004126.
+
+Mark R. Keezer, Sanjay M. Sisodiya, and Josemir W. Sander. Comorbidities of epilepsy: Current
+
+concepts and future perspectives. The Lancet Neurology, 15:106–115, 1 2016. ISSN 14744465.
+
+Veronique Latreille, Erik K. St. Louis, and Milena Pavlova. Co-morbid sleep disorders and epilepsy:
+
+A narrative review and case examples. Epilepsy Research, 145:185–197, 9 2018. ISSN 0920-1211.
+
+doi: 10.1016/J.EPLEPSYRES.2018.07.005.
+
+N. K. Leidy, A. Elixhauser, B. Vickrey, E. Means, and M. K. Willian. Seizure frequency and the
+
+health-related quality of life of adults with epilepsy. Neurology, 53(1):162–166, July 1999. ISSN
+
+0028-3878. doi: 10.1212/wnl.53.1.162.
+
+Ryan W. Logan and Colleen A. McClung. Rhythms of life: circadian disruption and brain dis-
+
+orders across the lifespan. Nature Reviews Neuroscience, 20(1):49–65, January 2019. ISSN
+
+1471-0048. doi: 10.1038/s41583-018-0088-y. URL https://www.nature.com/articles/
+
+s41583-018-0088-y.
+
+Nicholas Meyer, Allison G Harvey, Steven W Lockley, and Derk-Jan Dijk. Circadian rhythms and
+
+disorders of the timing of sleep. The Lancet, 400(10357):1061–1078, September 2022. ISSN 0140-
+
+19
+
+https://doi.org/10.1007/s40675-018-0110-y
+https://www.sciencedirect.com/science/article/pii/S2352396421004126
+https://www.nature.com/articles/s41583-018-0088-y
+https://www.nature.com/articles/s41583-018-0088-y
+
+
+6736. doi: 10.1016/S0140-6736(22)00877-7. URL https://www.sciencedirect.com/science/
+
+article/pii/S0140673622008777.
+
+Aravind Natarajan, Alexandros Pantelopoulos, Hulya Emir-Farinas, and Pradeep Natarajan.
+
+Heart rate variability with photoplethysmography in 8 million individuals: a cross-sectional
+
+study. The Lancet Digital Health, 2(12):e650–e657, December 2020. ISSN 2589-7500.
+
+doi: 10.1016/S2589-7500(20)30246-6. URL https://www.thelancet.com/journals/landig/
+
+article/PIIS2589-7500(20)30246-6/fulltext.
+
+Yun Min Song, Jaegwon Jeong, Aurelio A. de los Reyes, Dongju Lim, Chul-Hyun Cho, Ji Won
+
+Yeom, Taek Lee, Jung-Been Lee, Heon-Jeong Lee, and Jae Kyoung Kim. Causal dynamics of
+
+sleep, circadian rhythm, and mood symptoms in patients with major depression and bipolar
+
+disorder: insights from longitudinal wearable device data. eBioMedicine, 103, May 2024. ISSN
+
+2352-3964. doi: 10.1016/j.ebiom.2024.105094. URL https://www.thelancet.com/journals/
+
+ebiom/article/PIIS2352-3964(24)00129-4/fulltext.
+
+Rachel E Stirling, Cindy M Hidajat, David B Grayden, Wendyl J D’Souza, Jodie Naim-Feil,
+
+Katrina L Dell, Logan D Schneider, Ewan Nurse, Dean Freestone, Mark J Cook, and Philippa J
+
+Karoly. Sleep and seizure risk in epilepsy: bed and wake times are more important than sleep
+
+duration. Brain, 146(7):2803–2813, July 2023. ISSN 0006-8950. doi: 10.1093/brain/awac476.
+
+URL https://doi.org/10.1093/brain/awac476.
+
+Christopher Thornton, Mariella Panagiotopoulou, Fahmida A. Chowdhury, Beate Diehl, John S.
+
+Duncan, Sarah J. Gascoigne, Guillermo Besne, Andrew W. McEvoy, Anna Miserocchi, Billy C.
+
+Smith, Jane de Tisi, Peter N. Taylor, and Yujiang Wang. Diminished circadian and ultradian
+
+rhythms of human brain activity in pathological tissue in vivo. Nature Communications, 15(1):
+
+8527, October 2024. ISSN 2041-1723. doi: 10.1038/s41467-024-52769-6. URL https://www.
+
+nature.com/articles/s41467-024-52769-6.
+
+J. Touchon, M. Baldy-Moulinier, M. Billiard, A. Besset, and J. Cadilhac. Sleep organization and
+
+epilepsy. Epilepsy Research. Supplement, 2:73–81, 1991. ISSN 0922-9833.
+
+20
+
+https://www.sciencedirect.com/science/article/pii/S0140673622008777
+https://www.sciencedirect.com/science/article/pii/S0140673622008777
+https://www.thelancet.com/journals/landig/article/PIIS2589-7500(20)30246-6/fulltext
+https://www.thelancet.com/journals/landig/article/PIIS2589-7500(20)30246-6/fulltext
+https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(24)00129-4/fulltext
+https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(24)00129-4/fulltext
+https://doi.org/10.1093/brain/awac476
+https://www.nature.com/articles/s41467-024-52769-6
+https://www.nature.com/articles/s41467-024-52769-6
+
+
+Gilles Vandewalle, Benita Middleton, Shantha M.W. Rajaratnam, Barbara M. Stone, Bjorg
+
+Thorleifsdottir, Josephine Arendt, and Derk Jan Dijk. Robust circadian rhythm in heart
+
+rate and its variability: influence of exogenous melatonin and photoperiod. Journal of Sleep
+
+Research, 16:148–155, 6 2007. ISSN 1365-2869. doi: 10.1111/J.1365-2869.2007.00581.X. URL
+
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2869.2007.00581.xhttps:
+
+//onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.2007.00581.xhttps:
+
+//onlinelibrary.wiley.com/doi/10.1111/j.1365-2869.2007.00581.x.
+
+Céline Vetter. Circadian disruption: What do we actually mean? The European journal of
+
+neuroscience, page 10.1111/ejn.14255, November 2018. ISSN 0953-816X. doi: 10.1111/ejn.14255.
+
+URL https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6504624/.
+
+William H. Walker, James C. Walton, A. Courtney DeVries, and Randy J. Nelson. Circadian
+
+rhythm disruption and mental health. Translational Psychiatry 2020 10:1, 10:1–13, 1 2020.
+
+ISSN 2158-3188. doi: 10.1038/s41398-020-0694-0.
+
+Hao Wu, Yong Liu, Lishuo Liu, Qiang Meng, Changwang Du, Kuo Li, Shan Dong, Yong Zhang,
+
+Huanfa Li, and Hua Zhang. Decreased expression of the clock gene bmal1 is involved in the
+
+pathogenesis of temporal lobe epilepsy. Molecular brain, 14, 12 2021. ISSN 1756-6606. doi:
+
+10.1186/S13041-021-00824-4. URL https://pubmed.ncbi.nlm.nih.gov/34261484/.
+
+Lisette A. Zuurbier, Annemarie I. Luik, Albert Hofman, Oscar H. Franco, Eus J. W. Van Someren,
+
+and Henning Tiemeier. Fragmentation and Stability of Circadian Activity Rhythms Predict
+
+Mortality: The Rotterdam Study. American Journal of Epidemiology, 181(1):54–63, 12 2014.
+
+ISSN 0002-9262. doi: 10.1093/aje/kwu245. URL https://doi.org/10.1093/aje/kwu245.
+
+21
+
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/10.1111/j.1365-2869.2007.00581.x
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/10.1111/j.1365-2869.2007.00581.x
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.2007.00581.x https://onlinelibrary.wiley.com/doi/10.1111/j.1365-2869.2007.00581.x
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6504624/
+https://pubmed.ncbi.nlm.nih.gov/34261484/
+https://doi.org/10.1093/aje/kwu245
+
+
+Supplementary
+
+S1 Methodological Details
+
+S1.1 Comparison of circadian rhythm extraction methods
+
+Approaches for computational modelling of the circadian rhythm broadly fall into two categories:
+
+dynamic modelling, where the behaviour of the circadian system is represented within a set of
+
+equations, and statistical modelling, where a periodic function approximating an underlying core
+
+circadian fluctuation is fit to, or derived from, the data (Asgari-Targhi and Klerman, 2019). Here,
+
+we apply the latter statistical modelling methods.
+
+The simplest statistical modelling approach involves the fitting of a sinusoid wave. The rhythm
+
+produced is fixed in period, acrophase and amplitude. However, it can often be empirically observed
+
+(especially in uncontrolled conditions) that these properties vary over time from one circadian
+
+cycle to the next (Asgari-Targhi and Klerman, 2019), potentially as the result of challenges to the
+
+circadian system (e.g inconsistent night shift working), variation in lifestyle and behaviour (e.g
+
+occasional late nights), or perhaps even disease (e.g the change between mood states in bipolar
+
+disorder, or seizure occurrence in epilepsy).
+
+Bandpass-filtering of the signal around 24 hours derives a circadian rhythm where amplitude
+
+is able to vary across cycles, but the other parameters remain somewhat fixed. More sophisticated
+
+methods exist, such as wavelet-based analysis (the continuous and discrete wavelet transform),
+
+signal decomposition techniques (such as empirical mode decomposition) and others such as singu-
+
+lar spectrum analysis (SSA) (Figure 2E(i)). An overview these methods can be found in (Eriksen
+
+and Rehman, 2023). These methods are more flexible and produce a rhythm that fits the data
+
+better, capturing variation in all three properties across cycles. Garćıa-Iglesias et al. (2023) eval-
+
+uated these, as well as other, methods to extract a circadian rhythm from various physiological
+
+parameters, including heart rate. They compared the goodness-of-fit of the rhythm extracted by
+
+each method with the original data in each case. While certain methods performed better for some
+
+measures, SSA was the best all-rounder across measures.
+
+22
+
+
+
+S1.2 Deriving circadian cycles for computing circadian properties
+
+We split the rhythm into the individual circadian cycles (Figure 2E(ii)), and compute the daily
+
+period, acrophase and amplitude (Figure 2G). To do so, the Hilbert transform is applied to the
+
+extracted circadian rhythm, producing a complex-valued analytic signal, from which the circadian
+
+“phase series” can be derived (Figure 2E(ii)). The phase series is a periodic triangular waveform
+
+with bounds of −π to π. It is aligned with the input circadian rhythm, and can be thought of as
+
+a measure of circadian progression; at −π the rhythm is at trough, and reaches its peak as phase
+
+increases to 0. As phase increases further from 0 to π, the cycle falls again before it reaches the
+
+next trough at π, where it wraps back around to −π. Using this, we can robustly split the rhythm
+
+at each phase trough (−π) into the daily circadian cycles. Once we have collected individual cycles,
+
+the circadian properties (Figure 1) are calculated for each cycle.
+
+S1.3 Accounting for gaps in recording and variability in recording du-
+
+ration between participants
+
+As shown in Table 1, the recording duration for both PWE and controls in this cohort is uniquely
+
+long, and there is substantial variation in recording duration between participants. These factors
+
+necessitated two additional steps in the calculation of intra-individual variability: the splitting
+
+of a participant’s recording into “runs” between missing gaps prior to extraction of the circadian
+
+rhythm, and the grouping of extracted per-cycle circadian property values into “segments” prior
+
+to computation of mean and standard deviation.
+
+Missing data gaps in the recording were most likely caused by device charging or removal of the
+
+device by the participant for whatever other reason. As the heart rate recordings were computed
+
+by a proprietary Fitbit algorithm from raw PPG, it is possible that periods of noisy data (for
+
+example, due to poor device contact with skin) were excluded also. SSA, and other modelling
+
+methods, cannot handle missing data in the input recording, so interpolation (e.g linear) is re-
+
+quired. However, there are occasionally very long (days-months) gaps of missing data for some
+
+participants, so we opted to avoid running the algorithm over very long interpolations of data, as
+
+23
+
+
+
+this wasted computational resources and interfered with results. As such, the raw heart rate data
+
+was split into ‘runs’ between missing gaps larger than 8 hours. Within each run, any remaining
+
+gaps (which must be below 8 hours) were linearly interpolated.
+
+As stated previously, the intra-individual variability approach involves computation of a mean
+
+and standard deviation for each of the circadian properties (period, acrophase, amplitude) for each
+
+participant. However, given the variation in recording duration between participants (and espe-
+
+cially between PWE and controls) in this dataset, and given that estimation of mean and standard
+
+deviation become more reliable as sample size increases, it would not be fair to compare the intra-
+
+individual variability between a participant with, for example, a recording duration of a month
+
+to a participant with multiple years worth of data. Therefore, once the circadian properties have
+
+been calculated for each cycle, rather than calculating the mean and standard deviation of each
+
+property across all cycles, we group cycles into consecutive non-overlapping seven-day ‘segments’.
+
+Grouping occurred within runs; for example, a run that contained 17 circadian cycles would
+
+produce 2 segments (14 cycles), with 3 cycles discarded. We opted to perform the segmenting
+
+within runs rather than across the cycles of all runs as, given the minimum 8 hour gap between
+
+runs, there may be a considerable gap of time between two consecutive runs.
+
+For each seven-day segment, the standard deviation of each property (Figure 2G) was calcu-
+
+lated, reflecting the variability of that property during the corresponding week. Therefore, for
+
+each participant, a distribution of standard deviation values is produced for each property, reflect-
+
+ing differences in variability across weeks. To summarise these distributions for each participant,
+
+three summary values - circadian period variability, acrophase variability and amplitude variability
+
+- were calculated by taking the mean of the standard deviation values of each property across the
+
+segments distribution. Three additional summary values: period average, acrophase average and
+
+amplitude average, were calculated in a similar manner, using the mean of each property across all
+
+segments.
+
+24
+
+
+
+Calculating the mean and standard deviation separately for each segment ensures that they
+
+are always calculated on samples of data of the same length (7 cycles), reducing the problem of
+
+varying recording duration between participants. Taking the mean across all segments allows for
+
+comaprison of circadian average and variability between participants.
+
+A visualisation of our implementation of the intra-individual variability method, with the ad-
+
+dition of the segmenting step, can be found in Figure 2.
+
+S2 Recording duration does not affect intra-individual vari-
+
+ability estimates
+
+25
+
+
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+23.00
+
+23.25
+
+23.50
+
+23.75
+
+24.00
+
+24.25
+
+24.50
+
+24.75
+
+25.00
+
+P
+e
+ri
+o
+d
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.001, r = − 0.023,  p = 0.783
+
+Controls: R2 = 0.126, r = − 0.355,  p = 0.05
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+0.50
+
+0.75
+
+1.00
+
+1.25
+
+1.50
+
+1.75
+
+2.00
+
+2.25
+
+2.50
+
+P
+e
+ri
+o
+d
+
+ 
+S
+td
+
+PWE: R2 = 0.002, r = − 0.04,  p = 0.635
+
+Controls: R2 = 0.015, r = − 0.124,  p = 0.506
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+5
+
+10
+
+15
+
+20
+
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.009, r = − 0.095,  p = 0.257
+
+Controls: R2 = 0.0, r = 0.0,  p = 0.999
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+S
+td
+
+PWE: R2 = 0.004, r = − 0.062,  p = 0.465
+
+Controls: R2 = 0.046, r = − 0.215,  p = 0.245
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+4
+
+6
+
+8
+
+10
+
+12
+
+14
+
+16
+
+18
+
+20
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.003, r = − 0.052,  p = 0.537
+
+Controls: R2 = 0.001, r = − 0.038,  p = 0.838
+
+0 500 1000 1500 2000 2500
+
+Total Duration (days)
+
+1
+
+2
+
+3
+
+4
+
+5
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+S
+td
+
+PWE: R2 = 0.001, r = − 0.032,  p = 0.701
+
+Controls: R2 = 0.009, r = − 0.096,  p = 0.609
+
+Controls (n=31)
+
+PWE (n=143)
+
+Figure S2.1: The relationship between intra-individual variability of circadian properties and total
+duration.
+
+26
+
+
+
+S3 Results hold when we resample to account for unbal-
+
+anced samples
+
+−3 −2 −1 0 1 2
+
+z_statistics
+
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+
+C
+o
+u
+n
+t
+
+mean = -0.265, median = -0.267, std = 0.655, min = -3.048, max = 2.196
+
+0.0 0.2 0.4 0.6 0.8 1.0
+
+p_values
+
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+
+C
+o
+u
+n
+t
+
+mean = 0.605, median = 0.627, std = 0.25, min = 0.002, max = 1.0
+
+Period Mean
+Subsampling n_iter=10000
+
+Mean
+
+Median
+
+(a) Period Mean
+
+0 1 2 3 4
+
+z_statistics
+
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+
+C
+o
+u
+n
+t
+
+mean = 2.576, median = 2.597, std = 0.629, min = 0.049, max = 4.752
+
+0.0 0.2 0.4 0.6 0.8 1.0
+
+p_values
+
+0
+
+500
+
+1000
+
+1500
+
+2000
+
+2500
+
+C
+o
+u
+n
+t
+
+mean = 0.03, median = 0.009, std = 0.057, min = 0.0, max = 0.961
+
+Period Std
+Subsampling n_iter=10000
+
+Mean
+
+Median
+
+(b) Period Std
+
+median z median p
+Period Mean -0.267 0.627
+Period Std 2.597 0.009
+Acrophase Mean 0.753 0.426
+Acrophase Std 2.316 0.021
+Amplitude Mean -1.19 0.234
+Amplitude Std -0.514 0.531
+
+(c) Table of random sub-sampling median p-values and z-statistics
+
+Figure S3.1: Overview of the random sub-sampling correction to Figure 3. (a) and (b) show
+the distribution of the z-statistic and p-value over 10,000 iterations of the Wilcoxon rank-sum test using
+the entire Control cohort and a randomly selected sub-sample of 31 PWE. (a) shows this distribution
+for Period Mean, which was not originally different between PWE and controls. This result holds after
+applying random sub-sampling as the z-statistic is normally distributed around ∼0 (no effect) and the
+p-value distribution is uniform. (b) shows this distribution for Period Std, which was originally different
+between PWE and controls. This result also holds after applying random sub-sampling, as the z-statistic
+is normally distributed around 2.5 (moderate effect) and the p-value distribution is extremely skewed
+with a median < 0.05. (c) shows the median z-statistic and p-values across each property average and
+variability.
+
+27
+
+
+
+S4 Increased intra-individual variability of circadian prop-
+
+erties is not age or sex dependent
+
+28
+
+
+
+10 20 30 40 50 60 70
+
+age
+
+23.0
+
+23.2
+
+23.4
+
+23.6
+
+23.8
+
+24.0
+
+24.2
+
+P
+e
+ri
+o
+d
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.01, r = − 0.101,  p = 0.309
+
+Controls: R2 = 0.007, r = − 0.086,  p = 0.89
+
+10 20 30 40 50 60 70
+
+age
+
+0.6
+
+0.8
+
+1.0
+
+1.2
+
+1.4
+
+1.6
+
+1.8
+
+2.0
+
+2.2
+
+P
+e
+ri
+o
+d
+
+ 
+S
+td
+
+PWE: R2 = 0.001, r = 0.035,  p = 0.722
+
+Controls: R2 = 0.002, r = 0.04,  p = 0.949
+
+10 20 30 40 50 60 70
+
+age
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+20.0
+
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.069, r = − 0.264,  p = 0.007*
+
+Controls: R2 = 0.011, r = 0.106,  p = 0.865
+
+10 20 30 40 50 60 70
+
+age
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+S
+td
+
+PWE: R2 = 0.0, r = 0.021,  p = 0.83
+
+Controls: R2 = 0.0, r = 0.022,  p = 0.972
+
+10 20 30 40 50 60 70
+
+age
+
+4
+
+6
+
+8
+
+10
+
+12
+
+14
+
+16
+
+18
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+M
+e
+a
+n
+
+PWE: R2 = 0.135, r = − 0.368,  p = 0.0*
+
+Controls: R2 = 0.178, r = − 0.422,  p = 0.479
+
+10 20 30 40 50 60 70
+
+age
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+3.0
+
+3.5
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+S
+td
+
+PWE: R2 = 0.023, r = − 0.152,  p = 0.124
+
+Controls: R2 = 0.0, r = − 0.002,  p = 0.998
+
+Controls (n=5)
+
+PWE (n=104)
+
+Figure S4.1: The relationship between intra-individual variability of circadian properties and averages
+and age.
+
+29
+
+
+
+Control
+z=-0.207, p=0.836
+
+PWE
+z=1.633, p=0.102
+
+Condition
+
+23.00
+
+23.25
+
+23.50
+
+23.75
+
+24.00
+
+24.25
+
+24.50
+
+24.75
+
+25.00
+P
+e
+ri
+o
+d
+
+ 
+M
+e
+a
+n
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Control
+z=-0.115, p=0.908
+
+PWE
+z=0.251, p=0.802
+
+Condition
+
+0.50
+
+0.75
+
+1.00
+
+1.25
+
+1.50
+
+1.75
+
+2.00
+
+2.25
+
+2.50
+
+P
+e
+ri
+o
+d
+
+ 
+S
+td
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Control
+z=-0.76, p=0.447
+
+PWE
+z=-0.414, p=0.679
+
+Condition
+
+2.5
+
+5.0
+
+7.5
+
+10.0
+
+12.5
+
+15.0
+
+17.5
+
+20.0
+
+22.5
+
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+M
+e
+a
+n
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Control
+z=-0.668, p=0.504
+
+PWE
+z=0.699, p=0.484
+
+Condition
+
+0.5
+
+1.0
+
+1.5
+
+2.0
+
+2.5
+
+A
+c
+ro
+p
+h
+a
+s
+e
+
+ 
+S
+td
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Control
+z=1.129, p=0.259
+
+PWE
+z=0.958, p=0.338
+
+Condition
+
+4
+
+6
+
+8
+
+10
+
+12
+
+14
+
+16
+
+18
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+M
+e
+a
+n
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Control
+z=-0.253, p=0.8
+
+PWE
+z=1.982, p=0.048
+
+Condition
+
+1
+
+2
+
+3
+
+4
+
+5
+
+A
+m
+p
+lit
+u
+d
+e
+
+ 
+S
+td
+
+Controls M (n=13)
+
+Controls F (n=15)
+
+PWE M (n=39)
+
+PWE F (n=87)
+
+Figure S4.2: Comparison of the distribution of the average and variability in each circadian
+property between PWE and controls, split by sex. Two-sided Wilcoxon rank-sum test used to
+compare circadian average and variability between males and females within either PWE or controls.
+
+30
+
+
+	Introduction
+	Methods
+	Participant Data
+	Measuring circadian disruption using physiological time-series: the `intra-individual variability' approach
+	Accounting for gaps in recording
+	Extracting the circadian rhythm
+	Computing circadian properties
+	Calculating the intra-individual variability of circadian properties
+
+	Statistical Analysis
+
+	Results
+	The circadian rhythm of heart rate is more variable for people with epilepsy
+	Intra-individual variability of circadian properties does not correlate with increased seizure frequency
+	 The intra-individual variability of circadian properties does not differ between weeks with and without seizures 
+
+	Discussion
+
+	Data Availability
+	Methodological Details
+	Comparison of circadian rhythm extraction methods
+	Deriving circadian cycles for computing circadian properties
+	Accounting for gaps in recording and variability in recording duration between participants
+
+	Recording duration does not affect intra-individual variability estimates 
+	Results hold when we resample to account for unbalanced samples 
+	Increased intra-individual variability of circadian properties is not age or sex dependent
+
+
+

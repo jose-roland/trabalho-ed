@@ -1,0 +1,6 @@
+<configuration>
+    <logger name="org.apache.pdfbox" level="error"/>
+    <root level="error">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

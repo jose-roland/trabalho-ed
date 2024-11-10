@@ -1,0 +1,1883 @@
+
+Capacities of Entanglement Distribution From a Central Source
+
+Xinan Chen, Stefano Chessa, Ian George, Felix Leditzky, and Eric Chitambar
+University of Illinois at Urbana-Champaign, Urbana, IL 61801, USA
+
+November 8, 2024
+
+Abstract
+
+Distribution of entanglement is an essential task in quantum information processing and the realization of
+quantum networks. In our work, we theoretically investigate the scenario where a central source prepares
+an N -partite entangled state and transmits each entangled subsystem to one of N receivers through noisy
+quantum channels. The receivers are then able to perform local operations assisted by unlimited classical
+communication to distill target entangled states from the noisy channel output. In this operational context,
+we define the EPR distribution capacity and the GHZ distribution capacity of a quantum channel as the largest
+rates at which Einstein-Podolsky-Rosen (EPR) states and Greenberger-Horne-Zeilinger (GHZ) states can be
+faithfully distributed through the channel, respectively. We establish lower and upper bounds on the EPR
+distribution capacity by connecting it with the task of assisted entanglement distillation. We also construct
+an explicit protocol consisting of a combination of a quantum communication code and a classical-post-
+processing-assisted entanglement generation code, which yields a simple achievable lower bound for generic
+channels. As applications of these results, we give an exact expression for the EPR distribution capacity over
+two erasure channels and bounds on the EPR distribution capacity over two generalized amplitude damping
+channels. We also bound the GHZ distribution capacity, which results in an exact characterization of the GHZ
+distribution capacity when the most noisy channel is a dephasing channel.
+
+1 Introduction
+
+Entanglement distribution is an essential ingredient in realizing the quantum internet [1, 2], which has the
+potential of accomplishing tasks such as quantum key distribution [3, 4], distributed quantum computing [5],
+and distributed quantum sensing [6]. To successfully implement these protocols, the participating parties,
+which may be separated by significant spatial distance, need to share high-fidelity entangled states. Typically,
+the distribution of entanglement to distant parties suffers from noise, deteriorating the quality of entanglement.
+Therefore, a key research thrust in quantum information science is to study protocols that allow us to distribute
+high-fidelity entangled states to distant parties.
+
+In previous works on entanglement distribution, it is frequently assumed that one party prepares an
+N -partite entangled state, holds on to one subsystem which remains intact in a local quantum memory, and
+sends the other N − 1 subsystems to the remaining N − 1 parties through quantum channels. The parties
+may also use unlimited local operation and classical communication (LOCC) post-processing to enhance the
+distribution of entanglement. This is illustrated in Fig. 1a. For instance, in Refs. [7, 8], the distribution of
+Einstein-Podolsky-Rosen (EPR) states is accomplished by locally generating n copies of EPR states ϕA1S2 at A1,
+who sends the Sn2 systems through n uses of a quantum channel N S2→A2 to another party A2. Subsequently,
+A1 and A2 employ either the hashing protocol or the convolutional protocol to distill high-fidelity EPR
+pairs between them. The convolutional method has further been extended to the distribution of tripartite
+Greenberger-Horne-Zeilinger (GHZ) states |GHZ3⟩ = 1/
+
+√
+2(|000⟩+ |111⟩)[9]. Similarly, this process involves
+
+locally generating n copies of |GHZ3⟩⟨GHZ3|A1S2S3 , sending Sn2 and Sn3 to A2 and A3 respectively, and
+performing a distillation protocol inspired by quantum error correction. Building on this work, Ref. [10]
+adopted quantum low-density parity-check codes [11, 12] to construct a high-rate tripartite GHZ distribution
+protocol with efficient post-processing. Conversely, if we can prepare arbitrary bipartite entangled states and
+implement arbitrary LOCC post-processing, Tomamichel et al. provide a fundamental upper bound on the
+asymptotically achievable rates for distributing EPR states [13].
+
+However, we argue that this previously adopted model is inadequate for the following two reasons. First,
+the assumption that the local quantum memory is noiseless is hardly justified in practice. Secondly, we envision
+that, in the near-term, the ability to generate and distribute quantum entanglement may be localized to a few
+central stations, which send the entangled states to users through quantum channels whenever they request
+them. Therefore, in our work, we instead consider a more practical scenario where a source prepares an
+N -partite entangled state ρS1···SN
+
+init and sends subsystem Si to receivers Ai through quantum channels N Si→Ai
+i .
+
+After receiving the noisy output state, the receivers perform LOCC amongst themselves to distill the desired
+target state τ from the noisy output state (Fig 1b).
+
+1
+
+ar
+X
+
+iv
+:2
+
+41
+1.
+
+04
+97
+
+7v
+1 
+
+ [
+qu
+
+an
+t-
+
+ph
+] 
+
+ 7
+ N
+
+ov
+ 2
+
+02
+4
+
+
+
+(a) (b)
+
+Figure 1: Two entanglement distribution schemes. (a) One of the parties, say A1, prepares an entangled state
+ρA1S
+
+n
+2 ···Sn
+
+N and sends Sni through n uses of the quantum channel Ni to Ai (i = 2, 3, · · · , N). Then Ai perform
+LOCC among themselves to obtain the target state τ . (b) Our entanglement distribution model. The source S
+prepares an entangled state ρS
+
+n
+1 ···Sn
+
+N , sending the Sni subsystem to Ai via n uses of the channel Ni. Then the
+receivers perform LOCC to obtain the target state τ .
+
+The focus of the present paper is to investigate the ultimate entanglement distribution rate in this setting,
+characterized by the best asymptotic rate achievable when the source is able to use each channel an unbounded
+number of times. In this work, we choose τ to be the N -partite GHZ state |GHZN ⟩ = 1/
+
+√
+2(|0⟩⊗N + |1⟩⊗N ).
+
+While there is no “maximally entangled” state in the multipartite setting [14, 15], GHZ states are still an
+important class of states to consider because of their nonlocality properties [16, 17] and their applications in
+quantum information tasks such as quantum secret sharing [18], quantum conference key agreement [19],
+and quantum sensing [20]. For these reasons, the distillation of GHZ states is an important question that is
+under active research [9, 10, 21–25]. For example, Salek and Winter recently proposed a GHZ distillation
+protocol by “making coherent” the classical common randomness distillation protocol. Moreover, when N = 2,
+the task reduces to distributing EPR pairs across two receivers, which is an interesting scenario in its own right.
+We will call the largest rate at which bipartite maximally entangled states can be distributed through channels
+N1 and N2 the EPR distribution capacity of N1 and N2 and denote it by E(N1,N2). Similarly, the largest rate
+at which GHZ states can be distributed through N1, · · · ,NN will be called the GHZ distribution capacity of
+these channels, denoted by E(N1, · · · ,NN ).
+
+The main goal of this paper is to characterize the optimal N -party GHZ distribution rates over noisy
+channels, especially for the case of N = 2. In Section 2, we provide preliminary information on quantum
+capacities, entanglement distillation, and simulation of a quantum channel by its Choi states, all of which
+are useful for the exposition of our results in later sections. We also provide a detailed definition of the
+entanglement distribution capacity in Section 2.5. Our first contribution is the connection between the task of
+distributing EPR states to N = 2 parties with the task of assisted entanglement distillation [26–30] (Section 3).
+Specifically, we show that for general channels N1 and N2, the regularized entanglement of assistance of the
+Choi states offers a lower bound for E(N1,N2). For teleportation-covariant channels, this lower bound is tight
+and exactly equals the entanglement distribution rate. As an application of this result, we exactly characterize
+the entanglement distribution capacity when the two channels are both erasure channels in Section 3.1. In
+Section 4, we provide another lower bound for E(N1,N2) by combining quantum communication codes
+with entanglement generation codes assisted by classical-post-processing (CPP). This bound is tight when
+the quantum capacity of one channel is greater than the CPP-assisted entanglement generation capacity of
+the other channel and not tight in general. In particular, for the case of EPR distribution over generalized
+amplitude damping channels (GADCs), we can enhance the achievable rates in the high-noise regime by using
+multi-rail encoding (Section 4.1). In Section 5, we derive general bounds for GHZ distribution, which yields
+an exact expression of GHZ distribution capacity when the most noisy channel is a dephasing channel. Finally,
+Section 6 discusses the implications of our results and concludes the paper.
+
+2 Preliminaries
+
+In this section, we review basic concepts of quantum communication, entanglement generation with classical
+post-processing, assisted entanglement distillation, and simulation of teleportation covariant channels. Then
+we proceed to precisely define the primary focus of our paper: entanglement distribution through quantum
+channels N1,N2, · · · ,NN .
+
+2
+
+
+
+2.1 Quantum Communication and Quantum Capacity
+
+Given a quantum channel NA→B , an (n,Qn, ϵn) quantum communication code consists of an encoder ES→An
+
+where 1
+n log dimS = Qn and a decoder DBn→S such that∥∥∥ψRS − idR ⊗
+
+(
+DBn→S ◦ N⊗n ◦ ES→An (
+
+ψRS
+))∥∥∥
+
+1
+≤ ϵn (1)
+
+for all pure states ψRS . A rate Q is achievable if there exists a sequence of (n,Qn, ϵn) quantum communication
+codes such that limn→∞Qn = Q and limn→∞ ϵn = 0. The quantum capacity of the channel N , denoted by
+Q(N ), is the supremum of all achievable rates. It has been established that the quantum capacity of a quantum
+channel is characterized by its coherent information. The coherent information of a bipartite state ρAB is given
+by [31]
+
+Ic(A⟩B)ρ = S(B)− S(AB) (2)
+
+where S(AB) and S(B) are the von Neumann entropies of the state ρAB and the reduced state ρB respectively.
+The coherent information of a quantum channel NA′→B is given by maximizing (2) over all states of the form
+ρAB = idA ⊗NA′→B(ψAA
+
+′
+) with pure input ψAA
+
+′
+:
+
+Ic(N ) = max
+ψAA′
+
+Ic(A⟩B)ρ (3)
+
+Then, the quantum capacity of a quantum channel N is given by [32–34]:
+
+Q(N ) = lim
+n→∞
+
+1
+
+n
+Ic(N⊗n) ≥ Ic(N ). (4)
+
+2.2 Entanglement Generation Assisted by Classical Post-Processing (CPP)
+
+Given a quantum channel NA→B , an (n,Qn, ϵn) entanglement generation code assisted by CPP consists of an
+encoding operation EA0→ÃAn
+
+where A0
+∼= C is trivial and an LOCC post-processing LÃBn→ÂB̂ such that∥∥∥ϕÂB̂ − LÃB
+
+n→ÂB̂ ◦ N⊗n ◦ EA0→ÃAn
+∥∥∥
+1
+≤ ϵn (5)
+
+where ϕ is the maximally entangled state with Schimdt rank 2nQn . A rate Q is achievable assisted by CPP if
+there exists a sequence of (n,Qn, ϵn) CPP-assisted entanglement generation codes such that limn→∞Qn = Q
+and limn→∞ ϵn = 0. The CPP assisted entanglement generation capacity of the channel N , denoted by
+Ecpp(N ), is the supremum of all achievable entanglement generation rates assisted by CPP. A lower bound of
+Ecpp(N ) is the reverse coherent information [35], which is defined by
+
+IR(N ) = max
+ψAA′
+
+Ic(B⟩A)ρ (6)
+
+where again ρAB = idA ⊗NA′→B(ψAA
+′
+). Conversely, an upper bound is given by the Rains information of the
+
+channel. The Rains relative entropy of a bipartite state ρAB is given by [36]
+
+R(A;B)ρ = inf
+σ∈PPT′
+
+D(ρ∥σ) (7)
+
+where D(ρ∥σ) = Trρ(log ρ − log σ) is the quantum relative entropy and PPT′ = {σAB : σ ≥ 0, ∥σTB∥1 ≤ 1}
+with TB denoting the partial transpose on system B. We can similarly define the Rains information of a
+quantum channel by optimizing (7) over states of the form ρAB = idA ⊗NA′→B(ψAA
+
+′
+) with ψAA
+
+′
+pure [13]:
+
+R(N ) = max
+ψAA′
+
+R(A;B)ρ. (8)
+
+2.3 Assisted Entanglement Distillation
+
+Suppose n copies of a tripartite mixed state ρABC are shared between A, B, and a helper C, and the goal is to
+distill bipartite entanglement between A and B with the help of C, who assists by performing a measurement
+on his system and broadcasting the result to A and B (Fig. 2b). More precisely, a (n,Qn, ϵn)-assisted
+entanglement distillation protocol with C being the helper consists of a POVM {MCn
+
+i }i and the corresponding
+LOCC operations LAnBn→ÂB̂
+
+i such that∥∥∥∥∥ϕÂB̂ −
+∑
+i
+
+LA
+nBn→ÂB̂
+
+i
+
+(
+TrCn
+
+[
+MCn
+
+i
+
+(
+ρABC
+
+)⊗n])∥∥∥∥∥
+1
+
+≤ ϵn (9)
+
+3
+
+
+
+(a) (b)
+
+Figure 2: (a) A diagram for entanglement generation with CPP assistance. (b) A diagram for assisted
+entanglement distillation.
+
+where ϕ is the maximally entangled state with Schimdt rank 2nQn . A rate Qn is achievable if there ex-
+ists a sequence of (n,Qn, ϵn)-assisted entanglement distillation protocols such that limn→∞Qn = Q and
+limn→∞ ϵn = 0. Dutil and Hayden showed that the supremum of all achievable rates is given by [28]
+
+D∞
+A (ρABC) = lim
+
+n→∞
+
+1
+
+n
+DA
+
+((
+ρABC
+
+)⊗n)
+(10)
+
+where
+
+DA(ρ
+ABC) = sup
+
+{Mi}i
+
+{∑
+i
+
+piD(σABi ) : pi = Tr(MC
+i ρ
+
+ABC), σi =
+1
+
+pi
+TrC(MC
+
+i ρ
+ABC)
+
+}
+, (11)
+
+where the supremum is taken over all POVMs {Mi}i on C. We will call DA(ρ) the entanglement of assistance
+and D∞
+
+A (ρ) the asymptotic entanglement of assistance.
+
+2.4 Simulating Teleportation-Covariant Channels
+
+Consider a qudit quantum teleportation protocol [37]. A d-dimensional maximally entangled state ϕABd is
+shared between two parties A and B. In addition, A possesses an arbitrary quantum state ρA
+
+′
+. Suppose
+
+A performs a measurement on AA′ in the basis
+{
+IA ⊗
+
+(
+Xa
+dZ
+
+b
+d
+
+)†A′
+
+|ϕd⟩AA
+′
+}
+a,b
+
+. Here Xd is the shift unitary
+
+defined by Xd|k⟩ = |k ⊕ 1⟩ where ⊕ denotes addition modulo d, and the clock unitary Zd is defined by
+Zd|k⟩ = ei2πk/d|k⟩. The set of unitaries of the form Uab = Xa
+
+dZ
+b
+d are called generalized Pauli unitaries. After
+
+the measurement, the state on B becomes Xa
+dZ
+
+b
+dρ(X
+
+a
+dZ
+
+b
+d)
+
+†, depending on the measurement result a, b. Once
+B learns the measurement result from A, the state can be corrected back to ρ by performing the appropriate
+unitary.
+
+A qudit quantum channel NA→B is called teleportation-covariant if for any generalized Pauli unitary UA
+
+and for any input state ρA, we have
+
+NA→B(UAρAU†A) = V BNA→B(ρA)V †B (12)
+
+for some unitary V B. Teleportation-covariant channels can be simulated by their Choi state JABN = idA ⊗
+NA′→B(ϕAA
+
+′
+
+d ) and one-way LOCC [38]. To see this, note that if we replace ϕd with JN in the teleportation
+protocol, the state on B after measurement on AA′ becomes N (UabρU
+
+†
+ab). By teleportation covariance this
+
+is equivalent to VabN (ρ)V †
+ab for some unitary Vab depending on the measurement result. Once B learns the
+
+measurement result, one can apply an appropriate unitary to correct the state back to N (ρ).
+
+2.5 Entanglement Distribution from a Central Source
+
+In this section, we rigorously define EPR and GHZ distribution capacities, which are the focal points in our
+work. Given N quantum channels {NSi→Ai
+
+i }Ni=1, an (n,Qn, ϵn)-τ distribution code consists of an encoding
+operation ES0→Sn
+
+1 ···S⊗n
+N where S0
+
+∼= C is trivial and an LOCC post-processing LA
+⊗n
+1 ···A⊗n
+
+N →Â1···ÂN such that∥∥∥∥(τ⊗k)Â1···ÂN − L ◦
+(
+N⊗n
+
+1 ⊗ · · · ⊗ N⊗n
+N
+
+)
+◦ E
+∥∥∥∥
+1
+
+≤ ϵn (13)
+
+4
+
+
+
+Figure 3: Simulating teleportation-covariant channels with their Choi states.
+
+where Qn = k/n. A pictorial description can be found in Fig. 1b. We will focus on the case where
+τ = |GHZN ⟩⟨GHZN |. A rate Q is achievable if there exists an (n,Qn, ϵn)-GHZ distribution code such that
+limn→∞Qn = Q and limn→∞ ϵn = 0. The GHZ distribution capacity E(N1, · · · ,NN ) is the supremum of all
+achievable rates. When N = 2, this similarly defines the EPR distribution capacity E(N1,N2).
+
+3 Connection between Entanglement Distribution and Assisted Entan-
+glement Distillation
+
+We begin with the simplest case where N = 2. Our first result is a connection between EPR distribution
+capacity E(N1,N2) and the assisted entanglement distillation rate on the Choi states D∞
+
+A
+
+(
+JA1S1
+
+N1
+⊗ JA2S2
+
+N2
+
+)
+,
+
+where S acts as the assistant party.
+
+Theorem 1. E(N1,N2) ≥ D∞
+A
+
+(
+JA1S1
+
+N1
+⊗ JA2S2
+
+N2
+
+)
+. Moreover, if both N1 and N2 are teleportation-covariant, then
+
+E(N1,N2) = D∞
+A
+
+(
+JA1S1
+
+N1
+⊗ JA2S2
+
+N2
+
+)
+.
+
+Proof. For an arbitrary n, a POVM {Mi}i on Sn1 S
+n
+2 yields the ensemble
+
+pi = Tr
+{
+Mi
+
+[(
+JS1A1
+
+N1
+
+)⊗n
+⊗
+(
+JS2A2
+
+N2
+
+)⊗n]}
+=
+
+TrMi
+
+dnS1
+dnS2
+
+(14)
+
+σi =
+1
+
+pi
+TrSn
+
+1 S
+n
+2
+
+{
+Mi
+
+[(
+JS1A1
+
+N1
+
+)⊗n
+⊗
+(
+JS2A2
+
+N2
+
+)⊗n]}
+= N⊗n
+
+1 ⊗N⊗n
+2
+
+(
+MT
+i
+
+TrMT
+i
+
+)
+(15)
+
+where dSi
+= dimSi, and we have invoked the transpose property IA ⊗MB |ϕ⟩AB = (MT )A ⊗ IB |ϕ⟩AB. This
+
+means that performing a POVM {Mi} on J⊗n
+N1
+
+⊗ J⊗n
+N2
+
+followed by the corresponding LOCC post-processing
+Li is equivalent to probabilistically sending states MT
+
+i /TrMT
+i through N⊗n
+
+1 ⊗ N⊗n
+2 followed by the same
+
+post-processing Li. The latter is clearly less desirable than deterministically performing the optimal EPR
+distribution protocol.
+
+For the second part of the theorem, recall that if a channel is teleportation-covariant, its action can be
+simulated by a teleportation protocol with its Choi state as the resource state. Therefore, an EPR distribution
+protocol with input state ρS
+
+n
+1 S
+
+n
+2 and LOCC post-processing is equivalent to the scheme illustrated in Fig. 3.
+
+Since any state that is local to S cannot help distill bipartite entanglement between A1 and A2, this is
+further equivalent to assisted entanglement distillation on (JN1
+
+⊗ JN2
+)⊗n. It then follows that E(N1,N2) ≤
+
+D∞
+A
+
+(
+JA1S1
+
+N1
+⊗ JA2S2
+
+N2
+
+)
+.
+
+In general, the asymptotic entanglement of assistance D∞
+A (ρ) is very hard to mathematically character-
+
+ize. To simplify its characterization, we introduce the Rains relative entropy of assistance RA(ρ) and its
+regularization, namely the asymptotic Rains relative entropy of assistance R∞
+
+A (ρ):
+
+R∞
+A (ρABC) := lim
+
+n→∞
+
+1
+
+n
+RA
+
+((
+ρABC
+
+)⊗n)
+(16)
+
+RA(ρ
+ABC) := sup
+
+{Ei}
+
+{∑
+i
+
+piR(A;B)σi
+: pi = Tr(ECi ρ
+
+ABC) σi =
+1
+
+pi
+TrC(ECi ρ
+
+ABC)
+
+}
+, (17)
+
+5
+
+
+
+where R(A;B)ρ is the Rains relative entropy introduced in Section 2. By definition RA(ρ) ≥ DA(ρ) and
+R∞
+A (ρ) ≥ D∞
+
+A (ρ). Desirably, the Rains relative entropy of assistance RA(ρ) is convex, and we will later apply
+this property to characterize the EPR distribution capacity of two erasure channels.
+
+Proposition 2. The Rains information of assistance is convex.
+
+Proof. Consider an arbitrary decomposition ρABC =
+∑
+j qjρ
+
+ABC
+j and an arbitrary POVM {Mi}i on C. Suppos-
+
+ing that pi = Tr(MC
+i ρ
+
+ABC), the measurement yields states
+
+σABi =
+1
+
+pi
+TrC(MC
+
+i ρ
+ABC) =
+
+1
+
+pi
+
+∑
+j
+
+qjTrC(MC
+i ρ
+
+ABC
+j ) =
+
+∑
+j
+
+qjpi|j
+
+pi
+σABij (18)
+
+where pi|j = Tr(MC
+i ρ
+
+ABC
+j ) and σABij = TrC(MC
+
+i ρ
+ABC
+j )/Tr(MC
+
+i ρ
+ABC
+j ). Therefore,∑
+
+i
+
+piR(A;B)σi
+≤
+∑
+i
+
+pi
+∑
+j
+
+qjpi|j
+
+pi
+R(A;B)σij
+
+=
+∑
+i,j
+
+qjpi|jR(A;B)σij
+(19)
+
+where the inequality follows from the convexity of Rains information. Optimizing over all POVMs on both
+sides of the inequality we obtain
+
+RA(ρ
+ABC) ≤
+
+∑
+j
+
+qjRA(ρ
+ABC
+j ), (20)
+
+which concludes the proof.
+
+3.1 Application to Erasure channels
+
+Consider qudit erasure channels of the form Ep(ρ) = (1 − p)ρ + p|e⟩⟨e|, where |e⟩ is a flag state orthogonal
+to the input space, signaling the erasure of the input. As an application of the previous results, we exactly
+characterize the EPR distribution capacity of two qudit erasure channels.
+
+Theorem 3. E(Ep1 , Ep2) = (1− p1)(1− p2) log d.
+
+Proof. Clearly, (1 − p1)(1 − p2) log d is achievable by sending ϕd through the channels. With probability
+(1− p1)(1− p2) no erasure occurs, whereas with probability 1− (1− p1)(1− p2) an erasure error occurs on at
+least one of A1 and A2. They can locally detect erasure errors and classically communicate if an erasure error
+occurred and discard any such states. This results in a rate of (1− p1)(1− p2) log d. Conversely, since erasure
+
+channels are teleportation-covariant, E(Ep1 , Ep2) = D∞
+A
+
+(
+JS1A1
+
+Ep1
+⊗ JS2A2
+
+Ep2
+
+)
+≤ R∞
+
+A
+
+(
+JS1A1
+
+Ep1
+⊗ JS2A2
+
+Ep2
+
+)
+. Now, for
+
+any n, (
+JS1A1
+
+Ep1
+
+)⊗n
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n
+=
+
+(
+(1− p1)ϕ
+
+S1A1
+
+d + p1
+I
+d
+
+S1
+
+⊗ |e⟩⟨e|A1
+
+)⊗n
+
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n
+=
+∑
+k
+
+(
+n
+
+k
+
+)
+(1− p1)
+
+kpn−k1
+
+(
+ϕS1A1
+
+d
+
+)⊗k
+⊗
+
+(
+I
+d
+
+S1
+
+⊗ |e⟩⟨e|A1
+
+)⊗n−k
+
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n
+. (21)
+
+Focusing on each term, the Rains relative entropy of assistance is
+
+RA
+
+(ϕS1A1
+
+d
+
+)⊗k
+⊗
+
+(
+I
+d
+
+S1
+
+⊗ |e⟩⟨e|A1
+
+)⊗n−k
+
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n
+=RA
+
+((
+ϕS1A1
+
+d
+
+)⊗k
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n)
+≤ k(1− p2) log d. (22)
+
+The equality follows from the fact that states local to S and A1 cannot help. The proof of the inequality is
+given in the lemma below. Therefore, by convexity of RA,
+
+RA
+
+((
+JS1A1
+
+Ep1
+
+)⊗n
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n)
+(23)
+
+≤
+∑
+i
+
+(
+n
+
+i
+
+)
+(1− p1)
+
+ipn−i1 RA
+
+(ϕS1A1
+
+d
+
+)⊗i
+⊗
+
+(
+I
+d
+
+S1
+
+⊗ |e⟩⟨e|A1
+
+)⊗n−i
+
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n (24)
+
+≤
+∑
+i
+
+(
+n
+
+i
+
+)
+(1− p1)
+
+ipn−i1 i(1− p2) log d = (1− p1)(1− p2) log d. (25)
+
+6
+
+
+
+Lemma 1. RA
+
+((
+ϕS1A1
+
+d
+
+)⊗k
+⊗
+(
+JS2A2
+
+Ep2
+
+)⊗n)
+≤ k(1− p2) log d.
+
+Proof. After performing a POVM {Mi}i on Sk1S
+n
+2 system of the given state, the post-measurement state
+
+conditioned on measurement outcome i is
+
+σi =
+[
+idS
+
+k
+1 ⊗
+
+(
+ES2→A2
+p2
+
+)⊗n]
+(ρ
+Sk
+1S
+
+n
+2
+
+i ), ρi =
+MT
+i
+
+TrMT
+i
+
+. (26)
+
+Any state ρS
+k
+1S
+
+n
+2 can be simulated by a maximally entangled state ϕS
+
+k
+1S
+
+k
+2 and one-way LOCC, i.e., ρS
+
+k
+1S
+
+n
+2 =∑
+
+jM
+Sk
+1
+j ⊗OSn
+
+2
+j (ϕS
+
+k
+1S
+
+k
+2 ⊗τS
+
+n−k
+2 ), where τ is an arbitrary state, Mj are completely positive trace-non-increasing
+
+maps such that
+∑
+jMj is trace-preserving, and Oj are completely positive and trace-preserving (CPTP). For
+
+any CPTP map OSn
+2 , we have E⊗n ◦ O = Õ ◦ E⊗n, where Õ is the CPTP map that measures the location
+
+of erasure errors and implements the partial trace of O on the intact systems. In mathematical terms,
+Õ(ρ) =
+
+∑
+L⊂Sn
+
+2
+OLc(PLρPL), where the sum is over subsystems L of Sn2 , operators PL are projections
+
+associated with measuring error flag on and only on subsystems L, and OLc = TrLO. Therefore,
+
+σi =
+∑
+j
+
+(
+MSk
+
+1
+i,j ⊗ ÕAn
+
+2
+i,j
+
+)
+◦
+[
+idS
+
+k
+1 ⊗
+
+(
+ES2→A2
+p2
+
+)⊗n] (
+ϕS
+
+k
+1S
+
+k
+2 ⊗ τS
+
+n−k
+2
+
+)
+. (27)
+
+By monotonicity of Rains relative entropy,
+
+R(σi) ≤ R
+([
+
+idS
+k
+1 ⊗
+
+(
+ES2→A2
+p2
+
+)⊗n] (
+ϕS
+
+k
+1S
+
+k
+2 ⊗ τS
+
+n−k
+2
+
+))
+(28)
+
+= R
+
+([
+idS1 ⊗ ES2→A2
+
+p2 (ϕS1S2)
+]⊗k
+
+⊗
+(
+ES2→A2
+p2
+
+)⊗n−k
+(τS
+
+n−k
+2 )
+
+)
+. (29)
+
+Since
+(
+ES2→A2
+p2
+
+)⊗n−k
+(τS
+
+n−k
+2 ) is a state local to A2, it does not increase the Rains relative entropy. Thus,
+
+R(σi) ≤ R
+
+([
+idS1 ⊗ ES2→A2
+
+p2 (ϕS1S2)
+]⊗k)
+
+(30)
+
+= k(1− p2) log d , (31)
+
+which concludes the proof.
+
+4 An Explicit Protocol Construction for EPR Distribution
+
+While we have established a connection between E(N1,N2) and D∞
+A (JN1 ⊗ JN2) and used the connection to
+
+give an exact expression of the EPR distribution capacity of two erasure channels, it is in general difficult to
+mathematically characterize the asymptotic entanglement of assistance D∞
+
+A . In this section, we introduce a
+simple lower bound of the EPR distribution capacity based on a direct construction.
+
+Theorem 4. E(N1,N2) ≥ max{min{Q(N1), Ecpp(N2)},min{Q(N2), Ecpp(N1)}}.
+
+Proof. Let Q := min{Q(N1), Ecpp(N2)}. By the definitions of unassisted quantum capacity and CPP assisted
+entanglement generation capacity, for any ϵ1, ϵ2 ∈ (0, 1) and δ > 0, there exists an (n,Q − δ, ϵ1) quantum
+communication code (E1,D1) for N1 and an (n,Q− δ, ϵ2) CPP assisted entanglement generation code (E2,L2)
+for N2, as long as n is sufficiently large. Our GHZ distribution protocol then consists of an encoding operation
+
+E := ES→Sn
+1
+
+1 ◦ ES0→SSn
+2
+
+2 and classical post-processing L := LSA
+⊗n
+2 →ÂB̂
+
+2 ◦ DA⊗n
+1 →S
+
+1 . The error of the protocol is∥∥ϕd − L ◦
+(
+N⊗n
+
+1 ⊗N⊗n
+2
+
+)
+◦ E
+∥∥
+1
+≤
+∥∥ϕd − L2 ◦ N⊗n
+
+2 ◦ E2
+∥∥
+1
++
+∥∥L2 ◦ N⊗n
+
+2 ◦ E2 − L ◦
+(
+N⊗n
+
+1 ⊗N⊗n
+2
+
+)
+◦ E
+∥∥
+1
+
+(32)
+
+≤ ϵ2 +
+∥∥E2 −D ◦ N⊗n
+
+1 ◦ E1 ◦ E2
+∥∥
+1
+
+(33)
+
+≤ ϵ1 + ϵ2. (34)
+
+where the first inequality follows from the triangle inequality, the second inequality follows from the fact
+that (E2,L2) is a CPP assisted entanglement generation code and the data processing inequality, and the
+final inequality follows from the fact that (E1,D1) is a quantum communication code over N1. Therefore, we
+conclude that for any ϵ1, ϵ2 ∈ (0, 1) and δ > 0, there exists a (n,Q− δ, ϵ1 + ϵ2) EPR distribution protocol for
+sufficiently large n. This means that Q is an achievable EPR distribution rate. Interchanging N1 and N2 proves
+we can achieve min{Q(N2), Ecpp(N1)} as well, which establishes the theorem.
+
+7
+
+
+
+Remark. Since Ecpp(N ) ≥ Q(N ) for an arbitrary channel N , we deduce E(N1,N2) ≥ min{Q(N1), Q(N2)}.
+
+Remark. Evidently, E(N1,N2) ≤ E(N1, id) ≤ Ecpp(N1). By the same argument E(N1,N2) ≤ Ecpp(N2) as
+well. Thus, E(N1,N2) ≤ min{Ecpp(N1), Ecpp(N2)} ≤ min{R(N1), R(N2)}. A consequence of this observation
+is that the lower bound in Thm. 4 is tight when the quantum capacity of a channel is greater than the
+entanglement generation capacity of the other channel. To see this, suppose without loss of generality
+that Q(N1) ≥ Ecpp(N2), then Ecpp(N1) ≥ Q(N1) ≥ Ecpp(N2) ≥ Q(N2). The lower bound thus implies
+E(N1,N2) ≥ max{Ecpp(N2), Q(N2)} = Ecpp(N2).
+
+4.1 Generalized Amplitude Damping Channels
+
+Generalized amplitude damping channels Aγ,T model the T1 relaxation process due to the coupling of a
+spin-1/2 system to a thermal reservoir at a higher temperature than that of the spin system [39, p. 382]. The
+Kraus operators
+
+K1 =
+√
+1− T
+
+(
+|0⟩⟨0|+
+
+√
+1− γ|1⟩⟨1|
+
+)
+, (35)
+
+K2 =
+√
+γ(1− T )|0⟩⟨1|, (36)
+
+K3 =
+√
+T
+(√
+
+1− γ|0⟩⟨0|+ |1⟩⟨1|
+)
+, (37)
+
+K4 =
+√
+γT |1⟩⟨0|. (38)
+
+If the thermal parameter T = 0, then K3 and K4 vanish, and the channel reduces to the ordinary amplitude
+damping channel Aγ := Aγ,0, which models the case where the thermal reservoir is at zero temperature. While
+there are no exact expressions for the quantum capacity or the CPP-assisted entanglement generation capacity
+for GADCs presently, the coherent information and the Rains information of GADCs have been computed in
+Refs. [35] and Ref. [40] respectively. Note that a GADC Aγ,T is anti-degradable when γ ≥ 1/2 and thus its
+quantum capacity necessarily vanishes, while the Rains information does not necessarily vanish. This means
+there is potentially a large gap between the lower bound given above and the upper bound. This motivates us
+to find better lower bounds.
+
+In the following, we detail an improved protocol based on multi-rail encoding [41–43]. Let us illustrate
+the idea with amplitude damping channels and dual-rail encoding. Using dual-rail encoding, the receivers
+are able to detect damping errors. More precisely, we send the state |ψ2⟩ = 1√
+
+2
+(|01⟩|01⟩+ |10⟩|10⟩) through
+
+A⊗2
+γ1 ⊗A⊗2
+
+γ2 :
+
+ρ = A⊗2
+γ1 ⊗A⊗2
+
+γ2 (ψ2) = (1− γ1)(1− γ2)ψ2 +
+γ1(1− γ2)
+
+2
+(|0001⟩⟨0001|+ |0010⟩⟨0010|) (39)
+
++
+(1− γ1)γ2
+
+2
+(|0100⟩⟨0100|+ |1000⟩⟨1000|) + γ1γ2|0000⟩⟨0000| (40)
+
+A1 and A2 then both post-select on the one-particle sector, i.e., they both perform the projection P =
+|01⟩⟨01|+ |10⟩⟨10|, and the post-selected state is ρ′ = (P ⊗ P )ρ(P ⊗ P )/Tr(P ⊗ P )ρ(P ⊗ P ). This procedure
+produces a rank-2 maximally entangled state with probability (1− γ1)(1− γ2), meaning we can achieve the
+rate of (1− γ1)(1− γ2)/2 per channel use. More generally, we can use multi-rail encoding:
+
+|ψk⟩ =
+1√
+k
+(|00 · · · 01⟩|00 · · · 01⟩+ |00 · · · 10⟩|00 · · · 10⟩+ · · ·+ |10 · · · 00⟩|10 · · · 00⟩). (41)
+
+The receivers again post-select on the one-particle sector, producing a rank-k maximally entangled state
+with probability (1− γ1)(1− γ2), thus achieving the rate of (1− γ1)(1− γ2) log k/k. It is easy to check that
+supk∈Z+
+
+log k/k is achieved when k = 3. Therefore, the largest rate that we can achieve with multi-rail
+encoding is (1− γ1)(1− γ2) log 3/3.
+
+This strategy can be adapted to generalized amplitude damping channels. We again use multi-rail encoding
+and post-select on the one-particle subspace. After post-selection, the two receivers perform the hashing
+protocol [44]. The rates achievable with dual-rail encoding are plotted in Fig. 4.
+
+5 GHZ distribution
+
+In this section, we establish bounds for the GHZ distribution capacity E(N1, · · · ,NN ) with N > 2.
+
+Theorem 5. E(N1, · · · ,NN ) ≥ miniQ(Ni).
+
+8
+
+
+
+Figure 4: Lower and upper bounds of the bipartite entanglement distribution capacity, assuming the two
+channels are generalized amplitude damping channels with the same parameters.
+
+Proof. Let Q := miniQ(Ni). By definition of unassisted quantum capacity, for each channel Ni and for all
+ϵi ∈ (0, 1), δ > 0, there exists an (n,Q− δ, ϵi) quantum communication code (Ei,Di) for sufficiently large n.
+
+Our GHZ distribution protocol then consists of an encoding operation E :=
+⊗
+
+i E
+Si→S⊗n
+
+i
+i (|GHZ⟩⟨GHZ|S1···SN )
+
+and post-processing D :=
+⊗
+
+iD
+A⊗n
+
+i →Âi
+
+i . The error of the protocol is∥∥∥|GHZ⟩⟨GHZ| −
+(⊗
+
+i
+Di ◦ Ni ◦ Ei
+
+)
+(|GHZ⟩⟨GHZ|)
+
+∥∥∥
+1
+
+(42)
+
+≤ ∥|GHZ⟩⟨GHZ| − D1 ◦ N1 ◦ E1(|GHZ⟩⟨GHZ|)∥1 (43)
+
++
+∥∥∥D1 ◦ N1 ◦ E1(|GHZ⟩⟨GHZ|)−
+
+(⊗
+i
+Di ◦ Ni ◦ Ei
+
+)
+(|GHZ⟩⟨GHZ|)
+
+∥∥∥
+1
+
+(44)
+
+≤ ϵ1 +
+∥∥∥|GHZ⟩⟨GHZ| −
+
+(⊗
+i ̸=1
+
+Di ◦ Ni ◦ Ei
+)
+(|GHZ⟩⟨GHZ|)
+
+∥∥∥
+1
+
+(45)
+
+where in the first inequality follows from the triangle inequality, and the second inequality follows from the fact
+that (E1,D1) is a quantum communication code for N1 and the data processing inequality for trace distance.
+Following this procedure iteratively, we find that∥∥∥|GHZ⟩⟨GHZ| −
+
+(⊗
+i
+Di ◦ Ni ◦ Ei
+
+)
+(|GHZ⟩⟨GHZ|)
+
+∥∥∥
+1
+≤
+∑
+
+i
+ϵi (46)
+
+Therefore, we conclude that for any ϵi ∈ (0, 1) and δ > 0, there exists a (n,Q− δ,
+∑
+i ϵi) GHZ distribution
+
+protocol for sufficiently large n. In other words, Q is an achievable rate.
+
+Conversely, we establish an upper bound in terms of CPP-assisted entanglement generation capacity.
+
+Theorem 6. E(N1, · · · ,NN ) ≤ miniEcpp(Ni).
+
+Proof. For an arbitrary receiver Ai, we ignore the locality constraint on the other receivers {Aj : j ̸= i} and
+regard them as a single receiver Aic that receives channel output from all of {Nj : j ̸= i}. Clearly, the GHZ
+distribution capacity between A1, · · · , AN cannot be higher than the EPR distribution capacity between Ai
+and Aic . This implies the following chain of inequalities:
+
+E(N1, · · · ,NN ) ≤ E
+(
+Ni,
+
+⊗
+j ̸=i
+
+Nj
+
+)
+≤ E(Ni, id) ≤ Ecpp(Ni). (47)
+
+Since this argument works for arbitrary i, the stated theorem holds.
+
+A few remarks are in order here. First, perhaps surprisingly, the achievable rate we derived in Theorem 5
+effectively neglects the less noisy channels, treating them as if they were noiseless. Second, this rate can be
+achieved without the assistance of classical communication. In fact, without classical communication, this
+is precisely the largest rate that is achievable. Finally, the upper bound is also tight when LOCC operations
+
+9
+
+
+
+between the receivers and the central node are allowed. To see this, the source node can establish Ecpp(Ni)
+EPR pairs between S and Ai per use of each Ni. Then the source node prepares an N -partite GHZ state
+and teleports each subsystem to Ai by using the established EPR pairs. This establishes GHZ states among
+Ai at a rate of miniEcpp(Ni). Therefore, one can view the quantitative difference between the minimum
+quantum capacity miniQ(Ni), the GHZ distribution capacity E(N1, · · · ,NN ), and the minimum CPP-assisted
+entanglement generation capacity miniEcpp(Ni) as a result of different levels of classical communication
+between parties in a quantum network.
+
+A corollary of the previous theorem is an exact expression of the GHZ distribution capacity for when the
+“worst” channel is a dephasing channel.
+
+Proposition 7. Consider N channels Zp,N2, · · · ,NN where the Ni are channels satisfying Q(Ni) ≥ Q(Zp) =
+1− h2(p) for all i > 1. Then E(Zp,N2, · · · ,NN ) = 1− h2(p).
+
+Proof. The statement follows directly from the fact that Q(Zp) = Ecpp(Zp) = 1− h2(p) [13].
+
+There is an alternative strategy to distribute GHZ states to N parties that contrasts with Thm. 5. The
+central node can distribute bipartite EPR pairs to every pair of receivers. The receivers then use these EPR
+pairs to build GHZ states. This is detailed in the following theorem.
+
+Theorem 8. E(N1, · · · ,NN ) ≥ N
+
+2(N − 1)
+min
+i̸=j
+
+E(Ni,Nj).
+
+Proof. For sufficiently large n, the central node can distribute nE(NA,NB) EPR pairs to two receivers A and B
+by n uses of NA and n uses of NB . By using n(N−1) times each Ni, each pair of receivers Ai and Aj will share
+nE(Ni,Nj) EPR pairs. Let |ΦN ⟩A1···AN :=
+
+⊗
+i̸=j |ϕ+⟩AiAj , then the receivers share at least mini,j nE(Ni,Nj)
+
+copies of |ΦN ⟩. Now, |ΦN ⟩⊗2 can be converted to |GHZN ⟩⊗N via LOCC. This is because each Ai can locally
+prepare an N -partite GHZ state and use the EPR pairs between Ai and the other parties to create |GHZN ⟩.
+Two EPR pairs between each Ai and Aj will be used (once when Ai prepares the GHZ state and once when Aj
+prepares the GHZ state). Therefore, a rate of N
+
+2(N−1) mini ̸=j E(Ni,Nj) is achievable.
+
+6 Conclusion and Discussion
+
+In conclusion, we study the entanglement distribution scheme where a single central source aims to establish
+entanglement among N receivers through quantum channels N1, · · · ,NN . We define the EPR distribution
+capacity E(N1,N2) and the GHZ distribution capacity E(N1, · · · ,NN ) as the largest asymptotic rate of
+establishing EPR states among two receivers and N -partite GHZ states among the N receivers, respectively. We
+show that EPR distribution is tightly related to the problem of assisted entanglement distillation. Specifically,
+we prove a lower bound in terms of the asymptotic entanglement of assistance and show that this bound is tight
+for teleportation-covariant channels. This result allows us to exactly characterize the EPR distribution capacity
+of two erasure channels. Then, we give alternative simple lower bounds for the EPR distribution capacity over
+generic channels as well as the EPR distribution capacity over two generalized amplitude damping channels.
+Finally, we bound the GHZ-distribution capacity in terms of the minimum quantum capacity and minimum
+CPP-assisted entanglement generation capacities of the channels. Applying these bounds, we exactly determine
+the GHZ distribution capacity when the most noisy channel is a dephasing channel.
+
+Our work sheds light on the novel connection between two distinct information theoretic tasks and
+motivates a deeper understanding of assisted entanglement distillation. Moreover, our work also hints at a
+better scheme of distributing entanglement. Suppose two parties A and B are connected by an optical fiber,
+and we assume that the polarization dispersion in the optical fiber are characterized by dephasing channels
+[45]. If they wish to share an entangled pair, instead of generating entanglement at one of the parties, say A,
+who sends half of the entangled state through the entire length of the fiber, a better strategy is to generate
+entanglement from a source S that is located centrally between A and B. By virtue of Proposition 7, in this
+alternative strategy, the rate of entanglement distribution depends only on the more noisy link between the
+source and the receivers, treating the other link as noiseless. The analysis of our entanglement distribution
+scheme shows how it is possible to quantify its performance in terms of information rates. Its operational
+relevance and the existence of alternative schemes for different scenarios, therefore, make this area of research
+rich of insights and practical applications which are worth further exploring.
+
+Acknowledgments
+
+We are grateful to Koji Azuma for the valuable discussions. This work is supported by the Department of
+Energy (DOE) Q-NEXT: National Quantum Information Science Research Center.
+
+10
+
+
+
+References
+
+[1] H Jeff Kimble. The quantum internet. Nature, 453(7198):1023–1030, 2008.
+
+[2] Stephanie Wehner, David Elkouss, and Ronald Hanson. Quantum internet: A vision for the road ahead.
+Science, 362(6412):eaam9288, 2018.
+
+[3] Charles H Bennett and Gilles Brassard. Quantum cryptography: Public key distribution and coin tossing.
+Proc. IEEE Int. Conf. Comput. Syst. Signal Process, 175, 1984.
+
+[4] Artur K. Ekert. Quantum cryptography based on Bell’s theorem. Phys. Rev. Lett., 67:661–663, Aug 1991.
+doi:10.1103/PhysRevLett.67.661. URL https://link.aps.org/doi/10.1103/PhysRevLett.67.661.
+
+[5] Marcello Caleffi, Michele Amoretti, Davide Ferrari, Daniele Cuomo, Jessica Illiano, Antonio Manzalini,
+and Angela Sara Cacciapuoti. Distributed quantum computing: a survey. arXiv preprint arXiv:2212.10609,
+2022.
+
+[6] Zheshen Zhang and Quntao Zhuang. Distributed quantum sensing. Quantum Science and Technology, 6
+(4):043001, 2021.
+
+[7] Charles H. Bennett, David P. DiVincenzo, John A. Smolin, and William K. Wootters. Mixed-
+state entanglement and quantum error correction. Phys. Rev. A, 54:3824–3851, Nov 1996.
+doi:10.1103/PhysRevA.54.3824. URL https://link.aps.org/doi/10.1103/PhysRevA.54.3824.
+
+[8] Mark M Wilde, Hari Krovi, and Todd A Brun. Convolutional entanglement distillation. In 2010 IEEE
+International Symposium on Information Theory, pages 2657–2661. IEEE, 2010.
+
+[9] Narayanan Rengaswamy, Ankur Raina, Nithin Raveendran, and Bane Vasić. Distilling GHZ states using
+stabilizer codes. arXiv preprint arXiv:2109.06248, 2021.
+
+[10] Narayanan Rengaswamy, Nithin Raveendran, Ankur Raina, and Bane Vasić. Entanglement purification
+with quantum LDPC codes and iterative decoding. Quantum, 8:1233, 2024.
+
+[11] Nikolas P Breuckmann and Jens Niklas Eberhardt. Quantum low-density parity-check codes. PRX
+Quantum, 2(4):040101, 2021.
+
+[12] Pavel Panteleev and Gleb Kalachev. Asymptotically good quantum and locally testable classical LDPC
+codes. In Proceedings of the 54th Annual ACM SIGACT Symposium on Theory of Computing, pages 375–388,
+2022.
+
+[13] Marco Tomamichel, Mark M. Wilde, and Andreas Winter. Strong converse rates for quantum communica-
+tion. IEEE Transactions on Information Theory, 63(1):715–727, 2017. doi:10.1109/TIT.2016.2615847.
+
+[14] Antonio Acin, Guifre Vidal, and J Ignacio Cirac. On the structure of a reversible entanglement generating
+set for three–partite states. arXiv preprint quant-ph/0202056, 2002.
+
+[15] Michael Walter, David Gross, and Jens Eisert. Multipartite entanglement. Quantum Information: From
+Foundations to Quantum Technology Applications, pages 293–330, 2016.
+
+[16] Daniel M Greenberger, Michael A Horne, Abner Shimony, and Anton Zeilinger. Bell’s theorem without
+inequalities. American Journal of Physics, 58(12):1131–1143, 1990.
+
+[17] N David Mermin. What’s wrong with these elements of reality? Physics Today, 43(6):9–11, 1990.
+
+[18] Mark Hillery, Vladimı́r Bužek, and André Berthiaume. Quantum secret sharing. Phys. Rev. A, 59:
+1829–1834, Mar 1999. doi:10.1103/PhysRevA.59.1829. URL https://link.aps.org/doi/10.1103/
+
+PhysRevA.59.1829.
+
+[19] Gláucia Murta, Federico Grasselli, Hermann Kampermann, and Dagmar Bruß. Quantum conference key
+agreement: A review. Advanced Quantum Technologies, 3(11):2000025, 2020.
+
+[20] C. L. Degen, F. Reinhard, and P. Cappellaro. Quantum sensing. Rev. Mod. Phys., 89:035002, Jul
+2017. doi:10.1103/RevModPhys.89.035002. URL https://link.aps.org/doi/10.1103/RevModPhys.
+
+89.035002.
+
+[21] Péter Vrana and Matthias Christandl. Distillation of Greenberger–Horne–Zeilinger states by
+combinatorial methods. IEEE Transactions on Information Theory, 65(9):5945–5958, 2019.
+doi:10.1109/TIT.2019.2908646.
+
+11
+
+https://doi.org/10.1103/PhysRevLett.67.661
+https://link.aps.org/doi/10.1103/PhysRevLett.67.661
+https://doi.org/10.1103/PhysRevA.54.3824
+https://link.aps.org/doi/10.1103/PhysRevA.54.3824
+https://doi.org/10.1109/TIT.2016.2615847
+https://doi.org/10.1103/PhysRevA.59.1829
+https://link.aps.org/doi/10.1103/PhysRevA.59.1829
+https://link.aps.org/doi/10.1103/PhysRevA.59.1829
+https://doi.org/10.1103/RevModPhys.89.035002
+https://link.aps.org/doi/10.1103/RevModPhys.89.035002
+https://link.aps.org/doi/10.1103/RevModPhys.89.035002
+https://doi.org/10.1109/TIT.2019.2908646
+
+
+[22] Farzin Salek and Andreas Winter. Multi-user distillation of common randomness and entan-
+glement from quantum states. IEEE Transactions on Information Theory, 68(2):976–988, 2022.
+doi:10.1109/TIT.2021.3124965.
+
+[23] Farzin Salek and Andreas Winter. New protocols for conference key and multipartite entanglement
+distillation. arXiv preprint arXiv:2308.01134, 2023.
+
+[24] Rafail Frantzeskakis, Chenxu Liu, Zahra Raissi, Edwin Barnes, and Sophia E. Economou. Extracting
+perfect GHZ states from imperfect weighted graph states via entanglement concentration. Physical Review
+Research, 5:023124, May 2023. doi:10.1103/PhysRevResearch.5.023124. URL https://link.aps.org/
+
+doi/10.1103/PhysRevResearch.5.023124.
+
+[25] Christopher Vairogs, Samihr Hermes, and Felix Leditzky. Localizing multipartite entanglement with local
+and global measurements. arXiv preprint arXiv:2411.04080, 2024.
+
+[26] David P DiVincenzo, Christopher A Fuchs, Hideo Mabuchi, John A Smolin, Ashish Thapliyal, and Armin
+Uhlmann. Entanglement of assistance. In Quantum Computing and Quantum Communications: First
+NASA International Conference, QCQC’98 Palm Springs, California, USA February 17–20, 1998 Selected
+Papers, pages 247–257. Springer, 1999.
+
+[27] John A Smolin, Frank Verstraete, and Andreas Winter. Entanglement of assistance and multipartite state
+distillation. Physical Review A—Atomic, Molecular, and Optical Physics, 72(5):052317, 2005.
+
+[28] Nicolas Dutil and Patrick Hayden. Assisted entanglement distillation. Quantum Information & Computa-
+tion, 11(5):496–520, 2011.
+
+[29] Francesco Buscemi and Nilanjana Datta. General theory of environment-assisted entanglement distillation.
+IEEE transactions on information theory, 59(3):1940–1954, 2012.
+
+[30] Klée Pollock, Ge Wang, and Eric Chitambar. Entanglement of assistance in three-qubit systems. Physical
+Review A, 103(3):032428, 2021.
+
+[31] Mark M Wilde. Quantum information theory. Cambridge University Press, 2013.
+
+[32] Seth Lloyd. Capacity of the noisy quantum channel. Phys. Rev. A, 55:1613–1622, Mar 1997.
+doi:10.1103/PhysRevA.55.1613. URL https://link.aps.org/doi/10.1103/PhysRevA.55.1613.
+
+[33] Peter W Shor. The quantum channel capacity and coherent information. In lecture notes, MSRI Workshop
+on Quantum Computation, 2002.
+
+[34] I. Devetak. The private classical capacity and quantum capacity of a quantum channel. IEEE Transactions
+on Information Theory, 51(1):44–55, 2005. doi:10.1109/TIT.2004.839515.
+
+[35] Raúl Garćıa-Patrón, Stefano Pirandola, Seth Lloyd, and Jeffrey H. Shapiro. Reverse coherent information.
+Phys. Rev. Lett., 102:210501, May 2009. doi:10.1103/PhysRevLett.102.210501. URL https://link.
+
+aps.org/doi/10.1103/PhysRevLett.102.210501.
+
+[36] E.M. Rains. A semidefinite program for distillable entanglement. IEEE Transactions on Information Theory,
+47(7):2921–2933, 2001. doi:10.1109/18.959270.
+
+[37] Charles H. Bennett, Gilles Brassard, Claude Crépeau, Richard Jozsa, Asher Peres, and William K.
+Wootters. Teleporting an unknown quantum state via dual classical and Einstein-Podolsky-Rosen
+channels. Phys. Rev. Lett., 70:1895–1899, Mar 1993. doi:10.1103/PhysRevLett.70.1895. URL https:
+
+//link.aps.org/doi/10.1103/PhysRevLett.70.1895.
+
+[38] Stefano Pirandola, Riccardo Laurenza, Carlo Ottaviani, and Leonardo Banchi. Fundamental lim-
+its of repeaterless quantum communications. Nature Communications, 8, 2017. ISSN 20411723.
+doi:10.1038/ncomms15043.
+
+[39] Michael A Nielsen and Isaac L Chuang. Quantum computation and quantum information. Cambridge
+University Press, 2010.
+
+[40] Sumeet Khatri, Kunal Sharma, and Mark M Wilde. Information-theoretic aspects of the generalized
+amplitude-damping channel. Physical Review A, 102(1):012401, 2020.
+
+[41] Isaac L Chuang and Yoshihisa Yamamoto. Quantum bit regeneration. Physical review letters, 76(22):
+4281, 1996.
+
+12
+
+https://doi.org/10.1109/TIT.2021.3124965
+https://doi.org/10.1103/PhysRevResearch.5.023124
+https://link.aps.org/doi/10.1103/PhysRevResearch.5.023124
+https://link.aps.org/doi/10.1103/PhysRevResearch.5.023124
+https://doi.org/10.1103/PhysRevA.55.1613
+https://link.aps.org/doi/10.1103/PhysRevA.55.1613
+https://doi.org/10.1109/TIT.2004.839515
+https://doi.org/10.1103/PhysRevLett.102.210501
+https://link.aps.org/doi/10.1103/PhysRevLett.102.210501
+https://link.aps.org/doi/10.1103/PhysRevLett.102.210501
+https://doi.org/10.1109/18.959270
+https://doi.org/10.1103/PhysRevLett.70.1895
+https://link.aps.org/doi/10.1103/PhysRevLett.70.1895
+https://link.aps.org/doi/10.1103/PhysRevLett.70.1895
+https://doi.org/10.1038/ncomms15043
+
+
+[42] Runyao Duan, Markus Grassl, Zhengfeng Ji, and Bei Zeng. Multi-error-correcting amplitude damping
+codes. In 2010 IEEE International Symposium on Information Theory, pages 2672–2676. IEEE, 2010.
+
+[43] Dina Abdelhadi, Tomas Jochym-O’Connor, Vikesh Siddhu, and John Smolin. Adaptive channel reshaping
+for improved entanglement distillation. arXiv preprint arXiv:2410.22295, 2024.
+
+[44] Igor Devetak and Andreas Winter. Distillation of secret key and entanglement from quantum states.
+Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences, 461(2053):207–235,
+2005. doi:10.1098/rspa.2004.1372. URL https://royalsocietypublishing.org/doi/abs/10.1098/
+
+rspa.2004.1372.
+
+[45] Yiwen Liu and Yian Lei. Decoherence modeling of polarization mode dispersion for one-and two-photon
+states in optical fibers. Optics Continuum, 1(2):315–324, 2022.
+
+13
+
+https://doi.org/10.1098/rspa.2004.1372
+https://royalsocietypublishing.org/doi/abs/10.1098/rspa.2004.1372
+https://royalsocietypublishing.org/doi/abs/10.1098/rspa.2004.1372
+
+	Introduction
+	Preliminaries
+	Quantum Communication and Quantum Capacity
+	Entanglement Generation Assisted by Classical Post-Processing (CPP)
+	Assisted Entanglement Distillation
+	Simulating Teleportation-Covariant Channels
+	Entanglement Distribution from a Central Source
+
+	Connection between Entanglement Distribution and Assisted Entanglement Distillation
+	Application to Erasure channels
+
+	An Explicit Protocol Construction for EPR Distribution
+	Generalized Amplitude Damping Channels
+
+	GHZ distribution
+	Conclusion and Discussion
+
