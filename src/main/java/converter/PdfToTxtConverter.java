@@ -12,8 +12,9 @@ public class PdfToTxtConverter {
 
     public static void main(String[] args) {
         // Caminho para o diretório que contém os PDFs e o diretório de saída para os arquivos TXT
-        // Usar esse aqui para teste: C:\Code\UFMS\estrutura-dados\trabalho\src\main\resources\input
-        String outputDirectory = "C:/Code/UFMS/estrutura-dados/trabalho/src/main/resources/output/";
+        // Usar esse aqui para teste: ./src/main/resources/input/
+        String outputDirectory = "./src/main/resources/output/";
+
         Scanner scanner = new Scanner(System.in);
         int count = 0;
 
