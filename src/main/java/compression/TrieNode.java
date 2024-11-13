@@ -7,7 +7,7 @@ public class TrieNode implements Comparable<TrieNode>{
 
     // Construtor para o nó intermediário
     public TrieNode(int frequency, TrieNode left, TrieNode right) {
-        this.character = '\0'; // Não tem caractere
+        this.character = '\0';
         this.frequency = frequency;
         this.left = left;
         this.right = right;

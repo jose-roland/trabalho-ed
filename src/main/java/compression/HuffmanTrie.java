@@ -33,9 +33,8 @@ public class HuffmanTrie {
     }
 
     private void buildTrie(Map<Character, Integer> frequencies) {
-        // Fila de prioridades que vai armazenar os nós que precisam ser adicionados à nossa Trie.
-        // A prioridade é inversamente proporcional à frequência do símbolo
-        // Isso é: símbolos menos frequentes devem ser adicionados primeiro
+        // Fila de prioridades que armazena os nós a Trie
+        // Caracteres menos frequentes devem são adicionados primeiro
         PriorityQueue<TrieNode> priority = new PriorityQueue<>();
 
         // Itera sobre a tabela de frequências e cria um nó folha para cada símbolo
@@ -47,7 +46,6 @@ public class HuffmanTrie {
         // Enquanto tiver nó para ser inserido na Trie, aguardando na fila
         while(priority.size() > 1) {
             // Cria um novo nó com as referências para os filhos
-
             TrieNode left = priority.poll();
             TrieNode right = priority.poll();
 
@@ -57,22 +55,21 @@ public class HuffmanTrie {
             priority.add(newNode); // Adiciona o novo nó na fila
         }
 
-        root = priority.poll(); // Trie está criada
+        root = priority.poll(); // Trie criada
         generateHuffmanCodes(root, "");
     }
 
     private void generateHuffmanCodes(TrieNode node, String code) {
         if (node == null) return;
 
-        // Se o nó for folha, ele adiciona o nó na tabela de símbolos do Huffman
-        // com a codificação correspondente
+        // Se o nó for folha, ele adiciona o nó na tabela de
+        // símbolos do Huffman com a codificação correspondente
         if(node.left == null && node.right == null)
             huffmanCodeMap.put(node.character, code);
 
         // Desce para os filhos da direita e da esquerda
         generateHuffmanCodes(node.left, code + "0"); // Se for filho da esquerda: adiciona 0 à representação
         generateHuffmanCodes(node.right, code + "1"); // Se for filho da direita: adiciona 1 à representação
-
     }
 
     // Comprime uma string
@@ -87,7 +84,7 @@ public class HuffmanTrie {
         return compressedInput.toString();
     }
 
-    //  Recebe uma string binária, com a representação comprimida
+    // Recebe uma string binária, com a representação comprimida
     // Retorna a string original
     public String decompress(String compressed) { // 00110101
         StringBuilder decompressedInput = new StringBuilder(); // Palavra descomprimida
@@ -108,11 +105,10 @@ public class HuffmanTrie {
             else
                 current = current.right;
 
-            // Se alcançou um nó folha, adiciona o símbolo correspondente na mensagem
-            // descomprimida e continua a navegar - volta à raiz e desce pelos símbolos
-            // restantes
             if (current == null) throw new AssertionError();
 
+            // Se alcançou um nó folha, adiciona o símbolo correspondente na mensagem
+            // descomprimida e continua a navegar, volta à raiz e desce pelos símbolos restantes
             if (current.left == null && current.right == null) {
                 decompressedInput.append(current.character);
                 current = root;
