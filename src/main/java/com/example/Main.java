@@ -1,6 +1,7 @@
 package com.example;
 
 import compression.HuffmanTrie;
+import storage.HashTable;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,19 @@ public class Main {
         File folder = new File(inputDirectory);
         File[] listOfFiles = folder.listFiles((file) -> file.getName().endsWith(".txt"));
 
+        // Parte 3: Hash
+        System.out.print("> Qual a função de hashing (divisao/djb2): ");
+        String hashChoice = scanner.nextLine();
+
+        HashTable<String, String> testHash = new HashTable<>(31);
+
+        try {
+            testHash.setHashFunction(hashChoice);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+      
         if (listOfFiles != null) // Caso o diretório não esteja vazio, vai executar
             for (File file : listOfFiles) // Para cada arquivo na lista de arquivos
                 try {
@@ -32,18 +46,10 @@ public class Main {
                     HuffmanTrie huffmanTrie = new HuffmanTrie(originalContent);
                     String compressedContent = huffmanTrie.compress(originalContent);
 
-                    // Verifica se a descompressão corresponde ao conteúdo original
-                    System.out.println("Arquivo: " + file.getName());
-                    System.out.println();
-                    System.out.println(huffmanTrie.getHuffmanTable());
-
-                    // System.out.println("Comprimido: " + compressedContent);
-                    // System.out.println("Descomprimido: "+ decompressedContent);
-                    // System.out.println("Descompressão bem-sucedida? " + originalContent.equals(decompressedContent));
+                    // Insere o texto comprimido com a chave sendo o nome do arquivo.
+                    testHash.put(file.getName(), compressedContent);
                 } catch (IOException e) {
                     System.err.println("Erro ao processar o arquivo " + file.getName() + ": " + e.getMessage());
                 }
-        else // Caso o diretório esteja vazio
-            System.out.println("Nenhum arquivo .txt encontrado no diretório de entrada.");
     }
 }
