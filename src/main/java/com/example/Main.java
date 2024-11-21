@@ -35,7 +35,7 @@ public class Main {
             System.out.println(e.getMessage());
             return;
         }
-
+      
         if (listOfFiles != null) // Caso o diretório não esteja vazio, vai executar
             for (File file : listOfFiles) // Para cada arquivo na lista de arquivos
                 try {
@@ -51,7 +51,5 @@ public class Main {
                 } catch (IOException e) {
                     System.err.println("Erro ao processar o arquivo " + file.getName() + ": " + e.getMessage());
                 }
-
-
     }
 }
