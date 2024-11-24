@@ -3,10 +3,12 @@ package com.main;
 import compression.HuffmanTrie;
 import index.Trie;
 import storage.HashTable;
+import util.CompressedFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
@@ -28,7 +30,7 @@ public class Main {
         System.out.print("> Qual a função de hashing (divisao/djb2): ");
         String hashChoice = scanner.nextLine();
 
-        HashTable<String, String> testHash = new HashTable<>(31);
+        HashTable<String, CompressedFile> testHash = new HashTable<>(31);
         Trie trie = new Trie(); // Índice de busca
 
         try {
@@ -49,10 +51,13 @@ public class Main {
                     HuffmanTrie huffmanTrie = new HuffmanTrie(originalContent);
                     String compressedContent = huffmanTrie.compress(originalContent);
 
+                    CompressedFile compressedFile = new CompressedFile(compressedContent, huffmanTrie);
+                    testHash.put(file.getName(), compressedFile);
+
                     // Insere o texto comprimido com a chave sendo o nome do arquivo.
-                    testHash.put(file.getName(), compressedContent);
-                    
-                    // NOVO: Indexa palavras no Trie usando o texto descomprimido
+                    // testHash.put(file.getName(), compressedContent);
+
+                    // Indexa palavras no Trie usando o texto descomprimido
                     String decompressedContent = huffmanTrie.decompress(compressedContent); // Descomprime o texto
                     String[] words = decompressedContent.split("\\W+"); // Divide o texto em palavras
 
@@ -61,35 +66,46 @@ public class Main {
                             trie.insert(word.toLowerCase(), file.getName()); // Insere no índice com o nome do arquivo
                         }
                     }
-                    
+
                 } catch (IOException e) {
                     System.err.println("Erro ao processar o arquivo " + file.getName() + ": " + e.getMessage());
                 }
 
-        // NOVO: Mensagem de sucesso após inserção e indexação
+        // Mensagem de sucesso após inserção e indexação
         System.out.println("Documentos inseridos e indexados com sucesso!");
 
-        // NOVO: Busca de palavras
-        while (true) {
-            System.out.print("\n> Buscar palavra (ou 'sair' para encerrar): ");
-            String query = scanner.nextLine();
+        // Parte 3: Busca de palavras
+        System.out.print("\n> Buscar palavra: ");
+        String query = scanner.nextLine();
 
-            if (query.equalsIgnoreCase("sair")) { // Encerrar o programa
-                break;
+        var results = trie.searchDocuments(query.toLowerCase()); // Busca a palavra no índice
+        if (results.isEmpty()) {
+            System.out.println("A palavra \"" + query + "\" não foi encontrada em nenhum documento.");
+        } else {
+            System.out.println("A palavra \"" + query + "\" foi encontrada nos seguintes documentos:");
+
+            for (String doc : results) {
+                System.out.println("- " + doc);
             }
 
-            var results = trie.searchDocuments(query.toLowerCase()); // Busca a palavra no índice
-            if (results.isEmpty()) {
-                System.out.println("A palavra \"" + query + "\" não foi encontrada em nenhum documento.");
+            // Parte 4: Busca de documento para imprimir seu conteúdo
+            System.out.print("\n> Digite o nome do arquivo para exibir o conteúdo: ");
+            String fileName = scanner.nextLine();
+
+            LinkedList<CompressedFile> compressedFiles = testHash.get(fileName); // Busca o arquivo na tabela hash
+
+            if (compressedFiles != null && !compressedFiles.isEmpty()) {
+                CompressedFile compressedFile = compressedFiles.getFirst(); // Obter o conteúdo comprimido
+                HuffmanTrie huffmanTrie = compressedFile.getHuffmanTrie(); // Obter a árvore Huffman associada
+
+                // Descomprimir
+                System.out.println(huffmanTrie.decompress(compressedFile.getCompressedContent()));
             } else {
-                System.out.println("A palavra \"" + query + "\" foi encontrada nos seguintes documentos:");
-                for (String doc : results) {
-                    System.out.println("- " + doc);
-                }
+                System.out.println("Arquivo não encontrado na tabela hash.");
             }
         }
 
-        scanner.close(); // Fecha o scanner ao final
-        System.out.println("Programa encerrado.");
+        scanner.close();
+        System.out.println("\nPrograma encerrado.");
     }
 }

@@ -22,7 +22,7 @@ public class HashTable<K, V> {
     }
 
     // Retorna o valor associado à chave na tabela hash
-    public LinkedList<String> get(K key) {
+    public LinkedList<V> get(K key) {
         LinkedList<V> valuesFound = new LinkedList<>();
         int position;
 
@@ -49,7 +49,7 @@ public class HashTable<K, V> {
                 if (key.equals(currentEntry.key))
                     valuesFound.add(currentEntry.value);
 
-            return (LinkedList<String>) valuesFound;
+            return valuesFound;
         }
     }
 
@@ -65,7 +65,7 @@ public class HashTable<K, V> {
         // Antes de inserir, precisamos checar se já não existe na coleção uma chave com
         // valor idêntico ao que estamos tentando inserir. Caso exista, não deve inserir e
         // retorna null
-        LinkedList<V> currentValuesForKey = (LinkedList<V>) get(key);
+        LinkedList<V> currentValuesForKey = get(key);
 
         if (currentValuesForKey != null && currentValuesForKey.contains(value))
             return false;

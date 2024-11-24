@@ -4,7 +4,7 @@ import java.util.*;
 
 public class HuffmanTrie {
     TrieNode root;
-    Map<Character, String> huffmanCodeMap;
+    public Map<Character, String> huffmanCodeMap;
 
     public HuffmanTrie(String input) {
         Map<Character, Integer> frequencies = calculateFrequencies(input);
