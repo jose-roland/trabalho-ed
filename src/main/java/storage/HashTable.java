@@ -78,17 +78,18 @@ public class HashTable<K, V> {
         // Pegando a lista da posição em que precisamos inserir
         LinkedList<HashEntry<K, V>> currentList = hashTable[position];
 
-        // Testa se a posição é nula. Se for, precisamos criar a lista para inserir o valor
+        // Testar se a posição é nula. Se for, precisamos criar a lista para inserir o valor
         if (currentList == null)
-            currentList = new LinkedList<HashEntry<K, V>>(); // Cria a lista
+            currentList = new LinkedList<>(); // Cria a lista
 
-        currentList.add(new HashEntry<K, V>(key, value)); // Inserir o valor na lista
+        currentList.add(new HashEntry<>(key, value)); // Inserir o valor na lista
         hashTable[position] = currentList; // Guardo a lista na posição
 
         return true; // Inserido com sucesso
 
     }
 
+    // Imprimir a tabela hash
     public void print() {
         for (int i = 0; i < hashTable.length; i++) {
             System.out.println("---------------");
@@ -107,7 +108,7 @@ public class HashTable<K, V> {
         }
     }
 
-
+    // Função de hash: Divisão
     public int hashDivisao(K key, int M) {
         String texto = key.toString(); // Converte a chave genérica para String
         int soma = 0;
@@ -118,6 +119,7 @@ public class HashTable<K, V> {
         return soma % M;
     }
 
+    // Função de hash: DJB2
     public int hashDJB2(K key) {
         String texto = key.toString(); // Converte a chave genérica para String
         long hash = 5381;
@@ -128,7 +130,7 @@ public class HashTable<K, V> {
         return (int) (hash % Integer.MAX_VALUE);
     }
 
-    // Método para verificar se é necessário redimensionar
+    // Verificar se é necessário redimensionar
     private void resizeIfNeeded() {
         int loadFactor = getNumberOfElements() * 100 / size; // Calcula o fator de carga em %
 
@@ -136,7 +138,7 @@ public class HashTable<K, V> {
             resize();
     }
 
-    // Método que redimensiona a tabela
+    // Redimensionar a tabela
     private void resize() {
         int newSize = getNextPrime(size * 2); // Dobra o tamanho e pega o próximo primo
         LinkedList<HashEntry<K, V>>[] oldTable = hashTable; // Armazena a tabela antiga
@@ -148,10 +150,10 @@ public class HashTable<K, V> {
         for (LinkedList<HashEntry<K, V>> currentList : oldTable)
             if (currentList != null)
                 for (HashEntry<K, V> entry : currentList)
-                    put(entry.key, entry.value); // Usa o método put para reposicionar os elementos
+                    put(entry.key, entry.value); // Usa o put para reposicionar os elementos
     }
 
-    // Método auxiliar para contar o número de elementos na tabela
+    // Contar o número de elementos na tabela
     private int getNumberOfElements() {
         int count = 0;
 
@@ -162,7 +164,7 @@ public class HashTable<K, V> {
         return count;
     }
 
-    // Método para encontrar o próximo número primo maior ou igual a um número
+    // Encontrar o próximo número primo maior ou igual a um número
     private int getNextPrime(int num) {
         while (!isPrime(num))
             num++;
@@ -170,7 +172,7 @@ public class HashTable<K, V> {
         return num;
     }
 
-    // Método para verificar se um número é primo
+    // Verificar se um número é primo
     private boolean isPrime(int num) {
         if (num <= 1) return false;
         if (num <= 3) return true;
